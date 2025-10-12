@@ -1,5 +1,5 @@
-.angular
-.nx/cache/
-.nx/workspace-data/
-*.log
-node_modules
+/.angular
+/.nx/cache/
+/.nx/workspace-data/
+/node_modules
+/dist
