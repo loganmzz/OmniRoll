@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://loganmzz.github.io/boardgame-universal-randomizer/schemas/data-model/module.json",
+  "title": "Boardgame Universal Randomizer - Data Model | Module",
+  "type": "object",
+  "required": [
+    "key",
+    "name"
+  ],
+  "properties": {
+    "key": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "merge-strategy": {
+      "type": "string",
+      "enum": ["merge", "override"],
+      "default": "merge"
+    },
+    "updated-at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "games": {
+      "type": "array",
+      "items": {
+        "$ref": "game.json"
+      }
+    }
+  }
+}

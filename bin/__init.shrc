@@ -1,0 +1,141 @@
+basedir="$(cd "$(dirname "${BASH_SOURCE}")/.." >/dev/null; pwd)" &&
+schema_root="${basedir}/assets/json-schema" &&
+true || exit $?
+
+################################################################################
+### Functions: Main
+################################################################################
+
+function main() {
+  main.run "$@"; local rc=$?
+
+  if [[ $rc == 0 ]]; then
+    echo
+    echo 'Success'
+  else
+    {
+      echo
+      echo 'Failure'
+    } >&2
+  fi
+
+  return $?
+}
+
+################################################################################
+### Functions: String
+################################################################################
+
+function string.strip_prefix() {
+  local string="$1"; shift
+  local prefix="$1"; shift
+  echo "${string##${prefix}}"
+}
+
+################################################################################
+### Functions: File
+################################################################################
+
+function files.set_schema_files() {
+  local kind="$1"; shift
+  [[ ! -z "${kind}" ]] || {
+    local rc=$?
+    echo "[ERROR] Can't list schema files without kind"
+    return $rc
+  } >&2
+
+  schema_dir="${schema_root}/${kind}"
+  [[ -d "${schema_dir}" ]] || {
+    local rc=$?
+    echo "[ERROR] Schema kind '${kind}' isn't supported. '${schema_dir}' doesn't exist or is not a directory"
+    return $rc
+  } >&2
+
+  schema_files=()
+  schema_files=( $(find "${schema_dir}" -type f -name '*.json' | sort) ) || {
+    local rc=$?
+    echo "[ERROR] Unable to list schema files for kind '${kind}'"
+    return $rc
+  } >&2
+}
+
+
+################################################################################
+### Functions: Schema
+################################################################################
+
+function schema.validate_schema() {
+  local main_file="$1"; shift
+  [[ ! -z "${main_file}" ]] || {
+    local rc=$?
+    echo "[ERROR] Can't validate schema files. A main file must be specified."
+    return $rc
+  } >&2
+
+  [[ ${#schema_files[@]} != 0 ]] || {
+    local rc=$?
+    echo "[ERROR] Can't validate schema files. 'schema_files' isn't set"
+    return $rc
+  } >&2
+  [[ ! -z "${schema_dir}" ]] || {
+    local rc=$?
+    echo "[ERROR] Can't validate schema files. 'schema_dir' isn't set"
+    return $rc
+  } >&2
+
+  local command_validate=(
+    npx ajv compile
+    -c 'ajv-formats'
+    --spec 'draft2020'
+  )
+  local schema_file=''
+  for schema_file in "${schema_files[@]}"; do
+    local relative_path="$(string.strip_prefix "${schema_file}" "${schema_dir}/")"
+    if [[ "${relative_path}" == "${main_file}" ]]; then
+      command_validate+=( -s "${schema_file}" )
+    else
+      command_validate+=( -r "${schema_file}" )
+    fi
+  done
+  "${command_validate[@]}"
+}
+
+function schema.validate_json() {
+  local main_file="$1"; shift
+  [[ ! -z "${main_file}" ]] || {
+    local rc=$?
+    echo "[ERROR] Can't validate JSON file. A main file must be specified."
+    return $rc
+  } >&2
+
+  [[ ${#schema_files[@]} != 0 ]] || {
+    local rc=$?
+    echo "[ERROR] Can't validate JSON files. 'schema_files' isn't set"
+    return $rc
+  } >&2
+  [[ ! -z "${schema_dir}" ]] || {
+    local rc=$?
+    echo "[ERROR] Can't validate JSON files. 'schema_dir' isn't set"
+    return $rc
+  } >&2
+
+  local command_validate=(
+    npx ajv validate
+    -c 'ajv-formats'
+    --spec 'draft2020'
+  )
+  local schema_file=''
+  for schema_file in "${schema_files[@]}"; do
+    local relative_path="$(string.strip_prefix "${schema_file}" "${schema_dir}/")"
+    if [[ "${relative_path}" == "${main_file}" ]]; then
+      command_validate+=( -s "${schema_file}" )
+    else
+      command_validate+=( -r "${schema_file}" )
+    fi
+  done
+  local data_file=''
+  for data_file in "$@"; do
+    command_validate+=( -d "${data_file}" )
+  done
+  "${command_validate[@]}"
+}

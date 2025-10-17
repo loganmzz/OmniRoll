@@ -1,0 +1,42 @@
+{
+  "key": "core",
+  "name": "Boardgame Universal Randomizer - Core",
+  "games": [
+    {
+      "key": "aeons-end",
+      "name": "Aeon's End",
+      "sets": [
+        {
+          "key": "wave-1",
+          "name": "Wave 1 - Base",
+          "sets": [
+            {
+              "key": "base",
+              "name": "Base game",
+              "components": {
+                "Nemesis": [
+                  {
+                    "key": "caparace-queen",
+                    "name": "Carapace Queen"
+                  }
+                ],
+                "Mage": [
+                  {
+                    "key": "adelheim",
+                    "name": "Adelheim"
+                  }
+                ],
+                "Market": [
+                  {
+                    "key": "diamond-cluster",
+                    "name": "Diamond Cluster"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

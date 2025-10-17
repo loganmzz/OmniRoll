@@ -41,6 +41,8 @@
     "@types/jest": "^29.5.12",
     "@types/node": "18.16.9",
     "@typescript-eslint/utils": "^8.40.0",
+    "ajv-cli": "^5.0.0",
+    "ajv-formats": "^2.1.1",
     "angular-eslint": "^20.3.0",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
