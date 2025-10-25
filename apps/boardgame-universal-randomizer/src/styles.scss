@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+@use "tailwindcss";
+
+@layer base {
+  h1 {
+    @apply text-3xl text-center m-5;
+  }
+
+  section {
+    @apply mx-auto max-w-4xl flex flex-col items-center gap-x-4 rounded-xl p-6 shadow-lg outline outline-black/5;
+  }
+
+  .cards {
+    @apply grid grid-cols-2 md:grid-cols-4 gap-x-4;
+  }
+  .card {
+    @apply outline rounded-xl p-3 m-1 aspect-square content-center text-center;
+  }
+  .card-link {
+    @apply hover:cursor-pointer hover:animate-pulse hover:text-red-500;
+  }
+}

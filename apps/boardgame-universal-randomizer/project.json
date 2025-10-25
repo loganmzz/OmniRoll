@@ -14,7 +14,7 @@
         "browser": "apps/boardgame-universal-randomizer/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/boardgame-universal-randomizer/tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
+        "inlineStyleLanguage": "css",
         "assets": [
           {
             "glob": "**/*",
