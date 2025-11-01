@@ -1,0 +1,3486 @@
+import { Result } from "./common";
+import { CriteriaParser, CriterionValueProperty, CriterionValueLiteral, CriterionOperatorIsEqual, CriterionOperatorIsDifferent, CriterionOperatorIsGreater, CriterionOperatorIsGreaterOrEqual, CriterionOperatorIn, CriterionOperatorIsLesser, CriterionOperatorIsLesserOrEqual, CriterionUnary, CriterionBinary, Criteria, CriteriaParsingError } from './criteria';
+
+describe('model/criteria', () => {
+  describe('Parser', () => {
+
+    // tryReadBoundary
+    test.each(
+      [
+        {
+          input: ``,
+          expected: true,
+          index: 0,
+        },
+        {
+          input: ` `,
+          expected: true,
+          index: 1,
+        },
+        {
+          input: `  `,
+          expected: true,
+          index: 2,
+        },
+        {
+          input: `  ,`,
+          expected: true,
+          index: 2,
+        },
+        {
+          input: `  , `,
+          expected: true,
+          index: 2,
+        },
+        {
+          input: `,`,
+          expected: true,
+          index: 0,
+        },
+        {
+          input: `, `,
+          expected: true,
+          index: 0,
+        },
+        {
+          input: `a, `,
+          expected: false,
+          index: 0,
+        },
+        {
+          input: ` a, `,
+          expected: true,
+          index: 1,
+        },
+      ]
+    )(
+      'boundary[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadBoundary']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.tryReadBoundary()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // tryReadBoolean
+    test.each(
+      [
+        {
+          input: ``,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['boolean'],
+          )),
+          index: 0,
+        },
+        {
+          input: `a`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['boolean'],
+          )),
+          index: 0,
+        },
+        {
+          input: `0`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['boolean'],
+          )),
+          index: 0,
+        },
+        {
+          input: `true`,
+          expected: Result.ok(true),
+          index: 4,
+        },
+        {
+          input: `false`,
+          expected: Result.ok(false),
+          index: 5,
+        },
+        {
+          input: `true  ,`,
+          expected: Result.ok(true),
+          index: 6,
+        },
+        {
+          input: `trues`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['boolean'],
+          )),
+          index: 0,
+        },
+        {
+          input: `true false`,
+          expected: Result.ok(true),
+          index: 5,
+        },
+      ] as {input: string, expected: ReturnType<CriteriaParser['tryReadBoolean']>, index: number, logs?: string[]}[]
+    )(
+      'boolean[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadBoolean']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.tryReadBoolean()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // tryReadNumber
+    test.each(
+      [
+        {
+          input: ``,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['digit'],
+          )),
+          index: 0,
+        },
+        {
+          input: `a`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['digit'],
+          )),
+          index: 0,
+        },
+        {
+          input: `true`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['digit'],
+          )),
+          index: 0,
+        },
+        {
+          input: `false`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['digit'],
+          )),
+          index: 0,
+        },
+        {
+          input: `0`,
+          expected: Result.ok(0),
+          index: 1,
+        },
+        {
+          input: `42`,
+          expected: Result.ok(42),
+          index: 2,
+        },
+      ] as {input: string, expected: ReturnType<CriteriaParser['tryReadNumber']>, index: number, logs?: string[]}[]
+    )(
+      'number[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadNumber']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.tryReadNumber()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // tryReadString
+    test.each(
+      [
+        {
+          input: ``,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            [`"'"`],
+          )),
+          index: 0,
+        },
+        {
+          input: `a`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            [`"'"`],
+          )),
+          index: 0,
+        },
+        {
+          input: `1`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            [`"'"`],
+          )),
+          index: 0,
+        },
+        {
+          input: `true`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            [`"'"`],
+          )),
+          index: 0,
+        },
+        {
+          input: `false`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            [`"'"`],
+          )),
+          index: 0,
+        },
+        {
+          input: `''`,
+          expected: Result.ok(''),
+          index: 2,
+        },
+        {
+          input: `''a`,
+          expected: Result.err(new CriteriaParsingError(
+            2,
+            true,
+            [`boundary`],
+          )),
+          index: 0,
+        },
+        {
+          input: `''0`,
+          expected: Result.err(new CriteriaParsingError(
+            2,
+            true,
+            [`boundary`],
+          )),
+          index: 0,
+        },
+        {
+          input: `'a'`,
+          expected: Result.ok(`a`),
+          index: 3,
+        },
+        {
+          input: `'"'`,
+          expected: Result.ok(`"`),
+          index: 3,
+        },
+        {
+          input: `'\\"'`,
+          expected: Result.ok(`"`),
+          index: 4,
+        },
+        {
+          input: `'\\''`,
+          expected: Result.ok(`'`),
+          index: 4,
+        },
+        {
+          input: `'\\\\'`,
+          expected: Result.ok(`\\`),
+          index: 4,
+        },
+        {
+          input: `'\\n'`,
+          expected: Result.ok(`\n`),
+          index: 4,
+        },
+      ] as {input: string, expected: ReturnType<CriteriaParser['tryReadString']>, index: number, logs?: string[]}[]
+    )(
+      'string[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadString']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.tryReadString()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // tryReadPropertyReference
+    test.each(
+      [
+        {
+          input: ``,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"@"'],
+          )),
+          index: 0,
+        },
+        {
+          input: `a`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"@"'],
+          )),
+          index: 0,
+        },
+        {
+          input: `1`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"@"'],
+          )),
+          index: 0,
+        },
+        {
+          input: `true`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"@"'],
+          )),
+          index: 0,
+        },
+        {
+          input: `false`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"@"'],
+          )),
+          index: 0,
+        },
+        {
+          input: `''`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"@"'],
+          )),
+          index: 0,
+        },
+        {
+          input: `@`,
+          expected: Result.err(new CriteriaParsingError(
+            1,
+            true,
+            ['identifier'],
+          )),
+          index: 0,
+        },
+        {
+          input: `@a`,
+          expected: Result.ok('a'),
+          index: 2,
+        },
+        {
+          input: `@0`,
+          expected: Result.ok('0'),
+          index: 2,
+        },
+        {
+          input: `@a-b`,
+          expected: Result.ok('a-b'),
+          index: 4,
+        },
+        {
+          input: `@a_b`,
+          expected: Result.ok('a_b'),
+          index: 4,
+        },
+        {
+          input: `@a-`,
+          expected: Result.ok('a-'),
+          index: 3,
+        },
+        {
+          input: `@a_`,
+          expected: Result.ok('a_'),
+          index: 3,
+        },
+        {
+          input: `@a `,
+          expected: Result.ok('a'),
+          index: 3,
+        },
+      ] as {input: string, expected: ReturnType<CriteriaParser['tryReadPropertyReference']>, index: number, logs?: string[]}[]
+    )(
+      'property[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadPropertyReference']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.tryReadPropertyReference()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // readWhitespaces
+    test.each(
+      [
+        {
+          input: ``,
+          expected: 0,
+          index: 0,
+        },
+        {
+          input: `a`,
+          expected: 0,
+          index: 0,
+        },
+        {
+          input: `1`,
+          expected: 0,
+          index: 0,
+        },
+        {
+          input: `true`,
+          expected: 0,
+          index: 0,
+        },
+        {
+          input: `false`,
+          expected: 0,
+          index: 0,
+        },
+        {
+          input: `''`,
+          expected: 0,
+          index: 0,
+        },
+        {
+          input: `@`,
+          expected: 0,
+          index: 0,
+        },
+        {
+          input: `@a`,
+          expected: 0,
+          index: 0,
+        },
+        {
+          input: ` `,
+          expected: 1,
+          index: 1,
+        },
+        {
+          input: ` a`,
+          expected: 1,
+          index: 1,
+        },
+        {
+          input: `  `,
+          expected: 2,
+          index: 2,
+        },
+      ]
+    )(
+      'whitespace[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['readWhitespaces']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.readWhitespaces()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // tryReadSet
+    test.each(
+      [
+        {
+          input: ``,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"["'],
+          )),
+          index: 0,
+        },
+        {
+          input: `a`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"["'],
+          )),
+          index: 0,
+        },
+        {
+          input: `1`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"["'],
+          )),
+          index: 0,
+        },
+        {
+          input: `true`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"["'],
+          )),
+          index: 0,
+        },
+        {
+          input: `false`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"["'],
+          )),
+          index: 0,
+        },
+        {
+          input: `''`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"["'],
+          )),
+          index: 0,
+        },
+        {
+          input: `@`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"["'],
+          )),
+          index: 0,
+        },
+        {
+          input: `@a`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['"["'],
+          )),
+          index: 0,
+        },
+        {
+          input: `[`,
+          expected: Result.err(new CriteriaParsingError(
+            1,
+            true,
+            ['"]"'],
+          )),
+          index: 0,
+        },
+        {
+          input: `[,`,
+          expected: Result.err(new CriteriaParsingError(
+            1,
+            true,
+            ['string'],
+          )),
+          index: 0,
+        },
+        {
+          input: `[]`,
+          expected: Result.ok([]),
+          index: 2,
+        },
+        {
+          input: `[a]`,
+          expected: Result.err(new CriteriaParsingError(
+            1,
+            true,
+            ['string'],
+          )),
+          index: 0,
+        },
+        {
+          input: `[true]`,
+          expected: Result.err(new CriteriaParsingError(
+            1,
+            true,
+            ['string'],
+          )),
+          index: 0,
+        },
+        {
+          input: `[0]`,
+          expected: Result.err(new CriteriaParsingError(
+            1,
+            true,
+            ['string'],
+          )),
+          index: 0,
+        },
+        {
+          input: `['`,
+          expected: Result.err(new CriteriaParsingError(
+            2,
+            true,
+            [`"'"`],
+          )),
+          index: 0,
+        },
+        {
+          input: `[''`,
+          expected: Result.err(new CriteriaParsingError(
+            3,
+            true,
+            ['"]"'],
+          )),
+          index: 0,
+        },
+        {
+          input: `['a'`,
+          expected: Result.err(new CriteriaParsingError(
+            4,
+            true,
+            ['"]"'],
+          )),
+          index: 0,
+        },
+        {
+          input: `['']`,
+          expected: Result.ok(['']),
+          index: 4,
+        },
+        {
+          input: `['a']`,
+          expected: Result.ok(['a']),
+          index: 5,
+        },
+        {
+          input: `[ ' ' , ] `,
+          expected: Result.ok([' ']),
+          index: 9,
+        },
+        {
+          input: `[ 'a' , 'b' , ]  `,
+          expected: Result.ok(['a','b']),
+          index: 15,
+        }
+      ] as {input: string, expected: ReturnType<CriteriaParser['tryReadSet']>, index: number, logs?: string[]}[]
+    )(
+      'set[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadSet']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.tryReadSet()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // tryReadExpression
+    test.each(
+      [
+        {
+          input: ``,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['boolean', 'number', 'string', 'set', 'property'],
+          )),
+          index: 0,
+        },
+        {
+          input: `true`,
+          expected: Result.ok(new CriterionValueLiteral(true)),
+          index: 4,
+        },
+        {
+          input: `0`,
+          expected: Result.ok(new CriterionValueLiteral(0)),
+          index: 1,
+        },
+        {
+          input: `42`,
+          expected: Result.ok(new CriterionValueLiteral(42)),
+          index: 2,
+        },
+        {
+          input: `42`,
+          expected: Result.ok(new CriterionValueLiteral(42)),
+          index: 2,
+        },
+        {
+          input: `''`,
+          expected: Result.ok(new CriterionValueLiteral('')),
+          index: 2,
+        },
+        {
+          input: `'a'`,
+          expected: Result.ok(new CriterionValueLiteral('a')),
+          index: 3,
+        },
+        {
+          input: `[]`,
+          expected: Result.ok(new CriterionValueLiteral([])),
+          index: 2,
+        },
+        {
+          input: `['a']`,
+          expected: Result.ok(new CriterionValueLiteral(['a'])),
+          index: 5,
+        },
+        {
+          input: `@a`,
+          expected: Result.ok(new CriterionValueProperty('a')),
+          index: 2,
+        },
+        {
+          input: `@a `,
+          expected: Result.ok(new CriterionValueProperty('a')),
+          index: 3,
+        },
+      ] as {input: string, expected: ReturnType<CriteriaParser['tryReadValue']>, index: number, logs?: string[]}[]
+    )(
+      'value[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadValue']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.tryReadValue()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // tryReadOperator
+    test.each(
+      [
+        {
+          input: ``,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['operator'],
+          )),
+          index: 0,
+        },
+        {
+          input: `=`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['operator'],
+          )),
+          index: 0,
+        },
+        {
+          input: `= `,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['operator'],
+          )),
+          index: 0,
+        },
+        {
+          input: `==`,
+          expected: Result.ok(new CriterionOperatorIsEqual()),
+          index: 2,
+        },
+        {
+          input: `== `,
+          expected: Result.ok(new CriterionOperatorIsEqual()),
+          index: 3,
+        },
+        {
+          input: `= = `,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['operator'],
+          )),
+          index: 0,
+        },
+        {
+          input: `==  `,
+          expected: Result.ok(new CriterionOperatorIsEqual()),
+          index: 4,
+        },
+        {
+          input: `!= `,
+          expected: Result.ok(new CriterionOperatorIsDifferent()),
+          index: 3,
+        },
+        {
+          input: `> `,
+          expected: Result.ok(new CriterionOperatorIsGreater()),
+          index: 2,
+        },
+        {
+          input: `>= `,
+          expected: Result.ok(new CriterionOperatorIsGreaterOrEqual()),
+          index: 3,
+        },
+        {
+          input: `< `,
+          expected: Result.ok(new CriterionOperatorIsLesser()),
+          index: 2,
+        },
+        {
+          input: `<= `,
+          expected: Result.ok(new CriterionOperatorIsLesserOrEqual()),
+          index: 3,
+        },
+        {
+          input: `in `,
+          expected: Result.ok(new CriterionOperatorIn()),
+          index: 3,
+        },
+      ] as {input: string, expected: ReturnType<CriteriaParser['tryReadOperator']>, index: number, logs?: string[]}[]
+    )(
+      'operator[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadOperator']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.tryReadOperator()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // tryReadCriterion
+    test.each(
+      [
+        {
+          input: ``,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['value'],
+          )),
+          index: 0,
+        },
+        {
+          input: `a`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['value'],
+          )),
+          index: 0,
+        },
+        {
+          input: `'a'`,
+          expected: Result.ok(new CriterionUnary(
+            false,
+            new CriterionValueLiteral('a'),
+          )),
+          index: 3,
+        },
+        {
+          input: `true`,
+          expected: Result.ok(new CriterionUnary(
+            false,
+            new CriterionValueLiteral(true),
+          )),
+          index: 4,
+        },
+        {
+          input: `42`,
+          expected: Result.ok(new CriterionUnary(
+            false,
+            new CriterionValueLiteral(42),
+          )),
+          index: 2,
+        },
+        {
+          input: `[]`,
+          expected: Result.ok(new CriterionUnary(
+            false,
+            new CriterionValueLiteral([]),
+          )),
+          index: 2,
+        },
+        {
+          input: `@a`,
+          expected: Result.ok(new CriterionUnary(
+            false,
+            new CriterionValueProperty('a'),
+          )),
+          index: 2,
+        },
+        {
+          input: `@a  `,
+          expected: Result.ok(new CriterionUnary(
+            false,
+            new CriterionValueProperty('a'),
+          )),
+          index: 4,
+        },
+        {
+          input: `@a==`,
+          expected: Result.err(new CriteriaParsingError(
+            2,
+            true,
+            ['boundary'],
+          )),
+          index: 0,
+        },
+        {
+          input: `@a ==`,
+          expected: Result.err(new CriteriaParsingError(
+            5,
+            true,
+            ['value'],
+          )),
+          index: 0,
+        },
+        {
+          input: `@a == `,
+          expected: Result.err(new CriteriaParsingError(
+            6,
+            true,
+            ['value'],
+          )),
+          index: 0,
+        },
+        {
+          input: `@a == 'a'`,
+          expected: Result.ok(new CriterionBinary(
+            false,
+            new CriterionValueProperty('a'),
+            new CriterionOperatorIsEqual(),
+            new CriterionValueLiteral('a'),
+          )),
+          index: 9,
+        },
+        {
+          input: `@a == 'a'  `,
+          expected: Result.ok(new CriterionBinary(
+            false,
+            new CriterionValueProperty('a'),
+            new CriterionOperatorIsEqual(),
+            new CriterionValueLiteral('a'),
+          )),
+          index: 11,
+        },
+        {
+          input: `@foo == 'bar'`,
+          expected: Result.ok(new CriterionBinary(
+            false,
+            new CriterionValueProperty('foo'),
+            new CriterionOperatorIsEqual(),
+            new CriterionValueLiteral('bar'),
+          )),
+          index: 13,
+        },
+        {
+          input: `! @foo`,
+          expected: Result.ok(new CriterionUnary(
+            true,
+            new CriterionValueProperty('foo'),
+          )),
+          index: 6,
+        },
+        {
+          input: `[] == true`,
+          expected: Result.ok(new CriterionBinary(
+            false,
+            new CriterionValueLiteral([]),
+            new CriterionOperatorIsEqual,
+            new CriterionValueLiteral(true),
+          )),
+          index: 10,
+        },
+      ] as {input: string, expected: ReturnType<CriteriaParser['tryReadCriterion']>, index: number, logs?: string[]}[]
+    )(
+      'criterion[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadCriterion']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.tryReadCriterion()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // tryReadCriteria
+    test.each(
+      [
+        {
+          input: ``,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['criterion'],
+          )),
+          index: 0,
+        },
+        {
+          input: `a`,
+          expected: Result.err(new CriteriaParsingError(
+            0,
+            false,
+            ['criterion'],
+          )),
+          index: 0,
+        },
+        {
+          input: `true`,
+          expected: Result.ok(new Criteria([
+            new CriterionUnary(
+              false,
+              new CriterionValueLiteral(true),
+            ),
+          ])),
+          index: 4,
+        },
+        {
+          input: `42`,
+          expected: Result.ok(new Criteria([
+            new CriterionUnary(
+              false,
+              new CriterionValueLiteral(42),
+            ),
+          ])),
+          index: 2,
+        },
+        {
+          input: `42`,
+          expected: Result.ok(new Criteria([
+            new CriterionUnary(
+              false,
+              new CriterionValueLiteral(42),
+            ),
+          ])),
+          index: 2,
+        },
+        {
+          input: `'ab'`,
+          expected: Result.ok(new Criteria([
+            new CriterionUnary(
+              false,
+              new CriterionValueLiteral('ab'),
+            ),
+          ])),
+          index: 4,
+        },
+        {
+          input: `['a','b']`,
+          expected: Result.ok(new Criteria([
+            new CriterionUnary(
+              false,
+              new CriterionValueLiteral(['a','b']),
+            ),
+          ])),
+          index: 9,
+        },
+        {
+          input: `  [ 'a' , 'b' , ]  `,
+          expected: Result.ok(new Criteria([
+            new CriterionUnary(
+              false,
+              new CriterionValueLiteral(['a','b']),
+            ),
+          ])),
+          index: 19,
+        },
+        {
+          input: `@property-ref`,
+          expected: Result.ok(new Criteria([
+            new CriterionUnary(
+              false,
+              new CriterionValueProperty('property-ref'),
+            ),
+          ])),
+          index: 13,
+        },
+        {
+          input: `  @property-ref  `,
+          expected: Result.ok(new Criteria([
+            new CriterionUnary(
+              false,
+              new CriterionValueProperty('property-ref'),
+            ),
+          ])),
+          index: 17,
+        },
+        {
+          input: `@property-ref ==`,
+          expected: Result.err(new CriteriaParsingError(
+            16,
+            true,
+            ['value'],
+          )),
+          index: 0,
+        },
+        {
+          input: `@property-ref == true`,
+          expected: Result.ok(new Criteria([
+            new CriterionBinary(
+              false,
+              new CriterionValueProperty('property-ref'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral(true),
+            ),
+          ])),
+          index: 21,
+        },
+        {
+          input: `  @property-ref  ==  true  `,
+          expected: Result.ok(new Criteria([
+            new CriterionBinary(
+              false,
+              new CriterionValueProperty('property-ref'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral(true),
+            ),
+          ])),
+          index: 27,
+        },
+        {
+          input: `@foo && @bar`,
+          expected: Result.ok(new Criteria([
+            new CriterionUnary(
+              false,
+              new CriterionValueProperty('foo'),
+            ),
+            new CriterionUnary(
+              false,
+              new CriterionValueProperty('bar'),
+            ),
+          ])),
+          index: 12,
+        },
+        {
+          input: `@foo == 'bar' && @oof == 'rab'`,
+          expected: Result.ok(new Criteria([
+            new CriterionBinary(
+              false,
+              new CriterionValueProperty('foo'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral('bar'),
+            ),
+            new CriterionBinary(
+              false,
+              new CriterionValueProperty('oof'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral('rab'),
+            ),
+          ])),
+          index: 30,
+        },
+        {
+          input: `  @foo  ==  'bar'  &&  @oof  ==  'rab'`,
+          expected: Result.ok(new Criteria([
+            new CriterionBinary(
+              false,
+              new CriterionValueProperty('foo'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral('bar'),
+            ),
+            new CriterionBinary(
+              false,
+              new CriterionValueProperty('oof'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral('rab'),
+            ),
+          ])),
+          index: 38,
+        },
+        {
+          input: `!  @foo  ==  'bar'  &&  !  @oof  `,
+          expected: Result.ok(new Criteria([
+            new CriterionBinary(
+              true,
+              new CriterionValueProperty('foo'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral('bar'),
+            ),
+            new CriterionUnary(
+              true,
+              new CriterionValueProperty('oof'),
+            ),
+          ])),
+          index: 33,
+        },
+      ] as {input: string, expected: ReturnType<CriteriaParser['tryReadCriteria']>, index: number, logs?: string[]}[]
+    )(
+      'criteria[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadCriteria']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.tryReadCriteria()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+  });
+
+  describe('Resolve', () => {
+    const context = {
+      //unknown: undefined
+      "root-boolean": true,
+      "root-number": 0,
+      "root-string": 'a',
+      "root-strings": ['b', 'c'],
+      "root-numbers": [1],
+
+      "properties-boolean": false,
+      "properties-number": 3,
+      "properties-string": 'd',
+      "properties-strings": ['e','f'],
+      "properties-numbers": [4],
+      "properties-invalid-set": 8,
+      "properties-undefined": 9,
+      "properties-null": 10,
+
+      properties: {
+        "properties-boolean": true,
+        "properties-number": 5,
+        "properties-string": 'g',
+        "properties-strings": ['h','i'],
+        "properties-numbers": [6],
+        "properties-invalid-set": [7],
+        "properties-undefined": undefined,
+        "properties-null": null,
+      }
+    };
+
+    // property
+    test.each(
+      [
+        {
+          property: 'unknown',
+          expected: undefined,
+        },
+        {
+          property: 'root-boolean',
+          expected: true,
+        },
+        {
+          property: 'root-number',
+          expected: 0,
+        },
+        {
+          property: 'root-string',
+          expected: 'a',
+        },
+        {
+          property: 'root-strings',
+          expected: ['b', 'c'],
+        },
+        {
+          property: 'root-numbers',
+          expected: undefined,
+        },
+        {
+          property: 'properties-boolean',
+          expected: true,
+        },
+        {
+          property: 'properties-number',
+          expected: 5,
+        },
+        {
+          property: 'properties-string',
+          expected: 'g',
+        },
+        {
+          property: 'properties-strings',
+          expected: ['h', 'i'],
+        },
+        {
+          property: 'properties-numbers',
+          expected: undefined,
+        },
+        {
+          property: 'properties-invalid-set',
+          expected: undefined,
+        },
+        {
+          property: 'properties-undefined',
+          expected: 9,
+        },
+        {
+          property: 'properties-null',
+          expected: undefined,
+        },
+      ]
+    )(
+      'property($property)',
+      ({property, expected}: {property: string, expected: ReturnType<CriterionValueProperty['resolve']>}) => {
+        const value = new CriterionValueProperty(property);
+        expect(value.resolve(context)).toStrictEqual(expected);
+      },
+    );
+
+    // criteria: Unary operation
+    test.each(
+      [
+        {
+          input: `true`,
+          expected: true,
+        },
+        {
+          input: `! true`,
+          expected: false,
+        },
+        {
+          input: `false`,
+          expected: false,
+        },
+        {
+          input: `! false`,
+          expected: true,
+        },
+        {
+          input: `0`,
+          expected: false,
+        },
+        {
+          input: `42`,
+          expected: true,
+        },
+        {
+          input: `! 42`,
+          expected: false,
+        },
+        {
+          input: `''`,
+          expected: false,
+        },
+        {
+          input: `'a'`,
+          expected: true,
+        },
+        {
+          input: `! 'a'`,
+          expected: false,
+        },
+        {
+          input: `[]`,
+          expected: false,
+        },
+        {
+          input: `['a']`,
+          expected: true,
+        },
+        {
+          input: `! ['a']`,
+          expected: false,
+        },
+      ] as {input: string, expected: ReturnType<Criteria['resolve']>}[]
+    )(
+      'criteria.unary($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const {ok, err} = new CriteriaParser(input).tryReadCriteria();
+        expect(err).toBeUndefined();
+        expect(ok?.resolve({})).toStrictEqual(expected);
+      },
+    );
+
+    // criteria: Binary operation equal
+    test.each(
+      [
+        {
+          input: `true == true`,
+          expected: true,
+        },
+        {
+          input: `true == 0`,
+          expected: false,
+        },
+        {
+          input: `true == 1`,
+          expected: false,
+        },
+        {
+          input: `true == ''`,
+          expected: false,
+        },
+        {
+          input: `true == 'a'`,
+          expected: false,
+        },
+        {
+          input: `true == []`,
+          expected: false,
+        },
+        {
+          input: `true == ['a']`,
+          expected: false,
+        },
+        {
+          input: `0 == 0`,
+          expected: true,
+        },
+        {
+          input: `0 == 1`,
+          expected: false,
+        },
+        {
+          input: `0 == ''`,
+          expected: false,
+        },
+        {
+          input: `0 == '0'`,
+          expected: false,
+        },
+        {
+          input: `0 == []`,
+          expected: false,
+        },
+        {
+          input: `0 == ['0']`,
+          expected: false,
+        },
+        {
+          input: `1 == 0`,
+          expected: false,
+        },
+        {
+          input: `1 == 1`,
+          expected: true,
+        },
+        {
+          input: `1 == ''`,
+          expected: false,
+        },
+        {
+          input: `1 == '1'`,
+          expected: false,
+        },
+        {
+          input: `1 == []`,
+          expected: false,
+        },
+        {
+          input: `1 == ['1']`,
+          expected: false,
+        },
+        {
+          input: `'' == true`,
+          expected: false,
+        },
+        {
+          input: `'' == false`,
+          expected: false,
+        },
+        {
+          input: `'' == 0`,
+          expected: false,
+        },
+        {
+          input: `'' == 1`,
+          expected: false,
+        },
+        {
+          input: `'' == ''`,
+          expected: true,
+        },
+        {
+          input: `'' == '42'`,
+          expected: false,
+        },
+        {
+          input: `'' == ['']`,
+          expected: true,
+        },
+        {
+          input: `'' == ['a']`,
+          expected: false,
+        },
+        {
+          input: `'' == ['','a']`,
+          expected: true,
+        },
+        {
+          input: `'a' == true`,
+          expected: false,
+        },
+        {
+          input: `'a' == false`,
+          expected: false,
+        },
+        {
+          input: `'a' == 0`,
+          expected: false,
+        },
+        {
+          input: `'a' == 1`,
+          expected: false,
+        },
+        {
+          input: `'a' == ''`,
+          expected: false,
+        },
+        {
+          input: `'a' == 'a'`,
+          expected: true,
+        },
+        {
+          input: `'a' == ['']`,
+          expected: false,
+        },
+        {
+          input: `'a' == ['a']`,
+          expected: true,
+        },
+        {
+          input: `'a' == ['','a']`,
+          expected: true,
+        },
+        {
+          input: `[] == true`,
+          expected: false,
+        },
+        {
+          input: `[] == false`,
+          expected: false,
+        },
+        {
+          input: `[] == 0`,
+          expected: false,
+        },
+        {
+          input: `[] == 42`,
+          expected: false,
+        },
+        {
+          input: `[] == ''`,
+          expected: false,
+        },
+        {
+          input: `[] == 'a'`,
+          expected: false,
+        },
+        {
+          input: `[] == []`,
+          expected: true,
+        },
+        {
+          input: `[] == ['']`,
+          expected: false,
+        },
+        {
+          input: `[] == ['a']`,
+          expected: false,
+        },
+        {
+          input: `[] == ['','a']`,
+          expected: false,
+        },
+        {
+          input: `[''] == true`,
+          expected: false,
+        },
+        {
+          input: `[''] == false`,
+          expected: false,
+        },
+        {
+          input: `[''] == 0`,
+          expected: false,
+        },
+        {
+          input: `[''] == 42`,
+          expected: false,
+        },
+        {
+          input: `[''] == ''`,
+          expected: true,
+        },
+        {
+          input: `[''] == 'a'`,
+          expected: false,
+        },
+        {
+          input: `[''] == []`,
+          expected: false,
+        },
+        {
+          input: `[''] == ['']`,
+          expected: true,
+        },
+        {
+          input: `[''] == ['a']`,
+          expected: false,
+        },
+        {
+          input: `[''] == ['','a']`,
+          expected: false,
+        },
+        {
+          input: `['a'] == true`,
+          expected: false,
+        },
+        {
+          input: `['a'] == false`,
+          expected: false,
+        },
+        {
+          input: `['a'] == 0`,
+          expected: false,
+        },
+        {
+          input: `['a'] == 42`,
+          expected: false,
+        },
+        {
+          input: `['a'] == ''`,
+          expected: false,
+        },
+        {
+          input: `['a'] == 'a'`,
+          expected: true,
+        },
+        {
+          input: `['a'] == []`,
+          expected: false,
+        },
+        {
+          input: `['a'] == ['']`,
+          expected: false,
+        },
+        {
+          input: `['a'] == ['a']`,
+          expected: true,
+        },
+        {
+          input: `['a'] == ['','a']`,
+          expected: false,
+        },
+        {
+          input: `['a',''] == ['','a']`,
+          expected: true,
+        },
+      ]
+    )(
+      'criteria.binary.equal($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const {ok, err} = new CriteriaParser(input).tryReadCriteria();
+        expect(err).toBeUndefined();
+        expect(ok?.resolve({})).toStrictEqual(expected);
+      },
+    );
+
+    // criteria: Binary operation different
+    test.each(
+      [
+        {
+          input: `true != true`,
+          expected: false,
+        },
+        {
+          input: `true != 0`,
+          expected: true,
+        },
+        {
+          input: `true != 1`,
+          expected: true,
+        },
+        {
+          input: `true != ''`,
+          expected: true,
+        },
+        {
+          input: `true != 'a'`,
+          expected: true,
+        },
+        {
+          input: `true != []`,
+          expected: true,
+        },
+        {
+          input: `true != ['a']`,
+          expected: true,
+        },
+        {
+          input: `0 != 0`,
+          expected: false,
+        },
+        {
+          input: `0 != 1`,
+          expected: true,
+        },
+        {
+          input: `0 != ''`,
+          expected: true,
+        },
+        {
+          input: `0 != '0'`,
+          expected: true,
+        },
+        {
+          input: `0 != []`,
+          expected: true,
+        },
+        {
+          input: `0 != ['0']`,
+          expected: true,
+        },
+        {
+          input: `1 != 0`,
+          expected: true,
+        },
+        {
+          input: `1 != 1`,
+          expected: false,
+        },
+        {
+          input: `1 != ''`,
+          expected: true,
+        },
+        {
+          input: `1 != '1'`,
+          expected: true,
+        },
+        {
+          input: `1 != []`,
+          expected: true,
+        },
+        {
+          input: `1 != ['1']`,
+          expected: true,
+        },
+        {
+          input: `'' != true`,
+          expected: true,
+        },
+        {
+          input: `'' != false`,
+          expected: true,
+        },
+        {
+          input: `'' != 0`,
+          expected: true,
+        },
+        {
+          input: `'' != 1`,
+          expected: true,
+        },
+        {
+          input: `'' != ''`,
+          expected: false,
+        },
+        {
+          input: `'' != '42'`,
+          expected: true,
+        },
+        {
+          input: `'' != ['']`,
+          expected: false,
+        },
+        {
+          input: `'' != ['a']`,
+          expected: true,
+        },
+        {
+          input: `'' != ['','a']`,
+          expected: false,
+        },
+        {
+          input: `'a' != true`,
+          expected: true,
+        },
+        {
+          input: `'a' != false`,
+          expected: true,
+        },
+        {
+          input: `'a' != 0`,
+          expected: true,
+        },
+        {
+          input: `'a' != 1`,
+          expected: true,
+        },
+        {
+          input: `'a' != ''`,
+          expected: true,
+        },
+        {
+          input: `'a' != 'a'`,
+          expected: false,
+        },
+        {
+          input: `'a' != ['']`,
+          expected: true,
+        },
+        {
+          input: `'a' != ['a']`,
+          expected: false,
+        },
+        {
+          input: `'a' != ['','a']`,
+          expected: false,
+        },
+        {
+          input: `[] != true`,
+          expected: true,
+        },
+        {
+          input: `[] != false`,
+          expected: true,
+        },
+        {
+          input: `[] != 0`,
+          expected: true,
+        },
+        {
+          input: `[] != 42`,
+          expected: true,
+        },
+        {
+          input: `[] != ''`,
+          expected: true,
+        },
+        {
+          input: `[] != 'a'`,
+          expected: true,
+        },
+        {
+          input: `[] != []`,
+          expected: false,
+        },
+        {
+          input: `[] != ['']`,
+          expected: true,
+        },
+        {
+          input: `[] != ['a']`,
+          expected: true,
+        },
+        {
+          input: `[] != ['','a']`,
+          expected: true,
+        },
+        {
+          input: `[''] != true`,
+          expected: true,
+        },
+        {
+          input: `[''] != false`,
+          expected: true,
+        },
+        {
+          input: `[''] != 0`,
+          expected: true,
+        },
+        {
+          input: `[''] != 42`,
+          expected: true,
+        },
+        {
+          input: `[''] != ''`,
+          expected: false,
+        },
+        {
+          input: `[''] != 'a'`,
+          expected: true,
+        },
+        {
+          input: `[''] != []`,
+          expected: true,
+        },
+        {
+          input: `[''] != ['']`,
+          expected: false,
+        },
+        {
+          input: `[''] != ['a']`,
+          expected: true,
+        },
+        {
+          input: `[''] != ['','a']`,
+          expected: true,
+        },
+        {
+          input: `['a'] != true`,
+          expected: true,
+        },
+        {
+          input: `['a'] != false`,
+          expected: true,
+        },
+        {
+          input: `['a'] != 0`,
+          expected: true,
+        },
+        {
+          input: `['a'] != 42`,
+          expected: true,
+        },
+        {
+          input: `['a'] != ''`,
+          expected: true,
+        },
+        {
+          input: `['a'] != 'a'`,
+          expected: false,
+        },
+        {
+          input: `['a'] != []`,
+          expected: true,
+        },
+        {
+          input: `['a'] != ['']`,
+          expected: true,
+        },
+        {
+          input: `['a'] != ['a']`,
+          expected: false,
+        },
+        {
+          input: `['a'] != ['','a']`,
+          expected: true,
+        },
+        {
+          input: `['a',''] != ['','a']`,
+          expected: false,
+        },
+      ]
+    )(
+      'criteria.binary.different($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const {ok, err} = new CriteriaParser(input).tryReadCriteria();
+        expect(err).toBeUndefined();
+        expect(ok?.resolve({})).toStrictEqual(expected);
+      },
+    );
+
+    // criteria: Binary operation greater
+    test.each(
+      [
+        {
+          input: `true > true`,
+          expected: false,
+        },
+        {
+          input: `true > false`,
+          expected: true,
+        },
+        {
+          input: `true > 0`,
+          expected: false,
+        },
+        {
+          input: `true > 1`,
+          expected: false,
+        },
+        {
+          input: `true > ''`,
+          expected: false,
+        },
+        {
+          input: `true > 'a'`,
+          expected: false,
+        },
+        {
+          input: `true > []`,
+          expected: false,
+        },
+        {
+          input: `true > ['a']`,
+          expected: false,
+        },
+        {
+          input: `false > true`,
+          expected: false,
+        },
+        {
+          input: `false > false`,
+          expected: false,
+        },
+        {
+          input: `0 > 0`,
+          expected: false,
+        },
+        {
+          input: `0 > 1`,
+          expected: false,
+        },
+        {
+          input: `0 > ''`,
+          expected: false,
+        },
+        {
+          input: `0 > '0'`,
+          expected: false,
+        },
+        {
+          input: `0 > []`,
+          expected: false,
+        },
+        {
+          input: `0 > ['0']`,
+          expected: false,
+        },
+        {
+          input: `1 > 0`,
+          expected: true,
+        },
+        {
+          input: `1 > 1`,
+          expected: false,
+        },
+        {
+          input: `1 > ''`,
+          expected: false,
+        },
+        {
+          input: `1 > '1'`,
+          expected: false,
+        },
+        {
+          input: `1 > []`,
+          expected: false,
+        },
+        {
+          input: `1 > ['1']`,
+          expected: false,
+        },
+        {
+          input: `'' > true`,
+          expected: false,
+        },
+        {
+          input: `'' > false`,
+          expected: false,
+        },
+        {
+          input: `'' > 0`,
+          expected: false,
+        },
+        {
+          input: `'' > 1`,
+          expected: false,
+        },
+        {
+          input: `'' > ''`,
+          expected: false,
+        },
+        {
+          input: `'' > '42'`,
+          expected: false,
+        },
+        {
+          input: `'' > ['']`,
+          expected: false,
+        },
+        {
+          input: `'' > ['a']`,
+          expected: false,
+        },
+        {
+          input: `'' > ['','a']`,
+          expected: false,
+        },
+        {
+          input: `'a' > true`,
+          expected: false,
+        },
+        {
+          input: `'a' > false`,
+          expected: false,
+        },
+        {
+          input: `'a' > 0`,
+          expected: false,
+        },
+        {
+          input: `'a' > 1`,
+          expected: false,
+        },
+        {
+          input: `'a' > ''`,
+          expected: true,
+        },
+        {
+          input: `'a' > 'a'`,
+          expected: false,
+        },
+        {
+          input: `'a' > ['']`,
+          expected: false,
+        },
+        {
+          input: `'a' > ['a']`,
+          expected: false,
+        },
+        {
+          input: `'a' > ['','a']`,
+          expected: false,
+        },
+        {
+          input: `'b' > ''`,
+          expected: true,
+        },
+        {
+          input: `'b' > 'a'`,
+          expected: true,
+        },
+        {
+          input: `'b' > 'b'`,
+          expected: false,
+        },
+        {
+          input: `[] > true`,
+          expected: false,
+        },
+        {
+          input: `[] > false`,
+          expected: false,
+        },
+        {
+          input: `[] > 0`,
+          expected: false,
+        },
+        {
+          input: `[] > 42`,
+          expected: false,
+        },
+        {
+          input: `[] > ''`,
+          expected: false,
+        },
+        {
+          input: `[] > 'a'`,
+          expected: false,
+        },
+        {
+          input: `[] > []`,
+          expected: false,
+        },
+        {
+          input: `[] > ['']`,
+          expected: false,
+        },
+        {
+          input: `[] > ['a']`,
+          expected: false,
+        },
+        {
+          input: `[] > ['','a']`,
+          expected: false,
+        },
+        {
+          input: `[''] > true`,
+          expected: false,
+        },
+        {
+          input: `[''] > false`,
+          expected: false,
+        },
+        {
+          input: `[''] > 0`,
+          expected: false,
+        },
+        {
+          input: `[''] > 42`,
+          expected: false,
+        },
+        {
+          input: `[''] > ''`,
+          expected: true,
+        },
+        {
+          input: `[''] > 'a'`,
+          expected: false,
+        },
+        {
+          input: `[''] > []`,
+          expected: true,
+        },
+        {
+          input: `[''] > ['']`,
+          expected: false,
+        },
+        {
+          input: `[''] > ['a']`,
+          expected: false,
+        },
+        {
+          input: `[''] > ['','a']`,
+          expected: false,
+        },
+        {
+          input: `['a'] > true`,
+          expected: false,
+        },
+        {
+          input: `['a'] > false`,
+          expected: false,
+        },
+        {
+          input: `['a'] > 0`,
+          expected: false,
+        },
+        {
+          input: `['a'] > 42`,
+          expected: false,
+        },
+        {
+          input: `['a'] > ''`,
+          expected: false,
+        },
+        {
+          input: `['a'] > 'a'`,
+          expected: true,
+        },
+        {
+          input: `['a'] > []`,
+          expected: true,
+        },
+        {
+          input: `['a'] > ['']`,
+          expected: false,
+        },
+        {
+          input: `['a'] > ['a']`,
+          expected: false,
+        },
+        {
+          input: `['a'] > ['','a']`,
+          expected: false,
+        },
+        {
+          input: `['a',''] > ['','a']`,
+          expected: false,
+        },
+      ]
+    )(
+      'criteria.binary.greater($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const {ok, err} = new CriteriaParser(input).tryReadCriteria();
+        expect(err).toBeUndefined();
+        expect(ok?.resolve({})).toStrictEqual(expected);
+      },
+    );
+
+    // criteria: Binary operation greater or equal
+    test.each(
+      [
+        {
+          input: `true >= true`,
+          expected: true,
+        },
+        {
+          input: `true >= false`,
+          expected: true,
+        },
+        {
+          input: `true >= 0`,
+          expected: false,
+        },
+        {
+          input: `true >= 1`,
+          expected: false,
+        },
+        {
+          input: `true >= ''`,
+          expected: false,
+        },
+        {
+          input: `true >= 'a'`,
+          expected: false,
+        },
+        {
+          input: `true >= []`,
+          expected: false,
+        },
+        {
+          input: `true >= ['a']`,
+          expected: false,
+        },
+        {
+          input: `false >= true`,
+          expected: false,
+        },
+        {
+          input: `false >= false`,
+          expected: true,
+        },
+        {
+          input: `0 >= 0`,
+          expected: true,
+        },
+        {
+          input: `0 >= 1`,
+          expected: false,
+        },
+        {
+          input: `0 >= ''`,
+          expected: false,
+        },
+        {
+          input: `0 >= '0'`,
+          expected: false,
+        },
+        {
+          input: `0 >= []`,
+          expected: false,
+        },
+        {
+          input: `0 >= ['0']`,
+          expected: false,
+        },
+        {
+          input: `1 >= 0`,
+          expected: true,
+        },
+        {
+          input: `1 >= 1`,
+          expected: true,
+        },
+        {
+          input: `1 >= ''`,
+          expected: false,
+        },
+        {
+          input: `1 >= '1'`,
+          expected: false,
+        },
+        {
+          input: `1 >= []`,
+          expected: false,
+        },
+        {
+          input: `1 >= ['1']`,
+          expected: false,
+        },
+        {
+          input: `'' >= true`,
+          expected: false,
+        },
+        {
+          input: `'' >= false`,
+          expected: false,
+        },
+        {
+          input: `'' >= 0`,
+          expected: false,
+        },
+        {
+          input: `'' >= 1`,
+          expected: false,
+        },
+        {
+          input: `'' >= ''`,
+          expected: true,
+        },
+        {
+          input: `'' >= '42'`,
+          expected: false,
+        },
+        {
+          input: `'' >= ['']`,
+          expected: false,
+        },
+        {
+          input: `'' >= ['a']`,
+          expected: false,
+        },
+        {
+          input: `'' >= ['','a']`,
+          expected: false,
+        },
+        {
+          input: `'a' >= true`,
+          expected: false,
+        },
+        {
+          input: `'a' >= false`,
+          expected: false,
+        },
+        {
+          input: `'a' >= 0`,
+          expected: false,
+        },
+        {
+          input: `'a' >= 1`,
+          expected: false,
+        },
+        {
+          input: `'a' >= ''`,
+          expected: true,
+        },
+        {
+          input: `'a' >= 'a'`,
+          expected: true,
+        },
+        {
+          input: `'a' >= ['']`,
+          expected: false,
+        },
+        {
+          input: `'a' >= ['a']`,
+          expected: false,
+        },
+        {
+          input: `'a' >= ['','a']`,
+          expected: false,
+        },
+        {
+          input: `'b' >= ''`,
+          expected: true,
+        },
+        {
+          input: `'b' >= 'a'`,
+          expected: true,
+        },
+        {
+          input: `'b' >= 'b'`,
+          expected: true,
+        },
+        {
+          input: `[] >= true`,
+          expected: false,
+        },
+        {
+          input: `[] >= false`,
+          expected: false,
+        },
+        {
+          input: `[] >= 0`,
+          expected: false,
+        },
+        {
+          input: `[] >= 42`,
+          expected: false,
+        },
+        {
+          input: `[] >= ''`,
+          expected: false,
+        },
+        {
+          input: `[] >= 'a'`,
+          expected: false,
+        },
+        {
+          input: `[] >= []`,
+          expected: true,
+        },
+        {
+          input: `[] >= ['']`,
+          expected: false,
+        },
+        {
+          input: `[] >= ['a']`,
+          expected: false,
+        },
+        {
+          input: `[] >= ['','a']`,
+          expected: false,
+        },
+        {
+          input: `[''] >= true`,
+          expected: false,
+        },
+        {
+          input: `[''] >= false`,
+          expected: false,
+        },
+        {
+          input: `[''] >= 0`,
+          expected: false,
+        },
+        {
+          input: `[''] >= 42`,
+          expected: false,
+        },
+        {
+          input: `[''] >= ''`,
+          expected: true,
+        },
+        {
+          input: `[''] >= 'a'`,
+          expected: false,
+        },
+        {
+          input: `[''] >= []`,
+          expected: true,
+        },
+        {
+          input: `[''] >= ['']`,
+          expected: true,
+        },
+        {
+          input: `[''] >= ['a']`,
+          expected: false,
+        },
+        {
+          input: `[''] >= ['','a']`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= true`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= false`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= 0`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= 42`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= ''`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= 'a'`,
+          expected: true,
+        },
+        {
+          input: `['a'] >= []`,
+          expected: true,
+        },
+        {
+          input: `['a'] >= ['']`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= ['a']`,
+          expected: true,
+        },
+        {
+          input: `['a'] >= ['','a']`,
+          expected: false,
+        },
+        {
+          input: `['a',''] >= ['','a']`,
+          expected: true,
+        },
+      ]
+    )(
+      'criteria.binary.greater_or_equal($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const {ok, err} = new CriteriaParser(input).tryReadCriteria();
+        expect(err).toBeUndefined();
+        expect(ok?.resolve({})).toStrictEqual(expected);
+      },
+    );
+
+    // criteria: Binary operation lesser
+    test.each(
+      [
+        {
+          input: `true < true`,
+          expected: false,
+        },
+        {
+          input: `true < false`,
+          expected: false,
+        },
+        {
+          input: `true < 0`,
+          expected: false,
+        },
+        {
+          input: `true < 1`,
+          expected: false,
+        },
+        {
+          input: `true < ''`,
+          expected: false,
+        },
+        {
+          input: `true < 'a'`,
+          expected: false,
+        },
+        {
+          input: `true < []`,
+          expected: false,
+        },
+        {
+          input: `true < ['a']`,
+          expected: false,
+        },
+        {
+          input: `false < true`,
+          expected: true,
+        },
+        {
+          input: `false < false`,
+          expected: false,
+        },
+        {
+          input: `0 < 0`,
+          expected: false,
+        },
+        {
+          input: `0 < 1`,
+          expected: true,
+        },
+        {
+          input: `0 < ''`,
+          expected: false,
+        },
+        {
+          input: `0 < '0'`,
+          expected: false,
+        },
+        {
+          input: `0 < []`,
+          expected: false,
+        },
+        {
+          input: `0 < ['0']`,
+          expected: false,
+        },
+        {
+          input: `1 < 0`,
+          expected: false,
+        },
+        {
+          input: `1 < 1`,
+          expected: false,
+        },
+        {
+          input: `1 < ''`,
+          expected: false,
+        },
+        {
+          input: `1 < '1'`,
+          expected: false,
+        },
+        {
+          input: `1 < []`,
+          expected: false,
+        },
+        {
+          input: `1 < ['1']`,
+          expected: false,
+        },
+        {
+          input: `'' < true`,
+          expected: false,
+        },
+        {
+          input: `'' < false`,
+          expected: false,
+        },
+        {
+          input: `'' < 0`,
+          expected: false,
+        },
+        {
+          input: `'' < 1`,
+          expected: false,
+        },
+        {
+          input: `'' < ''`,
+          expected: false,
+        },
+        {
+          input: `'' < '42'`,
+          expected: true,
+        },
+        {
+          input: `'' < ['']`,
+          expected: true,
+        },
+        {
+          input: `'' < ['a']`,
+          expected: false,
+        },
+        {
+          input: `'' < ['','a']`,
+          expected: true,
+        },
+        {
+          input: `'a' < true`,
+          expected: false,
+        },
+        {
+          input: `'a' < false`,
+          expected: false,
+        },
+        {
+          input: `'a' < 0`,
+          expected: false,
+        },
+        {
+          input: `'a' < 1`,
+          expected: false,
+        },
+        {
+          input: `'a' < ''`,
+          expected: false,
+        },
+        {
+          input: `'a' < 'a'`,
+          expected: false,
+        },
+        {
+          input: `'a' < ['']`,
+          expected: false,
+        },
+        {
+          input: `'a' < ['a']`,
+          expected: true,
+        },
+        {
+          input: `'a' < ['','a']`,
+          expected: true,
+        },
+        {
+          input: `'b' < ''`,
+          expected: false,
+        },
+        {
+          input: `'b' < 'a'`,
+          expected: false,
+        },
+        {
+          input: `'b' < 'b'`,
+          expected: false,
+        },
+        {
+          input: `[] < true`,
+          expected: false,
+        },
+        {
+          input: `[] < false`,
+          expected: false,
+        },
+        {
+          input: `[] < 0`,
+          expected: false,
+        },
+        {
+          input: `[] < 42`,
+          expected: false,
+        },
+        {
+          input: `[] < ''`,
+          expected: false,
+        },
+        {
+          input: `[] < 'a'`,
+          expected: false,
+        },
+        {
+          input: `[] < []`,
+          expected: false,
+        },
+        {
+          input: `[] < ['']`,
+          expected: true,
+        },
+        {
+          input: `[] < ['a']`,
+          expected: true,
+        },
+        {
+          input: `[] < ['','a']`,
+          expected: true,
+        },
+        {
+          input: `[''] < true`,
+          expected: false,
+        },
+        {
+          input: `[''] < false`,
+          expected: false,
+        },
+        {
+          input: `[''] < 0`,
+          expected: false,
+        },
+        {
+          input: `[''] < 42`,
+          expected: false,
+        },
+        {
+          input: `[''] < ''`,
+          expected: false,
+        },
+        {
+          input: `[''] < 'a'`,
+          expected: false,
+        },
+        {
+          input: `[''] < []`,
+          expected: false,
+        },
+        {
+          input: `[''] < ['']`,
+          expected: false,
+        },
+        {
+          input: `[''] < ['a']`,
+          expected: false,
+        },
+        {
+          input: `[''] < ['','a']`,
+          expected: true,
+        },
+        {
+          input: `['a'] < true`,
+          expected: false,
+        },
+        {
+          input: `['a'] < false`,
+          expected: false,
+        },
+        {
+          input: `['a'] < 0`,
+          expected: false,
+        },
+        {
+          input: `['a'] < 42`,
+          expected: false,
+        },
+        {
+          input: `['a'] < ''`,
+          expected: false,
+        },
+        {
+          input: `['a'] < 'a'`,
+          expected: false,
+        },
+        {
+          input: `['a'] < []`,
+          expected: false,
+        },
+        {
+          input: `['a'] < ['']`,
+          expected: false,
+        },
+        {
+          input: `['a'] < ['a']`,
+          expected: false,
+        },
+        {
+          input: `['a'] < ['','a']`,
+          expected: true,
+        },
+        {
+          input: `['a',''] < ['','a']`,
+          expected: false,
+        },
+      ]
+    )(
+      'criteria.binary.lesser($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const {ok, err} = new CriteriaParser(input).tryReadCriteria();
+        expect(err).toBeUndefined();
+        expect(ok?.resolve({})).toStrictEqual(expected);
+      },
+    );
+
+    // criteria: Binary operation greater or equal
+    test.each(
+      [
+        {
+          input: `true <= true`,
+          expected: true,
+        },
+        {
+          input: `true <= false`,
+          expected: false,
+        },
+        {
+          input: `true <= 0`,
+          expected: false,
+        },
+        {
+          input: `true <= 1`,
+          expected: false,
+        },
+        {
+          input: `true <= ''`,
+          expected: false,
+        },
+        {
+          input: `true <= 'a'`,
+          expected: false,
+        },
+        {
+          input: `true <= []`,
+          expected: false,
+        },
+        {
+          input: `true <= ['a']`,
+          expected: false,
+        },
+        {
+          input: `false <= true`,
+          expected: true,
+        },
+        {
+          input: `false <= false`,
+          expected: true,
+        },
+        {
+          input: `0 <= 0`,
+          expected: true,
+        },
+        {
+          input: `0 <= 1`,
+          expected: true,
+        },
+        {
+          input: `0 <= ''`,
+          expected: false,
+        },
+        {
+          input: `0 <= '0'`,
+          expected: false,
+        },
+        {
+          input: `0 <= []`,
+          expected: false,
+        },
+        {
+          input: `0 <= ['0']`,
+          expected: false,
+        },
+        {
+          input: `1 <= 0`,
+          expected: false,
+        },
+        {
+          input: `1 <= 1`,
+          expected: true,
+        },
+        {
+          input: `1 <= ''`,
+          expected: false,
+        },
+        {
+          input: `1 <= '1'`,
+          expected: false,
+        },
+        {
+          input: `1 <= []`,
+          expected: false,
+        },
+        {
+          input: `1 <= ['1']`,
+          expected: false,
+        },
+        {
+          input: `'' <= true`,
+          expected: false,
+        },
+        {
+          input: `'' <= false`,
+          expected: false,
+        },
+        {
+          input: `'' <= 0`,
+          expected: false,
+        },
+        {
+          input: `'' <= 1`,
+          expected: false,
+        },
+        {
+          input: `'' <= ''`,
+          expected: true,
+        },
+        {
+          input: `'' <= '42'`,
+          expected: true,
+        },
+        {
+          input: `'' <= ['']`,
+          expected: true,
+        },
+        {
+          input: `'' <= ['a']`,
+          expected: false,
+        },
+        {
+          input: `'' <= ['','a']`,
+          expected: true,
+        },
+        {
+          input: `'a' <= true`,
+          expected: false,
+        },
+        {
+          input: `'a' <= false`,
+          expected: false,
+        },
+        {
+          input: `'a' <= 0`,
+          expected: false,
+        },
+        {
+          input: `'a' <= 1`,
+          expected: false,
+        },
+        {
+          input: `'a' <= ''`,
+          expected: false,
+        },
+        {
+          input: `'a' <= 'a'`,
+          expected: true,
+        },
+        {
+          input: `'a' <= ['']`,
+          expected: false,
+        },
+        {
+          input: `'a' <= ['a']`,
+          expected: true,
+        },
+        {
+          input: `'a' <= ['','a']`,
+          expected: true,
+        },
+        {
+          input: `'b' <= ''`,
+          expected: false,
+        },
+        {
+          input: `'b' <= 'a'`,
+          expected: false,
+        },
+        {
+          input: `'b' <= 'b'`,
+          expected: true,
+        },
+        {
+          input: `[] <= true`,
+          expected: false,
+        },
+        {
+          input: `[] <= false`,
+          expected: false,
+        },
+        {
+          input: `[] <= 0`,
+          expected: false,
+        },
+        {
+          input: `[] <= 42`,
+          expected: false,
+        },
+        {
+          input: `[] <= ''`,
+          expected: false,
+        },
+        {
+          input: `[] <= 'a'`,
+          expected: false,
+        },
+        {
+          input: `[] <= []`,
+          expected: true,
+        },
+        {
+          input: `[] <= ['']`,
+          expected: true,
+        },
+        {
+          input: `[] <= ['a']`,
+          expected: true,
+        },
+        {
+          input: `[] <= ['','a']`,
+          expected: true,
+        },
+        {
+          input: `[''] <= true`,
+          expected: false,
+        },
+        {
+          input: `[''] <= false`,
+          expected: false,
+        },
+        {
+          input: `[''] <= 0`,
+          expected: false,
+        },
+        {
+          input: `[''] <= 42`,
+          expected: false,
+        },
+        {
+          input: `[''] <= ''`,
+          expected: false,
+        },
+        {
+          input: `[''] <= 'a'`,
+          expected: false,
+        },
+        {
+          input: `[''] <= []`,
+          expected: false,
+        },
+        {
+          input: `[''] <= ['']`,
+          expected: true,
+        },
+        {
+          input: `[''] <= ['a']`,
+          expected: false,
+        },
+        {
+          input: `[''] <= ['','a']`,
+          expected: true,
+        },
+        {
+          input: `['a'] <= true`,
+          expected: false,
+        },
+        {
+          input: `['a'] <= false`,
+          expected: false,
+        },
+        {
+          input: `['a'] <= 0`,
+          expected: false,
+        },
+        {
+          input: `['a'] <= 42`,
+          expected: false,
+        },
+        {
+          input: `['a'] <= ''`,
+          expected: false,
+        },
+        {
+          input: `['a'] <= 'a'`,
+          expected: false,
+        },
+        {
+          input: `['a'] <= []`,
+          expected: false,
+        },
+        {
+          input: `['a'] <= ['']`,
+          expected: false,
+        },
+        {
+          input: `['a'] <= ['a']`,
+          expected: true,
+        },
+        {
+          input: `['a'] <= ['','a']`,
+          expected: true,
+        },
+        {
+          input: `['a',''] <= ['','a']`,
+          expected: true,
+        },
+      ]
+    )(
+      'criteria.binary.lesser_or_equal($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const {ok, err} = new CriteriaParser(input).tryReadCriteria();
+        expect(err).toBeUndefined();
+        expect(ok?.resolve({})).toStrictEqual(expected);
+      },
+    );
+
+    // criteria: Binary operation in
+    test.each(
+      [
+        {
+          input: `true in true`,
+          expected: false,
+        },
+        {
+          input: `true in false`,
+          expected: false,
+        },
+        {
+          input: `true in 0`,
+          expected: false,
+        },
+        {
+          input: `true in 1`,
+          expected: false,
+        },
+        {
+          input: `true in ''`,
+          expected: false,
+        },
+        {
+          input: `true in 'a'`,
+          expected: false,
+        },
+        {
+          input: `true in []`,
+          expected: false,
+        },
+        {
+          input: `true in ['a']`,
+          expected: false,
+        },
+        {
+          input: `false in true`,
+          expected: false,
+        },
+        {
+          input: `false in false`,
+          expected: false,
+        },
+        {
+          input: `0 in 0`,
+          expected: false,
+        },
+        {
+          input: `0 in 1`,
+          expected: false,
+        },
+        {
+          input: `0 in ''`,
+          expected: false,
+        },
+        {
+          input: `0 in '0'`,
+          expected: false,
+        },
+        {
+          input: `0 in []`,
+          expected: false,
+        },
+        {
+          input: `0 in ['0']`,
+          expected: false,
+        },
+        {
+          input: `1 in 0`,
+          expected: false,
+        },
+        {
+          input: `1 in 1`,
+          expected: false,
+        },
+        {
+          input: `1 in ''`,
+          expected: false,
+        },
+        {
+          input: `1 in '1'`,
+          expected: false,
+        },
+        {
+          input: `1 in []`,
+          expected: false,
+        },
+        {
+          input: `1 in ['1']`,
+          expected: false,
+        },
+        {
+          input: `'' in true`,
+          expected: false,
+        },
+        {
+          input: `'' in false`,
+          expected: false,
+        },
+        {
+          input: `'' in 0`,
+          expected: false,
+        },
+        {
+          input: `'' in 1`,
+          expected: false,
+        },
+        {
+          input: `'' in ''`,
+          expected: false,
+        },
+        {
+          input: `'' in '42'`,
+          expected: false,
+        },
+        {
+          input: `'' in ['']`,
+          expected: true,
+        },
+        {
+          input: `'' in ['a']`,
+          expected: false,
+        },
+        {
+          input: `'' in ['','a']`,
+          expected: true,
+        },
+        {
+          input: `'a' in true`,
+          expected: false,
+        },
+        {
+          input: `'a' in false`,
+          expected: false,
+        },
+        {
+          input: `'a' in 0`,
+          expected: false,
+        },
+        {
+          input: `'a' in 1`,
+          expected: false,
+        },
+        {
+          input: `'a' in ''`,
+          expected: false,
+        },
+        {
+          input: `'a' in 'a'`,
+          expected: false,
+        },
+        {
+          input: `'a' in ['']`,
+          expected: false,
+        },
+        {
+          input: `'a' in ['a']`,
+          expected: true,
+        },
+        {
+          input: `'a' in ['','a']`,
+          expected: true,
+        },
+        {
+          input: `'b' in ''`,
+          expected: false,
+        },
+        {
+          input: `'b' in 'a'`,
+          expected: false,
+        },
+        {
+          input: `'b' in 'b'`,
+          expected: false,
+        },
+        {
+          input: `[] in true`,
+          expected: false,
+        },
+        {
+          input: `[] in false`,
+          expected: false,
+        },
+        {
+          input: `[] in 0`,
+          expected: false,
+        },
+        {
+          input: `[] in 42`,
+          expected: false,
+        },
+        {
+          input: `[] in ''`,
+          expected: false,
+        },
+        {
+          input: `[] in 'a'`,
+          expected: false,
+        },
+        {
+          input: `[] in []`,
+          expected: true,
+        },
+        {
+          input: `[] in ['']`,
+          expected: true,
+        },
+        {
+          input: `[] in ['a']`,
+          expected: true,
+        },
+        {
+          input: `[] in ['','a']`,
+          expected: true,
+        },
+        {
+          input: `[''] in true`,
+          expected: false,
+        },
+        {
+          input: `[''] in false`,
+          expected: false,
+        },
+        {
+          input: `[''] in 0`,
+          expected: false,
+        },
+        {
+          input: `[''] in 42`,
+          expected: false,
+        },
+        {
+          input: `[''] in ''`,
+          expected: false,
+        },
+        {
+          input: `[''] in 'a'`,
+          expected: false,
+        },
+        {
+          input: `[''] in []`,
+          expected: false,
+        },
+        {
+          input: `[''] in ['']`,
+          expected: true,
+        },
+        {
+          input: `[''] in ['a']`,
+          expected: false,
+        },
+        {
+          input: `[''] in ['','a']`,
+          expected: true,
+        },
+        {
+          input: `['a'] in true`,
+          expected: false,
+        },
+        {
+          input: `['a'] in false`,
+          expected: false,
+        },
+        {
+          input: `['a'] in 0`,
+          expected: false,
+        },
+        {
+          input: `['a'] in 42`,
+          expected: false,
+        },
+        {
+          input: `['a'] in ''`,
+          expected: false,
+        },
+        {
+          input: `['a'] in 'a'`,
+          expected: false,
+        },
+        {
+          input: `['a'] in []`,
+          expected: false,
+        },
+        {
+          input: `['a'] in ['']`,
+          expected: false,
+        },
+        {
+          input: `['a'] in ['a']`,
+          expected: true,
+        },
+        {
+          input: `['a'] in ['','a']`,
+          expected: true,
+        },
+        {
+          input: `['a',''] in ['','a']`,
+          expected: true,
+        },
+      ]
+    )(
+      'criteria.binary.in($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const {ok, err} = new CriteriaParser(input).tryReadCriteria();
+        expect(err).toBeUndefined();
+        expect(ok?.resolve({})).toStrictEqual(expected);
+      },
+    );
+  })
+});

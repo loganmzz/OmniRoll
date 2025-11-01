@@ -16,23 +16,155 @@
               "components": {
                 "Nemesis": [
                   {
-                    "key": "caparace-queen",
-                    "name": "Carapace Queen"
+                    "key": "carapace-queen",
+                    "name": "Carapace Queen",
+                    "properties": {
+                      "health": 60,
+                      "difficulty": 3
+                    }
                   }
                 ],
                 "Mage": [
                   {
                     "key": "adelheim",
-                    "name": "Adelheim"
+                    "name": "Adelheim",
+                    "properties": {
+                      "ability-charges": 5,
+                      "title": "weaponsmith",
+                      "types": ["tank","support"]
+                    }
                   }
                 ],
                 "Market": [
                   {
                     "key": "diamond-cluster",
-                    "name": "Diamond Cluster"
+                    "name": "Diamond Cluster",
+                    "properties": {
+                      "cost": 4,
+                      "types": ["gem"]
+                    }
                   }
                 ]
               }
+            }
+          ]
+        }
+      ],
+      "randomizers": [
+        {
+          "key": "nemesis",
+          "name": "Nemesis",
+          "pools": [
+            {
+              "key": "nemesis",
+              "criteria": [
+                "@kind == 'Nemesis'"
+              ]
+            }
+          ],
+          "slots": [
+            {
+              "key": "nemesis",
+              "pool": "nemesis"
+            }
+          ]
+        },
+        {
+          "key": "mages",
+          "name": "Mages",
+          "pools": [
+            {
+              "key": "mages",
+              "criteria": [
+                "@kind == 'Mage'"
+              ]
+            }
+          ],
+          "slots": [
+            {
+              "key": "mage-1",
+              "pool": "mages"
+            },
+            {
+              "key": "mage-2",
+              "pool": "mages"
+            }
+          ]
+        },
+        {
+          "key": "market-1",
+          "name": "Market 1",
+          "pools": [
+            {
+              "key": "market",
+              "criteria": [
+                "@kind == 'Market'"
+              ]
+            }
+          ],
+          "slots": [
+            {
+              "key": "gem-1",
+              "pool": "market",
+              "criteria": [
+                "@types == 'gem' && @cost < 4"
+              ]
+            },
+            {
+              "key": "gem-2",
+              "pool": "market",
+              "criteria": [
+                "@types == 'gem' && @cost == 4"
+              ]
+            },
+            {
+              "key": "gem-3",
+              "pool": "market",
+              "criteria": [
+                "@types == 'gem'"
+              ]
+            },
+            {
+              "key": "relic-1",
+              "pool": "market",
+              "criteria": [
+                "@types == 'relic'"
+              ]
+            },
+            {
+              "key": "relic-2",
+              "pool": "market",
+              "criteria": [
+                "@types == 'relic'"
+              ]
+            },
+            {
+              "key": "spell-1",
+              "pool": "market",
+              "criteria": [
+                "@types == 'spell' && @cost <= 5"
+              ]
+            },
+            {
+              "key": "spell-2",
+              "pool": "market",
+              "criteria": [
+                "@types == 'spell' && @cost <= 5"
+              ]
+            },
+            {
+              "key": "spell-3",
+              "pool": "market",
+              "criteria": [
+                "@types == 'spell' && @cost >= 5"
+              ]
+            },
+            {
+              "key": "spell-4",
+              "pool": "market",
+              "criteria": [
+                "@types == 'spell' && @cost >= 5"
+              ]
             }
           ]
         }
