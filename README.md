@@ -76,6 +76,7 @@ Each `Game` is defined by:
 * a name,
 * a description,
 * a list of `Sets`,
+* a list of `Randomizer`,
 * a merge strategy,
 * an update date.
 
@@ -110,3 +111,84 @@ Each `Component` is defined by:
 * a description,
 * a merge strategy,
 * an update date.
+
+### `Randomizer`
+
+Schema: [randomizer.json](./assets/json-schema/data-model/randomizer.json)
+
+Each `Randomizer` is defined by:
+
+* a unique key (scoped to the `Game`) matching regular expression: `[a-z0-9][a-z0-9-]*`,
+* a name,
+* a description,
+* a list of `Pool` (represents selectable components):
+  * a unique key (scoped to the `Randomizer`) matching regular expression: `[a-z0-9][a-z0-9-]*`,
+  * a list of logical disjunction `Criteria`
+* a list of `Slot` (represents a component to pick):
+  * a unique key (scoped to the `Randomizer`) matching regular expression: `[a-z0-9][a-z0-9-]*`,
+  * a `Pool` key,
+  * a pick method:
+    * `remove`: remove component from `Pool`, it can't be picked anymore from the same `Pool`,
+    * `keep`: component can be picked several times from the same `Pool`,
+  * a list of logical disjunction `Criteria`
+* a merge strategy,
+* an update date.
+
+### `Criteria`
+
+A `Criteria` is represented by a string as local conjonction of `Criterion` separated by `&&` and at least one space before and after:
+
+* `<criterion>`
+* `<criterion> && <criterion> && <criterion>`
+* `<criterion>   &&       <criterion>`
+
+A `criterion` can be prefixed by `!` to reverse result. And can have the following forms:
+* Unary operations:
+  * `<value>`:
+    * `<value>` must one of:
+      * `true` boolean
+      * a number different from zero
+      * a non-empty string
+      * a non-empty collection
+* Binary operations:
+  * `<left> == <right>`
+    * Must be equal if both have the same value and same type from boolean, number and string
+    * Must be set equal if both are collections
+    * One (`<left>` or `<right>`) must contain the other one (`<right>` or `<left>`) if one is a collection and the other one is boolean, number or string
+  * `<left> != <right>`
+    * Negation of equality as define above
+  * `<left> > <right>`
+    * `<left>` is `true` and `<right>` is `false`
+    * `<left>` is a number strictly greater than `<right>`
+    * `<left>` is a string higher in lexicographical order than `<right>` string
+    * `<left>` collection includes `<right>` boolean, number string, or collection
+  * `<left> >= <right>`
+    * `<left>` is `true` and `<right>` is a boolean
+    * `<left>` is a number greater or equal to `<right>`
+    * `<left>` is a string equal or higher in lexicographical order than `<right>` string
+    * `<left>` collection includes `<right>` boolean, number string, or collection
+  * `<left> < <right>`
+    * `<left>` is `false` and `<right>` is `true`
+    * `<left>` is a number strictly lesser than `<right>`
+    * `<left>` is a string lower in lexicographical order than `<right>` string
+    * `<left>` boolean, number string, or collection is included in `<right>` collection
+  * `<left> <= <right>`
+    * `<left>` is a boolean and `<right>` is `true`
+    * `<left>` is a number lesser or equal to `<right>`
+    * `<left>` is a string equal or lower in lexicographical order than `<right>` string
+    * `<left>` boolean, number string, or collection is included in `<right>` collection
+  * `<left> in <right>`
+    * `<left>` boolean, number string, or collection is included in `<right>` collection
+
+A `<value>` can be:
+* A boolean: `true` or `false`
+* A number: `0`, `1`, ...
+* A string (enclosed by `'` and using `\` to escape): `'hello'`, `'aeon\'s end'`, ...
+* A set/collection of strings (enclosed by `[]`):  `[]`, `['a', 'b']`, ...
+* A reference to a property (`@<property-name>`): `@key`
+
+
+Examples:
+* `@kind == 'spell'`
+* `@kind in ['spell', 'creature']`
+* `@cost > 2`

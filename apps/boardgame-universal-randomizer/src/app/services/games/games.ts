@@ -8,22 +8,46 @@ export class Games {
   private _content: CompiledGame[] = [];
 
   constructor() {
-    let game;
-    game = new CompiledGame();
-    game.key = "aeons-end";
-    game.name = "Aeon's End";
-    this._content.push(game);
-    game = new CompiledGame();
-    game.key = "skytear-horde";
-    game.name = "Skytear Horde";
-    this._content.push(game);
-
-    for (let i = 0; i < 10; i++) {
-      game = new CompiledGame();
-      game.key = String.fromCharCode("a".charCodeAt(0) + i);
-      game.name = String.fromCharCode("A".charCodeAt(0) + i);
-      this._content.push(game);
-    }
+    this._content.push(CompiledGame.newFromDataModel({
+      key: 'aeons-end',
+      name: 'Aeon\'s End',
+      sets: [
+        {
+          key: 'wave-1',
+          name: 'Wave 1 - Base',
+          sets: [
+            {
+              key: 'base',
+              name: 'Base game',
+              components: {
+                Nemesis: [
+                  {
+                    key: 'carapace-queen',
+                    name: 'Carapace Queen',
+                  },
+                ],
+                Mage: [
+                  {
+                    key: 'adelheim',
+                    name: 'Adelheim',
+                  },
+                ],
+                Market: [
+                  {
+                    key: 'diamond-cluster',
+                    name: 'Diamond Cluster',
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    }));
+    this._content.push(CompiledGame.newFromDataModel({
+      key: 'skytear-horde',
+      name: 'Skytear Horde',
+    }));
   }
 
   list(): CompiledGame[] {
