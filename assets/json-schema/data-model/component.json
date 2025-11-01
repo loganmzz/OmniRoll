@@ -19,6 +19,28 @@
     "description": {
       "type": "string"
     },
+    "properties": {
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
     "merge-strategy": {
       "type": "string",
       "enum": ["merge", "override"],

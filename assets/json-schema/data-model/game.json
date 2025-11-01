@@ -33,6 +33,12 @@
       "items": {
         "$ref": "set.json"
       }
+    },
+    "randomizers": {
+      "type": "array",
+      "items": {
+        "$ref": "randomizer.json"
+      }
     }
   }
 }
