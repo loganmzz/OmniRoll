@@ -1,4 +1,4 @@
-import { CriteriaParser, CriterionValueProperty, CriterionValueLiteral } from './criteria';
+import { CriteriaParser, CriterionValueProperty, CriterionValueLiteral, CriterionOperatorIsEqual, CriterionOperatorIsDifferent, CriterionOperatorIsGreater, CriterionOperatorIsGreaterOrEqual, CriterionOperatorIn, CriterionOperatorIsLesser, CriterionOperatorIsLesserOrEqual, CriterionUnary, CriterionBinary } from './criteria';
 
 describe('model/criteria', () => {
   describe('Parser', () => {
@@ -250,6 +250,11 @@ describe('model/criteria', () => {
           expected: 'a_',
           index: 3,
         },
+        {
+          input: `@a `,
+          expected: 'a',
+          index: 3,
+        },
       ]
     )(
       'property[$#] `$input`',
@@ -499,12 +504,193 @@ describe('model/criteria', () => {
           expected: new CriterionValueProperty('a'),
           index: 2,
         },
+        {
+          input: `@a `,
+          expected: new CriterionValueProperty('a'),
+          index: 3,
+        },
       ]
     )(
       'value[$#] `$input`',
       ({input, expected, index}: {input: string, expected: ReturnType<CriteriaParser['tryReadValue']>, index: number}) => {
         const parser = new CriteriaParser(input);
         expect(parser.tryReadValue()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // tryReadOperator
+    test.each(
+      [
+        {
+          input: ``,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `=`,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `= `,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `==`,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `== `,
+          expected: new CriterionOperatorIsEqual(),
+          index: 3,
+        },
+        {
+          input: `= = `,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `==  `,
+          expected: new CriterionOperatorIsEqual(),
+          index: 4,
+        },
+        {
+          input: `!= `,
+          expected: new CriterionOperatorIsDifferent(),
+          index: 3,
+        },
+        {
+          input: `> `,
+          expected: new CriterionOperatorIsGreater(),
+          index: 2,
+        },
+        {
+          input: `>= `,
+          expected: new CriterionOperatorIsGreaterOrEqual(),
+          index: 3,
+        },
+        {
+          input: `< `,
+          expected: new CriterionOperatorIsLesser(),
+          index: 2,
+        },
+        {
+          input: `<= `,
+          expected: new CriterionOperatorIsLesserOrEqual(),
+          index: 3,
+        },
+        {
+          input: `in `,
+          expected: new CriterionOperatorIn(),
+          index: 3,
+        },
+      ]
+    )(
+      'operator[$#] `$input`',
+      ({input, expected, index}: {input: string, expected: ReturnType<CriteriaParser['tryReadOperator']>, index: number}) => {
+        const parser = new CriteriaParser(input);
+        expect(parser.tryReadOperator()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // tryReadCriterion
+    test.each(
+      [
+        {
+          input: ``,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `a`,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `'a'`,
+          expected: new CriterionUnary(
+            new CriterionValueLiteral('a'),
+          ),
+          index: 3,
+        },
+        {
+          input: `true`,
+          expected: new CriterionUnary(
+            new CriterionValueLiteral(true),
+          ),
+          index: 4,
+        },
+        {
+          input: `42`,
+          expected: new CriterionUnary(
+            new CriterionValueLiteral(42),
+          ),
+          index: 2,
+        },
+        {
+          input: `[]`,
+          expected: new CriterionUnary(
+            new CriterionValueLiteral([]),
+          ),
+          index: 2,
+        },
+        {
+          input: `@a`,
+          expected: new CriterionUnary(
+            new CriterionValueProperty('a'),
+          ),
+          index: 2,
+        },
+        {
+          input: `@a  `,
+          expected: new CriterionUnary(
+            new CriterionValueProperty('a'),
+          ),
+          index: 4,
+        },
+        {
+          input: `@a==`,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `@a ==`,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `@a == `,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `@a == 'a'`,
+          expected: new CriterionBinary(
+            new CriterionValueProperty('a'),
+            new CriterionOperatorIsEqual(),
+            new CriterionValueLiteral('a'),
+          ),
+          index: 9,
+        },
+        {
+          input: `@a == 'a'  `,
+          expected: new CriterionBinary(
+            new CriterionValueProperty('a'),
+            new CriterionOperatorIsEqual(),
+            new CriterionValueLiteral('a'),
+          ),
+          index: 11,
+        },
+      ]
+    )(
+      'criterion[$#] `$input`',
+      ({input, expected, index}: {input: string, expected: ReturnType<CriteriaParser['tryReadCriterion']>, index: number}) => {
+        const parser = new CriteriaParser(input);
+        expect(parser.tryReadCriterion()).toStrictEqual(expected);
         expect(parser.index).toStrictEqual(index);
       },
     );

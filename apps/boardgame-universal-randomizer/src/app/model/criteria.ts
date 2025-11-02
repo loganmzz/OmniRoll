@@ -59,6 +59,18 @@ export class CriterionOperatorIsLesser extends CriterionOperator {}
 export class CriterionOperatorIsLesserOrEqual extends CriterionOperator {}
 export class CriterionOperatorIn extends CriterionOperator {}
 
+export abstract class Criterion {}
+export class CriterionBinary extends Criterion {
+  constructor(public left: CriterionValue, public operator: CriterionOperator, public right: CriterionValue) {
+    super();
+  }
+}
+export class CriterionUnary extends Criterion {
+  constructor (public value: CriterionValue) {
+    super();
+  }
+}
+
 export class CriteriaParser {
   constructor(
     public input: string,
@@ -68,6 +80,9 @@ export class CriteriaParser {
     return new CriteriaParser(this.input, this.index + shift);
   }
 
+  eof(): boolean {
+    return this.index >= this.input.length;
+  }
   lookNext(): string|undefined {
     if (this.index >= this.input.length) {
       return undefined;
@@ -97,7 +112,7 @@ export class CriteriaParser {
   }
 
   tryReadBoundary(): boolean {
-    if (this.index >= this.input.length) {
+    if (this.eof()) {
       return true;
     }
     let boundary = false;
@@ -240,7 +255,7 @@ export class CriteriaParser {
 
   tryReadPropertyReference(): string|undefined {
     if (!this.input.startsWith('@', this.index)) {
-      console.log(`Failed not starting with @`);
+      // console.log(`${this}.tryReadPropertyReference: Failed not starting with @`);
       return undefined;
     }
     let length: number|undefined = undefined;
@@ -254,22 +269,24 @@ export class CriteriaParser {
         char === '-' ||
         false
       ) {
-          length = i + 1;
+          length = i;
       } else {
         break;
       }
     }
     if (length === undefined) {
-      console.log(`Failed empty`);
+      // console.log(`${this}.tryReadPropertyReference: Failed empty`);
       return undefined;
     }
-    const next = this.clone(length);
-    console.log(`Next(${JSON.stringify(this.input)}): ${next.input.substring(next.index)}`);
+    const next = this.clone(length+1);
+    // console.log(`${this}.tryReadPropertyReference: Next ${next}`);
     if (next.tryReadBoundary()) {
-      const result = this.input.substring(this.index+1, this.index + 1 + length);
+      const result = this.input.substring(this.index+1, this.index+1 + length);
       this.index = next.index;
+      // console.log(`${this}.tryReadPropertyReference: Return ${JSON.stringify(result)}`);
       return result;
     }
+      // console.log(`${this}.tryReadPropertyReference: Failed missing boundary`);
     return undefined;
   }
 
@@ -331,19 +348,92 @@ export class CriteriaParser {
         value = new CriterionValueProperty(property);
       }
     }
-    if (value !== undefined) {
-      if (subparser.tryReadBoundary()) {
-        this.index = subparser.index;
-      } else {
-        value = undefined;
-      }
-    }
+    this.index = subparser.index;
     return value;
   }
 
-  // tryReadOperator(): CriterionOperator|undefined {
-  //   if (this.lookNext() === '=') {
-  //     if (!this.lookNext() ===)
-  //   }
-  // }
+  tryReadOperator(): CriterionOperator|undefined {
+    // console.log(`${this}.tryReadOperator`);
+    const subparser = this.clone();
+    const resolvers: {tokens: string, resolver: () => CriterionOperator}[] = [
+      {
+        tokens: '==',
+        resolver: () => new CriterionOperatorIsEqual(),
+      },
+      {
+        tokens: '!=',
+        resolver: () => new CriterionOperatorIsDifferent(),
+      },
+      {
+        tokens: '>=',
+        resolver: () => new CriterionOperatorIsGreaterOrEqual(),
+      },
+      {
+        tokens: '>',
+        resolver: () => new CriterionOperatorIsGreater(),
+      },
+      {
+        tokens: '<=',
+        resolver: () => new CriterionOperatorIsLesserOrEqual(),
+      },
+      {
+        tokens: '<',
+        resolver: () => new CriterionOperatorIsLesser(),
+      },
+      {
+        tokens: 'in',
+        resolver: () => new CriterionOperatorIn(),
+      },
+    ]
+    for (const {tokens, resolver} of resolvers) {
+      if (subparser.tryRead(tokens)) {
+        if (subparser.readWhitespaces() > 0) {
+          const operator = resolver();
+          this.index = subparser.index;
+          // console.log(`${this}.tryReadOperator: Return ${JSON.stringify(operator)}`);
+          return operator;
+        }
+      }
+    }
+    // console.log(`${this}.tryReadOperator: Failed no token found`);
+    return undefined;
+  }
+
+  tryReadCriterion(): Criterion|undefined {
+    const subparser = this.clone();
+    const left = subparser.tryReadValue();
+    if (left === undefined) {
+      // console.log(`${this}.tryReadCriterion > Failed missing first value`);
+      return undefined;
+    }
+    // console.log(`${this}.tryReadCriterion > First value: ${JSON.stringify(left)}`);
+    const operator = subparser.tryReadOperator();
+    if (operator === undefined) {
+      if (subparser.readWhitespaces() > 0 || subparser.eof()) {
+        const criterion = new CriterionUnary(left);
+        this.index = subparser.index;
+        // console.log(`${this}.tryReadCriterion > Return unnary: ${JSON.stringify(criterion)}`);
+        return criterion;
+      }
+      // console.log(`${this}.tryReadCriterion > Failed missing operator`);
+      return undefined;
+    }
+    const right = subparser.tryReadValue();
+    if (right === undefined) {
+      // console.log(`${this}.tryReadCriterion > Failed missing second value`);
+      return undefined;
+    }
+    if (subparser.readWhitespaces() > 0 || subparser.eof()) {
+      const criterion = new CriterionBinary(left, operator, right);
+      this.index = subparser.index;
+        // console.log(`${this}.tryReadCriterion > Return binary: ${JSON.stringify(criterion)}`);
+      return criterion;
+    }
+    // console.log(`${this}.tryReadCriterion > Failed invalid second value`);
+    return undefined;
+  }
+
+  toString() {
+    return `Parser(${this.input.substring(this.index)})`;
+  }
 }
