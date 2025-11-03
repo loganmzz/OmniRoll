@@ -1,7 +1,66 @@
-import { CriteriaParser, CriterionValueProperty, CriterionValueLiteral, CriterionOperatorIsEqual, CriterionOperatorIsDifferent, CriterionOperatorIsGreater, CriterionOperatorIsGreaterOrEqual, CriterionOperatorIn, CriterionOperatorIsLesser, CriterionOperatorIsLesserOrEqual, CriterionUnary, CriterionBinary } from './criteria';
+import { CriteriaParser, CriterionValueProperty, CriterionValueLiteral, CriterionOperatorIsEqual, CriterionOperatorIsDifferent, CriterionOperatorIsGreater, CriterionOperatorIsGreaterOrEqual, CriterionOperatorIn, CriterionOperatorIsLesser, CriterionOperatorIsLesserOrEqual, CriterionUnary, CriterionBinary, Criteria } from './criteria';
 
 describe('model/criteria', () => {
   describe('Parser', () => {
+
+    // tryReadBoundary
+    test.each(
+      [
+        {
+          input: ``,
+          expected: true,
+          index: 0,
+        },
+        {
+          input: ` `,
+          expected: true,
+          index: 1,
+        },
+        {
+          input: `  `,
+          expected: true,
+          index: 2,
+        },
+        {
+          input: `  ,`,
+          expected: true,
+          index: 2,
+        },
+        {
+          input: `  , `,
+          expected: true,
+          index: 2,
+        },
+        {
+          input: `,`,
+          expected: true,
+          index: 0,
+        },
+        {
+          input: `, `,
+          expected: true,
+          index: 0,
+        },
+        {
+          input: `a, `,
+          expected: false,
+          index: 0,
+        },
+        {
+          input: ` a, `,
+          expected: true,
+          index: 1,
+        },
+      ]
+    )(
+      'boundary[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadBoundary']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.tryReadBoundary()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
 
     // tryReadBoolean
     test.each(
@@ -49,8 +108,9 @@ describe('model/criteria', () => {
       ]
     )(
       'boolean[$#] `$input`',
-      ({input, expected, index}: {input: string, expected: ReturnType<CriteriaParser['tryReadBoolean']>, index: number}) => {
-        const parser = new CriteriaParser(input);
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadBoolean']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
         expect(parser.tryReadBoolean()).toStrictEqual(expected);
         expect(parser.index).toStrictEqual(index);
       },
@@ -92,8 +152,9 @@ describe('model/criteria', () => {
       ]
     )(
       'number[$#] `$input`',
-      ({input, expected, index}: {input: string, expected: ReturnType<CriteriaParser['tryReadNumber']>, index: number}) => {
-        const parser = new CriteriaParser(input);
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadNumber']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
         expect(parser.tryReadNumber()).toStrictEqual(expected);
         expect(parser.index).toStrictEqual(index);
       },
@@ -175,8 +236,9 @@ describe('model/criteria', () => {
       ]
     )(
       'string[$#] `$input`',
-      ({input, expected, index}: {input: string, expected: ReturnType<CriteriaParser['tryReadString']>, index: number}) => {
-        const parser = new CriteriaParser(input);
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadString']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
         expect(parser.tryReadString()).toStrictEqual(expected);
         expect(parser.index).toStrictEqual(index);
       },
@@ -258,8 +320,9 @@ describe('model/criteria', () => {
       ]
     )(
       'property[$#] `$input`',
-      ({input, expected, index}: {input: string, expected: ReturnType<CriteriaParser['tryReadPropertyReference']>, index: number}) => {
-        const parser = new CriteriaParser(input);
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadPropertyReference']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
         expect(parser.tryReadPropertyReference()).toStrictEqual(expected);
         expect(parser.index).toStrictEqual(index);
       },
@@ -326,8 +389,9 @@ describe('model/criteria', () => {
       ]
     )(
       'whitespace[$#] `$input`',
-      ({input, expected, index}: {input: string, expected: ReturnType<CriteriaParser['readWhitespaces']>, index: number}) => {
-        const parser = new CriteriaParser(input);
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['readWhitespaces']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
         expect(parser.readWhitespaces()).toStrictEqual(expected);
         expect(parser.index).toStrictEqual(index);
       },
@@ -441,11 +505,17 @@ describe('model/criteria', () => {
           expected: [' '],
           index: 9,
         },
+        {
+          input: `[ 'a' , 'b' , ]  `,
+          expected: ['a','b'],
+          index: 15,
+        }
       ]
     )(
       'set[$#] `$input`',
-      ({input, expected, index}: {input: string, expected: ReturnType<CriteriaParser['tryReadSet']>, index: number}) => {
-        const parser = new CriteriaParser(input);
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadSet']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
         expect(parser.tryReadSet()).toStrictEqual(expected);
         expect(parser.index).toStrictEqual(index);
       },
@@ -512,8 +582,9 @@ describe('model/criteria', () => {
       ]
     )(
       'value[$#] `$input`',
-      ({input, expected, index}: {input: string, expected: ReturnType<CriteriaParser['tryReadValue']>, index: number}) => {
-        const parser = new CriteriaParser(input);
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadValue']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
         expect(parser.tryReadValue()).toStrictEqual(expected);
         expect(parser.index).toStrictEqual(index);
       },
@@ -590,8 +661,9 @@ describe('model/criteria', () => {
       ]
     )(
       'operator[$#] `$input`',
-      ({input, expected, index}: {input: string, expected: ReturnType<CriteriaParser['tryReadOperator']>, index: number}) => {
-        const parser = new CriteriaParser(input);
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadOperator']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
         expect(parser.tryReadOperator()).toStrictEqual(expected);
         expect(parser.index).toStrictEqual(index);
       },
@@ -685,12 +757,189 @@ describe('model/criteria', () => {
           ),
           index: 11,
         },
+        {
+          input: `@foo == 'bar'`,
+          expected: new CriterionBinary(
+            new CriterionValueProperty('foo'),
+            new CriterionOperatorIsEqual(),
+            new CriterionValueLiteral('bar'),
+          ),
+          index: 13,
+        },
       ]
     )(
       'criterion[$#] `$input`',
-      ({input, expected, index}: {input: string, expected: ReturnType<CriteriaParser['tryReadCriterion']>, index: number}) => {
-        const parser = new CriteriaParser(input);
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadCriterion']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
         expect(parser.tryReadCriterion()).toStrictEqual(expected);
+        expect(parser.index).toStrictEqual(index);
+      },
+    );
+
+    // tryReadCriteria
+    test.each(
+      [
+        {
+          input: ``,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `a`,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `true`,
+          expected: new Criteria([
+            new CriterionUnary(
+              new CriterionValueLiteral(true),
+            ),
+          ]),
+          index: 4,
+        },
+        {
+          input: `42`,
+          expected: new Criteria([
+            new CriterionUnary(
+              new CriterionValueLiteral(42),
+            ),
+          ]),
+          index: 2,
+        },
+        {
+          input: `42`,
+          expected: new Criteria([
+            new CriterionUnary(
+              new CriterionValueLiteral(42),
+            ),
+          ]),
+          index: 2,
+        },
+        {
+          input: `'ab'`,
+          expected: new Criteria([
+            new CriterionUnary(
+              new CriterionValueLiteral('ab'),
+            ),
+          ]),
+          index: 4,
+        },
+        {
+          input: `['a','b']`,
+          expected: new Criteria([
+            new CriterionUnary(
+              new CriterionValueLiteral(['a','b']),
+            ),
+          ]),
+          index: 9,
+        },
+        {
+          input: `  [ 'a' , 'b' , ]  `,
+          expected: new Criteria([
+            new CriterionUnary(
+              new CriterionValueLiteral(['a','b']),
+            ),
+          ]),
+          index: 19,
+        },
+        {
+          input: `@property-ref`,
+          expected: new Criteria([
+            new CriterionUnary(
+              new CriterionValueProperty('property-ref'),
+            ),
+          ]),
+          index: 13,
+        },
+        {
+          input: `  @property-ref  `,
+          expected: new Criteria([
+            new CriterionUnary(
+              new CriterionValueProperty('property-ref'),
+            ),
+          ]),
+          index: 17,
+        },
+        {
+          input: `@property-ref ==`,
+          expected: undefined,
+          index: 0,
+        },
+        {
+          input: `@property-ref == true`,
+          expected: new Criteria([
+            new CriterionBinary(
+              new CriterionValueProperty('property-ref'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral(true),
+            ),
+          ]),
+          index: 21,
+        },
+        {
+          input: `  @property-ref  ==  true  `,
+          expected: new Criteria([
+            new CriterionBinary(
+              new CriterionValueProperty('property-ref'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral(true),
+            ),
+          ]),
+          index: 27,
+        },
+        {
+          input: `@foo && @bar`,
+          expected: new Criteria([
+            new CriterionUnary(
+              new CriterionValueProperty('foo'),
+            ),
+            new CriterionUnary(
+              new CriterionValueProperty('bar'),
+            ),
+          ]),
+          index: 12,
+        },
+        {
+          input: `@foo == 'bar' && @oof == 'rab'`,
+          expected: new Criteria([
+            new CriterionBinary(
+              new CriterionValueProperty('foo'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral('bar'),
+            ),
+            new CriterionBinary(
+              new CriterionValueProperty('oof'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral('rab'),
+            ),
+          ]),
+          index: 30,
+        },
+        {
+          input: `  @foo  ==  'bar'  &&  @oof  ==  'rab'`,
+          expected: new Criteria([
+            new CriterionBinary(
+              new CriterionValueProperty('foo'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral('bar'),
+            ),
+            new CriterionBinary(
+              new CriterionValueProperty('oof'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral('rab'),
+            ),
+          ]),
+          index: 38,
+        },
+      ]
+    )(
+      'criteria[$#] `$input`',
+      ({input, expected, index, logs}: {input: string, expected: ReturnType<CriteriaParser['tryReadCriteria']>, index: number, logs?: string[]}) => {
+        const parser = new CriteriaParser(input)
+          .withLogs(logs ?? []);
+        expect(parser.tryReadCriteria()).toStrictEqual(expected);
         expect(parser.index).toStrictEqual(index);
       },
     );

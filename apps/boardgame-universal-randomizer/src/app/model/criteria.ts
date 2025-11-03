@@ -1,3 +1,7 @@
+export class Criteria {
+  constructor(public items: Criterion[] = []) {}
+}
+
 export type CriterionValueOutput = boolean|number|string|string[];
 
 export abstract class CriterionValue {
@@ -51,13 +55,41 @@ export class CriterionValueProperty extends CriterionValue {
 }
 
 export abstract class CriterionOperator {}
-export class CriterionOperatorIsEqual extends CriterionOperator {}
-export class CriterionOperatorIsDifferent extends CriterionOperator {}
-export class CriterionOperatorIsGreater extends CriterionOperator {}
-export class CriterionOperatorIsGreaterOrEqual extends CriterionOperator {}
-export class CriterionOperatorIsLesser extends CriterionOperator {}
-export class CriterionOperatorIsLesserOrEqual extends CriterionOperator {}
-export class CriterionOperatorIn extends CriterionOperator {}
+export class CriterionOperatorIsEqual extends CriterionOperator {
+  toJSON() {
+    return "$eq";
+  }
+}
+export class CriterionOperatorIsDifferent extends CriterionOperator {
+  toJSON() {
+    return "$ne";
+  }
+}
+export class CriterionOperatorIsGreater extends CriterionOperator {
+  toJSON() {
+    return "$gt";
+  }
+}
+export class CriterionOperatorIsGreaterOrEqual extends CriterionOperator {
+  toJSON() {
+    return "$ge";
+  }
+}
+export class CriterionOperatorIsLesser extends CriterionOperator {
+  toJSON() {
+    return "$lt";
+  }
+}
+export class CriterionOperatorIsLesserOrEqual extends CriterionOperator {
+  toJSON() {
+    return "$le";
+  }
+}
+export class CriterionOperatorIn extends CriterionOperator {
+  toJSON() {
+    return "$in";
+  }
+}
 
 export abstract class Criterion {}
 export class CriterionBinary extends Criterion {
@@ -72,12 +104,29 @@ export class CriterionUnary extends Criterion {
 }
 
 export class CriteriaParser {
+  logs = new Set<string>();
+
   constructor(
     public input: string,
     public index = 0) {}
 
+  withLogs(logs: string[]): this {
+    for (const log of logs) {
+      this.logs.add(log);
+    }
+    return this;
+  }
+  log(scope: string, message: string): this {
+    if (this.logs.has(scope)) {
+      console.log(`${this}.${scope}: ${message}`);
+    }
+    return this;
+  }
+
   clone(shift: number = 0): CriteriaParser {
-    return new CriteriaParser(this.input, this.index + shift);
+    const clone = new CriteriaParser(this.input, this.index + shift);
+    clone.logs = this.logs;
+    return clone;
   }
 
   eof(): boolean {
@@ -112,7 +161,9 @@ export class CriteriaParser {
   }
 
   tryReadBoundary(): boolean {
+    this.log('tryReadBoundary', `Start`);
     if (this.eof()) {
+      this.log('tryReadBoundary', `EOF`);
       return true;
     }
     let boundary = false;
@@ -125,12 +176,14 @@ export class CriteriaParser {
           break;
         case ',':
         case ']':
+        case '&':
           boundary = true;
-          break;
+          break loop;
         default:
           break loop;
       }
     }
+    this.log('tryReadBoundary', `Return ${boundary}`);
     return boundary;
   }
 
@@ -206,13 +259,13 @@ export class CriteriaParser {
         }
       } else if (char === '\'') {
         if (mode === 'next') {
-          // console.log (`Push substring(${start}, ${i}): ${JSON.stringify(this.input.substring(start, i))}`);
+          this.log('tryReadString', `Push substring(${start}, ${i}): ${JSON.stringify(this.input.substring(start, i))}`);
           resultActions.push({ action: 'substring', start, end: i });
           start = i + 1;
           mode = 'complete';
           break;
         } else if (mode === 'escaping') {
-          // console.debug (`Push substring(${start}, ${i - 1}): ${JSON.stringify(this.input.substring(start, i-1))}`);
+          this.log('tryReadString', `Push substring(${start}, ${i - 1}): ${JSON.stringify(this.input.substring(start, i-1))}`);
           resultActions.push({action: 'substring', start, end: i - 1});
           start = i;
           mode = 'next';
@@ -226,7 +279,7 @@ export class CriteriaParser {
       }
     }
     if (mode !== 'complete') {
-      // console.log(`Failed not complete: ${mode}`);
+      this.log('tryReadString', `Failed not complete: ${mode}`);
       return undefined;
     }
     const next = this.clone(start - this.index);
@@ -235,27 +288,28 @@ export class CriteriaParser {
         (result, action) => {
           switch (action.action) {
             case 'append':
-              // console.log(`Resolve action ${action.action}: ${JSON.stringify(action.content)}`);
+              this.log('tryReadString', `Resolve action ${action.action}: ${JSON.stringify(action.content)}`);
               return result + action.content;
             case 'substring':
-              // console.log(`Resolve action ${action.action}: ${JSON.stringify(this.input.substring(action.start, action.end))}`);
+              this.log('tryReadString', `Resolve action ${action.action}: ${JSON.stringify(this.input.substring(action.start, action.end))}`);
               return result + this.input.substring(action.start, action.end);
           }
         },
         '"',
       ) + '"';
-      // console.log(`Try to parse:${encoded}`);
+      this.log('tryReadString', `Try to parse: ${encoded}`);
       const result = JSON.parse(encoded);
+      this.log('tryReadString', `Parsed: ${JSON.stringify(result)}`);
       this.index = next.index;
       return result;
     }
-    // console.log(`Failed not complete: ${mode}`);
+    this.log('tryReadString', `Failed not complete: ${mode}`);
     return undefined;
   }
 
   tryReadPropertyReference(): string|undefined {
     if (!this.input.startsWith('@', this.index)) {
-      // console.log(`${this}.tryReadPropertyReference: Failed not starting with @`);
+      this.log('tryReadPropertyReference', `Failed not starting with @`);
       return undefined;
     }
     let length: number|undefined = undefined;
@@ -275,18 +329,18 @@ export class CriteriaParser {
       }
     }
     if (length === undefined) {
-      // console.log(`${this}.tryReadPropertyReference: Failed empty`);
+      this.log('tryReadPropertyReference', `Failed empty`);
       return undefined;
     }
     const next = this.clone(length+1);
-    // console.log(`${this}.tryReadPropertyReference: Next ${next}`);
+    this.log('tryReadPropertyReference', `Next ${next}`);
     if (next.tryReadBoundary()) {
       const result = this.input.substring(this.index+1, this.index+1 + length);
       this.index = next.index;
-      // console.log(`${this}.tryReadPropertyReference: Return ${JSON.stringify(result)}`);
+      this.log('tryReadPropertyReference', `Return ${JSON.stringify(result)}`);
       return result;
     }
-      // console.log(`${this}.tryReadPropertyReference: Failed missing boundary`);
+    this.log('tryReadPropertyReference', `Failed missing boundary`);
     return undefined;
   }
 
@@ -296,64 +350,84 @@ export class CriteriaParser {
       return undefined;
     }
     const result: string[] = [];
-    while (subparser.index < subparser.input.length) {
+    while (!subparser.eof()) {
       subparser.readWhitespaces();
+      this.log('tryReadSet', `Skipped head whitespaces: ${subparser}`);
       if (subparser.tryRead(']')) {
-        // console.log('End without trailing comma');
+        this.log('tryReadSet', `End without trailing comma`);
         this.index = subparser.index;
         return result;
       }
+      this.log('tryReadSet', `Not closed #1: ${subparser}`);
       if (result.length > 0) {
         if (!subparser.tryRead(',')) {
-          // console.log(`Fail on missing comma. Next: ${subparser.lookNext()}`);
+          this.log('tryReadSet', `Fail on missing comma: ${subparser}`);
           return undefined;
         }
+        this.log('tryReadSet', `Skipped comma`);
         subparser.readWhitespaces();
-      }
-      if (subparser.tryRead(']')) {
-        // console.log('End with trailing comma');
-        this.index = subparser.index;
-        return result;
+        this.log('tryReadSet', `Skipped post-comma whitespaces: ${subparser}`);
+        if (subparser.tryRead(']')) {
+          this.log('tryReadSet', `End with trailing comma`);
+          this.index = subparser.index;
+          return result;
+        }
+        this.log('tryReadSet', `Not closed #2: ${subparser}`);
       }
       const item = subparser.tryReadString();
       if (item === undefined) {
-        // console.log(`Fail on missing string. Next: ${subparser.lookNext()}`);
+        this.log('tryReadSet', `Fail on missing string: ${subparser}`);
         return undefined;
       }
+      this.log('tryReadSet', `Read string ${JSON.stringify(item)}: ${subparser}`);
       result.push(item);
     }
+    this.log('tryReadSet', `Fail on enclosed set: ${subparser}`);
     return undefined;
   }
 
   tryReadValue(): CriterionValue|undefined {
     const subparser = this.clone();
-    type Resolver = () => CriterionValueOutput|undefined;
+    type Resolver = {
+      type: 'boolean'|'number'|'string'|'set';
+      resolver: () => CriterionValueOutput|undefined;
+    };
     const literalResolvers: Resolver[] = [
-      () => subparser.tryReadBoolean(),
-      () => subparser.tryReadNumber(),
-      () => subparser.tryReadString(),
-      () => subparser.tryReadSet(),
+      { type: 'boolean', resolver: () => subparser.tryReadBoolean() },
+      { type: 'number' , resolver: () => subparser.tryReadNumber()  },
+      { type: 'string' , resolver: () => subparser.tryReadString()  },
+      { type: 'set'    , resolver: () => subparser.tryReadSet()     },
     ];
     let value: CriterionValue|undefined = undefined;
-    for (const literalResolver of literalResolvers) {
-      const literal = literalResolver();
+    for (const {type, resolver} of literalResolvers) {
+      this.log('tryReadValue', `Try ${type}`);
+      const literal = resolver();
       if (literal !== undefined) {
+        this.log('tryReadValue', `Resolve ${type}: ${literal} (${subparser})`);
         value = new CriterionValueLiteral(literal);
         break;
       }
+      this.log('tryReadValue', `Miss ${type}`);
     }
     if (value === undefined) {
+      this.log('tryReadValue', `Try property`);
       const property = subparser.tryReadPropertyReference();
       if (property !== undefined) {
+        this.log('tryReadValue', `Resolve property: ${property} (${subparser})`);
         value = new CriterionValueProperty(property);
+      } else {
+        this.log('tryReadValue', `Miss property`);
       }
     }
-    this.index = subparser.index;
+    if (value !== undefined) {
+      this.index = subparser.index;
+    }
+    this.log('tryReadValue', `Return ${JSON.stringify(value)} (${subparser})`);
     return value;
   }
 
   tryReadOperator(): CriterionOperator|undefined {
-    // console.log(`${this}.tryReadOperator`);
+    this.log('tryReadOperator', `Start`);
     const subparser = this.clone();
     const resolvers: {tokens: string, resolver: () => CriterionOperator}[] = [
       {
@@ -390,12 +464,12 @@ export class CriteriaParser {
         if (subparser.readWhitespaces() > 0) {
           const operator = resolver();
           this.index = subparser.index;
-          // console.log(`${this}.tryReadOperator: Return ${JSON.stringify(operator)}`);
+          this.log('tryReadOperator', `Return ${JSON.stringify(operator)}`);
           return operator;
         }
       }
     }
-    // console.log(`${this}.tryReadOperator: Failed no token found`);
+    this.log('tryReadOperator', `Failed no token found`);
     return undefined;
   }
 
@@ -403,34 +477,68 @@ export class CriteriaParser {
     const subparser = this.clone();
     const left = subparser.tryReadValue();
     if (left === undefined) {
-      // console.log(`${this}.tryReadCriterion > Failed missing first value`);
+      this.log('tryReadCriterion', `Failed missing first value: ${subparser}`);
       return undefined;
     }
-    // console.log(`${this}.tryReadCriterion > First value: ${JSON.stringify(left)}`);
+    this.log('tryReadCriterion', `First value: ${JSON.stringify(left)}: ${subparser}`);
     const operator = subparser.tryReadOperator();
     if (operator === undefined) {
-      if (subparser.readWhitespaces() > 0 || subparser.eof()) {
+      if (subparser.tryReadBoundary()) {
         const criterion = new CriterionUnary(left);
         this.index = subparser.index;
-        // console.log(`${this}.tryReadCriterion > Return unnary: ${JSON.stringify(criterion)}`);
+        this.log('tryReadCriterion', `Return unnary: ${JSON.stringify(criterion)}`);
         return criterion;
       }
-      // console.log(`${this}.tryReadCriterion > Failed missing operator`);
+      this.log('tryReadCriterion', `Failed missing operator: ${subparser}`);
       return undefined;
     }
+    this.log('tryReadCriterion', `operator: ${JSON.stringify(operator)}: ${subparser}`);
     const right = subparser.tryReadValue();
     if (right === undefined) {
-      // console.log(`${this}.tryReadCriterion > Failed missing second value`);
+      this.log('tryReadCriterion', `Failed missing second value: ${subparser}`);
       return undefined;
     }
-    if (subparser.readWhitespaces() > 0 || subparser.eof()) {
+    if (subparser.tryReadBoundary()) {
       const criterion = new CriterionBinary(left, operator, right);
       this.index = subparser.index;
-        // console.log(`${this}.tryReadCriterion > Return binary: ${JSON.stringify(criterion)}`);
+      this.log('tryReadCriterion', `Return binary: ${JSON.stringify(criterion)}`);
       return criterion;
     }
-    // console.log(`${this}.tryReadCriterion > Failed invalid second value`);
+    this.log('tryReadCriterion', `Failed invalid second value: ${subparser}`);
     return undefined;
+  }
+
+  tryReadCriteria(): Criteria|undefined {
+    this.log('tryReadCriteria', `Start`);
+    const criteria: Criterion[] = [];
+    const subparser = this.clone();
+    while (!subparser.eof()) {
+      subparser.readWhitespaces();
+      this.log('tryReadCriteria', `Skipped head whitespaces: ${subparser}`);
+      if (criteria.length > 0) {
+        if (!subparser.tryRead('&& ')) {
+          this.log('tryReadCriteria', `Failed missing "&&": ${subparser}`);
+          return undefined;
+        }
+        this.log('tryReadCriteria', `Read "&& ": ${subparser}`);
+        subparser.readWhitespaces();
+        this.log('tryReadCriteria', `Skipped post whitespaces: ${subparser}`);
+      }
+      const criterion = subparser.tryReadCriterion();
+      if (criterion === undefined) {
+        this.log('tryReadCriteria', `Failed missing criterion: ${subparser}`);
+        return undefined;
+      }
+      this.log('tryReadCriteria', `Read criterion ${JSON.stringify(criterion)}: ${subparser}`);
+      criteria.push(criterion);
+    }
+    if (criteria.length === 0) {
+      this.log('tryReadCriteria', `Failed no criterion: ${subparser}`);
+      return undefined;
+    }
+    this.index = subparser.index;
+    this.log('tryReadCriteria', `Return: ${JSON.stringify(criteria)}`);
+    return new Criteria(criteria);
   }
 
   toString() {
