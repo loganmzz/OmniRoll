@@ -1148,6 +1148,154 @@ describe('model/criteria', () => {
           input: `! ['a']`,
           expected: false,
         },
+        {
+          input: `true == true`,
+          expected: true,
+        },
+        {
+          input: `true == 0`,
+          expected: false,
+        },
+        {
+          input: `true == 1`,
+          expected: false,
+        },
+        {
+          input: `true == ''`,
+          expected: false,
+        },
+        {
+          input: `true == 'a'`,
+          expected: false,
+        },
+        {
+          input: `true == []`,
+          expected: false,
+        },
+        {
+          input: `true == ['a']`,
+          expected: false,
+        },
+        {
+          input: `0 == 0`,
+          expected: true,
+        },
+        {
+          input: `0 == 1`,
+          expected: false,
+        },
+        {
+          input: `0 == ''`,
+          expected: false,
+        },
+        {
+          input: `0 == '0'`,
+          expected: false,
+        },
+        {
+          input: `0 == []`,
+          expected: false,
+        },
+        {
+          input: `0 == ['0']`,
+          expected: false,
+        },
+        {
+          input: `1 == 0`,
+          expected: false,
+        },
+        {
+          input: `1 == 1`,
+          expected: true,
+        },
+        {
+          input: `1 == ''`,
+          expected: false,
+        },
+        {
+          input: `1 == '1'`,
+          expected: false,
+        },
+        {
+          input: `1 == []`,
+          expected: false,
+        },
+        {
+          input: `1 == ['1']`,
+          expected: false,
+        },
+        {
+          input: `'' == true`,
+          expected: false,
+        },
+        {
+          input: `'' == false`,
+          expected: false,
+        },
+        {
+          input: `'' == 0`,
+          expected: false,
+        },
+        {
+          input: `'' == 1`,
+          expected: false,
+        },
+        {
+          input: `'' == ''`,
+          expected: true,
+        },
+        {
+          input: `'' == '42'`,
+          expected: false,
+        },
+        {
+          input: `'' == ['']`,
+          expected: true,
+        },
+        {
+          input: `'' == ['a']`,
+          expected: false,
+        },
+        {
+          input: `'' == ['','a']`,
+          expected: true,
+        },
+        {
+          input: `'a' == true`,
+          expected: false,
+        },
+        {
+          input: `'a' == false`,
+          expected: false,
+        },
+        {
+          input: `'a' == 0`,
+          expected: false,
+        },
+        {
+          input: `'a' == 1`,
+          expected: false,
+        },
+        {
+          input: `'a' == ''`,
+          expected: false,
+        },
+        {
+          input: `'a' == 'a'`,
+          expected: true,
+        },
+        {
+          input: `'a' == ['']`,
+          expected: false,
+        },
+        {
+          input: `'a' == ['a']`,
+          expected: true,
+        },
+        {
+          input: `'a' == ['','a']`,
+          expected: true,
+        },
       ]
     )(
       'criteria($input)',
