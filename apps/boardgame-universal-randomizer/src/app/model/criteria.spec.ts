@@ -685,6 +685,7 @@ describe('model/criteria', () => {
         {
           input: `'a'`,
           expected: new CriterionUnary(
+            false,
             new CriterionValueLiteral('a'),
           ),
           index: 3,
@@ -692,6 +693,7 @@ describe('model/criteria', () => {
         {
           input: `true`,
           expected: new CriterionUnary(
+            false,
             new CriterionValueLiteral(true),
           ),
           index: 4,
@@ -699,6 +701,7 @@ describe('model/criteria', () => {
         {
           input: `42`,
           expected: new CriterionUnary(
+            false,
             new CriterionValueLiteral(42),
           ),
           index: 2,
@@ -706,6 +709,7 @@ describe('model/criteria', () => {
         {
           input: `[]`,
           expected: new CriterionUnary(
+            false,
             new CriterionValueLiteral([]),
           ),
           index: 2,
@@ -713,6 +717,7 @@ describe('model/criteria', () => {
         {
           input: `@a`,
           expected: new CriterionUnary(
+            false,
             new CriterionValueProperty('a'),
           ),
           index: 2,
@@ -720,6 +725,7 @@ describe('model/criteria', () => {
         {
           input: `@a  `,
           expected: new CriterionUnary(
+            false,
             new CriterionValueProperty('a'),
           ),
           index: 4,
@@ -742,6 +748,7 @@ describe('model/criteria', () => {
         {
           input: `@a == 'a'`,
           expected: new CriterionBinary(
+            false,
             new CriterionValueProperty('a'),
             new CriterionOperatorIsEqual(),
             new CriterionValueLiteral('a'),
@@ -751,6 +758,7 @@ describe('model/criteria', () => {
         {
           input: `@a == 'a'  `,
           expected: new CriterionBinary(
+            false,
             new CriterionValueProperty('a'),
             new CriterionOperatorIsEqual(),
             new CriterionValueLiteral('a'),
@@ -760,11 +768,20 @@ describe('model/criteria', () => {
         {
           input: `@foo == 'bar'`,
           expected: new CriterionBinary(
+            false,
             new CriterionValueProperty('foo'),
             new CriterionOperatorIsEqual(),
             new CriterionValueLiteral('bar'),
           ),
           index: 13,
+        },
+        {
+          input: `! @foo`,
+          expected: new CriterionUnary(
+            true,
+            new CriterionValueProperty('foo'),
+          ),
+          index: 6,
         },
       ]
     )(
@@ -794,6 +811,7 @@ describe('model/criteria', () => {
           input: `true`,
           expected: new Criteria([
             new CriterionUnary(
+              false,
               new CriterionValueLiteral(true),
             ),
           ]),
@@ -803,6 +821,7 @@ describe('model/criteria', () => {
           input: `42`,
           expected: new Criteria([
             new CriterionUnary(
+              false,
               new CriterionValueLiteral(42),
             ),
           ]),
@@ -812,6 +831,7 @@ describe('model/criteria', () => {
           input: `42`,
           expected: new Criteria([
             new CriterionUnary(
+              false,
               new CriterionValueLiteral(42),
             ),
           ]),
@@ -821,6 +841,7 @@ describe('model/criteria', () => {
           input: `'ab'`,
           expected: new Criteria([
             new CriterionUnary(
+              false,
               new CriterionValueLiteral('ab'),
             ),
           ]),
@@ -830,6 +851,7 @@ describe('model/criteria', () => {
           input: `['a','b']`,
           expected: new Criteria([
             new CriterionUnary(
+              false,
               new CriterionValueLiteral(['a','b']),
             ),
           ]),
@@ -839,6 +861,7 @@ describe('model/criteria', () => {
           input: `  [ 'a' , 'b' , ]  `,
           expected: new Criteria([
             new CriterionUnary(
+              false,
               new CriterionValueLiteral(['a','b']),
             ),
           ]),
@@ -848,6 +871,7 @@ describe('model/criteria', () => {
           input: `@property-ref`,
           expected: new Criteria([
             new CriterionUnary(
+              false,
               new CriterionValueProperty('property-ref'),
             ),
           ]),
@@ -857,6 +881,7 @@ describe('model/criteria', () => {
           input: `  @property-ref  `,
           expected: new Criteria([
             new CriterionUnary(
+              false,
               new CriterionValueProperty('property-ref'),
             ),
           ]),
@@ -871,6 +896,7 @@ describe('model/criteria', () => {
           input: `@property-ref == true`,
           expected: new Criteria([
             new CriterionBinary(
+              false,
               new CriterionValueProperty('property-ref'),
               new CriterionOperatorIsEqual,
               new CriterionValueLiteral(true),
@@ -882,6 +908,7 @@ describe('model/criteria', () => {
           input: `  @property-ref  ==  true  `,
           expected: new Criteria([
             new CriterionBinary(
+              false,
               new CriterionValueProperty('property-ref'),
               new CriterionOperatorIsEqual,
               new CriterionValueLiteral(true),
@@ -893,9 +920,11 @@ describe('model/criteria', () => {
           input: `@foo && @bar`,
           expected: new Criteria([
             new CriterionUnary(
+              false,
               new CriterionValueProperty('foo'),
             ),
             new CriterionUnary(
+              false,
               new CriterionValueProperty('bar'),
             ),
           ]),
@@ -905,11 +934,13 @@ describe('model/criteria', () => {
           input: `@foo == 'bar' && @oof == 'rab'`,
           expected: new Criteria([
             new CriterionBinary(
+              false,
               new CriterionValueProperty('foo'),
               new CriterionOperatorIsEqual,
               new CriterionValueLiteral('bar'),
             ),
             new CriterionBinary(
+              false,
               new CriterionValueProperty('oof'),
               new CriterionOperatorIsEqual,
               new CriterionValueLiteral('rab'),
@@ -921,17 +952,35 @@ describe('model/criteria', () => {
           input: `  @foo  ==  'bar'  &&  @oof  ==  'rab'`,
           expected: new Criteria([
             new CriterionBinary(
+              false,
               new CriterionValueProperty('foo'),
               new CriterionOperatorIsEqual,
               new CriterionValueLiteral('bar'),
             ),
             new CriterionBinary(
+              false,
               new CriterionValueProperty('oof'),
               new CriterionOperatorIsEqual,
               new CriterionValueLiteral('rab'),
             ),
           ]),
           index: 38,
+        },
+        {
+          input: `!  @foo  ==  'bar'  &&  !  @oof  `,
+          expected: new Criteria([
+            new CriterionBinary(
+              true,
+              new CriterionValueProperty('foo'),
+              new CriterionOperatorIsEqual,
+              new CriterionValueLiteral('bar'),
+            ),
+            new CriterionUnary(
+              true,
+              new CriterionValueProperty('oof'),
+            ),
+          ]),
+          index: 33,
         },
       ]
     )(
@@ -946,7 +995,7 @@ describe('model/criteria', () => {
 
   });
 
-  describe('Value', () => {
+  describe('Resolve', () => {
     const context = {
       //unknown: undefined
       "root-boolean": true,
@@ -976,7 +1025,7 @@ describe('model/criteria', () => {
       }
     };
 
-    // Criteria
+    // property
     test.each(
       [
         {
@@ -1041,6 +1090,71 @@ describe('model/criteria', () => {
       ({property, expected}: {property: string, expected: ReturnType<CriterionValueProperty['resolve']>}) => {
         const value = new CriterionValueProperty(property);
         expect(value.resolve(context)).toStrictEqual(expected);
+      },
+    );
+
+    // criteria
+    test.each(
+      [
+        {
+          input: `true`,
+          expected: true,
+        },
+        {
+          input: `! true`,
+          expected: false,
+        },
+        {
+          input: `false`,
+          expected: false,
+        },
+        {
+          input: `! false`,
+          expected: true,
+        },
+        {
+          input: `0`,
+          expected: false,
+        },
+        {
+          input: `42`,
+          expected: true,
+        },
+        {
+          input: `! 42`,
+          expected: false,
+        },
+        {
+          input: `''`,
+          expected: false,
+        },
+        {
+          input: `'a'`,
+          expected: true,
+        },
+        {
+          input: `! 'a'`,
+          expected: false,
+        },
+        {
+          input: `[]`,
+          expected: false,
+        },
+        {
+          input: `['a']`,
+          expected: true,
+        },
+        {
+          input: `! ['a']`,
+          expected: false,
+        },
+      ]
+    )(
+      'criteria($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const criteria = new CriteriaParser(input).tryReadCriteria();
+        expect(criteria).toBeDefined();
+        expect(criteria?.resolve({})).toStrictEqual(expected);
       },
     );
   })

@@ -1,5 +1,9 @@
 export class Criteria {
   constructor(public items: Criterion[] = []) {}
+
+  resolve(context: Record<string, unknown>): boolean {
+    return this.items.every(criterion => criterion.resolve(context));
+  }
 }
 
 export type CriterionValueOutput = boolean|number|string|string[];
@@ -54,52 +58,163 @@ export class CriterionValueProperty extends CriterionValue {
   }
 }
 
-export abstract class CriterionOperator {}
+export abstract class CriterionOperator {
+  resolve(context: Record<string, unknown>, left: CriterionValue, right: CriterionValue): boolean {
+    const lvalue = left.resolve(context);
+    if (lvalue === undefined) return false;
+    const rvalue = right.resolve(context);
+    if (rvalue === undefined) return false;
+    return this.resolveValue(lvalue, rvalue);
+  }
+  abstract resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean
+}
 export class CriterionOperatorIsEqual extends CriterionOperator {
+  override resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean {
+    if (typeof lvalue === 'boolean' && typeof rvalue === 'boolean' && lvalue === rvalue) {
+      return true;
+    }
+    if (typeof lvalue === 'number' && typeof rvalue === 'number' && lvalue === rvalue) {
+      return true;
+    }
+    if (typeof lvalue === 'string' && typeof rvalue === 'string' && lvalue === rvalue) {
+      return true;
+    }
+    if (Array.isArray(lvalue) && Array.isArray(rvalue) && new Set(lvalue).symmetricDifference(new Set(rvalue)).size === 0) {
+      return true;
+    }
+    if (Array.isArray(lvalue) && typeof rvalue === 'string' && lvalue.includes(rvalue)) {
+      return true;
+    }
+    if (Array.isArray(rvalue) && typeof lvalue === 'string' && rvalue.includes(lvalue)) {
+      return true;
+    }
+    return false;
+  }
+
   toJSON() {
     return "$eq";
   }
 }
 export class CriterionOperatorIsDifferent extends CriterionOperator {
+  override resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean {
+    return !new CriterionOperatorIsEqual().resolveValue(lvalue, rvalue);
+  }
+
   toJSON() {
     return "$ne";
   }
 }
 export class CriterionOperatorIsGreater extends CriterionOperator {
+  override resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean {
+    if (lvalue === true && rvalue === false) {
+      return true;
+    }
+    if (typeof lvalue === 'number' && typeof rvalue === 'number' && lvalue > rvalue) {
+      return true;
+    }
+    if (typeof lvalue === 'string' && typeof rvalue === 'string' && lvalue.localeCompare(rvalue) > 0) {
+      return true;
+    }
+    if (Array.isArray(lvalue) && typeof rvalue === 'string' && lvalue.includes(rvalue)) {
+      return true;
+    }
+    if (Array.isArray(lvalue) && Array.isArray(rvalue) && new Set(lvalue).isSupersetOf(new Set(rvalue))) {
+      return true;
+    }
+    return false;
+  }
+
   toJSON() {
     return "$gt";
   }
 }
 export class CriterionOperatorIsGreaterOrEqual extends CriterionOperator {
+  override resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean {
+    if (lvalue === true && typeof rvalue === 'boolean') {
+      return true;
+    }
+    if (typeof lvalue === 'number' && typeof rvalue === 'number' && lvalue >= rvalue) {
+      return true;
+    }
+    if (typeof lvalue === 'string' && typeof rvalue === 'string' && lvalue.localeCompare(rvalue) >= 0) {
+      return true;
+    }
+    if (Array.isArray(lvalue) && typeof rvalue === 'string' && lvalue.includes(rvalue)) {
+      return true;
+    }
+    if (Array.isArray(lvalue) && Array.isArray(rvalue) && new Set(lvalue).isSupersetOf(new Set(rvalue))) {
+      return true;
+    }
+    return false;
+  }
+
   toJSON() {
     return "$ge";
   }
 }
 export class CriterionOperatorIsLesser extends CriterionOperator {
+  override resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean {
+    return new CriterionOperatorIsGreater().resolveValue(rvalue, lvalue);
+  }
+
   toJSON() {
     return "$lt";
   }
 }
 export class CriterionOperatorIsLesserOrEqual extends CriterionOperator {
+  override resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean {
+    return new CriterionOperatorIsGreaterOrEqual().resolveValue(rvalue, lvalue);
+  }
   toJSON() {
     return "$le";
   }
 }
 export class CriterionOperatorIn extends CriterionOperator {
+  override resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean {
+    if (Array.isArray(lvalue) && typeof rvalue === 'string' && lvalue.includes(rvalue)) {
+      return true;
+    }
+    if (Array.isArray(lvalue) && Array.isArray(rvalue) && new Set(lvalue).isSupersetOf(new Set(rvalue))) {
+      return true;
+    }
+    return false;
+  }
+
   toJSON() {
     return "$in";
   }
 }
 
-export abstract class Criterion {}
+export abstract class Criterion {
+  constructor(public reverse: boolean) {}
+
+  abstract resolve(context: Record<string, unknown>): boolean;
+}
 export class CriterionBinary extends Criterion {
-  constructor(public left: CriterionValue, public operator: CriterionOperator, public right: CriterionValue) {
-    super();
+  constructor(reverse: boolean, public left: CriterionValue, public operator: CriterionOperator, public right: CriterionValue) {
+    super(reverse);
+  }
+
+  resolve(context: Record<string, unknown>): boolean {
+    const resolved = this.operator.resolve(context, this.left, this.right);
+    return this.reverse ? !resolved : resolved;
   }
 }
 export class CriterionUnary extends Criterion {
-  constructor (public value: CriterionValue) {
-    super();
+  constructor (reverse: boolean, public value: CriterionValue) {
+    super(reverse);
+  }
+
+  override resolve(context: Record<string, unknown>): boolean {
+    const value = this.value.resolve(context);
+    let resolved =
+      value === true ||
+      typeof value === 'number' && value !== 0 ||
+      typeof value === 'string' && value !== '' ||
+      Array.isArray(value) && value.length > 0 ||
+      false
+    ;
+    return this.reverse ? !resolved : resolved;
   }
 }
 
@@ -475,6 +590,11 @@ export class CriteriaParser {
 
   tryReadCriterion(): Criterion|undefined {
     const subparser = this.clone();
+
+    const reverse = subparser.tryRead('! ');
+      this.log('tryReadCriterion', `Try read reverse (${reverse}): ${subparser}`);
+    subparser.readWhitespaces();
+
     const left = subparser.tryReadValue();
     if (left === undefined) {
       this.log('tryReadCriterion', `Failed missing first value: ${subparser}`);
@@ -484,7 +604,7 @@ export class CriteriaParser {
     const operator = subparser.tryReadOperator();
     if (operator === undefined) {
       if (subparser.tryReadBoundary()) {
-        const criterion = new CriterionUnary(left);
+        const criterion = new CriterionUnary(reverse, left);
         this.index = subparser.index;
         this.log('tryReadCriterion', `Return unnary: ${JSON.stringify(criterion)}`);
         return criterion;
@@ -499,7 +619,7 @@ export class CriteriaParser {
       return undefined;
     }
     if (subparser.tryReadBoundary()) {
-      const criterion = new CriterionBinary(left, operator, right);
+      const criterion = new CriterionBinary(reverse, left, operator, right);
       this.index = subparser.index;
       this.log('tryReadCriterion', `Return binary: ${JSON.stringify(criterion)}`);
       return criterion;

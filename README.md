@@ -145,7 +145,7 @@ A `Criteria` is represented by a string as local conjonction of `Criterion` sepa
 A `criterion` can be prefixed by `!` to reverse result. And can have the following forms:
 * Unary operations:
   * `<value>`:
-    * `<value>` must one of:
+    * `<value>` must be one of:
       * `true` boolean
       * a number different from zero
       * a non-empty string
@@ -154,31 +154,31 @@ A `criterion` can be prefixed by `!` to reverse result. And can have the followi
   * `<left> == <right>`
     * Must be equal if both have the same value and same type from boolean, number and string
     * Must be set equal if both are collections
-    * One (`<left>` or `<right>`) must contain the other one (`<right>` or `<left>`) if one is a collection and the other one is boolean, number or string
+    * One (`<left>` or `<right>`) must contain the other one (`<right>` or `<left>`) if one is a collection and the other one is a string
   * `<left> != <right>`
     * Negation of equality as define above
   * `<left> > <right>`
     * `<left>` is `true` and `<right>` is `false`
     * `<left>` is a number strictly greater than `<right>`
     * `<left>` is a string higher in lexicographical order than `<right>` string
-    * `<left>` collection includes `<right>` boolean, number string, or collection
+    * `<left>` collection includes `<right>` string or collection
   * `<left> >= <right>`
     * `<left>` is `true` and `<right>` is a boolean
     * `<left>` is a number greater or equal to `<right>`
     * `<left>` is a string equal or higher in lexicographical order than `<right>` string
-    * `<left>` collection includes `<right>` boolean, number string, or collection
+    * `<left>` collection includes `<right>` string or collection
   * `<left> < <right>`
     * `<left>` is `false` and `<right>` is `true`
     * `<left>` is a number strictly lesser than `<right>`
     * `<left>` is a string lower in lexicographical order than `<right>` string
-    * `<left>` boolean, number string, or collection is included in `<right>` collection
+    * `<left>` string or collection is included in `<right>` collection
   * `<left> <= <right>`
     * `<left>` is a boolean and `<right>` is `true`
     * `<left>` is a number lesser or equal to `<right>`
     * `<left>` is a string equal or lower in lexicographical order than `<right>` string
-    * `<left>` boolean, number string, or collection is included in `<right>` collection
+    * `<left>` string or collection is included in `<right>` collection
   * `<left> in <right>`
-    * `<left>` boolean, number string, or collection is included in `<right>` collection
+    * `<left>` string or collection is included in `<right>` collection
 
 A `<value>` can be:
 * A boolean: `true` or `false`
