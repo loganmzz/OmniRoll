@@ -601,12 +601,13 @@ export class CriteriaParser {
       return undefined;
     }
     this.log('tryReadCriterion', `First value: ${JSON.stringify(left)}: ${subparser}`);
+    subparser.readWhitespaces();
     const operator = subparser.tryReadOperator();
     if (operator === undefined) {
       if (subparser.tryReadBoundary()) {
         const criterion = new CriterionUnary(reverse, left);
         this.index = subparser.index;
-        this.log('tryReadCriterion', `Return unnary: ${JSON.stringify(criterion)}`);
+        this.log('tryReadCriterion', `Return unary: ${JSON.stringify(criterion)}`);
         return criterion;
       }
       this.log('tryReadCriterion', `Failed missing operator: ${subparser}`);

@@ -783,6 +783,16 @@ describe('model/criteria', () => {
           ),
           index: 6,
         },
+        {
+          input: `[] == true`,
+          expected: new CriterionBinary(
+            false,
+            new CriterionValueLiteral([]),
+            new CriterionOperatorIsEqual,
+            new CriterionValueLiteral(true),
+          ),
+          index: 10,
+        },
       ]
     )(
       'criterion[$#] `$input`',
@@ -1093,7 +1103,7 @@ describe('model/criteria', () => {
       },
     );
 
-    // criteria
+    // criteria: Unary operation
     test.each(
       [
         {
@@ -1148,6 +1158,19 @@ describe('model/criteria', () => {
           input: `! ['a']`,
           expected: false,
         },
+      ]
+    )(
+      'criteria.unary($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const criteria = new CriteriaParser(input).tryReadCriteria();
+        expect(criteria).toBeDefined();
+        expect(criteria?.resolve({})).toStrictEqual(expected);
+      },
+    );
+
+    // criteria: Binary operation equal
+    test.each(
+      [
         {
           input: `true == true`,
           expected: true,
@@ -1296,9 +1319,133 @@ describe('model/criteria', () => {
           input: `'a' == ['','a']`,
           expected: true,
         },
+        {
+          input: `[] == true`,
+          expected: false,
+        },
+        {
+          input: `[] == false`,
+          expected: false,
+        },
+        {
+          input: `[] == 0`,
+          expected: false,
+        },
+        {
+          input: `[] == 42`,
+          expected: false,
+        },
+        {
+          input: `[] == ''`,
+          expected: false,
+        },
+        {
+          input: `[] == 'a'`,
+          expected: false,
+        },
+        {
+          input: `[] == []`,
+          expected: true,
+        },
+        {
+          input: `[] == ['']`,
+          expected: false,
+        },
+        {
+          input: `[] == ['a']`,
+          expected: false,
+        },
+        {
+          input: `[] == ['','a']`,
+          expected: false,
+        },
+        {
+          input: `[''] == true`,
+          expected: false,
+        },
+        {
+          input: `[''] == false`,
+          expected: false,
+        },
+        {
+          input: `[''] == 0`,
+          expected: false,
+        },
+        {
+          input: `[''] == 42`,
+          expected: false,
+        },
+        {
+          input: `[''] == ''`,
+          expected: true,
+        },
+        {
+          input: `[''] == 'a'`,
+          expected: false,
+        },
+        {
+          input: `[''] == []`,
+          expected: false,
+        },
+        {
+          input: `[''] == ['']`,
+          expected: true,
+        },
+        {
+          input: `[''] == ['a']`,
+          expected: false,
+        },
+        {
+          input: `[''] == ['','a']`,
+          expected: false,
+        },
+        {
+          input: `['a'] == true`,
+          expected: false,
+        },
+        {
+          input: `['a'] == false`,
+          expected: false,
+        },
+        {
+          input: `['a'] == 0`,
+          expected: false,
+        },
+        {
+          input: `['a'] == 42`,
+          expected: false,
+        },
+        {
+          input: `['a'] == ''`,
+          expected: false,
+        },
+        {
+          input: `['a'] == 'a'`,
+          expected: true,
+        },
+        {
+          input: `['a'] == []`,
+          expected: false,
+        },
+        {
+          input: `['a'] == ['']`,
+          expected: false,
+        },
+        {
+          input: `['a'] == ['a']`,
+          expected: true,
+        },
+        {
+          input: `['a'] == ['','a']`,
+          expected: false,
+        },
+        {
+          input: `['a',''] == ['','a']`,
+          expected: true,
+        },
       ]
     )(
-      'criteria($input)',
+      'criteria.binary.equal($input)',
       ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
         const criteria = new CriteriaParser(input).tryReadCriteria();
         expect(criteria).toBeDefined();
