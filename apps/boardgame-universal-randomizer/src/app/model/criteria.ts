@@ -174,10 +174,10 @@ export class CriterionOperatorIsLesserOrEqual extends CriterionOperator {
 }
 export class CriterionOperatorIn extends CriterionOperator {
   override resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean {
-    if (Array.isArray(lvalue) && typeof rvalue === 'string' && lvalue.includes(rvalue)) {
+    if (typeof lvalue === 'string' && Array.isArray(rvalue) && rvalue.includes(lvalue)) {
       return true;
     }
-    if (Array.isArray(lvalue) && Array.isArray(rvalue) && new Set(lvalue).isSupersetOf(new Set(rvalue)) && lvalue.length < rvalue.length) {
+    if (Array.isArray(lvalue) && Array.isArray(rvalue) && new Set(rvalue).isSupersetOf(new Set(lvalue))) {
       return true;
     }
     return false;

@@ -2973,5 +2973,314 @@ describe('model/criteria', () => {
         expect(criteria?.resolve({})).toStrictEqual(expected);
       },
     );
+
+    // criteria: Binary operation in
+    test.each(
+      [
+        {
+          input: `true in true`,
+          expected: false,
+        },
+        {
+          input: `true in false`,
+          expected: false,
+        },
+        {
+          input: `true in 0`,
+          expected: false,
+        },
+        {
+          input: `true in 1`,
+          expected: false,
+        },
+        {
+          input: `true in ''`,
+          expected: false,
+        },
+        {
+          input: `true in 'a'`,
+          expected: false,
+        },
+        {
+          input: `true in []`,
+          expected: false,
+        },
+        {
+          input: `true in ['a']`,
+          expected: false,
+        },
+        {
+          input: `false in true`,
+          expected: false,
+        },
+        {
+          input: `false in false`,
+          expected: false,
+        },
+        {
+          input: `0 in 0`,
+          expected: false,
+        },
+        {
+          input: `0 in 1`,
+          expected: false,
+        },
+        {
+          input: `0 in ''`,
+          expected: false,
+        },
+        {
+          input: `0 in '0'`,
+          expected: false,
+        },
+        {
+          input: `0 in []`,
+          expected: false,
+        },
+        {
+          input: `0 in ['0']`,
+          expected: false,
+        },
+        {
+          input: `1 in 0`,
+          expected: false,
+        },
+        {
+          input: `1 in 1`,
+          expected: false,
+        },
+        {
+          input: `1 in ''`,
+          expected: false,
+        },
+        {
+          input: `1 in '1'`,
+          expected: false,
+        },
+        {
+          input: `1 in []`,
+          expected: false,
+        },
+        {
+          input: `1 in ['1']`,
+          expected: false,
+        },
+        {
+          input: `'' in true`,
+          expected: false,
+        },
+        {
+          input: `'' in false`,
+          expected: false,
+        },
+        {
+          input: `'' in 0`,
+          expected: false,
+        },
+        {
+          input: `'' in 1`,
+          expected: false,
+        },
+        {
+          input: `'' in ''`,
+          expected: false,
+        },
+        {
+          input: `'' in '42'`,
+          expected: false,
+        },
+        {
+          input: `'' in ['']`,
+          expected: true,
+        },
+        {
+          input: `'' in ['a']`,
+          expected: false,
+        },
+        {
+          input: `'' in ['','a']`,
+          expected: true,
+        },
+        {
+          input: `'a' in true`,
+          expected: false,
+        },
+        {
+          input: `'a' in false`,
+          expected: false,
+        },
+        {
+          input: `'a' in 0`,
+          expected: false,
+        },
+        {
+          input: `'a' in 1`,
+          expected: false,
+        },
+        {
+          input: `'a' in ''`,
+          expected: false,
+        },
+        {
+          input: `'a' in 'a'`,
+          expected: false,
+        },
+        {
+          input: `'a' in ['']`,
+          expected: false,
+        },
+        {
+          input: `'a' in ['a']`,
+          expected: true,
+        },
+        {
+          input: `'a' in ['','a']`,
+          expected: true,
+        },
+        {
+          input: `'b' in ''`,
+          expected: false,
+        },
+        {
+          input: `'b' in 'a'`,
+          expected: false,
+        },
+        {
+          input: `'b' in 'b'`,
+          expected: false,
+        },
+        {
+          input: `[] in true`,
+          expected: false,
+        },
+        {
+          input: `[] in false`,
+          expected: false,
+        },
+        {
+          input: `[] in 0`,
+          expected: false,
+        },
+        {
+          input: `[] in 42`,
+          expected: false,
+        },
+        {
+          input: `[] in ''`,
+          expected: false,
+        },
+        {
+          input: `[] in 'a'`,
+          expected: false,
+        },
+        {
+          input: `[] in []`,
+          expected: true,
+        },
+        {
+          input: `[] in ['']`,
+          expected: true,
+        },
+        {
+          input: `[] in ['a']`,
+          expected: true,
+        },
+        {
+          input: `[] in ['','a']`,
+          expected: true,
+        },
+        {
+          input: `[''] in true`,
+          expected: false,
+        },
+        {
+          input: `[''] in false`,
+          expected: false,
+        },
+        {
+          input: `[''] in 0`,
+          expected: false,
+        },
+        {
+          input: `[''] in 42`,
+          expected: false,
+        },
+        {
+          input: `[''] in ''`,
+          expected: false,
+        },
+        {
+          input: `[''] in 'a'`,
+          expected: false,
+        },
+        {
+          input: `[''] in []`,
+          expected: false,
+        },
+        {
+          input: `[''] in ['']`,
+          expected: true,
+        },
+        {
+          input: `[''] in ['a']`,
+          expected: false,
+        },
+        {
+          input: `[''] in ['','a']`,
+          expected: true,
+        },
+        {
+          input: `['a'] in true`,
+          expected: false,
+        },
+        {
+          input: `['a'] in false`,
+          expected: false,
+        },
+        {
+          input: `['a'] in 0`,
+          expected: false,
+        },
+        {
+          input: `['a'] in 42`,
+          expected: false,
+        },
+        {
+          input: `['a'] in ''`,
+          expected: false,
+        },
+        {
+          input: `['a'] in 'a'`,
+          expected: false,
+        },
+        {
+          input: `['a'] in []`,
+          expected: false,
+        },
+        {
+          input: `['a'] in ['']`,
+          expected: false,
+        },
+        {
+          input: `['a'] in ['a']`,
+          expected: true,
+        },
+        {
+          input: `['a'] in ['','a']`,
+          expected: true,
+        },
+        {
+          input: `['a',''] in ['','a']`,
+          expected: true,
+        },
+      ]
+    )(
+      'criteria.binary.in($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const criteria = new CriteriaParser(input).tryReadCriteria();
+        expect(criteria).toBeDefined();
+        expect(criteria?.resolve({})).toStrictEqual(expected);
+      },
+    );
   })
 });
