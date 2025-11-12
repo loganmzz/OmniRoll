@@ -1737,5 +1737,623 @@ describe('model/criteria', () => {
         expect(criteria?.resolve({})).toStrictEqual(expected);
       },
     );
+
+    // criteria: Binary operation greater
+    test.each(
+      [
+        {
+          input: `true > true`,
+          expected: false,
+        },
+        {
+          input: `true > false`,
+          expected: true,
+        },
+        {
+          input: `true > 0`,
+          expected: false,
+        },
+        {
+          input: `true > 1`,
+          expected: false,
+        },
+        {
+          input: `true > ''`,
+          expected: false,
+        },
+        {
+          input: `true > 'a'`,
+          expected: false,
+        },
+        {
+          input: `true > []`,
+          expected: false,
+        },
+        {
+          input: `true > ['a']`,
+          expected: false,
+        },
+        {
+          input: `false > true`,
+          expected: false,
+        },
+        {
+          input: `false > false`,
+          expected: false,
+        },
+        {
+          input: `0 > 0`,
+          expected: false,
+        },
+        {
+          input: `0 > 1`,
+          expected: false,
+        },
+        {
+          input: `0 > ''`,
+          expected: false,
+        },
+        {
+          input: `0 > '0'`,
+          expected: false,
+        },
+        {
+          input: `0 > []`,
+          expected: false,
+        },
+        {
+          input: `0 > ['0']`,
+          expected: false,
+        },
+        {
+          input: `1 > 0`,
+          expected: true,
+        },
+        {
+          input: `1 > 1`,
+          expected: false,
+        },
+        {
+          input: `1 > ''`,
+          expected: false,
+        },
+        {
+          input: `1 > '1'`,
+          expected: false,
+        },
+        {
+          input: `1 > []`,
+          expected: false,
+        },
+        {
+          input: `1 > ['1']`,
+          expected: false,
+        },
+        {
+          input: `'' > true`,
+          expected: false,
+        },
+        {
+          input: `'' > false`,
+          expected: false,
+        },
+        {
+          input: `'' > 0`,
+          expected: false,
+        },
+        {
+          input: `'' > 1`,
+          expected: false,
+        },
+        {
+          input: `'' > ''`,
+          expected: false,
+        },
+        {
+          input: `'' > '42'`,
+          expected: false,
+        },
+        {
+          input: `'' > ['']`,
+          expected: false,
+        },
+        {
+          input: `'' > ['a']`,
+          expected: false,
+        },
+        {
+          input: `'' > ['','a']`,
+          expected: false,
+        },
+        {
+          input: `'a' > true`,
+          expected: false,
+        },
+        {
+          input: `'a' > false`,
+          expected: false,
+        },
+        {
+          input: `'a' > 0`,
+          expected: false,
+        },
+        {
+          input: `'a' > 1`,
+          expected: false,
+        },
+        {
+          input: `'a' > ''`,
+          expected: true,
+        },
+        {
+          input: `'a' > 'a'`,
+          expected: false,
+        },
+        {
+          input: `'a' > ['']`,
+          expected: false,
+        },
+        {
+          input: `'a' > ['a']`,
+          expected: false,
+        },
+        {
+          input: `'a' > ['','a']`,
+          expected: false,
+        },
+        {
+          input: `'b' > ''`,
+          expected: true,
+        },
+        {
+          input: `'b' > 'a'`,
+          expected: true,
+        },
+        {
+          input: `'b' > 'b'`,
+          expected: false,
+        },
+        {
+          input: `[] > true`,
+          expected: false,
+        },
+        {
+          input: `[] > false`,
+          expected: false,
+        },
+        {
+          input: `[] > 0`,
+          expected: false,
+        },
+        {
+          input: `[] > 42`,
+          expected: false,
+        },
+        {
+          input: `[] > ''`,
+          expected: false,
+        },
+        {
+          input: `[] > 'a'`,
+          expected: false,
+        },
+        {
+          input: `[] > []`,
+          expected: false,
+        },
+        {
+          input: `[] > ['']`,
+          expected: false,
+        },
+        {
+          input: `[] > ['a']`,
+          expected: false,
+        },
+        {
+          input: `[] > ['','a']`,
+          expected: false,
+        },
+        {
+          input: `[''] > true`,
+          expected: false,
+        },
+        {
+          input: `[''] > false`,
+          expected: false,
+        },
+        {
+          input: `[''] > 0`,
+          expected: false,
+        },
+        {
+          input: `[''] > 42`,
+          expected: false,
+        },
+        {
+          input: `[''] > ''`,
+          expected: true,
+        },
+        {
+          input: `[''] > 'a'`,
+          expected: false,
+        },
+        {
+          input: `[''] > []`,
+          expected: true,
+        },
+        {
+          input: `[''] > ['']`,
+          expected: false,
+        },
+        {
+          input: `[''] > ['a']`,
+          expected: false,
+        },
+        {
+          input: `[''] > ['','a']`,
+          expected: false,
+        },
+        {
+          input: `['a'] > true`,
+          expected: false,
+        },
+        {
+          input: `['a'] > false`,
+          expected: false,
+        },
+        {
+          input: `['a'] > 0`,
+          expected: false,
+        },
+        {
+          input: `['a'] > 42`,
+          expected: false,
+        },
+        {
+          input: `['a'] > ''`,
+          expected: false,
+        },
+        {
+          input: `['a'] > 'a'`,
+          expected: true,
+        },
+        {
+          input: `['a'] > []`,
+          expected: true,
+        },
+        {
+          input: `['a'] > ['']`,
+          expected: false,
+        },
+        {
+          input: `['a'] > ['a']`,
+          expected: false,
+        },
+        {
+          input: `['a'] > ['','a']`,
+          expected: false,
+        },
+        {
+          input: `['a',''] > ['','a']`,
+          expected: false,
+        },
+      ]
+    )(
+      'criteria.binary.greater($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const criteria = new CriteriaParser(input).tryReadCriteria();
+        expect(criteria).toBeDefined();
+        expect(criteria?.resolve({})).toStrictEqual(expected);
+      },
+    );
+
+    // criteria: Binary operation greater or equal
+    test.each(
+      [
+        {
+          input: `true >= true`,
+          expected: true,
+        },
+        {
+          input: `true >= false`,
+          expected: true,
+        },
+        {
+          input: `true >= 0`,
+          expected: false,
+        },
+        {
+          input: `true >= 1`,
+          expected: false,
+        },
+        {
+          input: `true >= ''`,
+          expected: false,
+        },
+        {
+          input: `true >= 'a'`,
+          expected: false,
+        },
+        {
+          input: `true >= []`,
+          expected: false,
+        },
+        {
+          input: `true >= ['a']`,
+          expected: false,
+        },
+        {
+          input: `false >= true`,
+          expected: false,
+        },
+        {
+          input: `false >= false`,
+          expected: true,
+        },
+        {
+          input: `0 >= 0`,
+          expected: true,
+        },
+        {
+          input: `0 >= 1`,
+          expected: false,
+        },
+        {
+          input: `0 >= ''`,
+          expected: false,
+        },
+        {
+          input: `0 >= '0'`,
+          expected: false,
+        },
+        {
+          input: `0 >= []`,
+          expected: false,
+        },
+        {
+          input: `0 >= ['0']`,
+          expected: false,
+        },
+        {
+          input: `1 >= 0`,
+          expected: true,
+        },
+        {
+          input: `1 >= 1`,
+          expected: true,
+        },
+        {
+          input: `1 >= ''`,
+          expected: false,
+        },
+        {
+          input: `1 >= '1'`,
+          expected: false,
+        },
+        {
+          input: `1 >= []`,
+          expected: false,
+        },
+        {
+          input: `1 >= ['1']`,
+          expected: false,
+        },
+        {
+          input: `'' >= true`,
+          expected: false,
+        },
+        {
+          input: `'' >= false`,
+          expected: false,
+        },
+        {
+          input: `'' >= 0`,
+          expected: false,
+        },
+        {
+          input: `'' >= 1`,
+          expected: false,
+        },
+        {
+          input: `'' >= ''`,
+          expected: true,
+        },
+        {
+          input: `'' >= '42'`,
+          expected: false,
+        },
+        {
+          input: `'' >= ['']`,
+          expected: false,
+        },
+        {
+          input: `'' >= ['a']`,
+          expected: false,
+        },
+        {
+          input: `'' >= ['','a']`,
+          expected: false,
+        },
+        {
+          input: `'a' >= true`,
+          expected: false,
+        },
+        {
+          input: `'a' >= false`,
+          expected: false,
+        },
+        {
+          input: `'a' >= 0`,
+          expected: false,
+        },
+        {
+          input: `'a' >= 1`,
+          expected: false,
+        },
+        {
+          input: `'a' >= ''`,
+          expected: true,
+        },
+        {
+          input: `'a' >= 'a'`,
+          expected: true,
+        },
+        {
+          input: `'a' >= ['']`,
+          expected: false,
+        },
+        {
+          input: `'a' >= ['a']`,
+          expected: false,
+        },
+        {
+          input: `'a' >= ['','a']`,
+          expected: false,
+        },
+        {
+          input: `'b' >= ''`,
+          expected: true,
+        },
+        {
+          input: `'b' >= 'a'`,
+          expected: true,
+        },
+        {
+          input: `'b' >= 'b'`,
+          expected: true,
+        },
+        {
+          input: `[] >= true`,
+          expected: false,
+        },
+        {
+          input: `[] >= false`,
+          expected: false,
+        },
+        {
+          input: `[] >= 0`,
+          expected: false,
+        },
+        {
+          input: `[] >= 42`,
+          expected: false,
+        },
+        {
+          input: `[] >= ''`,
+          expected: false,
+        },
+        {
+          input: `[] >= 'a'`,
+          expected: false,
+        },
+        {
+          input: `[] >= []`,
+          expected: true,
+        },
+        {
+          input: `[] >= ['']`,
+          expected: false,
+        },
+        {
+          input: `[] >= ['a']`,
+          expected: false,
+        },
+        {
+          input: `[] >= ['','a']`,
+          expected: false,
+        },
+        {
+          input: `[''] >= true`,
+          expected: false,
+        },
+        {
+          input: `[''] >= false`,
+          expected: false,
+        },
+        {
+          input: `[''] >= 0`,
+          expected: false,
+        },
+        {
+          input: `[''] >= 42`,
+          expected: false,
+        },
+        {
+          input: `[''] >= ''`,
+          expected: true,
+        },
+        {
+          input: `[''] >= 'a'`,
+          expected: false,
+        },
+        {
+          input: `[''] >= []`,
+          expected: true,
+        },
+        {
+          input: `[''] >= ['']`,
+          expected: true,
+        },
+        {
+          input: `[''] >= ['a']`,
+          expected: false,
+        },
+        {
+          input: `[''] >= ['','a']`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= true`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= false`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= 0`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= 42`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= ''`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= 'a'`,
+          expected: true,
+        },
+        {
+          input: `['a'] >= []`,
+          expected: true,
+        },
+        {
+          input: `['a'] >= ['']`,
+          expected: false,
+        },
+        {
+          input: `['a'] >= ['a']`,
+          expected: true,
+        },
+        {
+          input: `['a'] >= ['','a']`,
+          expected: false,
+        },
+        {
+          input: `['a',''] >= ['','a']`,
+          expected: true,
+        },
+      ]
+    )(
+      'criteria.binary.greater_or_equal($input)',
+      ({input, expected}: {input: string, expected: ReturnType<Criteria['resolve']>}) => {
+        const criteria = new CriteriaParser(input).tryReadCriteria();
+        expect(criteria).toBeDefined();
+        expect(criteria?.resolve({})).toStrictEqual(expected);
+      },
+    );
   })
 });

@@ -161,22 +161,28 @@ A `criterion` can be prefixed by `!` to reverse result. And can have the followi
     * `<left>` is `true` and `<right>` is `false`
     * `<left>` is a number strictly greater than `<right>`
     * `<left>` is a string higher in lexicographical order than `<right>` string
-    * `<left>` collection includes `<right>` string or collection
+    * `<left>` collection includes `<right>` string
+    * `<left>` collection includes `<right>` collection but `<left>` has more items
   * `<left> >= <right>`
     * `<left>` is `true` and `<right>` is a boolean
+    * `<left>` is `false` and `<right>` is `false`
     * `<left>` is a number greater or equal to `<right>`
     * `<left>` is a string equal or higher in lexicographical order than `<right>` string
-    * `<left>` collection includes `<right>` string or collection
+    * `<left>` collection includes `<right>` string
+    * `<left>` collection includes `<right>` collection
   * `<left> < <right>`
     * `<left>` is `false` and `<right>` is `true`
     * `<left>` is a number strictly lesser than `<right>`
     * `<left>` is a string lower in lexicographical order than `<right>` string
-    * `<left>` string or collection is included in `<right>` collection
+    * `<left>` string is included in `<right>` collection
+    * `<left>` collection is included in `<right>` collection but `<right>` has more items
   * `<left> <= <right>`
     * `<left>` is a boolean and `<right>` is `true`
+    * `<left>` is `false` and `<right>` is `false`
     * `<left>` is a number lesser or equal to `<right>`
     * `<left>` is a string equal or lower in lexicographical order than `<right>` string
-    * `<left>` string or collection is included in `<right>` collection
+    * `<left>` string is included in `<right>` collection
+    * `<left>` collection is included in `<right>` collection
   * `<left> in <right>`
     * `<left>` string or collection is included in `<right>` collection
 

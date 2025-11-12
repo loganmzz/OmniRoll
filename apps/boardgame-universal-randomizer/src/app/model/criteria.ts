@@ -118,7 +118,7 @@ export class CriterionOperatorIsGreater extends CriterionOperator {
     if (Array.isArray(lvalue) && typeof rvalue === 'string' && lvalue.includes(rvalue)) {
       return true;
     }
-    if (Array.isArray(lvalue) && Array.isArray(rvalue) && new Set(lvalue).isSupersetOf(new Set(rvalue))) {
+    if (Array.isArray(lvalue) && Array.isArray(rvalue) && new Set(lvalue).isSupersetOf(new Set(rvalue)) && lvalue.length > rvalue.length) {
       return true;
     }
     return false;
@@ -131,6 +131,9 @@ export class CriterionOperatorIsGreater extends CriterionOperator {
 export class CriterionOperatorIsGreaterOrEqual extends CriterionOperator {
   override resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean {
     if (lvalue === true && typeof rvalue === 'boolean') {
+      return true;
+    }
+    if (lvalue === false && rvalue === false) {
       return true;
     }
     if (typeof lvalue === 'number' && typeof rvalue === 'number' && lvalue >= rvalue) {
@@ -174,7 +177,7 @@ export class CriterionOperatorIn extends CriterionOperator {
     if (Array.isArray(lvalue) && typeof rvalue === 'string' && lvalue.includes(rvalue)) {
       return true;
     }
-    if (Array.isArray(lvalue) && Array.isArray(rvalue) && new Set(lvalue).isSupersetOf(new Set(rvalue))) {
+    if (Array.isArray(lvalue) && Array.isArray(rvalue) && new Set(lvalue).isSupersetOf(new Set(rvalue)) && lvalue.length < rvalue.length) {
       return true;
     }
     return false;
