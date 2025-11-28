@@ -39,7 +39,7 @@ export class CompiledGame {
   static newFromDataModel(spec: DataModelGame, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledGame, CompiledDataError[]> {
     const compiled = new CompiledGame();
     compiled.key = spec.key;
-    compiled.name = spec.name;
+    compiled.name = spec.name ?? spec.key;
     const errors: CompiledDataError[] = [];
     for (const specSet of spec.sets ?? []) {
       const result = CompiledComponent.fillFromDataModel(compiled.components, new Set(), specSet, location.index('set', specSet.key));
@@ -54,6 +54,7 @@ export class CompiledGame {
 export class CompiledComponent {
   key = '';
   name = '';
+  properties: Record<string, boolean|number|string|string[]> = {};
   sets = new Set<string>();
   kinds = new Set<string>();
 
@@ -88,7 +89,7 @@ export class CompiledComponent {
   static newFromDataModel(parentsSets: Set<string>, kind: string, spec: DataModelComponent, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledComponent, CompiledDataError[]> {
     const compiled = new CompiledComponent();
     compiled.key = spec.key;
-    compiled.name = spec.name;
+    compiled.name = spec.name ?? spec.key;
     compiled.sets = new Set(parentsSets);
     compiled.kinds.add(kind);
     return Result.ok(compiled);
@@ -104,7 +105,7 @@ export class CompiledRandomizer {
   static newFromDataModel(spec: DataModelRandomizer, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizer, CompiledDataError[]> {
     const compiled = new CompiledRandomizer();
     compiled.key = spec.key;
-    compiled.name = spec.name;
+    compiled.name = spec.name ?? spec.key;
     const errors: CompiledDataError[] = [];
     for (const poolSpec of spec.pools ?? []) {
       const result = CompiledRandomizerPool.newFromDataModel(poolSpec, location.index('pool', poolSpec.key));
@@ -155,6 +156,10 @@ export class CompiledRandomizerPool {
     }
     return errors.length === 0 ? Result.ok(compiled) : Result.err(errors);
   }
+
+  test(component: CompiledComponent): boolean {
+    return this.criteria.length === 0 || this.criteria.some(criteria => criteria.resolve(component as unknown as Record<string, unknown>));
+  }
 }
 
 export class CompiledRandomizerSlot {
@@ -185,5 +190,9 @@ export class CompiledRandomizerSlot {
       }
     }
     return errors.length === 0 ? Result.ok(compiled) : Result.err(errors);
+  }
+
+  test(component: CompiledComponent): boolean {
+    return this.criteria.length === 0 || this.criteria.some(criteria => criteria.resolve(component as unknown as Record<string, unknown>));
   }
 }

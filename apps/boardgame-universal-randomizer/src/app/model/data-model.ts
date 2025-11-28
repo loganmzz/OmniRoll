@@ -2,7 +2,7 @@ export type DataModelMergeStategy = 'merge'|'override';
 
 export type DataModelGame = {
   key: string;
-  name: string;
+  name?: string;
   description?: string;
   mergeStrategy?: DataModelMergeStategy;
   updatedAt?: string;
@@ -12,7 +12,7 @@ export type DataModelGame = {
 
 export type DataModelSet = {
   key: string;
-  name: string;
+  name?: string;
   description?: string;
   mergeStrategy?: DataModelMergeStategy;
   updatedAt?: string;
@@ -22,7 +22,7 @@ export type DataModelSet = {
 
 export type DataModelComponent = {
   key: string;
-  name: string;
+  name?: string;
   description?: string;
   properties?: Record<string, boolean|number|string|string[]>;
   mergeStrategy?: DataModelMergeStategy;
@@ -33,7 +33,7 @@ export type DataModelRandomizerPick = 'remove'|'keep';
 
 export type DataModelRandomizer = {
   key: string;
-  name: string;
+  name?: string;
   description?: string;
   pools: DataModelRandomizerPool[];
   slots: DataModelRandomizerSlot[];
@@ -43,12 +43,12 @@ export type DataModelRandomizer = {
 
 export type DataModelRandomizerPool = {
   key: string;
-  criteria: string[];
+  criteria?: string[];
 }
 
 export type DataModelRandomizerSlot = {
   key: string;
   pool: string;
   pick?: DataModelRandomizerPick;
-  criteria: string[];
+  criteria?: string[];
 }
