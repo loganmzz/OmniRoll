@@ -1,5 +1,5 @@
-import { Result } from "./common";
-import { CriteriaParser, CriterionValueProperty, CriterionValueLiteral, CriterionOperatorIsEqual, CriterionOperatorIsDifferent, CriterionOperatorIsGreater, CriterionOperatorIsGreaterOrEqual, CriterionOperatorIn, CriterionOperatorIsLesser, CriterionOperatorIsLesserOrEqual, CriterionUnary, CriterionBinary, Criteria, CriteriaParsingError } from './criteria';
+import { Result } from './common';
+import { Criteria, CriteriaParser, CriteriaParsingError, CriterionBinary, CriterionOperatorIn, CriterionOperatorIsDifferent, CriterionOperatorIsEqual, CriterionOperatorIsGreater, CriterionOperatorIsGreaterOrEqual, CriterionOperatorIsLesser, CriterionOperatorIsLesserOrEqual, CriterionUnary, CriterionValueLiteral, CriterionValueProperty } from './criteria';
 
 describe('model/criteria', () => {
   describe('Parser', () => {
