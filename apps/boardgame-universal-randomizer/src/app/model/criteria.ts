@@ -29,11 +29,16 @@ export abstract class CriterionValue {
       case 'undefined':
         return value;
       case 'object':
-        if (!Array.isArray(value)) {
-          return undefined;
-        }
-        if (value.every(item => typeof item === 'string')) {
+        if (Array.isArray(value) && value.every(item => typeof item === 'string')) {
           return value;
+        }
+        if (value instanceof Set) {
+          for (const item of value) {
+            if (typeof item !== 'string') {
+              return undefined;
+            }
+            return [...value];
+          }
         }
         return undefined;
       default:

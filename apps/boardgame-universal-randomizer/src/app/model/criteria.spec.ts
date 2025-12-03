@@ -1212,14 +1212,19 @@ describe('model/criteria', () => {
       "root-number": 0,
       "root-string": 'a',
       "root-strings": ['b', 'c'],
+      "root-set-string": new Set(['j','k']),
       "root-numbers": [1],
+      "root-set-number": new Set([11]),
 
       "properties-boolean": false,
       "properties-number": 3,
       "properties-string": 'd',
       "properties-strings": ['e','f'],
+      "properties-set-string": new Set(['l', 'm']),
       "properties-numbers": [4],
+      "properties-set-number": new Set([12]),
       "properties-invalid-set": 8,
+      "properties-invalid-set2": 13,
       "properties-undefined": 9,
       "properties-null": 10,
 
@@ -1228,8 +1233,11 @@ describe('model/criteria', () => {
         "properties-number": 5,
         "properties-string": 'g',
         "properties-strings": ['h','i'],
+        "properties-set-string": new Set(['n', 'o']),
         "properties-numbers": [6],
+        "properties-set-number": new Set([14]),
         "properties-invalid-set": [7],
+        "properties-invalid-set2": new Set([15]),
         "properties-undefined": undefined,
         "properties-null": null,
       }
@@ -1259,7 +1267,15 @@ describe('model/criteria', () => {
           expected: ['b', 'c'],
         },
         {
+          property: 'root-set-string',
+          expected: ['j', 'k'],
+        },
+        {
           property: 'root-numbers',
+          expected: undefined,
+        },
+        {
+          property: 'root-set-number',
           expected: undefined,
         },
         {
@@ -1279,11 +1295,23 @@ describe('model/criteria', () => {
           expected: ['h', 'i'],
         },
         {
+          property: 'properties-set-string',
+          expected: ['n', 'o'],
+        },
+        {
           property: 'properties-numbers',
           expected: undefined,
         },
         {
+          property: 'properties-set-number',
+          expected: undefined,
+        },
+        {
           property: 'properties-invalid-set',
+          expected: undefined,
+        },
+        {
+          property: 'properties-invalid-set2',
           expected: undefined,
         },
         {
