@@ -35,6 +35,7 @@ export class CompiledGame {
   key = '';
   name = '';
   components: CompiledComponent[] = [];
+  randomizers: CompiledRandomizer[] = [];
 
   static newFromDataModel(spec: DataModelGame, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledGame, CompiledDataError[]> {
     const compiled = new CompiledGame();
@@ -45,6 +46,15 @@ export class CompiledGame {
       const result = CompiledComponent.fillFromDataModel(compiled.components, new Set(), specSet, location.index('set', specSet.key));
       if (result.err !== undefined) {
         errors.push(...result.err);
+      }
+    }
+    for (const specRandomizer of spec.randomizers ?? []) {
+      const result = CompiledRandomizer.newFromDataModel(specRandomizer, location.index('randomizer', specRandomizer.key));
+      if (result.err !== undefined) {
+        errors.push(...result.err);
+      }
+      if (result.ok !== undefined) {
+        compiled.randomizers.push(result.ok);
       }
     }
     return errors.length === 0 ? Result.ok(compiled) : Result.err(errors);
@@ -65,7 +75,7 @@ export class CompiledComponent {
     const errors: CompiledDataError[] = [];
 
     for (const childSet of spec.sets ?? []) {
-      const result = this.fillFromDataModel(output, sets, childSet);
+      const result = this.fillFromDataModel(output, sets, childSet, location.index('set', childSet.key));
       if (result.err !== undefined) {
         errors.push(...result.err);
       }
@@ -73,7 +83,7 @@ export class CompiledComponent {
     for (const kind in spec.components) {
       const specComponents = spec.components[kind];
       for (const specComponent of specComponents) {
-        const result = this.newFromDataModel(sets, kind, specComponent);
+        const result = this.newFromDataModel(sets, kind, specComponent, location.child(kind).index('components', specComponent.key));
         if (result.ok !== undefined) {
           if (errors.length === 0) {
             output.push(result.ok);
@@ -92,7 +102,16 @@ export class CompiledComponent {
     compiled.name = spec.name ?? spec.key;
     compiled.sets = new Set(parentsSets);
     compiled.kinds.add(kind);
+    compiled.properties = {...spec.properties};
     return Result.ok(compiled);
+  }
+
+  toJSON(): unknown {
+    return {
+      ...this,
+      kinds: [...this.kinds],
+      sets: [...this.sets],
+    };
   }
 }
 
@@ -132,7 +151,7 @@ export class CompiledRandomizer {
 }
 
 export class CompiledRandomizerPool {
-  key: string = '';
+  key = '';
   criteria: Criteria[] = [];
 
   static newFromDataModel(spec: DataModelRandomizerPool, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerPool, CompiledDataError[]> {

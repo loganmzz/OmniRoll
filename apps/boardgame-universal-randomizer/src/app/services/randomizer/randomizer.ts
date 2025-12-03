@@ -13,11 +13,9 @@ export class Randomizer {
       if (shuffled.length < 2) {
         return;
       }
-      for (let i = shuffled.length - 1; i > 0; i++) {
+      for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i+1));
-        const temp  = shuffled[i];
-        shuffled[i] = shuffled[j];
-        shuffled[j] = temp;
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
     };
 
@@ -37,7 +35,7 @@ export class Randomizer {
         }
       }
       shuffle();
-      const picked = shuffled.find(component => (removedFromPool == null || !removedFromPool.has(component.key)) && slot.test(component) && pool.test(component));
+      const picked = shuffled.find(component => (removedFromPool === undefined || !removedFromPool.has(component.key)) && slot.test(component) && pool.test(component));
       if (!picked) {
         throw new Error(`Slot ${JSON.stringify(slot.key)} can't be fulfilled. No left component matching.`);
       }
