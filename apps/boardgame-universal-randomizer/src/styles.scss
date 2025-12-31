@@ -10,13 +10,21 @@
     @apply mx-auto max-w-4xl flex flex-col items-center gap-x-4 rounded-xl p-6 shadow-lg outline outline-black/5;
   }
 
+  button {
+    @apply bg-neutral-700 text-white p-4 rounded-sm hover:cursor-pointer min-w-24;
+  }
+
   .cards {
     @apply grid grid-cols-2 md:grid-cols-4 gap-x-4;
   }
   .card {
-    @apply outline rounded-xl p-3 m-1 aspect-square content-center text-center;
+    @apply relative outline rounded-xl p-3 m-1 aspect-square content-center text-center min-w-24 min-h-24;
   }
   .card-link {
     @apply hover:cursor-pointer hover:animate-pulse hover:text-red-500;
+  }
+  .card > header {
+    @apply absolute top-1 left-1 font-bold;
+
   }
 }

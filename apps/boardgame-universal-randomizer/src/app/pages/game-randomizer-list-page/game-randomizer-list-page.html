@@ -1,0 +1,25 @@
+@let current = data();
+@switch (current.state) {
+  @case ('loading') {
+    <h1>Loading game...</h1>
+  }
+
+  @case ('game_not_found') {
+    <h1>Game {{ current.gameKey }} was not found</h1>
+  }
+
+  @case ('loaded') {
+
+    <h1>{{ current.game.name }} - Random</h1>
+
+    <div class="cards">
+      @for (randomizer of current.game.randomizers; track randomizer.key) {
+        <div class="card card-link" [routerLink]="[randomizer.key]">
+          <div>{{randomizer.name}}</div>
+        </div>
+      }
+    </div>
+
+  }
+}
+
