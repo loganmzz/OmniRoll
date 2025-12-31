@@ -33,11 +33,83 @@ export class Games {
                       key: 'adelheim',
                       name: 'Adelheim',
                     },
+                    {
+                      key: 'brama',
+                      name: 'Brama',
+                    },
                   ],
                   Market: [
                     {
+                      key: 'jade',
+                      name: 'Jade',
+                      properties: {
+                        type: 'gem',
+                        cost: 2
+                      }
+                    },
+                    {
                       key: 'diamond-cluster',
-                      name: 'Diamond Cluster',
+                      name: 'Diamond cluster',
+                      properties: {
+                        type: 'gem',
+                        cost: 4
+                      }
+                    },
+                    {
+                      key: 'burning-opal',
+                      name: 'Burning opal',
+                      properties: {
+                        type: 'gem',
+                        cost: 5
+                      }
+                    },
+                    {
+                      key: 'unstable-prism',
+                      name: 'Unstable prism',
+                      properties: {
+                        type: 'relic',
+                        cost: 3
+                      }
+                    },
+                    {
+                      key: 'blasting-staff',
+                      name: 'Blasting staff',
+                      properties: {
+                        type: 'relic',
+                        cost: 4
+                      }
+                    },
+                    {
+                      key: 'spectral-echo',
+                      name: 'Spectral echo',
+                      properties: {
+                        type: 'spell',
+                        cost: 3
+                      }
+                    },
+                    {
+                      key: 'ignite',
+                      name: 'Ignite',
+                      properties: {
+                        type: 'spell',
+                        cost: 4
+                      }
+                    },
+                    {
+                      key: 'essence-theft',
+                      name: 'Essence theft',
+                      properties: {
+                        type: 'spell',
+                        cost: 5
+                      }
+                    },
+                    {
+                      key: 'chaos-arc',
+                      name: 'Chaos arc',
+                      properties: {
+                        type: 'spell',
+                        cost: 6
+                      }
                     },
                   ],
                 },
@@ -45,6 +117,121 @@ export class Games {
             ],
           },
         ],
+        randomizers: [
+          {
+            key: '2-players',
+            name: 'Two players',
+            pools: [
+              {
+                key: 'nemesis',
+                criteria: [
+                  '@kinds == \'Nemesis\''
+                ]
+              },
+              {
+                key: 'mages',
+                criteria: [
+                  '@kinds == \'Mage\''
+                ]
+              },
+              {
+                key: 'gems',
+                criteria: [
+                  '@kinds == \'Market\' && @type == \'gem\''
+                ]
+              },
+              {
+                key: 'relics',
+                criteria: [
+                  '@kinds == \'Market\' && @type == \'relic\''
+                ]
+              },
+              {
+                key: 'spells',
+                criteria: [
+                  '@kinds == \'Market\' && @type == \'spell\''
+                ]
+              },
+            ],
+            slots: [
+              {
+                key: 'nemesis',
+                pool: 'nemesis'
+              },
+              {
+                key: 'mage1',
+                pool: 'mages'
+              },
+              {
+                key: 'mage2',
+                pool: 'mages'
+              },
+              {
+                key: 'gem1',
+                pool: 'gems',
+                criteria: [
+                  '@cost < 4'
+                ],
+              },
+              {
+                key: 'gem2',
+                pool: 'gems',
+                criteria: [
+                  '@cost == 4'
+                ],
+              },
+              {
+                key: 'gem3',
+                pool: 'gems',
+                criteria: [
+                  '@cost > 4'
+                ],
+              },
+              {
+                key: 'relic1',
+                pool: 'relics',
+                criteria: [
+                  '@cost < 4'
+                ]
+              },
+              {
+                key: 'relic2',
+                pool: 'relics',
+                criteria: [
+                  '@cost >= 4'
+                ]
+              },
+              {
+                key: 'spell1',
+                pool: 'spells',
+                criteria: [
+                  '@cost < 4'
+                ]
+              },
+              {
+                key: 'spell2',
+                pool: 'spells',
+                criteria: [
+                  '@cost == 4'
+                ]
+              },
+              {
+                key: 'spell3',
+                pool: 'spells',
+                criteria: [
+                  '@cost == 5'
+                ]
+              },
+              {
+                key: 'spell4',
+                pool: 'spells',
+                criteria: [
+                  '@cost >= 6'
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         key: 'skytear-horde',

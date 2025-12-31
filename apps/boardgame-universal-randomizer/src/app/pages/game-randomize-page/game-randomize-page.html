@@ -1,0 +1,34 @@
+@let current = data();
+@switch (current.state) {
+  @case ('loading') {
+    <h1>Loading game...</h1>
+  }
+
+  @case ('game_not_found') {
+    <h1>Game {{ current.gameKey }} was not found</h1>
+  }
+
+  @case ('randomizer_not_found') {
+    <h1>Game {{ current.game.name }} has no randomizer {{ current.randomizerKey }}</h1>
+  }
+
+  @case ('loaded') {
+
+    <h1>{{ current.game.name }} - {{ current.randomizer.name }}</h1>
+
+    <ul>
+      <li><button type="button" (click)="roll(current)">Roll</button></li>
+    </ul>
+
+    <div class="cards randomizer-slots">
+      @for (slot of current.slots; track slot.key) {
+        <div class="card">
+          <header>{{slot.title}}</header>
+          <div>{{slot.text}}</div>
+        </div>
+      }
+    </div>
+
+  }
+}
+

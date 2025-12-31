@@ -1,6 +1,8 @@
 import { Route } from '@angular/router';
-import { HomePage } from './pages/home-page/home-page';
 import { GamePage } from './pages/game-page/game-page';
+import { GameRandomizePage } from './pages/game-randomize-page/game-randomize-page';
+import { GameRandomizerListPage } from './pages/game-randomizer-list-page/game-randomizer-list-page';
+import { HomePage } from './pages/home-page/home-page';
 
 export const appRoutes: Route[] = [
   {
@@ -8,7 +10,15 @@ export const appRoutes: Route[] = [
     component: HomePage,
   },
   {
-    path: 'game/:key',
+    path: 'game/:game',
     component: GamePage,
+  },
+  {
+    path: 'game/:game/randomizer',
+    component: GameRandomizerListPage,
+  },
+  {
+    path: 'game/:game/randomizer/:randomizer',
+    component: GameRandomizePage,
   },
 ];

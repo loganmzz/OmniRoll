@@ -3,11 +3,12 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CompiledGame } from '@project/model/compiled';
 import { Games } from '@project/services/games/games';
 
+
 type LoadingState = {
   state: 'loading';
 };
 type GameNotFoundState = {
-  state: 'not_found';
+  state: 'game_not_found';
   gameKey: string;
 };
 type LoadedState = {
@@ -17,15 +18,14 @@ type LoadedState = {
 type PageState = LoadingState | GameNotFoundState | LoadedState;
 
 @Component({
-  selector: 'app-game-page',
+  selector: 'app-game-randomizer-list-page',
   imports: [RouterLink],
-  templateUrl: './game-page.html',
-  styleUrl: './game-page.css',
+  templateUrl: './game-randomizer-list-page.html',
+  styleUrl: './game-randomizer-list-page.css',
 })
-export class GamePage {
+export class GameRandomizerListPage {
   private activatedRoute = inject(ActivatedRoute);
-
-  private gameService = inject(Games);
+  private gameService = inject(Games)
   data = model<PageState>({
     state: 'loading',
   });
@@ -41,7 +41,7 @@ export class GamePage {
     const game = this.gameService.get(key);
     if (game === undefined) {
       this.data.set({
-        state: 'not_found',
+        state: 'game_not_found',
         gameKey: key,
       });
     } else {
