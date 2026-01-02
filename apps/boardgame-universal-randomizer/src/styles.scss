@@ -6,6 +6,10 @@
     @apply text-3xl text-center m-5;
   }
 
+  h2 {
+    @apply text-xl mt-4 mb-2 border-b-2;
+  }
+
   section {
     @apply mx-auto max-w-4xl flex flex-col items-center gap-x-4 rounded-xl p-6 shadow-lg outline outline-black/5;
   }

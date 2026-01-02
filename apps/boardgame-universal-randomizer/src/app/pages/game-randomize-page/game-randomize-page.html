@@ -20,14 +20,17 @@
       <li><button type="button" (click)="roll(current)">Roll</button></li>
     </ul>
 
-    <div class="cards randomizer-slots">
-      @for (slot of current.slots; track slot.key) {
-        <div class="card">
-          <header>{{slot.title}}</header>
-          <div>{{slot.text}}</div>
-        </div>
-      }
-    </div>
+    @for (group of current.groups; track group.key) {
+      <h2>{{ group.title }}</h2>
+      <div class="cards randomizer-slots">
+        @for (slot of group.slots; track slot.key) {
+          <div class="card">
+            <header>{{slot.title}}</header>
+            <div>{{slot.text}}</div>
+          </div>
+        }
+      </div>
+    }
 
   }
 }

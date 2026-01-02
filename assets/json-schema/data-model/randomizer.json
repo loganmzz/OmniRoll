@@ -42,6 +42,24 @@
         }
       }
     },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "key"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*$"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "slots": {
       "type": "array",
       "items": {
@@ -58,6 +76,9 @@
           "pool": {
             "type": "string",
             "pattern": "^[a-z0-9][a-z0-9-]*$"
+          },
+          "group": {
+            "type": "string"
           },
           "pick": {
             "type": "string",

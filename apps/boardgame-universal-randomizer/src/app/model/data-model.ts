@@ -36,6 +36,7 @@ export type DataModelRandomizer = {
   name?: string;
   description?: string;
   pools: DataModelRandomizerPool[];
+  groups?: DataModelRandomizerGroup[];
   slots: DataModelRandomizerSlot[];
   mergeStrategy?: DataModelMergeStategy;
   updatedAt?: string;
@@ -46,9 +47,15 @@ export type DataModelRandomizerPool = {
   criteria?: string[];
 }
 
+export type DataModelRandomizerGroup = {
+  key: string;
+  name?: string;
+}
+
 export type DataModelRandomizerSlot = {
   key: string;
   pool: string;
+  group?: string;
   pick?: DataModelRandomizerPick;
   criteria?: string[];
 }
