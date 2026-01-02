@@ -153,22 +153,48 @@ export class Games {
                 ]
               },
             ],
+            groups: [
+              {
+                key: 'nemesis',
+                name: 'Nemesis',
+              },
+              {
+                key: 'mages',
+                name: 'Mages',
+              },
+              {
+                key: 'gems',
+                name: 'Gems',
+              },
+              {
+                key: 'relics',
+                name: 'Relics',
+              },
+              {
+                key: 'spells',
+                name: 'Spells',
+              },
+            ],
             slots: [
               {
                 key: 'nemesis',
-                pool: 'nemesis'
+                pool: 'nemesis',
+                group: 'nemesis',
               },
               {
                 key: 'mage1',
-                pool: 'mages'
+                pool: 'mages',
+                group: 'mages',
               },
               {
                 key: 'mage2',
-                pool: 'mages'
+                pool: 'mages',
+                group: 'mages',
               },
               {
                 key: 'gem1',
                 pool: 'gems',
+                group: 'gems',
                 criteria: [
                   '@cost < 4'
                 ],
@@ -176,6 +202,7 @@ export class Games {
               {
                 key: 'gem2',
                 pool: 'gems',
+                group: 'gems',
                 criteria: [
                   '@cost == 4'
                 ],
@@ -183,6 +210,7 @@ export class Games {
               {
                 key: 'gem3',
                 pool: 'gems',
+                group: 'gems',
                 criteria: [
                   '@cost > 4'
                 ],
@@ -190,6 +218,7 @@ export class Games {
               {
                 key: 'relic1',
                 pool: 'relics',
+                group: 'relics',
                 criteria: [
                   '@cost < 4'
                 ]
@@ -197,6 +226,7 @@ export class Games {
               {
                 key: 'relic2',
                 pool: 'relics',
+                group: 'relics',
                 criteria: [
                   '@cost >= 4'
                 ]
@@ -204,6 +234,7 @@ export class Games {
               {
                 key: 'spell1',
                 pool: 'spells',
+                group: 'spells',
                 criteria: [
                   '@cost < 4'
                 ]
@@ -211,6 +242,7 @@ export class Games {
               {
                 key: 'spell2',
                 pool: 'spells',
+                group: 'spells',
                 criteria: [
                   '@cost == 4'
                 ]
@@ -218,6 +250,7 @@ export class Games {
               {
                 key: 'spell3',
                 pool: 'spells',
+                group: 'spells',
                 criteria: [
                   '@cost == 5'
                 ]
@@ -225,6 +258,7 @@ export class Games {
               {
                 key: 'spell4',
                 pool: 'spells',
+                group: 'spells',
                 criteria: [
                   '@cost >= 6'
                 ]
@@ -236,6 +270,96 @@ export class Games {
       {
         key: 'skytear-horde',
         name: 'Skytear Horde',
+        sets: [
+          {
+            key: 'skytear-horde-year-1',
+            name: 'Skytear Horde (Year #1)',
+            sets: [
+              {
+                key: 'skytear-horde',
+                name: 'Skytear Horde',
+                components: {
+                  Deck: [
+                    {
+                      key: 'liothan-shapeshifters',
+                      name: 'Liothan Shapeshifters',
+                      properties: {
+                        faction: 'liothan',
+                      },
+                    },
+                    {
+                      key: 'taulot-followers',
+                      name: 'Taulot Followers',
+                      properties: {
+                        faction: 'taulot',
+                      },
+                    },
+                    {
+                      key: 'kurumo-warriors',
+                      name: 'Kurumo Warriors',
+                      properties: {
+                        faction: 'kurumo',
+                      },
+                    },
+                  ],
+                  Horde: [
+                    {
+                      key: 'renegade',
+                      name: 'Renegade',
+                      properties: {
+                        difficulty: 10,
+                      }
+                    },
+                    {
+                      key: 'undead',
+                      name: 'Undead',
+                      properties: {
+                        difficulty: 20,
+                      },
+                    },
+                    {
+                      key: 'predator',
+                      name: 'Predator',
+                      properties: {
+                        difficulty: 30,
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+        randomizers: [
+          {
+            key: 'solo',
+            name: 'Solo',
+            pools: [
+              {
+                key: 'deck',
+                criteria: [
+                  '@kinds == \'Deck\'',
+                ],
+              },
+              {
+                key: 'horde',
+                criteria: [
+                  '@kinds == \'Horde\'',
+                ],
+              },
+            ],
+            slots: [
+              {
+                key: 'Deck',
+                pool: 'deck',
+              },
+              {
+                key: 'Horde',
+                pool: 'horde',
+              },
+            ],
+          },
+        ]
       },
     ];
     for (const model of models) {

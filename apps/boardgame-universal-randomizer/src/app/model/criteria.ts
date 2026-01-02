@@ -51,7 +51,7 @@ export class CriterionValueLiteral extends CriterionValue {
     super();
   }
 
-  override resolve(_context: Record<string, unknown>): CriterionValueOutput {
+  override resolve(): CriterionValueOutput {
     return this.value;
   }
 }

@@ -124,9 +124,13 @@ Each `Randomizer` is defined by:
 * a list of `Pool` (represents selectable components):
   * a unique key (scoped to the `Randomizer`) matching regular expression: `[a-z0-9][a-z0-9-]*`,
   * a list of logical disjunction `Criteria`
+* an optional list of groups:
+  * a unique key (scoped to the `Randomizer`) matching regular expression: `[a-z0-9][a-z0-9-]*`,
+  * a name
 * a list of `Slot` (represents a component to pick):
   * a unique key (scoped to the `Randomizer`) matching regular expression: `[a-z0-9][a-z0-9-]*`,
   * a `Pool` key,
+  * a group key (if and only if there are groups),
   * a pick method:
     * `remove`: remove component from `Pool`, it can't be picked anymore from the same `Pool`,
     * `keep`: component can be picked several times from the same `Pool`,

@@ -1,6 +1,6 @@
 import { Result } from './common';
 import { Criteria, CriteriaParser } from './criteria';
-import { DataModelComponent, DataModelGame, DataModelRandomizer, DataModelRandomizerPick, DataModelRandomizerPool, DataModelRandomizerSlot, DataModelSet } from './data-model';
+import { DataModelComponent, DataModelGame, DataModelRandomizer, DataModelRandomizerGroup, DataModelRandomizerPick, DataModelRandomizerPool, DataModelRandomizerSlot, DataModelSet } from './data-model';
 
 export class CompiledDataLocation {
 
@@ -83,7 +83,7 @@ export class CompiledComponent {
     for (const kind in spec.components) {
       const specComponents = spec.components[kind];
       for (const specComponent of specComponents) {
-        const result = this.newFromDataModel(sets, kind, specComponent, location.child(kind).index('components', specComponent.key));
+        const result = this.newFromDataModel(sets, kind, specComponent);
         if (result.ok !== undefined) {
           if (errors.length === 0) {
             output.push(result.ok);
@@ -96,7 +96,7 @@ export class CompiledComponent {
     return errors.length === 0 ? Result.ok({}) : Result.err(errors);
   }
 
-  static newFromDataModel(parentsSets: Set<string>, kind: string, spec: DataModelComponent, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledComponent, CompiledDataError[]> {
+  static newFromDataModel(parentsSets: Set<string>, kind: string, spec: DataModelComponent): Result<CompiledComponent, CompiledDataError[]> {
     const compiled = new CompiledComponent();
     compiled.key = spec.key;
     compiled.name = spec.name ?? spec.key;
@@ -119,6 +119,7 @@ export class CompiledRandomizer {
   key = '';
   name = '';
   pools: CompiledRandomizerPool[] = [];
+  groups: CompiledRandomizerGroup[] = [];
   slots: CompiledRandomizerSlot[] = [];
 
   static newFromDataModel(spec: DataModelRandomizer, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizer, CompiledDataError[]> {
@@ -136,8 +137,16 @@ export class CompiledRandomizer {
         errors.push(...(result.err ?? []));
       }
     }
+    for (const groupSpec of spec.groups ?? []) {
+      const result = CompiledRandomizerGroup.newFromDataModel(groupSpec);
+      if (result.ok !== undefined) {
+        compiled.groups.push(result.ok);
+      } else {
+        errors.push(...(result.err ?? []));
+      }
+    }
     for (const slotSpec of spec.slots ?? []) {
-      const result = CompiledRandomizerSlot.newFromDataModel(slotSpec, location.index('slot', slotSpec.key));
+      const result = CompiledRandomizerSlot.newFromDataModel(slotSpec, compiled, location.index('slot', slotSpec.key));
       if (result.ok !== undefined) {
         if (errors.length === 0) {
           compiled.slots.push(result.ok);
@@ -181,18 +190,59 @@ export class CompiledRandomizerPool {
   }
 }
 
+export class CompiledRandomizerGroup {
+  key = '';
+  name = '';
+
+  static newFromDataModel(spec: DataModelRandomizerGroup): Result<CompiledRandomizerGroup, CompiledDataError[]> {
+    const compiled = new CompiledRandomizerGroup();
+    compiled.key  = spec.key;
+    compiled.name = spec.name ?? compiled.key;
+    return Result.ok(compiled);
+  }
+}
+
 export class CompiledRandomizerSlot {
   key = '';
   pool = '';
+  group: string|undefined = undefined;
   pick: DataModelRandomizerPick = 'remove';
   criteria: Criteria[] = [];
 
-  static newFromDataModel(spec: DataModelRandomizerSlot, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerSlot, CompiledDataError[]> {
+  static newFromDataModel(spec: DataModelRandomizerSlot, parent: CompiledRandomizer|undefined, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerSlot, CompiledDataError[]> {
+    const errors: CompiledDataError[] = [];
     const compiled = new CompiledRandomizerSlot();
+
     compiled.key = spec.key;
     compiled.pool = spec.pool;
+
+    compiled.group = spec.group;
+    if (parent !== undefined) {
+      if (parent.groups.length > 0) {
+        if (!compiled.group) {
+          errors.push(new CompiledDataError(
+            location.child('group'),
+            `group is required. Must be One of: ${parent.groups.map(g => g.key).join(`, `)}`,
+          ));
+        } else {
+          if (!parent.groups.some(g => g.key === compiled.group)) {
+            errors.push(new CompiledDataError(
+              location.child('group'),
+              `group ${JSON.stringify(compiled.group)} is invalid. Must be One of: ${parent.groups.map(g => g.key).join(`, `)}`,
+            ));
+          }
+        }
+      } else {
+        if (compiled.group) {
+          errors.push(new CompiledDataError(
+            location.child('group'),
+            `group ${JSON.stringify(compiled.group)} is provided but none is expected`,
+          ));
+        }
+      }
+    }
+
     compiled.pick = spec.pick ?? compiled.pick;
-    const errors: CompiledDataError[] = [];
     const specCriteriaList = spec.criteria ?? [];
     for (let i = 0; i < specCriteriaList.length; i++) {
       const specCriteria = specCriteriaList[i];

@@ -20,6 +20,15 @@ type LoadedState = {
   state: 'loaded';
   game: CompiledGame;
   randomizer: CompiledRandomizer;
+  groups: {
+    key: string;
+    title: string;
+    slots: {
+      key: string;
+      title: string;
+      text: string;
+    }[];
+  }[];
   slots: {
     key: string;
     title: string;
@@ -68,16 +77,38 @@ export class GameRandomizePage {
           randomizerKey,
         });
       } else {
-        this.data.set({
+        const loadedState: LoadedState = {
           state: 'loaded',
           game,
           randomizer,
-          slots: randomizer.slots.map(slot => ({
+          groups: randomizer.groups.map(g => ({
+            key: g.key,
+            title: g.name,
+            slots: [],
+          })),
+          slots: [],
+        };
+        for (const slot of randomizer.slots) {
+          const groupKey = slot.group ?? '';
+          let group = loadedState.groups.find(g => g.key === groupKey);
+          if (group === undefined) {
+            group = {
+              key: groupKey,
+              title: groupKey,
+              slots: [],
+            };
+            loadedState.groups.push(group);
+          }
+          group.slots.push({
             key: slot.key,
             title: slot.key,
             text: '',
-          })),
-        });
+          });
+        }
+        for (const group of loadedState.groups) {
+          loadedState.slots.push(...group.slots);
+        }
+        this.data.set(loadedState);
       }
     }
   }
