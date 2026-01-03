@@ -1,8 +1,11 @@
-import { Route } from '@angular/router';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, Route } from '@angular/router';
+import { CompiledGame } from './model/compiled';
+import { GameHomePage } from './pages/game-home-page/game-home-page';
 import { GamePage } from './pages/game-page/game-page';
 import { GameRandomizePage } from './pages/game-randomize-page/game-randomize-page';
-import { GameRandomizerListPage } from './pages/game-randomizer-list-page/game-randomizer-list-page';
 import { HomePage } from './pages/home-page/home-page';
+import { Games } from './services/games/games';
 
 export const appRoutes: Route[] = [
   {
@@ -12,13 +15,31 @@ export const appRoutes: Route[] = [
   {
     path: 'game/:game',
     component: GamePage,
-  },
-  {
-    path: 'game/:game/randomizer',
-    component: GameRandomizerListPage,
-  },
-  {
-    path: 'game/:game/randomizer/:randomizer',
-    component: GameRandomizePage,
+    resolve: {
+      game: (route: ActivatedRouteSnapshot) => {
+        const gameService = inject(Games);
+        const gameKey = route.paramMap.get('game') ?? '<unknown>';
+        const game = gameService.get(gameKey);
+        return game;
+      },
+    },
+    children: [
+      {
+        path: '',
+        component: GameHomePage,
+      },
+      {
+        path: 'randomizer/:randomizer',
+        component: GameRandomizePage,
+        resolve: {
+          randomizer: (route: ActivatedRouteSnapshot) => {
+            const randomizerKey = route.paramMap.get('randomizer');
+            const game = route.parent?.data['game'] as CompiledGame;
+            const randomizer = game.randomizers.find(r => r.key === randomizerKey);
+            return randomizer;
+          }
+        }
+      },
+    ],
   },
 ];

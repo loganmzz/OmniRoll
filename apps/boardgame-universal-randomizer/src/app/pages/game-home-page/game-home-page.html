@@ -1,0 +1,12 @@
+@let current = game();
+
+<h1>{{ current.name }}</h1>
+
+<h2>Randomizers</h2>
+<div class="cards">
+  @for (randomizer of current.randomizers; track randomizer.key) {
+    <div class="card card-link" [routerLink]="['randomizer', randomizer.key]">
+      <div>{{randomizer.name}}</div>
+    </div>
+  }
+</div>
