@@ -1,7 +1,7 @@
 import { Component, inject, model, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
-import { Games } from '@project/services/games/games';
 import { CompiledGame } from '@project/model/compiled';
+import { Games } from '@project/services/games/games';
 
 @Component({
   selector: 'app-home-page',
@@ -14,7 +14,8 @@ export class HomePage implements OnInit {
 
   games = model<CompiledGame[]>([]);
 
-  ngOnInit() {
-    this.games.update(() => this.gameService.list());
+  async ngOnInit() {
+    const games = await this.gameService.list();
+    this.games.update(() => games);
   }
 }
