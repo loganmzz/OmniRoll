@@ -16,10 +16,10 @@ export const appRoutes: Route[] = [
     path: 'game/:game',
     component: GamePage,
     resolve: {
-      game: (route: ActivatedRouteSnapshot) => {
+      game: async (route: ActivatedRouteSnapshot) => {
         const gameService = inject(Games);
         const gameKey = route.paramMap.get('game') ?? '<unknown>';
-        const game = gameService.get(gameKey);
+        const game = await gameService.get(gameKey);
         return game;
       },
     },
