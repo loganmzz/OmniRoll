@@ -25,7 +25,7 @@ describe('service/randomizer', () => {
       });
       test('select 1', () => {
         const model: DataModelRandomizer = {
-          key: 'select 1',
+          key: 'select-1',
           pools: [
             {
               key: 'all',
@@ -49,9 +49,9 @@ describe('service/randomizer', () => {
         ).toEqual(expected);
       });
 
-      test('select 2', () => {
+      test('select-2', () => {
         const model: DataModelRandomizer = {
-          key: 'select 2',
+          key: 'select-2',
           pools: [
             {
               key: 'all',
@@ -105,9 +105,9 @@ describe('service/randomizer', () => {
           ],
         }
       });
-      test('select 1', () => {
+      test('select-1', () => {
         const model: DataModelRandomizer = {
-          key: 'select 1',
+          key: 'select-1',
           pools: [
             {
               key: 'all',
@@ -130,9 +130,9 @@ describe('service/randomizer', () => {
           toKey(randomizer.randomize(components, compiled))
         ).toMatchObject(expected);
       });
-      test('select 10 x 100', () => {
+      test('select-10-x-100', () => {
         const model: DataModelRandomizer = {
-          key: 'select 10 x 100',
+          key: 'select-10-x-100',
           pools: [
             {
               key: 'all',
@@ -164,9 +164,9 @@ describe('service/randomizer', () => {
           ).toMatchObject(expected);
         }
       });
-      test('pick 3 x 100', () => {
+      test('pick-3-x-100', () => {
         const model: DataModelRandomizer = {
-          key: 'pick 3 x 100',
+          key: 'pick-3-x-100',
           pools: [
             {
               key: 'all',
@@ -283,7 +283,7 @@ describe('service/randomizer', () => {
         ],
         randomizers: [
           {
-            key: 'standard 2-players',
+            key: '2-players',
             pools: [
               {
                 key: 'nemesis',
@@ -398,8 +398,8 @@ describe('service/randomizer', () => {
       };
       const compiled = CompiledGame.newFromDataModel(model).expect();
 
-      test('standard 2-players', () => {
-        const rand = compiled.randomizers.find(r => r.key === 'standard 2-players');
+      test('2-players', () => {
+        const rand = compiled.randomizers.find(r => r.key === '2-players');
         if (rand === undefined) {
           throw new Error(`Randomizer "standard 2-players" not found`);
         }

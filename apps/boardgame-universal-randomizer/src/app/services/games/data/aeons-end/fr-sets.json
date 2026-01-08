@@ -1,0 +1,470 @@
+{
+  "key": "fr-set",
+  "name": "FR",
+  "sets": [
+    {
+      "key": "fr-group-0-wave-1-fr-ae",
+      "name": "1 - Aeon's End",
+      "sets": [
+        {
+          "key": "fr-ae",
+          "name": "Aeon's End",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "fr-nemesis-carapacequeen",
+                "name": "Reine Carapace"
+              },
+              {
+                "key": "fr-nemesis-crookedmask",
+                "name": "Masque Tordu"
+              },
+              {
+                "key": "fr-nemesis-princeofgluttons",
+                "name": "Prince des Gloutons"
+              },
+              {
+                "key": "fr-nemesis-rageborne",
+                "name": "Rage Incarnée"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "fr-mage-adelheim",
+                "name": "Adelheim"
+              },
+              {
+                "key": "fr-mage-brama",
+                "name": "Brama"
+              },
+              {
+                "key": "fr-mage-jian",
+                "name": "Jian"
+              },
+              {
+                "key": "fr-mage-kadir",
+                "name": "Kadir"
+              },
+              {
+                "key": "fr-mage-lash",
+                "name": "Lash"
+              },
+              {
+                "key": "fr-mage-mist",
+                "name": "Mist"
+              },
+              {
+                "key": "fr-mage-phaedraxa",
+                "name": "Phaedraxa"
+              },
+              {
+                "key": "fr-mage-xaxos",
+                "name": "Xaxos"
+              }
+            ],
+            "Card": [
+              {
+                "key": "fr-diamondcluster",
+                "name": "Agrégat de diamants",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "fr-chaosarc",
+                "name": "Arc chaotique",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "fr-ignite",
+                "name": "Mise à feu",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "fr-essencetheft",
+                "name": "Vol d'essence",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "fr-searingruby",
+                "name": "Rubis fulgurant",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "fr-ferallightning",
+                "name": "Éclair enragé",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "fr-planarinsight",
+                "name": "Aperçu planaire",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "fr-spectralecho",
+                "name": "Écho spectral",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "fr-burningopal",
+                "name": "Opale brûlante",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "fr-consumingvoid",
+                "name": "Vide dévorant",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "fr-unstableprism",
+                "name": "Prisme instable",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "fr-cloudedsapphire",
+                "name": "Saphir nuageux",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "fr-magestalisman",
+                "name": "Talisman de mage",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "fr-flexingdagger",
+                "name": "Dague fléchissante",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 2
+                }
+              },
+              {
+                "key": "fr-lavatendril",
+                "name": "Tentacule de lave",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "fr-bottledvortex",
+                "name": "Vortex en bouteille",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "fr-arcanenexus",
+                "name": "Nexus des arcanes",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "fr-darkfire",
+                "name": "Feu obscur",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "fr-phoenixflame",
+                "name": "Flamme du phénix",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "fr-jade",
+                "name": "Jade",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 2
+                }
+              },
+              {
+                "key": "fr-amplifyvision",
+                "name": "Vision amplifiée",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "fr-vriswoodamber",
+                "name": "Ambre de V'risbois",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "fr-blastingstaff",
+                "name": "Bâton d'explosion",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "fr-sifterspearl",
+                "name": "Perle filtrante",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "fr-wildfirewhip",
+                "name": "Fouet ardent",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "fr-focusingorb",
+                "name": "Orbre de stabilisation",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "fr-oblivionswell",
+                "name": "Vague d'oubli",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "fr-depths",
+          "name": "Les Profondeurs",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "fr-nemesis-hordecrone",
+                "name": "La Mégère"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "fr-mage-nym",
+                "name": "Nym"
+              },
+              {
+                "key": "fr-mage-reeve",
+                "name": "Reeve"
+              },
+              {
+                "key": "fr-mage-zhana",
+                "name": "Z'hana"
+              }
+            ],
+            "Card": [
+              {
+                "key": "fr-voidbond",
+                "name": "Lien du vide",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "fr-combustion",
+                "name": "Combustion",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "fr-vimdynamo",
+                "name": "Dynamo de vigueur",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "fr-disintegratingscythe",
+                "name": "Faux de désintégration",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "fr-monstrousinferno",
+                "name": "Brasier monstrueux",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 8
+                }
+              },
+              {
+                "key": "fr-devouringshadow",
+                "name": "Ombre dévorante",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "fr-banishingtopaz",
+                "name": "Topaze de bannissement",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "fr-transmogrifier",
+                "name": "Transmogriffeur",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "fr-nameless",
+          "name": "Les Sans-Noms",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "fr-nemesis-blightlord",
+                "name": "Seigneur de la Désolation"
+              },
+              {
+                "key": "fr-nemesis-waywardone",
+                "name": "L'Egaré"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "fr-mage-malastar",
+                "name": "Malastar"
+              }
+            ],
+            "Card": [
+              {
+                "key": "fr-moltenhammer",
+                "name": "Marteau en fusion",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "fr-radiance",
+                "name": "Radiance",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 8
+                }
+              },
+              {
+                "key": "fr-blaze",
+                "name": "Flamber",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "fr-scryingbolt",
+                "name": "Eclair de prophétie",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "fr-sagesbrand",
+                "name": "La marque du sage",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "fr-leechingagate",
+                "name": "Agate sangsue",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "fr-temporalhelix",
+                "name": "Spirale temporelle",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 7
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "fr-group-2-wave-2-fr-we",
+      "name": "2 - Guerre éternelle",
+      "sets": [
+        {
+          "key": "fr-we",
+          "name": "Guerre éternelle"
+        }
+      ]
+    }
+  ]
+}

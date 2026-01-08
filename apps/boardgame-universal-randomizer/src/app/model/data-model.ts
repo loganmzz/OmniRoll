@@ -1,3 +1,5 @@
+export const KeyPattern = /^[a-z0-9][a-z0-9_-]*$/;
+
 export type DataModelMergeStategy = 'merge'|'override';
 
 export type DataModelGame = {
@@ -54,6 +56,7 @@ export type DataModelRandomizerGroup = {
 
 export type DataModelRandomizerSlot = {
   key: string;
+  name?: string;
   pool: string;
   group?: string;
   pick?: DataModelRandomizerPick;

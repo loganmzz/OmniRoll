@@ -17,14 +17,17 @@ export class Result<T,E> {
   static ok<T,E>(ok: T): Result<T,E> {
     return new Result<T,E>(ok, undefined);
   }
-  static err<T,E>(err: E): Result<T,E> {
-    return new Result<T,E>(undefined, err);
+  static err<T,E>(err: E, ok?: T): Result<T,E> {
+    return new Result<T,E>(ok, err);
   }
 
   toString(): string {
-    if (this.ok !== undefined) {
-      return `Ok(${this.ok})`;
+    if (this.err !== undefined) {
+      if (this.ok !== undefined) {
+        return `Partial(${this.ok}, ${this.err})`;
+      }
+      return `Err(${this.err})`;
     }
-    return `Err(${this.err})`;
+    return `Ok(${this.ok})`;
   }
 }

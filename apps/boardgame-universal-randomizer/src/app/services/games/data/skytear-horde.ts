@@ -84,11 +84,13 @@ export const skytearhorde: Record<string, () => DataModelGame> = {
           ],
           slots: [
             {
-              key: 'Deck',
+              key: 'deck',
+              name: 'Deck',
               pool: 'deck',
             },
             {
-              key: 'Horde',
+              key: 'horde',
+              name: 'Horde',
               pool: 'horde',
             },
           ],
