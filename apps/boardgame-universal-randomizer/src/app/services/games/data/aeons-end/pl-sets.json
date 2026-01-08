@@ -1,0 +1,1046 @@
+{
+  "key": "pl-set",
+  "name": "PL",
+  "sets": [
+    {
+      "key": "pl-group-0-wave-1-pl-ae",
+      "name": "1 - Aeons End",
+      "sets": [
+        {
+          "key": "pl-ae",
+          "name": "Aeons End",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "pl-nemesis-carapacequeen",
+                "name": "Królowa Roju"
+              },
+              {
+                "key": "pl-nemesis-crookedmask",
+                "name": "Maska Kłamstw"
+              },
+              {
+                "key": "pl-nemesis-princeofgluttons",
+                "name": "Książę Pożeraczy"
+              },
+              {
+                "key": "pl-nemesis-rageborne",
+                "name": "Gnieworodny"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "pl-mage-adelheim",
+                "name": "Adelheim"
+              },
+              {
+                "key": "pl-mage-brama",
+                "name": "Brima"
+              },
+              {
+                "key": "pl-mage-jian",
+                "name": "Jian"
+              },
+              {
+                "key": "pl-mage-kadir",
+                "name": "Kadir"
+              },
+              {
+                "key": "pl-mage-lash",
+                "name": "Lash"
+              },
+              {
+                "key": "pl-mage-mist",
+                "name": "Mist"
+              },
+              {
+                "key": "pl-mage-phaedraxa",
+                "name": "Phaedraxa"
+              },
+              {
+                "key": "pl-mage-xaxos",
+                "name": "Xaxos"
+              }
+            ],
+            "Card": [
+              {
+                "key": "pl-diamondcluster",
+                "name": "Skupisko Diamentów",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-chaosarc",
+                "name": "Arka Chaosu",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-ignite",
+                "name": "Podpalenie",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-essencetheft",
+                "name": "Kradzież Świadomości",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-searingruby",
+                "name": "Ognisty Rubin",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-ferallightning",
+                "name": "Dziki Piorun",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-planarinsight",
+                "name": "Zmysł Wymiarów",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-spectralecho",
+                "name": "Upiorny Pogłos",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-burningopal",
+                "name": "Płonący Opal",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-consumingvoid",
+                "name": "Nieokiełznana Czeluść",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "pl-unstableprism",
+                "name": "Niestabilny Pryzmat",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-cloudedsapphire",
+                "name": "Przyćmiony Szafir",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-magestalisman",
+                "name": "Amulet Maga",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-flexingdagger",
+                "name": "Zakrzywiony Sztylet",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 2
+                }
+              },
+              {
+                "key": "pl-lavatendril",
+                "name": "Pnącze Magmy",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-bottledvortex",
+                "name": "Wir w Butelce",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-arcanenexus",
+                "name": "Nieprzeniknione Ogniwo",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "pl-darkfire",
+                "name": "Mroczny Płomień",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-phoenixflame",
+                "name": "Płomień Feniksa",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-jade",
+                "name": "Jadeit",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 2
+                }
+              },
+              {
+                "key": "pl-amplifyvision",
+                "name": "Poszerzone widzenie",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-vriswoodamber",
+                "name": "Bursztyn Vriswood",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-blastingstaff",
+                "name": "Kostur Spustoszenia",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-sifterspearl",
+                "name": "Perła Poławiacza",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-wildfirewhip",
+                "name": "Ognisty Bicz",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-focusingorb",
+                "name": "Kula Wzmocnienia",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-oblivionswell",
+                "name": "Mistrz Zapomnienia",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "pl-depths",
+          "name": "Czeluście",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "pl-nemesis-hordecrone",
+                "name": "Wiedźma Hordy"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "pl-mage-nym",
+                "name": "Nym"
+              },
+              {
+                "key": "pl-mage-reeve",
+                "name": "Reeve"
+              },
+              {
+                "key": "pl-mage-zhana",
+                "name": "Zhana"
+              }
+            ],
+            "Card": [
+              {
+                "key": "pl-voidbond",
+                "name": "Więź z Otchłanią",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-combustion",
+                "name": "Seryjny Zapłon",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-vimdynamo",
+                "name": "Dynamo Vim",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-disintegratingscythe",
+                "name": "Kosa Dezintegracji",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "pl-monstrousinferno",
+                "name": "Piekielna Nawałnica",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 8
+                }
+              },
+              {
+                "key": "pl-devouringshadow",
+                "name": "Pożerający Cień",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-banishingtopaz",
+                "name": "Wypędzający Topaz",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-transmogrifier",
+                "name": "Transmutator",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "pl-nameless",
+          "name": "Bezimienni",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "pl-nemesis-blightlord",
+                "name": "Władca Plagi"
+              },
+              {
+                "key": "pl-nemesis-waywardone",
+                "name": "Marnotrawny"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "pl-mage-malastar",
+                "name": "Malastar"
+              }
+            ],
+            "Card": [
+              {
+                "key": "pl-moltenhammer",
+                "name": "Roztapiający Młot",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-radiance",
+                "name": "Luminacja",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 8
+                }
+              },
+              {
+                "key": "pl-blaze",
+                "name": "Płomień",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-scryingbolt",
+                "name": "Uderzenie Wróżby",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-sagesbrand",
+                "name": "Piętno Mędrca",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "pl-leechingagate",
+                "name": "Wysysający Agat",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-temporalhelix",
+                "name": "Spirala Czasoprzestrzenna",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 7
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "pl-group-2-wave-2-pl-we",
+      "name": "2 - Wieczna Wojna",
+      "sets": [
+        {
+          "key": "pl-we",
+          "name": "Wieczna Wojna",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "pl-nemesis-gatewitch",
+                "name": "Megiera Bram"
+              },
+              {
+                "key": "pl-nemesis-hollowcrown",
+                "name": "Pani Pustej Korony"
+              },
+              {
+                "key": "pl-nemesis-magusofcloaks",
+                "name": "Arcymag Zasłony"
+              },
+              {
+                "key": "pl-nemesis-umbratitan",
+                "name": "Mroczny Tytan"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "pl-mage-dezmodia",
+                "name": "Dezmodia"
+              },
+              {
+                "key": "pl-mage-garu",
+                "name": "Garu"
+              },
+              {
+                "key": "pl-mage-gex",
+                "name": "Gex"
+              },
+              {
+                "key": "pl-mage-mazahaedron",
+                "name": "Mazahaedron"
+              },
+              {
+                "key": "pl-mage-mistwe",
+                "name": "MistWE"
+              },
+              {
+                "key": "pl-mage-quilius",
+                "name": "Quilius"
+              },
+              {
+                "key": "pl-mage-ulgimor",
+                "name": "Ulgimor"
+              },
+              {
+                "key": "pl-mage-yanmagda",
+                "name": "Yan Magda"
+              }
+            ],
+            "Card": [
+              {
+                "key": "pl-erraticingot",
+                "name": "Nieregularny Monokryształ",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-reducetoash",
+                "name": "Spopielające Cienie",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "pl-vortexgauntlet",
+                "name": "Rękawica Wiru Magii",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-carbonize",
+                "name": "Zwęglenie",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-equilibrium",
+                "name": "Equilibrium",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "pl-volcanicglass",
+                "name": "Szkło Wulkaniczne",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-convectionfield",
+                "name": "Sfera Konwekcji",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-jaggedlightning",
+                "name": "Postrzępiona Błyskawica",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-bloodstonejewel",
+                "name": "Krwawy Klejnot",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-kindle",
+                "name": "Iskrzenie",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-thoughtformfamiliar",
+                "name": "Myślokształtny Chowaniec",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-crystallize",
+                "name": "Krystalizacja",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 8
+                }
+              },
+              {
+                "key": "pl-fierytorrent",
+                "name": "Ognisty Szturm",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-celestialspire",
+                "name": "Iglica Świętego Ognia",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-conjurethelost",
+                "name": "Przywołanie Zagubionych Dusz",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-novaforge",
+                "name": "Kuźnia Energetyczna",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-dreaddiamond",
+                "name": "Brylant Grozy",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-cairncompass",
+                "name": "Kompas z Kamiennego Kręgu",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-scoriaslag",
+                "name": "Szlaka Skorii",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-breachore",
+                "name": "Ruda Bram",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-fiendcatcher",
+                "name": "Bestiołap",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-pyrotechnicsurge",
+                "name": "Fala Pirotechniczna",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-aurora",
+                "name": "Zorza",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-conclavescroll",
+                "name": "Zwój Konklawe",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-primordialfetish",
+                "name": "Pierwotny Fetysz",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-frozenmagmite",
+                "name": "Zamarznięty Melafir",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-magestotem",
+                "name": "Totem Maga",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 2
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "pl-od",
+          "name": "Niezbadany Mrok",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "pl-nemesis-thricedeadprophet",
+                "name": "Trzykroć-Martwy Prorok"
+              },
+              {
+                "key": "pl-nemesis-wraithmonger",
+                "name": "Snopijca"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "pl-mage-indira",
+                "name": "Indira"
+              },
+              {
+                "key": "pl-mage-remnant",
+                "name": "Remnant"
+              }
+            ],
+            "Card": [
+              {
+                "key": "pl-char",
+                "name": "Zwęglenie",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 8
+                }
+              },
+              {
+                "key": "pl-alienelement",
+                "name": "Obcy Pierwiastek",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-scorch",
+                "name": "Przypiekanie",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-pyromancy",
+                "name": "Piromancja",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "pl-feedbackaura",
+                "name": "Aura Zwrotna",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-catalyst",
+                "name": "Katalizator",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-painstone",
+                "name": "Kamień Bólu",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-astralcube",
+                "name": "Astralny Sześcian",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-riddlesphere",
+                "name": "Zagadkosfera",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-netherconduit",
+                "name": "Podziemna Więź",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "pl-hauntedberylite",
+                "name": "Skarabeusz w Bursztynie",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "pl-tv",
+          "name": "Otchłań",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "pl-nemesis-knightofshackles",
+                "name": "Rycerz Kajdan"
+              },
+              {
+                "key": "pl-nemesis-maidenofthorns",
+                "name": "Panna Cierni"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "pl-mage-sparrow",
+                "name": "Sparrow"
+              },
+              {
+                "key": "pl-mage-xaxostv",
+                "name": "XaxosTV"
+              }
+            ],
+            "Card": [
+              {
+                "key": "pl-fossilizedscarab",
+                "name": "Nawiedzony Beryl",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-thermaldart",
+                "name": "Termiczny Grot",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-resonate",
+                "name": "Rezonans",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-conflagration",
+                "name": "Pożoga",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-dimensionalkey",
+                "name": "Klucz do Wymiarów",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 8
+                }
+              },
+              {
+                "key": "pl-innerfire",
+                "name": "Wewnętrzny Żar",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 2
+                }
+              },
+              {
+                "key": "pl-fulminate",
+                "name": "Ognisty piorun",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-eternitycharm",
+                "name": "Powab Wieczności",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "pl-group-4-pl-promos",
+      "name": "Promos",
+      "sets": [
+        {
+          "key": "pl-promos",
+          "name": "Promos",
+          "components": {
+            "Nemesis": [],
+            "Mage": [],
+            "Card": [
+              {
+                "key": "pl-drowninflames",
+                "name": "Utonięcie w Płomieniach",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-fleetingvision",
+                "name": "Fleeting Vision",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-splintermissile",
+                "name": "Splinter Missile",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-echostone",
+                "name": "Echo Stone",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-thievingspirit",
+                "name": "Thieving Spirit",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "pl-fracturedquartz",
+                "name": "Fractured Quartz",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-rocklauncher",
+                "name": "Rock Launcher",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "pl-abacusofignition",
+                "name": "Abacus of Ignition",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "pl-illuminatingflame",
+                "name": "Illuminating Flame",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "pl-chronalarc",
+                "name": "Chronal Arc",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

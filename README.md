@@ -72,7 +72,7 @@ This the first context selected by user. `Game` firstly defines available `Compo
 
 Each `Game` is defined by:
 
-* a unique key matching regular expression: `[a-z0-9][a-z0-9-]*`,
+* a unique key matching regular expression: `[a-z0-9][a-z0-9_-]*`,
 * a name,
 * a description,
 * a list of `Sets`,
@@ -129,6 +129,7 @@ Each `Randomizer` is defined by:
   * a name
 * a list of `Slot` (represents a component to pick):
   * a unique key (scoped to the `Randomizer`) matching regular expression: `[a-z0-9][a-z0-9-]*`,
+  * a name
   * a `Pool` key,
   * a group key (if and only if there are groups),
   * a pick method:

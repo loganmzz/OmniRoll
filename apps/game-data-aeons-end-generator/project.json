@@ -1,0 +1,95 @@
+{
+  "name": "game-data-aeons-end-generator",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/game-data-aeons-end-generator/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/game-data-aeons-end-generator",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/game-data-aeons-end-generator/src/main.ts",
+        "tsConfig": "apps/game-data-aeons-end-generator/tsconfig.app.json",
+        "assets": ["apps/game-data-aeons-end-generator/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "prune-lockfile": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "executor": "@nx/js:prune-lockfile",
+      "outputs": [
+        "{workspaceRoot}/dist/apps/game-data-aeons-end-generator/package.json",
+        "{workspaceRoot}/dist/apps/game-data-aeons-end-generator/package-lock.json"
+      ],
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "copy-workspace-modules": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "outputs": [
+        "{workspaceRoot}/dist/apps/game-data-aeons-end-generator/workspace_modules"
+      ],
+      "executor": "@nx/js:copy-workspace-modules",
+      "options": {
+        "buildTarget": "build"
+      }
+    },
+    "prune": {
+      "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
+      "executor": "nx:noop"
+    },
+    "serve": {
+      "continuous": false,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "watch": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "game-data-aeons-end-generator:build:development"
+        },
+        "production": {
+          "buildTarget": "game-data-aeons-end-generator:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/game-data-aeons-end-generator/jest.config.cts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

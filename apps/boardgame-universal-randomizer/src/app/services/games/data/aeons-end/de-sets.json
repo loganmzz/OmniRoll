@@ -1,0 +1,1070 @@
+{
+  "key": "de-set",
+  "name": "DE",
+  "sets": [
+    {
+      "key": "de-group-0-wave-1-de-ae",
+      "name": "1 - Aeons End",
+      "sets": [
+        {
+          "key": "de-ae",
+          "name": "Aeons End",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "de-nemesis-carapacequeen",
+                "name": "Carapax-Königin"
+              },
+              {
+                "key": "de-nemesis-crookedmask",
+                "name": "König der Masken"
+              },
+              {
+                "key": "de-nemesis-princeofgluttons",
+                "name": "Der Unersättliche"
+              },
+              {
+                "key": "de-nemesis-rageborne",
+                "name": "Hassgeburt"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "de-mage-adelheim",
+                "name": "Adelheim"
+              },
+              {
+                "key": "de-mage-brama",
+                "name": "Brama"
+              },
+              {
+                "key": "de-mage-jian",
+                "name": "Jian"
+              },
+              {
+                "key": "de-mage-kadir",
+                "name": "Kadir"
+              },
+              {
+                "key": "de-mage-lash",
+                "name": "Lash"
+              },
+              {
+                "key": "de-mage-mist",
+                "name": "Mist"
+              },
+              {
+                "key": "de-mage-phaedraxa",
+                "name": "Phaedraxa"
+              },
+              {
+                "key": "de-mage-xaxos",
+                "name": "Xaxos"
+              }
+            ],
+            "Card": [
+              {
+                "key": "de-diamondcluster",
+                "name": "Rohdiamant",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-chaosarc",
+                "name": "Chaosbogen",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-ignite",
+                "name": "Entzünden",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-essencetheft",
+                "name": "Essenz-Diebstahl",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-searingruby",
+                "name": "Flammen-Rubin",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-ferallightning",
+                "name": "Blitzsturm",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-planarinsight",
+                "name": "Einblick ins Nichts",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-spectralecho",
+                "name": "Spektrales Echo",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-burningopal",
+                "name": "Glühender Opal",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-consumingvoid",
+                "name": "Fressende Leere",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "de-unstableprism",
+                "name": "Instabiles Prisma",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-cloudedsapphire",
+                "name": "Getrübter Saphir",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-magestalisman",
+                "name": "Talisman der Magier",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-flexingdagger",
+                "name": "Gebogener Dolch",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 2
+                }
+              },
+              {
+                "key": "de-lavatendril",
+                "name": "Lava-Takeln",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-bottledvortex",
+                "name": "Vortex in Flaschen",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-arcanenexus",
+                "name": "Arkaner Nexus",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "de-darkfire",
+                "name": "Dunkles Feuer",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-phoenixflame",
+                "name": "Phoenix-Flamme",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-jade",
+                "name": "Jade",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 2
+                }
+              },
+              {
+                "key": "de-amplifyvision",
+                "name": "Erweiterter Blick",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-vriswoodamber",
+                "name": "V'Riswood Bernstein",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-blastingstaff",
+                "name": "Sprengstab",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-sifterspearl",
+                "name": "Sieber-Perle",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-wildfirewhip",
+                "name": "Feuer-Peitsche",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-focusingorb",
+                "name": "Orb der Bündelung",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-oblivionswell",
+                "name": "Bann-Welle",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "de-depths",
+          "name": "Aus den Tiefen",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "de-nemesis-hordecrone",
+                "name": "Horden-Muhme"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "de-mage-nym",
+                "name": "Nym"
+              },
+              {
+                "key": "de-mage-reeve",
+                "name": "Reeve"
+              },
+              {
+                "key": "de-mage-zhana",
+                "name": "Z'hana"
+              }
+            ],
+            "Card": [
+              {
+                "key": "de-voidbond",
+                "name": "Verbindung mit der Leere",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-combustion",
+                "name": "Flammenmeer",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-vimdynamo",
+                "name": "Vim-Generator",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-disintegratingscythe",
+                "name": "Zersetzende Sense",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "de-monstrousinferno",
+                "name": "Ungeheures Inferno",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 8
+                }
+              },
+              {
+                "key": "de-devouringshadow",
+                "name": "Verschlingender Schatten",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-banishingtopaz",
+                "name": "Topas der Verbannung",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-transmogrifier",
+                "name": "Verwandler",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "de-nameless",
+          "name": "Das Namenlose",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "de-nemesis-blightlord",
+                "name": "Lord des Verderbens"
+              },
+              {
+                "key": "de-nemesis-waywardone",
+                "name": "Der Wegbereiter"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "de-mage-malastar",
+                "name": "Malastar"
+              }
+            ],
+            "Card": [
+              {
+                "key": "de-moltenhammer",
+                "name": "Flüssig-Hammer",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-radiance",
+                "name": "Ausstrahlung",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 8
+                }
+              },
+              {
+                "key": "de-blaze",
+                "name": "Feuerbrunst",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-scryingbolt",
+                "name": "Blitz der Vorsehung",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-sagesbrand",
+                "name": "Mal des Weisen",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "de-leechingagate",
+                "name": "Blutsauger-Achat",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-temporalhelix",
+                "name": "Zeitspirale",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 7
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "de-group-2-wave-2-de-we",
+      "name": "2 - Für die Ewigkeit",
+      "sets": [
+        {
+          "key": "de-we",
+          "name": "Für die Ewigkeit",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "de-nemesis-gatewitch",
+                "name": "Riss-Furie"
+              },
+              {
+                "key": "de-nemesis-hollowcrown",
+                "name": "Krone der Leere"
+              },
+              {
+                "key": "de-nemesis-magusofcloaks",
+                "name": "Schattenmantel-Magus"
+              },
+              {
+                "key": "de-nemesis-umbratitan",
+                "name": "Schatten-Titan"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "de-mage-dezmodia",
+                "name": "Dezmodia"
+              },
+              {
+                "key": "de-mage-garu",
+                "name": "Garu"
+              },
+              {
+                "key": "de-mage-gex",
+                "name": "Gex"
+              },
+              {
+                "key": "de-mage-mazahaedron",
+                "name": "Mazahaedron"
+              },
+              {
+                "key": "de-mage-mistwe",
+                "name": "Mist (FdE)"
+              },
+              {
+                "key": "de-mage-quilius",
+                "name": "Quilius"
+              },
+              {
+                "key": "de-mage-ulgimor",
+                "name": "Ulgimor"
+              },
+              {
+                "key": "de-mage-yanmagda",
+                "name": "Yan Magda"
+              }
+            ],
+            "Card": [
+              {
+                "key": "de-erraticingot",
+                "name": "Unreiner Opal",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-reducetoash",
+                "name": "Einäschern",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "de-vortexgauntlet",
+                "name": "Vortex-Handschuh",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-carbonize",
+                "name": "Verkohlen",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-equilibrium",
+                "name": "Equilibrium",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "de-volcanicglass",
+                "name": "Vulkan-Glas",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-convectionfield",
+                "name": "Konvektions-Feld",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-jaggedlightning",
+                "name": "Blitz-Kaskade",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-bloodstonejewel",
+                "name": "Blut-Diamant",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-kindle",
+                "name": "Entfachen",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-thoughtformfamiliar",
+                "name": "Gedankenvertrauter",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-crystallize",
+                "name": "Kristallisieren",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 8
+                }
+              },
+              {
+                "key": "de-fierytorrent",
+                "name": "Feuerflut",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-celestialspire",
+                "name": "Himmelsfeuer",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-conjurethelost",
+                "name": "Rückkehrer beschwören",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-novaforge",
+                "name": "Sternenschmiede",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-dreaddiamond",
+                "name": "Terror-Diamant",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-cairncompass",
+                "name": "Stein-Kompass",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-scoriaslag",
+                "name": "Vulkan-Schlacke",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-breachore",
+                "name": "Riss-Erz",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-fiendcatcher",
+                "name": "Teufelschnapper",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-pyrotechnicsurge",
+                "name": "Pyrotechnische Woge",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-aurora",
+                "name": "Aurora",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-conclavescroll",
+                "name": "Kodex der Konklave",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-primordialfetish",
+                "name": "Urzeitlicher Götze",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-frozenmagmite",
+                "name": "Geforener Magmit",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-magestotem",
+                "name": "Magier-Totem",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 2
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "de-od",
+          "name": "Hinter der Finsternis",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "de-nemesis-thricedeadprophet",
+                "name": "Dreimaltoter Prophet"
+              },
+              {
+                "key": "de-nemesis-wraithmonger",
+                "name": "Traum-Händler"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "de-mage-indira",
+                "name": "Indira"
+              },
+              {
+                "key": "de-mage-remnant",
+                "name": "Reliquior"
+              }
+            ],
+            "Card": [
+              {
+                "key": "de-char",
+                "name": "Karbonisieren (1. Auflage: Verkohlen)",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 8
+                }
+              },
+              {
+                "key": "de-alienelement",
+                "name": "Fremdkörper",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-scorch",
+                "name": "Versengen",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-pyromancy",
+                "name": "Pyromantie",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "de-feedbackaura",
+                "name": "Blitz-Aura",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-catalyst",
+                "name": "Vernichtung",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-painstone",
+                "name": "Schmerzstein",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-astralcube",
+                "name": "Astral-Würfel",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-riddlesphere",
+                "name": "Mystische Sphäre",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-netherconduit",
+                "name": "Verbindung zum Nichts",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "de-hauntedberylite",
+                "name": "Verfluchter Beryllit",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              }
+            ]
+          }
+        },
+        {
+          "key": "de-tv",
+          "name": "Die Leere",
+          "components": {
+            "Nemesis": [
+              {
+                "key": "de-nemesis-knightofshackles",
+                "name": "Ritter des Schreckens"
+              },
+              {
+                "key": "de-nemesis-maidenofthorns",
+                "name": "Dornen-Maid"
+              }
+            ],
+            "Mage": [
+              {
+                "key": "de-mage-sparrow",
+                "name": "Sparrow"
+              },
+              {
+                "key": "de-mage-xaxostv",
+                "name": "Xaxos (DL)"
+              }
+            ],
+            "Card": [
+              {
+                "key": "de-fossilizedscarab",
+                "name": "Bernstein-Skarabäus",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-thermaldart",
+                "name": "Thermalpfeil",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-resonate",
+                "name": "Widerhall",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-conflagration",
+                "name": "Feuersbrunst",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-dimensionalkey",
+                "name": "Dimensions-Schlüssel",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 8
+                }
+              },
+              {
+                "key": "de-innerfire",
+                "name": "Inneres Feuer",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 2
+                }
+              },
+              {
+                "key": "de-fulminate",
+                "name": "Feuerstoss",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-eternitycharm",
+                "name": "Amulett der Ewigkeit",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "de-group-4-de-promos",
+      "name": "Promos",
+      "sets": [
+        {
+          "key": "de-promos",
+          "name": "Promos",
+          "components": {
+            "Nemesis": [],
+            "Mage": [],
+            "Card": [
+              {
+                "key": "de-drowninflames",
+                "name": "In Flammen ertrinken",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-fleetingvision",
+                "name": "Flüchtiger Blick",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-splintermissile",
+                "name": "Splitter-Geschoss",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-echostone",
+                "name": "Echo Stone",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-thievingspirit",
+                "name": "Thieving Spirit",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 5
+                }
+              },
+              {
+                "key": "de-fracturedquartz",
+                "name": "Fractured Quartz",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-rocklauncher",
+                "name": "Rock Launcher",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 3
+                }
+              },
+              {
+                "key": "de-abacusofignition",
+                "name": "Abacus of Ignition",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-illuminatingflame",
+                "name": "Illuminating Flame",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 6
+                }
+              },
+              {
+                "key": "de-chronalarc",
+                "name": "Chronal Arc",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "de-coruscatingsapal",
+                "name": "Coruscating Sapal",
+                "properties": {
+                  "type": "Gem",
+                  "cost": 4
+                }
+              },
+              {
+                "key": "de-hummingshell",
+                "name": "Humming Shell",
+                "properties": {
+                  "type": "Relic",
+                  "cost": 7
+                }
+              },
+              {
+                "key": "de-forcecatalyst",
+                "name": "Force Catalyst",
+                "properties": {
+                  "type": "Spell",
+                  "cost": 4
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

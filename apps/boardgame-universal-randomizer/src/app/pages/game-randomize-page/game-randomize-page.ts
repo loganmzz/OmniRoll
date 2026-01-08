@@ -42,7 +42,7 @@ export class GameRandomizePage {
       }
       group.slots.push({
         key: slot.key,
-        title: slot.key,
+        title: slot.name,
         text: '',
       });
     }
