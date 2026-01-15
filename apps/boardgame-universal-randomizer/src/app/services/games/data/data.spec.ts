@@ -4,8 +4,8 @@ import { data } from '.';
 describe('games/data', () => {
 
   for (const [gameKey, gameLoader] of Object.entries(data)) {
-    test(gameKey, () => {
-      const model = gameLoader();
+    test(gameKey, async () => {
+      const model = await gameLoader.load();
       const compilResult = CompiledGame.newFromDataModel(model);
       if (compilResult.err !== undefined) {
         throw new Error(compilResult.err.join('\n'));

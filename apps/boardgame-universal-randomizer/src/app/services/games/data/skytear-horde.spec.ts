@@ -2,8 +2,8 @@ import { CompiledComponent, CompiledGame } from '@project/model/compiled';
 import { skytearhorde } from './skytear-horde';
 
 describe('games/data/skytear-horde', () => {
-  test('Data validation', () => {
-    const model = skytearhorde['skytear-horde']();
+  test('Data validation', async () => {
+    const model = await skytearhorde['skytear-horde'].load();
     const compiled = CompiledGame.newFromDataModel(model).expect();
 
     const index = new Map<string, CompiledComponent>();
