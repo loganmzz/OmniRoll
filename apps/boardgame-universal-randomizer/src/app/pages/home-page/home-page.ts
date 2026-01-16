@@ -1,5 +1,6 @@
 import { Component, inject, model, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
+import { Collection, CollectionGame } from '@project/services/collection/collection';
 import { GameMetadata, Games } from '@project/services/games/games';
 
 @Component({
@@ -10,11 +11,15 @@ import { GameMetadata, Games } from '@project/services/games/games';
 })
 export class HomePage implements OnInit {
   private gameService = inject(Games);
+  private collectionService = inject(Collection);
 
-  games = model<GameMetadata[]>([]);
+  dataGames = model<GameMetadata[]>([]);
+  games = model<CollectionGame[]>([]);
 
   async ngOnInit() {
-    const games = await this.gameService.list();
-    this.games.update(() => games);
+    const dataGames = await this.gameService.list();
+    this.dataGames.update(() => dataGames);
+    const games = await this.collectionService.listGames();
+    this.games.update(() => games.filter(game => game.enabled));
   }
 }
