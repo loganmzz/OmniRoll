@@ -1,0 +1,13 @@
+<h1>Collection</h1>
+
+<div class="cards">
+  @for (game of options(); track game.key) {
+    <div
+      class="card card-link"
+      [class.selected]="game.enabled"
+      [class.unselected]="!game.enabled"
+      (click)="reverse(game)">
+        <div>{{ game.name }}</div>
+    </div>
+  }
+</div>

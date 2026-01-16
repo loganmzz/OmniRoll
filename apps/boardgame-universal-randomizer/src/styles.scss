@@ -15,7 +15,11 @@
   }
 
   button {
-    @apply bg-neutral-700 text-white p-4 rounded-sm hover:cursor-pointer min-w-24;
+    @apply m-1 bg-neutral-700 text-white p-4 rounded-sm hover:cursor-pointer min-w-24;
+  }
+
+  .edited {
+    @apply italic
   }
 
   .cards {
@@ -24,11 +28,22 @@
   .card {
     @apply relative outline rounded-xl p-3 m-1 aspect-square content-center text-center min-w-24 min-h-24;
   }
+  .card.selected {
+    @apply outline-lime-600 bg-lime-600/10
+  }
+  .card.selected > *:nth-child(1)::before {
+    content: "✅"
+  }
+  .card.unselected {
+    @apply outline-red-600 bg-red-600/10
+  }
+  .card.unselected > *:nth-child(1)::before {
+    content: "🚫"
+  }
   .card-link {
     @apply hover:cursor-pointer hover:animate-pulse hover:text-red-500;
   }
   .card > header {
     @apply absolute top-1 left-1 font-bold;
-
   }
 }

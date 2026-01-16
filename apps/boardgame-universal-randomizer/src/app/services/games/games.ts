@@ -50,13 +50,17 @@ export class DataModelDatabase extends Dexie {
   async getGame(gameKey: string): Promise<GameMetadata|undefined> {
     let loader = data[gameKey];
     let metadata = await this.transaction('readonly', 'Game', tx => tx.table<GameMetadata>('Game').get(gameKey));
-    if (loader !== undefined && (metadata === undefined || metadata?.version !== loader.version)) {
+    if (loader !== undefined && (metadata === undefined || metadata.version !== loader.version)) {
+      console.log(`Game(${gameKey}): Refresh data`);
       const model = await loader.load();
       const newMeta = metadata = fromGameModelToMetadata(model, loader.version);
       await this.transaction('readwrite', ['Game','Component'], async tx => {
         tx.table<GameMetadata>('Game').put(newMeta, gameKey);
         tx.table<DataModelGame>('Component').put(model, gameKey);
       });
+    }
+    if (metadata === undefined) {
+      console.log(`Game(${gameKey}): Not found (${loader?.version})`);
     }
     return metadata;
   }
@@ -66,8 +70,9 @@ export class DataModelDatabase extends Dexie {
    */
   async listGames(): Promise<GameMetadata[]> {
     const games: GameMetadata[] = [];
-    const gameKeys = await this.transaction('readonly', 'Game', tx => tx.table<GameMetadata, string>('Game').toCollection().primaryKeys());
-    const keySet = new Set(...(gameKeys.concat(Object.keys(data))));
+    const existingKeys = await this.transaction('readonly', 'Game', tx => tx.table<GameMetadata, string>('Game').toCollection().primaryKeys());
+    const loaderKeys = Object.keys(data);
+    const keySet = new Set(existingKeys.concat(loaderKeys));
     for (const gameKey of keySet) {
       const game = await this.getGame(gameKey);
       if (game !== undefined) { //Shouldn't happen
@@ -75,6 +80,15 @@ export class DataModelDatabase extends Dexie {
       }
     }
     return games;
+  }
+
+  async getContent(gameKey: string): Promise<DataModelGame|undefined> {
+    // Refresh game if required
+    const meta = await this.getGame(gameKey);
+    if (meta === undefined) {
+      return meta;
+    }
+    return this.transaction('readonly', 'Component', tx => tx.table<DataModelGame>('Component').get(gameKey));
   }
 }
 
@@ -89,9 +103,13 @@ export class Games {
     return games;
   }
 
+  async getMetadata(key: string): Promise<GameMetadata|undefined> {
+    return this.database.getGame(key);
+  }
+
   async get(key: string): Promise<CompiledGame|undefined> {
     let game: CompiledGame|undefined = undefined;
-    const model = await this.database.getGame(key);
+    const model = await this.database.getContent(key);
     if (model !== undefined) {
       const toCompiled = CompiledGame.newFromDataModel(model);
       game = toCompiled.expect();

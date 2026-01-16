@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Route } from '@angular/router';
 import { CompiledGame } from './model/compiled';
+import { CollectionPage } from './pages/collection-page/collection-page';
 import { GameHomePage } from './pages/game-home-page/game-home-page';
 import { GamePage } from './pages/game-page/game-page';
 import { GameRandomizePage } from './pages/game-randomize-page/game-randomize-page';
@@ -11,6 +12,10 @@ export const appRoutes: Route[] = [
   {
     path: '',
     component: HomePage,
+  },
+  {
+    path: 'collection',
+    component: CollectionPage,
   },
   {
     path: 'game/:game',
