@@ -1,4 +1,4 @@
-import { Component, inject, model } from '@angular/core';
+import { Component, inject, model, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Collection, CollectionGame } from '@project/services/collection/collection';
 import { GameMetadata, Games } from '@project/services/games/games';
@@ -21,7 +21,7 @@ class UIGame {
   templateUrl: './collection-page.html',
   styleUrl: './collection-page.css',
 })
-export class CollectionPage {
+export class CollectionPage implements OnInit {
   collection = inject(Collection);
   games = inject(Games);
 

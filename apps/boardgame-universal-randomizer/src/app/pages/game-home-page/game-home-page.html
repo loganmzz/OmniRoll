@@ -1,12 +1,18 @@
-@let current = game();
+<h1>{{ game().name }}</h1>
 
-<h1>{{ current.name }}</h1>
-
-<h2>Randomizers</h2>
-<div class="cards">
-  @for (randomizer of current.randomizers; track randomizer.key) {
-    <div class="card card-link" [routerLink]="['randomizer', randomizer.key]">
-      <div>{{randomizer.name}}</div>
+@let current = content();
+@if (current !== undefined) {
+  <button [routerLink]="['collection']">✏️</button>
+  @if (game().sets.length > 0) {
+    <h2>Randomizers</h2>
+    <div class="cards">
+      @for (randomizer of current.randomizers; track randomizer.key) {
+        <div class="card card-link" [routerLink]="['randomizer', randomizer.key]">
+          <div>{{randomizer.name}}</div>
+        </div>
+      }
     </div>
+  } @else {
+    <p>No content available! <a routerLink="collection">Update your {{ current.name }} collection?</a></p>
   }
-</div>
+}

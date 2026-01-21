@@ -14,12 +14,45 @@
     @apply mx-auto max-w-4xl flex flex-col items-center gap-x-4 rounded-xl p-6 shadow-lg outline outline-black/5;
   }
 
+  ul {
+    @apply p-2;
+  }
+
+  li ul {
+    @apply border-s-1 mb-3 border-gray-400;
+  }
+
   button {
     @apply m-1 bg-neutral-700 text-white p-4 rounded-sm hover:cursor-pointer min-w-24;
   }
 
+  input[type="checkbox"] {
+    @apply mr-1;
+  }
+  .checkbox {
+    @apply m-1 p-1 outline rounded-sm hover:cursor-pointer;
+  }
+  .checkbox.selected {
+    @apply outline-lime-600 bg-lime-600/10;
+  }
+  .checkbox.selected::before {
+    content: "✅";
+  }
+  .checkbox.unselected {
+    @apply outline-red-600 bg-red-600/10;
+  }
+  .checkbox.unselected::before {
+    content: "🚫";
+  }
+  .checkbox.preselected {
+    @apply outline-sky-600 bg-sky-600/10;
+  }
+  .checkbox.preselected::before {
+    content: "ℹ️";
+  }
+
   .edited {
-    @apply italic
+    @apply italic;
   }
 
   .cards {
@@ -29,16 +62,16 @@
     @apply relative outline rounded-xl p-3 m-1 aspect-square content-center text-center min-w-24 min-h-24;
   }
   .card.selected {
-    @apply outline-lime-600 bg-lime-600/10
+    @apply outline-lime-600 bg-lime-600/10;
   }
   .card.selected > *:nth-child(1)::before {
-    content: "✅"
+    content: "✅";
   }
   .card.unselected {
-    @apply outline-red-600 bg-red-600/10
+    @apply outline-red-600 bg-red-600/10;
   }
   .card.unselected > *:nth-child(1)::before {
-    content: "🚫"
+    content: "🚫";
   }
   .card-link {
     @apply hover:cursor-pointer hover:animate-pulse hover:text-red-500;

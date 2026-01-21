@@ -1,1 +1,20 @@
-<router-outlet></router-outlet>
+@let current = game();
+
+@if (current?.enabled) {
+  <router-outlet></router-outlet>
+} @else if (current !== undefined) {
+  <p>Game is not enabled!</p>
+  <div class="cards">
+  <div
+    tabindex="0"
+    role="checkbox"
+    aria-checked="false"
+    class="card card-link unselected"
+    (keyup)="enableGame(current.key)"
+    (click)="enableGame(current.key)">
+        <div>{{ current.name }}</div>
+    </div>
+  </div>
+} @else {
+  <p>Game doesn't exists! <a routerLink="/collection">Go home</a>.</p>
+}

@@ -1,5 +1,6 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { CompiledGame, CompiledRandomizer } from '@project/model/compiled';
+import { CollectionGame } from '@project/services/collection/collection';
 import { Randomizer } from '@project/services/randomizer/randomizer';
 
 type UISlot = {
@@ -20,10 +21,10 @@ type UISlotGroup = {
   styleUrl: './game-randomize-page.css',
 })
 export class GameRandomizePage {
-  game = input.required<CompiledGame>();
-  randomizer = input.required<CompiledRandomizer>();
+  game = input.required<CollectionGame>();
+  randomizer = input.required<{content:CompiledGame, randomizer: CompiledRandomizer}>();
   state = computed(() => {
-    const randomizer = this.randomizer();
+    const randomizer = this.randomizer().randomizer;
     const groups: UISlotGroup[] = randomizer.groups.map(g => ({
       key: g.key,
       title: g.name,
@@ -55,9 +56,10 @@ export class GameRandomizePage {
   private randomize = inject(Randomizer);
 
   roll() {
+    const {content,randomizer} = this.randomizer();
     const roll = this.randomize.randomize(
-      this.game().components,
-      this.randomizer(),
+      content.components,
+      randomizer,
     );
     for (const slot of this.state().slots) {
       slot.text = roll[slot.key].name ?? '';

@@ -1,12 +1,12 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, Route } from '@angular/router';
-import { CompiledGame } from './model/compiled';
+import { ActivatedRouteSnapshot, RedirectCommand, Route, Router } from '@angular/router';
 import { CollectionPage } from './pages/collection-page/collection-page';
+import { GameCollectionPage } from './pages/game-collection-page/game-collection-page';
 import { GameHomePage } from './pages/game-home-page/game-home-page';
 import { GamePage } from './pages/game-page/game-page';
 import { GameRandomizePage } from './pages/game-randomize-page/game-randomize-page';
 import { HomePage } from './pages/home-page/home-page';
-import { Games } from './services/games/games';
+import { Collection, CollectionGame } from './services/collection/collection';
 
 export const appRoutes: Route[] = [
   {
@@ -22,26 +22,45 @@ export const appRoutes: Route[] = [
     component: GamePage,
     resolve: {
       game: async (route: ActivatedRouteSnapshot) => {
-        const gameService = inject(Games);
+        const service = inject(Collection);
+        const router = inject(Router);
         const gameKey = route.paramMap.get('game') ?? '<unknown>';
-        const game = await gameService.get(gameKey);
-        return game;
+        const game = await service.getGame(gameKey);
+        if (game !== undefined) {
+          return game;
+        }
+        return new RedirectCommand(router.parseUrl(`/`));
       },
     },
+    runGuardsAndResolvers: 'always',
     children: [
       {
         path: '',
         component: GameHomePage,
       },
       {
+        path: 'collection',
+        component: GameCollectionPage,
+      },
+      {
         path: 'randomizer/:randomizer',
         component: GameRandomizePage,
         resolve: {
-          randomizer: (route: ActivatedRouteSnapshot) => {
-            const randomizerKey = route.paramMap.get('randomizer');
-            const game = route.parent?.data['game'] as CompiledGame;
-            const randomizer = game.randomizers.find(r => r.key === randomizerKey);
-            return randomizer;
+          randomizer: async (route: ActivatedRouteSnapshot) => {
+            const collection = inject(Collection);
+            const router = inject(Router);
+            const meta = route.parent?.data['game'] as CollectionGame;
+            const content = await collection.getContent(meta);
+            if (content !== undefined) {
+              const randomizerKey = route.paramMap.get('randomizer');
+              const randomizer = content.randomizers.find(r => r.key === randomizerKey);
+              if (randomizer !== undefined) {
+                return {content,randomizer};
+              }
+            }
+            return new RedirectCommand(
+              router.parseUrl(`/game/${meta.key}`),
+            );
           }
         }
       },

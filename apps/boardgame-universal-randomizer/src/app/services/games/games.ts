@@ -48,7 +48,7 @@ export class DataModelDatabase extends Dexie {
   }
 
   async getGame(gameKey: string): Promise<GameMetadata|undefined> {
-    let loader = data[gameKey];
+    const loader = data[gameKey];
     let metadata = await this.transaction('readonly', 'Game', tx => tx.table<GameMetadata>('Game').get(gameKey));
     if (loader !== undefined && (metadata === undefined || metadata.version !== loader.version)) {
       console.log(`Game(${gameKey}): Refresh data`);
@@ -86,7 +86,7 @@ export class DataModelDatabase extends Dexie {
     // Refresh game if required
     const meta = await this.getGame(gameKey);
     if (meta === undefined) {
-      return meta;
+      return undefined;
     }
     return this.transaction('readonly', 'Component', tx => tx.table<DataModelGame>('Component').get(gameKey));
   }

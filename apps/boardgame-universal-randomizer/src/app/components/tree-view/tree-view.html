@@ -1,0 +1,19 @@
+<ul>
+  @for (node of nodes(); track node.key) {
+    <li>
+      <div
+        tabindex="0"
+        role="checkbox"
+        [aria-checked]="node.selected ? 'true' : preselected() ? 'mixed' : 'false'"
+        class="checkbox"
+        [class.selected]="node.selected"
+        [class.unselected]="!node.selected && !preselected()"
+        [class.preselected]="!node.selected && preselected()"
+        (keyup)="switchNodeSelection(node)"
+        (click)="switchNodeSelection(node)">{{ node.label }}</div>
+      @if (node.children.length > 0) {
+        <app-tree-view [nodes]="node.children" [parents]="childPath(node)" [preselected]="preselected() || node.selected" (nodeSelectionChanged)="dispatch($event)"></app-tree-view>
+      }
+    </li>
+  }
+</ul>
