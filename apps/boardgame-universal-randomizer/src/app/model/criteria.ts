@@ -14,12 +14,25 @@ export class Criteria {
   resolve(context: Record<string, unknown>): boolean {
     return this.items.every(criterion => criterion.resolve(context));
   }
+
+  toJSON(): CriteriaLike {
+    return {
+      items: this.items.map(i => i.toJSON()),
+    };
+  }
+  static fromJSON(data: CriteriaLike): Criteria {
+    return new Criteria(data.items.map(i => Criterion.fromJSON(i)));
+  }
+}
+export interface CriteriaLike {
+  items: CriterionLike[];
 }
 
 export type CriterionValueOutput = boolean|number|string|string[];
 
 export abstract class CriterionValue {
   abstract resolve(context: Record<string, unknown>): CriterionValueOutput|undefined;
+  abstract toJSON(): CriterionValueLike;
 
   static convertValue(value: unknown): CriterionValueOutput|undefined {
     switch (typeof value) {
@@ -45,7 +58,20 @@ export abstract class CriterionValue {
         return undefined;
     }
   }
+
+  static fromJSON(data: CriterionValueLike): CriterionValue {
+    switch (true) {
+      case CriterionValueLiteral.isJSON(data):
+        return CriterionValueLiteral.fromJSON(data);
+      case CriterionValueProperty.isJSON(data):
+        return CriterionValueProperty.fromJSON(data);
+      default:
+        throw new Error(`Unsupported JSON criterion value:\n${JSON.stringify(data, undefined, 2)}`);
+    }
+  }
 }
+export type CriterionValueLike = CriterionValueLiteralLike | CriterionValuePropertyLike;
+
 export class CriterionValueLiteral extends CriterionValue {
   constructor(public value: CriterionValueOutput) {
     super();
@@ -54,7 +80,25 @@ export class CriterionValueLiteral extends CriterionValue {
   override resolve(): CriterionValueOutput {
     return this.value;
   }
+
+  toJSON(): CriterionValueLiteralLike {
+    return {
+      $type: 'literal',
+      ...this,
+    };
+  }
+  static isJSON(data: CriterionValueLike): data is CriterionValueLiteralLike {
+    return '$type' in data && data.$type === 'literal';
+  }
+  static override fromJSON(data: CriterionValueLiteralLike): CriterionValueLiteral {
+    return new CriterionValueLiteral(data.value);
+  }
 }
+export interface CriterionValueLiteralLike {
+  $type: 'literal';
+  value: CriterionValueOutput;
+}
+
 export class CriterionValueProperty extends CriterionValue {
   constructor(public property: string) {
     super();
@@ -71,6 +115,23 @@ export class CriterionValueProperty extends CriterionValue {
     }
     return CriterionValue.convertValue(value);
   }
+
+  toJSON(): CriterionValuePropertyLike {
+    return {
+      $type: 'property',
+      ...this,
+    };
+  }
+  static isJSON(data: CriterionValueLike): data is CriterionValuePropertyLike {
+    return '$type' in data && data.$type === 'property';
+  }
+  static override fromJSON(data: CriterionValuePropertyLike): CriterionValueProperty {
+    return new CriterionValueProperty(data.property);
+  }
+}
+export interface CriterionValuePropertyLike {
+  $type: 'property';
+  property: string;
 }
 
 export abstract class CriterionOperator {
@@ -82,7 +143,30 @@ export abstract class CriterionOperator {
     return this.resolveValue(lvalue, rvalue);
   }
   abstract resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean
+  abstract toJSON(): CriterionOperatorLike;
+
+  static fromJSON(data: string): CriterionOperator {
+    switch (data) {
+      case '$eq':
+        return new CriterionOperatorIsEqual();
+      case '$ne':
+        return new CriterionOperatorIsDifferent();
+      case '$gt':
+        return new CriterionOperatorIsGreater();
+      case '$ge':
+        return new CriterionOperatorIsGreaterOrEqual();
+      case '$lt':
+        return new CriterionOperatorIsLesser();
+      case '$le':
+        return new CriterionOperatorIsLesserOrEqual();
+      case '$in':
+        return new CriterionOperatorIn();
+      default:
+        throw new Error(`Unsupported JSON criterion operator: ${JSON.stringify(data)}`);
+    }
+  }
 }
+export type CriterionOperatorLike = '$eq' | '$ne' | '$gt' | '$ge' | '$lt' | '$le' | '$in';
 export class CriterionOperatorIsEqual extends CriterionOperator {
   override resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean {
     if (typeof lvalue === 'boolean' && typeof rvalue === 'boolean' && lvalue === rvalue) {
@@ -106,8 +190,8 @@ export class CriterionOperatorIsEqual extends CriterionOperator {
     return false;
   }
 
-  toJSON() {
-    return "$eq";
+  override toJSON(): CriterionOperatorLike {
+    return '$eq';
   }
 }
 export class CriterionOperatorIsDifferent extends CriterionOperator {
@@ -115,8 +199,8 @@ export class CriterionOperatorIsDifferent extends CriterionOperator {
     return !new CriterionOperatorIsEqual().resolveValue(lvalue, rvalue);
   }
 
-  toJSON() {
-    return "$ne";
+  override toJSON(): CriterionOperatorLike {
+    return '$ne';
   }
 }
 export class CriterionOperatorIsGreater extends CriterionOperator {
@@ -139,8 +223,8 @@ export class CriterionOperatorIsGreater extends CriterionOperator {
     return false;
   }
 
-  toJSON() {
-    return "$gt";
+  override toJSON(): CriterionOperatorLike {
+    return '$gt';
   }
 }
 export class CriterionOperatorIsGreaterOrEqual extends CriterionOperator {
@@ -166,7 +250,7 @@ export class CriterionOperatorIsGreaterOrEqual extends CriterionOperator {
     return false;
   }
 
-  toJSON() {
+  override toJSON(): CriterionOperatorLike {
     return "$ge";
   }
 }
@@ -175,7 +259,7 @@ export class CriterionOperatorIsLesser extends CriterionOperator {
     return new CriterionOperatorIsGreater().resolveValue(rvalue, lvalue);
   }
 
-  toJSON() {
+  override toJSON(): CriterionOperatorLike {
     return "$lt";
   }
 }
@@ -183,7 +267,8 @@ export class CriterionOperatorIsLesserOrEqual extends CriterionOperator {
   override resolveValue(lvalue: CriterionValueOutput, rvalue: CriterionValueOutput): boolean {
     return new CriterionOperatorIsGreaterOrEqual().resolveValue(rvalue, lvalue);
   }
-  toJSON() {
+
+  override toJSON(): CriterionOperatorLike {
     return "$le";
   }
 }
@@ -198,7 +283,7 @@ export class CriterionOperatorIn extends CriterionOperator {
     return false;
   }
 
-  toJSON() {
+  override toJSON(): CriterionOperatorLike {
     return "$in";
   }
 }
@@ -207,17 +292,64 @@ export abstract class Criterion {
   constructor(public reverse: boolean) {}
 
   abstract resolve(context: Record<string, unknown>): boolean;
+  abstract toJSON(): CriterionLike;
+
+  static fromJSON(data: CriterionLike): Criterion {
+    switch (true) {
+      case CriterionBinary.isJSON(data):
+        return CriterionBinary.fromJSON(data);
+      case CriterionUnary.isJSON(data):
+        return CriterionUnary.fromJSON(data);
+      default:
+        throw new Error(`Unsupported JSON criterion:\n${JSON.stringify(data, undefined, 2)}`);
+    }
+  }
 }
+export type CriterionLike = CriterionBinaryLike | CriterionUnaryLike;
+
 export class CriterionBinary extends Criterion {
   constructor(reverse: boolean, public left: CriterionValue, public operator: CriterionOperator, public right: CriterionValue) {
     super(reverse);
   }
 
-  resolve(context: Record<string, unknown>): boolean {
+  override resolve(context: Record<string, unknown>): boolean {
     const resolved = this.operator.resolve(context, this.left, this.right);
     return this.reverse ? !resolved : resolved;
   }
+
+  override toString(): string {
+    return `${this.reverse ? '! ' : ''}${this.left} ${this.operator} ${this.right}`;
+  }
+
+  override toJSON(): CriterionBinaryLike {
+    return {
+      $type: 'binary',
+      ...this,
+      left: this.left.toJSON(),
+      operator: this.operator.toJSON(),
+      right: this.right.toJSON(),
+    };
+  }
+  static isJSON(data: CriterionLike): data is CriterionBinaryLike {
+    return '$type' in data && data.$type === 'binary';
+  }
+  static override fromJSON(data: CriterionBinaryLike): CriterionBinary {
+    return new CriterionBinary(
+      data.reverse,
+      CriterionValue.fromJSON(data.left),
+      CriterionOperator.fromJSON(data.operator),
+      CriterionValue.fromJSON(data.right),
+    );
+  }
 }
+export interface CriterionBinaryLike {
+  $type: 'binary';
+  reverse: boolean;
+  left: CriterionValueLike;
+  operator: CriterionOperatorLike;
+  right: CriterionValueLike;
+}
+
 export class CriterionUnary extends Criterion {
   constructor (reverse: boolean, public value: CriterionValue) {
     super(reverse);
@@ -234,6 +366,29 @@ export class CriterionUnary extends Criterion {
     ;
     return this.reverse ? !resolved : resolved;
   }
+
+  override toString(): string {
+    return `${this.reverse ? '! ' : ''}${this.value}`;
+  }
+
+  override toJSON(): CriterionUnaryLike {
+    return {
+      $type: 'unary',
+      ...this,
+      value: this.value.toJSON(),
+    };
+  }
+  static isJSON(data: CriterionLike): data is CriterionUnaryLike {
+    return '$type' in data && data.$type === 'unary';
+  }
+  static override fromJSON(data: CriterionUnaryLike): CriterionUnary {
+    return new CriterionUnary(data.reverse, CriterionValue.fromJSON(data.value));
+  }
+}
+export interface CriterionUnaryLike {
+  '$type': 'unary';
+  reverse: boolean;
+  value: CriterionValueLike;
 }
 
 export class CriteriaParser {

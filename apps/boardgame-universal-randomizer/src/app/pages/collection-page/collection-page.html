@@ -3,9 +3,13 @@
 <div class="cards">
   @for (game of options(); track game.key) {
     <div
+      tabindex="0"
+      role="checkbox"
+      [aria-checked]="game.enabled"
       class="card card-link"
       [class.selected]="game.enabled"
       [class.unselected]="!game.enabled"
+      (keyup)="reverse(game)"
       (click)="reverse(game)">
         <div>{{ game.name }}</div>
     </div>

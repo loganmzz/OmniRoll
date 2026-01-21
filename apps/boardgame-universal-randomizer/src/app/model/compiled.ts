@@ -1,5 +1,5 @@
 import { Result } from './common';
-import { Criteria, CriteriaParser } from './criteria';
+import { Criteria, CriteriaLike, CriteriaParser } from './criteria';
 import { DataModelComponent, DataModelGame, DataModelRandomizer, DataModelRandomizerGroup, DataModelRandomizerPick, DataModelRandomizerPool, DataModelRandomizerSlot, DataModelSet, KeyPattern } from './data-model';
 
 export class CompiledDataLocation {
@@ -102,6 +102,28 @@ export class CompiledGame implements CompiledElement {
 
     return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
   }
+
+  toJSON(): CompiledGameLike {
+    return {
+      ...this,
+      components: this.components.map(c => c.toJSON()),
+      randomizers: this.randomizers.map(c => c.toJSON()),
+    };
+  }
+  static fromJSON(data: CompiledGameLike): CompiledGame {
+    const result = new CompiledGame();
+    result.key = data.key;
+    result.name = data.name;
+    result.components = data.components.map(c => CompiledComponent.fromJSON(c));
+    result.randomizers = data.randomizers.map(r => CompiledRandomizer.fromJSON(r));
+    return result;
+  }
+}
+export interface CompiledGameLike {
+  key: string;
+  name: string;
+  components: CompiledComponentLike[];
+  randomizers: CompiledRandomizerLike[];
 }
 
 export class CompiledSet implements CompiledElement {
@@ -194,13 +216,29 @@ export class CompiledComponent implements CompiledElement {
     return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
   }
 
-  toJSON(): unknown {
+  toJSON(): CompiledComponentLike {
     return {
       ...this,
       kinds: [...this.kinds],
       sets: [...this.sets],
     };
   }
+  static fromJSON(data: CompiledComponentLike): CompiledComponent {
+    const result = new CompiledComponent();
+    result.key = data.key;
+    result.name = data.name;
+    result.properties = data.properties;
+    result.sets = new Set(data.sets);
+    result.kinds = new Set(data.kinds);
+    return result;
+  }
+}
+export interface CompiledComponentLike {
+  key: string;
+  name: string;
+  properties: Record<string, boolean|number|string|string[]>;
+  sets: string[];
+  kinds: string[];
 }
 
 export class CompiledRandomizer implements CompiledElement {
@@ -267,6 +305,31 @@ export class CompiledRandomizer implements CompiledElement {
     }
     return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
   }
+
+  toJSON(): CompiledRandomizerLike {
+    return {
+      ...this,
+      pools: this.pools.map(p => p.toJSON()),
+      groups: this.groups.map(g => g.toJSON()),
+      slots: this.slots.map(s => s.toJSON()),
+    };
+  }
+  static fromJSON(data: CompiledRandomizerLike): CompiledRandomizer {
+    const result = new CompiledRandomizer();
+    result.key = data.key;
+    result.name = data.name;
+    result.pools = data.pools.map(p => CompiledRandomizerPool.fromJSON(p));
+    result.groups = data.groups.map(g => CompiledRandomizerGroup.fromJSON(g));
+    result.slots = data.slots.map(s => CompiledRandomizerSlot.fromJSON(s));
+    return result;
+  }
+}
+export interface CompiledRandomizerLike {
+  key: string;
+  name: string;
+  pools: CompiledRandomizerPoolLike[];
+  groups: CompiledRandomizerGroupLike[];
+  slots: CompiledRandomizerSlotLike[];
 }
 
 export class CompiledRandomizerPool implements CompiledElement {
@@ -300,6 +363,23 @@ export class CompiledRandomizerPool implements CompiledElement {
   test(component: CompiledComponent): boolean {
     return this.criteria.length === 0 || this.criteria.some(criteria => criteria.resolve(component as unknown as Record<string, unknown>));
   }
+
+  toJSON(): CompiledRandomizerPoolLike {
+    return {
+      ...this,
+      criteria: this.criteria.map(c => c.toJSON()),
+    };
+  }
+  static fromJSON(data: CompiledRandomizerPoolLike): CompiledRandomizerPool {
+    const result = new CompiledRandomizerPool();
+    result.key = data.key;
+    result.criteria = data.criteria.map(c => Criteria.fromJSON(c));
+    return result;
+  }
+}
+export interface CompiledRandomizerPoolLike {
+  key: string;
+  criteria: CriteriaLike[];
 }
 
 export class CompiledRandomizerGroup implements CompiledElement {
@@ -316,6 +396,22 @@ export class CompiledRandomizerGroup implements CompiledElement {
     compiled.name = spec.name ?? compiled.key;
     return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
   }
+
+  toJSON(): CompiledRandomizerGroupLike {
+    return {
+      ...this,
+    };
+  }
+  static fromJSON(data: CompiledRandomizerGroupLike): CompiledRandomizerGroup {
+    const result = new CompiledRandomizerGroup();
+    result.key = data.key;
+    result.name = data.name;
+    return result;
+  }
+}
+export interface CompiledRandomizerGroupLike {
+  key: string;
+  name: string;
 }
 
 export class CompiledRandomizerSlot implements CompiledElement {
@@ -384,4 +480,28 @@ export class CompiledRandomizerSlot implements CompiledElement {
   test(component: CompiledComponent): boolean {
     return this.criteria.length === 0 || this.criteria.some(criteria => criteria.resolve(component as unknown as Record<string, unknown>));
   }
+
+  toJSON(): CompiledRandomizerSlotLike {
+    return {
+      ...this,
+      criteria: this.criteria.map(c => c.toJSON()),
+    };
+  }
+  static fromJSON(data: CompiledRandomizerSlotLike): CompiledRandomizerSlot {
+    const result = new CompiledRandomizerSlot();
+    result.key = data.key;
+    result.name = data.name;
+    result.pool = data.pool;
+    result.group = data.group;
+    result.criteria = data.criteria.map(c => Criteria.fromJSON(c));
+    return result;
+  }
+}
+export interface CompiledRandomizerSlotLike {
+  key: string;
+  name: string;
+  pool: string;
+  group: string|undefined;
+  pick: DataModelRandomizerPick;
+  criteria: CriteriaLike[];
 }
