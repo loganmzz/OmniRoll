@@ -1,0 +1,12 @@
+changelog:
+  categories:
+  - title: ⚠️ Breaking Changes ⚠️
+    labels:
+    - breaking change
+  - title: 🎉 New features 🎉
+    labels:
+    - enhancement
+    - documentation
+  - title: ✨ Miscellaneous ✨
+    labels:
+    - "*"
