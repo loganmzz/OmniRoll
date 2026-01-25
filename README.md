@@ -16,31 +16,19 @@ The application is developed using:
 ## Start locally
 
 ```bash
-# 1. From root
 npx nx serve apps/OmniRoll
-
-# 2. From apps/OmniRoll
-npx nx serve
 ```
 
 ## Launch tests
 
 ```bash
-# 1. From root
 npx nx test apps/OmniRoll
-
-# 2. From apps/OmniRoll
-npx nx test
 ```
 
 ## Build
 
 ```bash
-# 1. From root
-npx nx build OmniRoll
-
-# 2. From apps/OmniRoll
-npx nx build
+npx nx build apps/OmniRoll
 ```
 
 # Deployment
