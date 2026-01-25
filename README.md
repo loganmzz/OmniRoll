@@ -221,3 +221,7 @@ Examples:
 * `@kind == 'spell'`
 * `@kind in ['spell', 'creature']`
 * `@cost > 2`
+
+# License
+
+[MIT](./LICENSE.md)
