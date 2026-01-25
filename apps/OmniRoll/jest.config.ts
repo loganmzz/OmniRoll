@@ -1,8 +1,8 @@
 export default {
-  displayName: 'boardgame-universal-randomizer',
+  displayName: 'OmniRoll',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/boardgame-universal-randomizer',
+  coverageDirectory: '../../coverage/apps/OmniRoll',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

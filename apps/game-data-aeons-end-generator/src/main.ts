@@ -218,7 +218,7 @@ async function main() {
       }
     }
 
-    const outputDir = env['GAME_DATA_AEONS_END_GENERATOR_OUTPUT_DIR'] ?? 'apps/boardgame-universal-randomizer/src/app/services/games/data/aeons-end';
+    const outputDir = env['GAME_DATA_AEONS_END_GENERATOR_OUTPUT_DIR'] ?? 'apps/OmniRoll/src/app/services/games/data/aeons-end';
     let outputDirStat: Stats|undefined = undefined;
     try {
       outputDirStat = await fs.stat(outputDir);
