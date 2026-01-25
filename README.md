@@ -43,6 +43,22 @@ npx nx build OmniRoll
 npx nx build
 ```
 
+# Deployment
+
+## Netlify
+
+* (Optional) Deploy draft:
+
+```bash
+npx netlify deploy --filter="OmniRoll"
+```
+
+* Deploy production:
+
+```bash
+npx netlify deploy --prod --filter="OmniRoll"
+```
+
 # Design
 
 ## Data model
