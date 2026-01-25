@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://loganmzz.github.io/boardgame-universal-randomizer/schemas/data-model/set.json",
+  "$id": "https://loganmzz.github.io/OmniRoll/schemas/data-model/set.json",
   "title": "Boardgame Universal Randomizer - Data Model | Module",
   "type": "object",
   "required": [

@@ -12,7 +12,7 @@
     "emitDecoratorMetadata": false,
     "module": "preserve",
     "paths": {
-      "@project/*": ["./apps/boardgame-universal-randomizer/src/app/*"],
+      "@project/*": ["./apps/OmniRoll/src/app/*"],
     }
   },
   "angularCompilerOptions": {

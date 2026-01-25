@@ -1,7 +1,9 @@
-Boardgame - Universal Randomizer
+OmniRoll
 ===
 
-A PWA in order to manage randomization for any boardgame.
+> One App. Every Game. Infinite Setups.
+
+A [Progressive Web Application](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) in order to manage randomization for any boardgame.
 
 # Development
 
@@ -15,9 +17,9 @@ The application is developed using:
 
 ```bash
 # 1. From root
-npx nx serve boardgame-universal-randomizer
+npx nx serve apps/OmniRoll
 
-# 2. From apps/boardgame-universal-randomizer
+# 2. From apps/OmniRoll
 npx nx serve
 ```
 
@@ -25,9 +27,9 @@ npx nx serve
 
 ```bash
 # 1. From root
-npx nx test boardgame-universal-randomizer
+npx nx test apps/OmniRoll
 
-# 2. From apps/boardgame-universal-randomizer
+# 2. From apps/OmniRoll
 npx nx test
 ```
 
@@ -35,9 +37,9 @@ npx nx test
 
 ```bash
 # 1. From root
-npx nx build boardgame-universal-randomizer
+npx nx build OmniRoll
 
-# 2. From apps/boardgame-universal-randomizer
+# 2. From apps/OmniRoll
 npx nx build
 ```
 

@@ -1,18 +1,18 @@
 {
-  "name": "boardgame-universal-randomizer",
-  "version": "1.0.0",
+  "name": "OmniRoll",
+  "version": "0.1.0",
   "description": "",
   "keywords": [
     "boardgame",
     "randomizer"
   ],
-  "homepage": "https://github.com/loganmzz/boardgame-universal-randomizer#readme",
+  "homepage": "https://github.com/loganmzz/OmniRoll",
   "bugs": {
-    "url": "https://github.com/loganmzz/boardgame-universal-randomizer/issues"
+    "url": "https://github.com/loganmzz/OmniRoll/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/loganmzz/boardgame-universal-randomizer.git"
+    "url": "git+https://github.com/loganmzz/OmniRoll.git"
   },
   "license": "MIT",
   "author": "Logan Mzz",
