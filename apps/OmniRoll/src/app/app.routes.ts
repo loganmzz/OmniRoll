@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { inject, signal } from '@angular/core';
 import { ActivatedRouteSnapshot, RedirectCommand, Route, Router } from '@angular/router';
 import { CollectionPage } from './pages/collection-page/collection-page';
 import { GameCollectionPage } from './pages/game-collection-page/game-collection-page';
@@ -7,6 +7,7 @@ import { GamePage } from './pages/game-page/game-page';
 import { GameRandomizePage } from './pages/game-randomize-page/game-randomize-page';
 import { HomePage } from './pages/home-page/home-page';
 import { Collection, CollectionGame } from './services/collection/collection';
+import { NavigationContext } from './services/navigation/navigation';
 
 export const appRoutes: Route[] = [
   {
@@ -16,10 +17,20 @@ export const appRoutes: Route[] = [
   {
     path: 'collection',
     component: CollectionPage,
+    data: {
+      'navigationContext': {
+        title: signal('Collection'),
+      } as NavigationContext,
+    },
   },
   {
     path: 'game/:game',
     component: GamePage,
+    data: {
+      'navigationContext': {
+        title: signal(''),
+      } as NavigationContext,
+    },
     resolve: {
       game: async (route: ActivatedRouteSnapshot) => {
         const service = inject(Collection);
@@ -41,10 +52,20 @@ export const appRoutes: Route[] = [
       {
         path: 'collection',
         component: GameCollectionPage,
+        data: {
+          'navigationContext': {
+            title: signal('Collection ✏️'),
+          } as NavigationContext,
+        },
       },
       {
         path: 'randomizer/:randomizer',
         component: GameRandomizePage,
+        data: {
+          'navigationContext': {
+            title: signal(''),
+          } as NavigationContext,
+        },
         resolve: {
           randomizer: async (route: ActivatedRouteSnapshot) => {
             const collection = inject(Collection);
@@ -61,7 +82,7 @@ export const appRoutes: Route[] = [
             return new RedirectCommand(
               router.parseUrl(`/game/${meta.key}`),
             );
-          }
+          },
         }
       },
     ],

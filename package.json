@@ -16,6 +16,9 @@
   },
   "license": "MIT",
   "author": "Logan Mzz",
+  "scripts": {
+    "start": "nx serve apps/OmniRoll --host 0.0.0.0"
+  },
   "devDependencies": {
     "@angular-devkit/core": "21.0.4",
     "@angular-devkit/schematics": "21.0.4",

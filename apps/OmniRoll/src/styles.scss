@@ -51,6 +51,9 @@
     content: "ℹ️";
   }
 
+  .clickable {
+    @apply hover:cursor-pointer hover:underline;
+  }
   .edited {
     @apply italic;
   }
