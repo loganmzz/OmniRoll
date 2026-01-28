@@ -1,6 +1,8 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CompiledGame, CompiledRandomizer } from '@project/model/compiled';
 import { CollectionGame } from '@project/services/collection/collection';
+import { NavigationContext } from '@project/services/navigation/navigation';
 import { Randomizer } from '@project/services/randomizer/randomizer';
 
 type UISlot = {
@@ -20,9 +22,11 @@ type UISlotGroup = {
   templateUrl: './game-randomize-page.html',
   styleUrl: './game-randomize-page.css',
 })
-export class GameRandomizePage {
+export class GameRandomizePage implements OnInit {
+  route = inject(ActivatedRoute);
   game = input.required<CollectionGame>();
   randomizer = input.required<{content:CompiledGame, randomizer: CompiledRandomizer}>();
+  navigationContext = input.required<NavigationContext>();
   state = computed(() => {
     const randomizer = this.randomizer().randomizer;
     const groups: UISlotGroup[] = randomizer.groups.map(g => ({
@@ -54,6 +58,10 @@ export class GameRandomizePage {
     return {groups, slots};
   });
   private randomize = inject(Randomizer);
+
+  ngOnInit(): void {
+    this.navigationContext().title.set(this.randomizer().randomizer.name);
+  }
 
   roll() {
     const {content,randomizer} = this.randomizer();

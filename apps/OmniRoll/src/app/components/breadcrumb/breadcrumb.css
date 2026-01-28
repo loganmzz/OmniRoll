@@ -1,0 +1,8 @@
+@reference "tailwindcss";
+
+li::before {
+  content: "›";
+}
+li {
+  @apply inline mr-2;
+}
