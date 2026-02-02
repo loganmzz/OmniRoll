@@ -1,4 +1,4 @@
-import { Result } from "./common";
+import { Result } from './common';
 
 export class CriteriaParsingError {
   constructor(
@@ -251,7 +251,7 @@ export class CriterionOperatorIsGreaterOrEqual extends CriterionOperator {
   }
 
   override toJSON(): CriterionOperatorLike {
-    return "$ge";
+    return '$ge';
   }
 }
 export class CriterionOperatorIsLesser extends CriterionOperator {
@@ -260,7 +260,7 @@ export class CriterionOperatorIsLesser extends CriterionOperator {
   }
 
   override toJSON(): CriterionOperatorLike {
-    return "$lt";
+    return '$lt';
   }
 }
 export class CriterionOperatorIsLesserOrEqual extends CriterionOperator {
@@ -269,7 +269,7 @@ export class CriterionOperatorIsLesserOrEqual extends CriterionOperator {
   }
 
   override toJSON(): CriterionOperatorLike {
-    return "$le";
+    return '$le';
   }
 }
 export class CriterionOperatorIn extends CriterionOperator {
@@ -284,7 +284,7 @@ export class CriterionOperatorIn extends CriterionOperator {
   }
 
   override toJSON(): CriterionOperatorLike {
-    return "$in";
+    return '$in';
   }
 }
 

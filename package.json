@@ -39,6 +39,7 @@
     "@nx/web": "22.3.3",
     "@playwright/test": "^1.36.0",
     "@schematics/angular": "21.0.4",
+    "@stylistic/eslint-plugin": "5.7.1",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",

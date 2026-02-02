@@ -1,4 +1,14 @@
+<app-menu [class.menu-open]="menuOpen()" (closing)="closeMenu()"></app-menu>
 <section>
-  <app-breadcrumb [default]="title"></app-breadcrumb>
+  <header>
+    <div
+      tabindex="0"
+      role="button"
+      class="button menu-button"
+      (keyup)="toggleMenu()"
+      (click)="toggleMenu()"
+    >≡</div>
+    <app-breadcrumb [default]="title"></app-breadcrumb>
+  </header>
   <router-outlet></router-outlet>
 </section>

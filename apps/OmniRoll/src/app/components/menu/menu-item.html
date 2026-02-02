@@ -1,0 +1,20 @@
+@if (asSection(); as section) {
+  <h1>
+    @if (section.title.routerLink) {
+      <a [routerLink]="section.title.routerLink" class="link">{{ section.title.text }}</a>
+    } @else {
+      {{ section.title.text }}
+    }
+  </h1>
+  <ol>
+    @for (entry of section.entries; track $index) {
+      <li>
+        <app-menu-item [entry]="entry"></app-menu-item>
+      </li>
+    }
+  </ol>
+}
+
+@if (asLink(); as link) {
+  <a [routerLink]="link.routerLink" class="link">{{ link.title }}</a>
+}

@@ -1,5 +1,5 @@
-import { CompiledComponent, CompiledGame } from "./compiled";
-import { DataModelGame } from "./data-model";
+import { CompiledComponent, CompiledGame } from './compiled';
+import { DataModelGame } from './data-model';
 
 describe('model/compiled', () => {
   describe('game', () => {
@@ -611,7 +611,7 @@ describe('model/compiled', () => {
       ({input, expected}: {input: DataModelGame, expected: string[]}) => {
         const result = CompiledGame.newFromDataModel(input);
         if (result.err === undefined) {
-          throw new Error(`Should have failed with:\n${expected.join("\n")}`);
+          throw new Error(`Should have failed with:\n${expected.join('\n')}`);
         }
         expect(result.err.map(e => `${e}`)).toStrictEqual(expected);
       }

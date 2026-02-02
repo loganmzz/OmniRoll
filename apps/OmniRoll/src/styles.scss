@@ -2,6 +2,13 @@
 @use "tailwindcss";
 
 @layer base {
+  body {
+    @apply bg-neutral-50 text-neutral-900 font-sans;
+  }
+
+  header {
+    @apply text-3xl font-bold;
+  }
   h1 {
     @apply text-3xl text-center m-5;
   }
@@ -11,26 +18,27 @@
   }
 
   section {
-    @apply mx-auto max-w-4xl flex flex-col items-center gap-x-4 rounded-xl p-6 shadow-lg outline outline-black/5;
+    @apply mx-auto max-w-4xl flex flex-col items-center gap-x-4 rounded-xl p-6 shadow-lg outline outline-black/5 bg-neutral-50 min-h-dvh;
+  }
+  section > * {
+    @apply w-full;
   }
 
   ul {
     @apply p-2;
   }
-
   li ul {
     @apply border-s-1 mb-3 border-gray-400;
   }
 
   button {
-    @apply m-1 bg-neutral-700 text-white p-4 rounded-sm hover:cursor-pointer min-w-24;
+    @apply m-1 bg-neutral-700 text-white p-4 rounded-sm cursor-pointer min-w-24;
   }
-
   input[type="checkbox"] {
     @apply mr-1;
   }
   .checkbox {
-    @apply m-1 p-1 outline rounded-sm hover:cursor-pointer;
+    @apply m-1 p-1 outline rounded-sm cursor-pointer;
   }
   .checkbox.selected {
     @apply outline-lime-600 bg-lime-600/10;
@@ -51,8 +59,11 @@
     content: "ℹ️";
   }
 
-  .clickable {
-    @apply hover:cursor-pointer hover:underline;
+  .button {
+    @apply cursor-pointer;
+  }
+  .link {
+    @apply cursor-pointer hover:underline;
   }
   .edited {
     @apply italic;
@@ -76,8 +87,8 @@
   .card.unselected > *:nth-child(1)::before {
     content: "🚫";
   }
-  .card-link {
-    @apply hover:cursor-pointer hover:animate-pulse hover:text-red-500;
+  .card.link {
+    @apply hover:animate-pulse hover:text-red-500;
   }
   .card > header {
     @apply absolute top-1 left-1 font-bold;

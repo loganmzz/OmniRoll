@@ -1,5 +1,5 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
-import { TreeModelNode, TreeView } from "@project/components/tree-view/tree-view";
+import { Component, inject, input, OnChanges, OnInit, signal } from '@angular/core';
+import { TreeModelNode, TreeView } from '@project/components/tree-view/tree-view';
 import { Collection, CollectionGame } from '@project/services/collection/collection';
 import { GameMetadataSet, Games } from '@project/services/games/games';
 
@@ -9,7 +9,7 @@ import { GameMetadataSet, Games } from '@project/services/games/games';
   templateUrl: './game-collection-page.html',
   styleUrl: './game-collection-page.css',
 })
-export class GameCollectionPage implements OnInit {
+export class GameCollectionPage implements OnInit, OnChanges {
   services = {
     games: inject(Games),
     collection: inject(Collection),
@@ -17,7 +17,10 @@ export class GameCollectionPage implements OnInit {
   game = input.required<CollectionGame>();
   nodes = signal<TreeModelNode[]>([]);
 
-  async ngOnInit() {
+  ngOnInit() {
+    return this.ngOnChanges();
+  }
+  async ngOnChanges() {
     this.nodes.set(await this.loadNodes());
   }
 

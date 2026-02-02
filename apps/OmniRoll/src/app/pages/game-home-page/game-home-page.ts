@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnChanges, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CompiledGame } from '@project/model/compiled';
 import { Collection, CollectionGame } from '@project/services/collection/collection';
@@ -9,12 +9,15 @@ import { Collection, CollectionGame } from '@project/services/collection/collect
   templateUrl: './game-home-page.html',
   styleUrl: './game-home-page.css',
 })
-export class GameHomePage implements OnInit {
+export class GameHomePage implements OnInit, OnChanges {
   collection = inject(Collection);
   game = input.required<CollectionGame>();
   content = signal<CompiledGame|undefined>(undefined);
 
-  async ngOnInit() {
+  ngOnInit() {
+    return this.ngOnChanges();
+  }
+  async ngOnChanges() {
     this.content.set(await this.collection.getContent(this.game()));
   }
 }

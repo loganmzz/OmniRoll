@@ -1,9 +1,15 @@
 import nx from '@nx/eslint-plugin';
+import stylistic from '@stylistic/eslint-plugin';
 
 export default [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
+  {
+    plugins: {
+      '@stylistic': stylistic,
+    },
+  },
   {
     ignores: ['**/dist'],
   },
@@ -37,6 +43,14 @@ export default [
       '**/*.mjs',
     ],
     // Override or add rules here
-    rules: {},
+    rules: {
+      '@stylistic/quotes': [
+        'error',
+        'single',
+        {
+          allowTemplateLiterals: true,
+        }
+      ],
+    },
   },
 ];

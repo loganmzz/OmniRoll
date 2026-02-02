@@ -1,8 +1,8 @@
-import * as de from "./aeons-end/de-sets.json";
-import * as eng from "./aeons-end/eng-sets.json";
-import * as fr from "./aeons-end/fr-sets.json";
-import * as pl from "./aeons-end/pl-sets.json";
-import { GameDataLoader } from "./loader";
+import * as de from './aeons-end/de-sets.json';
+import * as eng from './aeons-end/eng-sets.json';
+import * as fr from './aeons-end/fr-sets.json';
+import * as pl from './aeons-end/pl-sets.json';
+import { GameDataLoader } from './loader';
 
 export const aeonsend: Record<string, GameDataLoader> = {
   'aeons-end': {

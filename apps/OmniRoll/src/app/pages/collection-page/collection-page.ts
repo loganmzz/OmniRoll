@@ -1,4 +1,4 @@
-import { Component, inject, model, OnInit } from '@angular/core';
+import { Component, inject, model, OnChanges, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Collection, CollectionGame } from '@project/services/collection/collection';
 import { GameMetadata, Games } from '@project/services/games/games';
@@ -21,13 +21,16 @@ class UIGame {
   templateUrl: './collection-page.html',
   styleUrl: './collection-page.css',
 })
-export class CollectionPage implements OnInit {
+export class CollectionPage implements OnInit, OnChanges {
   collection = inject(Collection);
   games = inject(Games);
 
   options = model<UIGame[]>([]);
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.ngOnChanges();
+  }
+  async ngOnChanges() {
     const games = await this.games.list();
     const collection = await this.collection.listGames();
     const collectionByKey = new Map<string, CollectionGame>();

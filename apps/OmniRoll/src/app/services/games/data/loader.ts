@@ -1,4 +1,4 @@
-import { DataModelGame } from "@project/model/data-model";
+import { DataModelGame } from '@project/model/data-model';
 
 export interface GameDataLoader {
   version: string;

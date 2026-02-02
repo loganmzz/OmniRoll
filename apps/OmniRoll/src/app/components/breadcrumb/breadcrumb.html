@@ -2,7 +2,7 @@
   <h1>
     <ol>
       @for (segment of navigation.segments(); track $index) {
-        <li [routerLink]="segment.routerLink" class="clickable">{{segment.label()}}</li>
+        <li [routerLink]="segment.routerLink" class="link">{{segment.label()}}</li>
       } @empty {
         <li>{{default()}}</li>
       }

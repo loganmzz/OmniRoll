@@ -3,7 +3,7 @@
 @if ((collection?.length ?? 0) > 0) {
   <div class="cards">
     @for (game of collection; track game.key) {
-      <div class="card card-link" [routerLink]="['game', game.key]">
+      <div class="card link" [routerLink]="['game', game.key]">
         <div>{{ game.name }}</div>
       </div>
     }
