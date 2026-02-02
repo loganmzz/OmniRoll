@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, OnInit } from '@angular/core';
+import { Component, computed, inject, input, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CompiledGame, CompiledRandomizer } from '@project/model/compiled';
 import { CollectionGame } from '@project/services/collection/collection';
@@ -22,7 +22,7 @@ type UISlotGroup = {
   templateUrl: './game-randomize-page.html',
   styleUrl: './game-randomize-page.css',
 })
-export class GameRandomizePage implements OnInit {
+export class GameRandomizePage implements OnInit, OnChanges {
   route = inject(ActivatedRoute);
   game = input.required<CollectionGame>();
   randomizer = input.required<{content:CompiledGame, randomizer: CompiledRandomizer}>();
@@ -59,8 +59,11 @@ export class GameRandomizePage implements OnInit {
   });
   private randomize = inject(Randomizer);
 
-  ngOnInit(): void {
-    this.navigationContext().title.set(this.randomizer().randomizer.name);
+  ngOnInit() {
+    this.ngOnChanges();
+  }
+  ngOnChanges() {
+    this.navigationContext().title?.set(this.randomizer().randomizer.name);
   }
 
   roll() {

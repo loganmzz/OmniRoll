@@ -29,6 +29,14 @@ export const appRoutes: Route[] = [
     data: {
       'navigationContext': {
         title: signal(''),
+        menu: signal({
+          section: {
+            title: {
+              text: '',
+            },
+            entries: [],
+          },
+        }),
       } as NavigationContext,
     },
     resolve: {

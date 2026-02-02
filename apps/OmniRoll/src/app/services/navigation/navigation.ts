@@ -1,20 +1,44 @@
-import { inject, Injectable, Signal, signal, WritableSignal } from "@angular/core";
+import { inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRouteSnapshot, EventType, Router, RouterLink, UrlSegment, UrlSegmentGroup, UrlTree } from "@angular/router";
+import { ActivatedRouteSnapshot, EventType, Router, RouterLink, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 
 export interface NavigationContextHolder {
   navigationContext: NavigationContext;
 }
 export function isNavigationContextHolder(object: unknown): object is NavigationContextHolder {
-  return typeof object === "object" && object !== null && 'navigationContext' in object;
+  return typeof object === 'object' && object !== null && 'navigationContext' in object;
 }
 export interface NavigationContext {
-  title: WritableSignal<string>;
+  title?: WritableSignal<string>;
+  menu?: WritableSignal<MenuEntry>;
 }
 
 export interface BreadcrumbSegment {
   label: Signal<string>;
-  routerLink?: RouterLink["routerLink"];
+  routerLink?: RouterLink['routerLink'];
+}
+
+export type MenuEntry = MenuSection | MenuLink;
+export interface MenuSection {
+  section: {
+    title: {
+      text: string;
+      routerLink?: RouterLink['routerLink'];
+    };
+    entries: WritableSignal<MenuEntry>[];
+  };
+}
+export interface MenuLink {
+  link: {
+    title: string;
+    routerLink: RouterLink['routerLink'];
+  };
+}
+export function isMenuSection(entry: unknown): entry is MenuSection {
+  return typeof entry === 'object' && entry !== null && 'section' in entry;
+}
+export function isMenuLink(entry: unknown): entry is MenuLink {
+  return typeof entry === 'object' && entry !== null && 'link' in entry;
 }
 
 export class UrlTreeBuilder {
@@ -41,38 +65,79 @@ export class UrlTreeBuilder {
 })
 export class NavigationService {
   private router = inject(Router);
+  root = signal<NavigationContext|null>(null);
   segments = signal<BreadcrumbSegment[]>([]);
+  menu = signal<MenuEntry>({
+    section: {
+      title: {
+        text: '',
+      },
+      entries: [],
+    },
+  });
 
   constructor() {
     this.router.events.pipe(takeUntilDestroyed()).subscribe(event => {
       switch (event.type) {
         case EventType.NavigationEnd:
-        {
-          const segments: BreadcrumbSegment[] = [
-            {
-              label: signal('🏠'),
-              routerLink: ['/'],
-            }
-          ];
-          let route: ActivatedRouteSnapshot|null = this.router.routerState.snapshot.root;
-          const routePath = new UrlTreeBuilder();
-          while (route !== null) {
-            routePath.pushRoute(route);
-            if (isNavigationContextHolder(route.routeConfig?.data)) {
-              segments.push({
-                label: route.routeConfig.data.navigationContext.title,
-                routerLink: routePath.build(),
-              });
-            }
-            route = route.firstChild;
-          }
-          if (segments.length === 1) {
-            segments.pop();
-          }
-          this.segments.set(segments);
-        }
-        break;
+          this.refreshBreadcrumbs();
+          this.refreshMenu();
+          break;
       }
     });
+  }
+
+  private browseNavigationContext(process: (context: NavigationContext, path: UrlTreeBuilder) => void) {
+    let route: ActivatedRouteSnapshot|null = this.router.routerState.snapshot.root;
+    const routePath = new UrlTreeBuilder();
+
+    const root = this.root();
+    if (root !== null) {
+      process(root, routePath);
+    }
+
+    while (route !== null) {
+      routePath.pushRoute(route);
+      const data = route.routeConfig?.data;
+      if (isNavigationContextHolder(data)) {
+        process(data.navigationContext, routePath);
+      }
+      route = route.firstChild
+    }
+  }
+
+  private refreshBreadcrumbs() {
+    const segments: BreadcrumbSegment[] = [
+      {
+        label: signal('🏠'),
+        routerLink: ['/'],
+      }
+    ];
+    this.browseNavigationContext((context, path) => {
+      if (context.title) {
+        segments.push({
+          label: context.title,
+          routerLink: path.build(),
+        });
+      }
+    });
+    this.segments.set(segments.length === 1 ? [] : segments);
+  }
+
+  private refreshMenu() {
+    const menu: MenuSection = {
+      section: {
+        title: {
+          text: '',
+        },
+        entries: [],
+      },
+    }
+    this.browseNavigationContext((context) => {
+      if (context.menu) {
+        menu.section.entries.push(context.menu);
+      }
+    });
+    this.menu.set(menu);
   }
 }

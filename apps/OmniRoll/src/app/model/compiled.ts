@@ -58,9 +58,9 @@ export class CompiledGame implements CompiledElement {
 
   static newFromDataModel(spec: DataModelGame, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledGame, CompiledDataError[]> {
     const errors: CompiledDataError[] = [];
-    const components = new CompiledRegistry<CompiledComponent>("Component");
-    const sets = new CompiledRegistry<CompiledSet>("Set");
-    const randomizers = new CompiledRegistry<CompiledRandomizer>("Randomizer");
+    const components = new CompiledRegistry<CompiledComponent>('Component');
+    const sets = new CompiledRegistry<CompiledSet>('Set');
+    const randomizers = new CompiledRegistry<CompiledRandomizer>('Randomizer');
 
     const compiled = new CompiledGame();
     if (!KeyPattern.test(spec.key)) {
@@ -251,9 +251,9 @@ export class CompiledRandomizer implements CompiledElement {
   static newFromDataModel(spec: DataModelRandomizer, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizer, CompiledDataError[]> {
     const errors: CompiledDataError[] = [];
 
-    const pools = new CompiledRegistry<CompiledRandomizerPool>("Randomizer pool");
-    const groups = new CompiledRegistry<CompiledRandomizerGroup>("Randomizer group");
-    const slots = new CompiledRegistry<CompiledRandomizerSlot>("Randomizer slot");
+    const pools = new CompiledRegistry<CompiledRandomizerPool>('Randomizer pool');
+    const groups = new CompiledRegistry<CompiledRandomizerGroup>('Randomizer group');
+    const slots = new CompiledRegistry<CompiledRandomizerSlot>('Randomizer slot');
 
     if (!KeyPattern.test(spec.key)) {
       errors.push(new CompiledDataError(location.child('key'), `Randomizer key ${JSON.stringify(spec.key)} is invalid`));

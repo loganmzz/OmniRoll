@@ -1,5 +1,6 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, inject, input, OnChanges, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { CompiledRandomizer } from '@project/model/compiled';
 import { Collection, CollectionGame } from '@project/services/collection/collection';
 import { NavigationContext } from '@project/services/navigation/navigation';
 
@@ -9,7 +10,7 @@ import { NavigationContext } from '@project/services/navigation/navigation';
   templateUrl: './game-page.html',
   styleUrl: './game-page.css',
 })
-export class GamePage implements OnInit {
+export class GamePage implements OnInit, OnChanges {
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -17,11 +18,32 @@ export class GamePage implements OnInit {
   collection = inject(Collection);
   game = input.required<CollectionGame|undefined>();
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.ngOnChanges();
+  }
+  async ngOnChanges() {
     const game = this.game();
+    const name = game?.name ?? '';
+    this.navigationContext().title?.set(name);
+    let randomizers: CompiledRandomizer[] = [];
     if (game !== undefined) {
-      this.navigationContext().title.set(game.name);
+      const content = await this.collection.getContent(game);
+      randomizers = content?.randomizers ?? [];
     }
+    this.navigationContext().menu?.set({
+      section: {
+        title: {
+          text: name,
+          routerLink: ['/', 'game', game?.key ?? ''],
+        },
+        entries: randomizers.map(r => signal({
+          link: {
+            title: r.name,
+            routerLink: ['/', 'game', game?.key ?? '', 'randomizer', r.key],
+          }
+        })),
+      }
+    });
   }
 
   async enableGame(gameKey: string) {

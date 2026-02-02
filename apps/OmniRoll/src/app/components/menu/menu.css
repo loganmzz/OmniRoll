@@ -1,0 +1,15 @@
+@reference "tailwindcss";
+
+.menu > section {
+  @apply h-dvh overflow-auto;
+}
+
+header {
+  @apply flex justify-end w-full;
+}
+
+@variant lg {
+  header {
+    @apply hidden;
+  }
+}

@@ -1,0 +1,14 @@
+<nav class="menu">
+  <section>
+    <header>
+      <div
+        tabindex="0"
+        role="button"
+        class="button"
+        (keyup)="closing.emit()"
+        (click)="closing.emit()"
+      >×</div>
+    </header>
+    <app-menu-item [entry]="navigation.menu"></app-menu-item>
+  </section>
+</nav>

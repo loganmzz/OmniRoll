@@ -1,0 +1,36 @@
+@reference "tailwindcss";
+
+//CSS Flex
+:host {
+  @apply flex justify-center;
+}
+
+section {
+  @apply mx-0 items-start;
+}
+
+header {
+  @apply flex items-center w-full;
+}
+
+app-menu {
+  @apply h-full top-0 bottom-0;
+}
+.menu-open {
+  @apply block;
+}
+.menu-button {
+  @apply hidden;
+}
+
+@variant max-lg {
+  section {
+    @apply w-full;
+  }
+  app-menu {
+    @apply hidden fixed left-0 z-100;
+  }
+  .menu-button {
+    @apply block;
+  }
+}
