@@ -7,10 +7,13 @@
     }
   </h1>
   <ol>
-    @for (entry of section.entries; track $index) {
-      <li>
-        <app-menu-item [entry]="entry"></app-menu-item>
-      </li>
+    @for (entry$ of section.entries; track $index) {
+      @let entry = entry$();
+      @if (entry !== undefined) {
+        <li>
+          <app-menu-item [entry]="entry"></app-menu-item>
+        </li>
+      }
     }
   </ol>
 }

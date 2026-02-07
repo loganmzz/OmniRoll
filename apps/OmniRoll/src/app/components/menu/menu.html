@@ -9,6 +9,11 @@
         (click)="closing.emit()"
       >×</div>
     </header>
-    <app-menu-item [entry]="navigation.menu"></app-menu-item>
+    @for (entry of navigation.contexts(); track $index) {
+      @let menu = entry.menu();
+      @if (menu !== undefined) {
+        <app-menu-item [entry]="menu"></app-menu-item>
+      }
+    }
   </section>
 </nav>

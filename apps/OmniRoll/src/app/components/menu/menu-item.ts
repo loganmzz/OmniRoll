@@ -1,4 +1,4 @@
-import { Component, input, Signal } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { isMenuLink, isMenuSection, MenuEntry, MenuLink, MenuSection } from '@project/services/navigation/navigation';
 
@@ -9,17 +9,17 @@ import { isMenuLink, isMenuSection, MenuEntry, MenuLink, MenuSection } from '@pr
   styleUrl: './menu-item.css',
 })
 export class MenuItem {
-  entry = input.required<Signal<MenuEntry>>();
+  entry = input.required<MenuEntry>();
 
   asSection(): MenuSection['section']|null {
-    const entry = this.entry()();
+    const entry = this.entry();
     if (isMenuSection(entry)) {
       return entry.section;
     }
     return null;
   }
   asLink(): MenuLink['link']|null {
-    const entry = this.entry()();
+    const entry = this.entry();
     if (isMenuLink(entry)) {
       return entry.link;
     }

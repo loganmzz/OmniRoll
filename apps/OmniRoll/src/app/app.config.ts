@@ -18,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       appRoutes,
       withRouterConfig({
-        paramsInheritanceStrategy: 'always',
+        paramsInheritanceStrategy: 'emptyOnly',
       }),
       withComponentInputBinding(),
     ),

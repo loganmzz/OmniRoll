@@ -1,4 +1,4 @@
-import { Component, inject, model, OnChanges, OnInit } from '@angular/core';
+import { Component, computed, inject, OnChanges, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Collection, CollectionGame } from '@project/services/collection/collection';
 import { GameMetadata, Games } from '@project/services/games/games';
@@ -22,31 +22,36 @@ class UIGame {
   styleUrl: './collection-page.css',
 })
 export class CollectionPage implements OnInit, OnChanges {
-  collection = inject(Collection);
-  games = inject(Games);
+  collectionService = inject(Collection);
+  gamesService = inject(Games);
 
-  options = model<UIGame[]>([]);
+  metadatas = signal<GameMetadata[]>([]);
+  options = computed(() => {
+    const metadatas  = this.metadatas();
+    const collection = this.collectionService.games();
 
-  ngOnInit() {
-    this.ngOnChanges();
-  }
-  async ngOnChanges() {
-    const games = await this.games.list();
-    const collection = await this.collection.listGames();
     const collectionByKey = new Map<string, CollectionGame>();
     for (const game of collection) {
       collectionByKey.set(game.key, game);
     }
 
     const options: UIGame[] = [];
-    for (const game of games) {
-      options.push(new UIGame(game, collectionByKey.get(game.key)));
+    for (const metadata of metadatas) {
+      options.push(new UIGame(metadata, collectionByKey.get(metadata.key)));
     }
-    this.options.update(() => options);
+
+    return options;
+  });
+
+  ngOnInit() {
+    this.ngOnChanges();
+  }
+  async ngOnChanges() {
+    this.metadatas.set(await this.gamesService.list());
   }
 
   async reverse(game: UIGame) {
-    await this.collection.updateGameStatus(game.model, !game.enabled);
+    await this.collectionService.updateGameStatus(game.model, !game.enabled);
     await this.ngOnInit();
   }
 }

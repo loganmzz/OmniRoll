@@ -1,4 +1,6 @@
-import { inject, Injectable } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRouteSnapshot, EventType, Router } from '@angular/router';
 import { CompiledGame, CompiledGameLike } from '@project/model/compiled';
 import { GameMetadata, Games } from '@project/services/games/games';
 import Dexie from 'dexie';
@@ -93,14 +95,72 @@ export class CollectionDatabase extends Dexie {
 })
 export class Collection {
   private database = new CollectionDatabase();
-  private games = inject(Games);
+  private router = inject(Router);
+  private gamesService = inject(Games);
 
-  listGames(): Promise<CollectionGame[]> {
-    return this.database.listGames();
+  private readonly _games = signal([] as CollectionGame[]);
+  readonly games = this._games.asReadonly();
+  private readonly _gameKey = signal({} as {key?: string});
+  private readonly _game = signal(undefined as CollectionGame|undefined);
+  readonly game = this._game.asReadonly();
+  private readonly _content = signal(undefined as CompiledGame|undefined);
+  readonly content = this._content.asReadonly();
+
+  constructor() {
+    this.router.events.pipe(takeUntilDestroyed()).subscribe(event => {
+      switch (event.type) {
+        case EventType.NavigationEnd:
+          this.refreshCurrentContext();
+          break;
+      }
+    });
+    effect(async () => {
+      const {key} = this._gameKey();
+      if (key === undefined) {
+        this._game.set(undefined);
+        this._content.set(undefined);
+      } else {
+        const game = await this.getGame(key);
+        this._game.set(game);
+        const content = game !== undefined ? await this.getContent(game) : undefined;
+        this._content.set(content);
+      }
+    });
+    this.refresh();
   }
+
+  private async refreshCurrentContext(): Promise<void> {
+    let game: string|undefined = undefined;
+    let route: ActivatedRouteSnapshot | null = this.router.routerState.snapshot.root;
+    while (route !== null) {
+      const gameParam = route.paramMap.get('collection-game');
+      if (gameParam !== null) {
+        game = gameParam;
+      }
+      route = route.firstChild ?? null;
+    }
+    this._gameKey.update(previous => {
+      if (previous.key === game) {
+        return previous;
+      }
+      return {key: game};
+    });
+  }
+
+  private async refresh(): Promise<void> {
+    const games = await this.database.listGames();
+    this._games.set(games.filter(g => g.enabled));
+    this._gameKey.update(previous => {
+      if (previous.key === undefined) {
+        return previous;
+      }
+      return {key: previous.key};
+    });
+  }
+
   async getGame(key: string): Promise<CollectionGame|undefined> {
     let collection = await this.database.getGame(key);
-    const metadata = await this.games.getMetadata(key);
+    const metadata = await this.gamesService.getMetadata(key);
     if (collection === undefined) {
       if (metadata !== undefined) {
         collection = {
@@ -117,24 +177,9 @@ export class Collection {
       collection.version = metadata.version;
       collection.update_timestamp = Date.now();
       await this.database.updateGame(collection);
+      await this.refresh();
     }
     return collection;
-  }
-  updateGame(game: CollectionGame): Promise<void> {
-    return this.database.updateGame(game);
-  }
-  async updateGameStatus(game: string|GameMetadata, enabled: boolean): Promise<CollectionGame|undefined> {
-    if (typeof game === 'string') {
-      const metadata = await this.games.getMetadata(game);
-      if (metadata === undefined) {
-        return undefined;
-      }
-      game = metadata;
-    }
-    return await this.database.updateGameStatus(game, enabled);
-  }
-  removeGame(key: string): Promise<void> {
-    return this.database.removeGame(key);
   }
 
   async getContent(game: string|CollectionGame): Promise<CompiledGame|undefined> {
@@ -148,6 +193,27 @@ export class Collection {
     if (!game.enabled) {
       return undefined;
     }
-    return await this.database.resolveContent(game, () => this.games.get(game.key));
+    return await this.database.resolveContent(game, () => this.gamesService.get(game.key));
+  }
+
+  async updateGame(game: CollectionGame): Promise<void> {
+    await this.database.updateGame(game);
+    await this.refresh();
+  }
+  async updateGameStatus(game: string|GameMetadata, enabled: boolean): Promise<CollectionGame|undefined> {
+    if (typeof game === 'string') {
+      const metadata = await this.gamesService.getMetadata(game);
+      if (metadata === undefined) {
+        return undefined;
+      }
+      game = metadata;
+    }
+    const updated = await this.database.updateGameStatus(game, enabled);
+    await this.refresh();
+    return updated;
+  }
+  async removeGame(key: string): Promise<void> {
+    await this.database.removeGame(key);
+    await this.refresh();
   }
 }

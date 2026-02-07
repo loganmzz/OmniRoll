@@ -8,13 +8,13 @@ export interface NavigationContextHolder {
 export function isNavigationContextHolder(object: unknown): object is NavigationContextHolder {
   return typeof object === 'object' && object !== null && 'navigationContext' in object;
 }
-export interface NavigationContext {
-  title?: WritableSignal<string>;
-  menu?: WritableSignal<MenuEntry>;
+export class NavigationContext {
+  title: WritableSignal<string|undefined> = signal(undefined);
+  menu: WritableSignal<MenuEntry|undefined> = signal(undefined);
 }
 
 export interface BreadcrumbSegment {
-  label: Signal<string>;
+  label: Signal<string|undefined>;
   routerLink?: RouterLink['routerLink'];
 }
 
@@ -22,15 +22,15 @@ export type MenuEntry = MenuSection | MenuLink;
 export interface MenuSection {
   section: {
     title: {
-      text: string;
+      text: string|undefined;
       routerLink?: RouterLink['routerLink'];
     };
-    entries: WritableSignal<MenuEntry>[];
+    entries: Signal<MenuEntry|undefined>[];
   };
 }
 export interface MenuLink {
   link: {
-    title: string;
+    title: string|undefined;
     routerLink: RouterLink['routerLink'];
   };
 }
@@ -65,7 +65,7 @@ export class UrlTreeBuilder {
 })
 export class NavigationService {
   private router = inject(Router);
-  root = signal<NavigationContext|null>(null);
+  root = new NavigationContext();
   segments = signal<BreadcrumbSegment[]>([]);
   menu = signal<MenuEntry>({
     section: {
@@ -75,11 +75,14 @@ export class NavigationService {
       entries: [],
     },
   });
+  private readonly _contexts = signal<NavigationContext[]>([]);
+  readonly contexts = this._contexts.asReadonly();
 
   constructor() {
     this.router.events.pipe(takeUntilDestroyed()).subscribe(event => {
       switch (event.type) {
         case EventType.NavigationEnd:
+          this.refreshContext();
           this.refreshBreadcrumbs();
           this.refreshMenu();
           break;
@@ -91,19 +94,30 @@ export class NavigationService {
     let route: ActivatedRouteSnapshot|null = this.router.routerState.snapshot.root;
     const routePath = new UrlTreeBuilder();
 
-    const root = this.root();
+    const root = this.root;
     if (root !== null) {
       process(root, routePath);
     }
 
     while (route !== null) {
       routePath.pushRoute(route);
-      const data = route.routeConfig?.data;
-      if (isNavigationContextHolder(data)) {
-        process(data.navigationContext, routePath);
+      const configData = route.routeConfig?.data;
+      if (isNavigationContextHolder(configData)) {
+        const routeData = route.data;
+        if (isNavigationContextHolder(routeData)) {
+          process(routeData.navigationContext, routePath);
+        }
       }
       route = route.firstChild
     }
+  }
+
+  private refreshContext() {
+    const contexts: NavigationContext[] = [];
+    this.browseNavigationContext((context) => {
+      contexts.push(context);
+    });
+    this._contexts.set(contexts);
   }
 
   private refreshBreadcrumbs() {
@@ -114,12 +128,10 @@ export class NavigationService {
       }
     ];
     this.browseNavigationContext((context, path) => {
-      if (context.title) {
-        segments.push({
-          label: context.title,
-          routerLink: path.build(),
-        });
-      }
+      segments.push({
+        label: context.title,
+        routerLink: path.build(),
+      });
     });
     this.segments.set(segments.length === 1 ? [] : segments);
   }
@@ -134,9 +146,7 @@ export class NavigationService {
       },
     }
     this.browseNavigationContext((context) => {
-      if (context.menu) {
-        menu.section.entries.push(context.menu);
-      }
+      menu.section.entries.push(context.menu);
     });
     this.menu.set(menu);
   }

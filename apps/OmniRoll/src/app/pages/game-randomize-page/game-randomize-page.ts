@@ -1,7 +1,5 @@
-import { Component, computed, inject, input, OnChanges, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CompiledGame, CompiledRandomizer } from '@project/model/compiled';
-import { CollectionGame } from '@project/services/collection/collection';
+import { Component, computed, effect, inject, input } from '@angular/core';
+import { Collection } from '@project/services/collection/collection';
 import { NavigationContext } from '@project/services/navigation/navigation';
 import { Randomizer } from '@project/services/randomizer/randomizer';
 
@@ -22,19 +20,26 @@ type UISlotGroup = {
   templateUrl: './game-randomize-page.html',
   styleUrl: './game-randomize-page.css',
 })
-export class GameRandomizePage implements OnInit, OnChanges {
-  route = inject(ActivatedRoute);
-  game = input.required<CollectionGame>();
-  randomizer = input.required<{content:CompiledGame, randomizer: CompiledRandomizer}>();
+export class GameRandomizePage {
+  collection = inject(Collection);
+  randomize = inject(Randomizer);
+
+  randomizerKey = input.required<string>();
   navigationContext = input.required<NavigationContext>();
+
+  randomizer = computed(() => {
+    const content = this.collection.content();
+    const randomizer = content?.randomizers.find(r => r.key === this.randomizerKey());
+    return randomizer;
+  })
   state = computed(() => {
-    const randomizer = this.randomizer().randomizer;
-    const groups: UISlotGroup[] = randomizer.groups.map(g => ({
+    const randomizer = this.randomizer();
+    const groups: UISlotGroup[] = randomizer?.groups.map(g => ({
       key: g.key,
       title: g.name,
       slots: [],
-    }));
-    for (const slot of randomizer.slots) {
+    })) ?? [];
+    for (const slot of randomizer?.slots ?? []) {
       const groupKey = slot.group ?? '';
       let group = groups.find(g => g.key === groupKey);
       if (group === undefined) {
@@ -57,17 +62,20 @@ export class GameRandomizePage implements OnInit, OnChanges {
     }
     return {groups, slots};
   });
-  private randomize = inject(Randomizer);
 
-  ngOnInit() {
-    this.ngOnChanges();
-  }
-  ngOnChanges() {
-    this.navigationContext().title?.set(this.randomizer().randomizer.name);
+  constructor() {
+    effect(() => {
+      const randomizer = this.randomizer();
+      this.navigationContext().title.set(randomizer?.name ?? '');
+    });
   }
 
   roll() {
-    const {content,randomizer} = this.randomizer();
+    const content = this.collection.content();
+    const randomizer = this.randomizer();
+    if (content === undefined || randomizer === undefined) {
+      return;
+    }
     const roll = this.randomize.randomize(
       content.components,
       randomizer,
