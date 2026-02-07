@@ -1,7 +1,6 @@
-import { Component, inject, input, OnChanges, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CompiledRandomizer } from '@project/model/compiled';
-import { Collection, CollectionGame } from '@project/services/collection/collection';
+import { Collection } from '@project/services/collection/collection';
 import { NavigationContext } from '@project/services/navigation/navigation';
 
 @Component({
@@ -10,39 +9,35 @@ import { NavigationContext } from '@project/services/navigation/navigation';
   templateUrl: './game-page.html',
   styleUrl: './game-page.css',
 })
-export class GamePage implements OnInit, OnChanges {
+export class GamePage {
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   navigationContext = input.required<NavigationContext>();
   collection = inject(Collection);
-  game = input.required<CollectionGame|undefined>();
 
-  ngOnInit() {
-    this.ngOnChanges();
-  }
-  async ngOnChanges() {
-    const game = this.game();
-    const name = game?.name ?? '';
-    this.navigationContext().title?.set(name);
-    let randomizers: CompiledRandomizer[] = [];
-    if (game !== undefined) {
-      const content = await this.collection.getContent(game);
-      randomizers = content?.randomizers ?? [];
-    }
-    this.navigationContext().menu?.set({
-      section: {
-        title: {
-          text: name,
-          routerLink: ['/', 'game', game?.key ?? ''],
-        },
-        entries: randomizers.map(r => signal({
-          link: {
-            title: r.name,
-            routerLink: ['/', 'game', game?.key ?? '', 'randomizer', r.key],
-          }
-        })),
-      }
+  constructor() {
+    effect(() => {
+      const game = this.collection.game();
+      const content = this.collection.content();
+
+      this.navigationContext().title.set(game?.name ?? '');
+
+      const randomizers = (content?.components.length ?? 0 > 0 ? content : undefined)?.randomizers ?? [];
+      this.navigationContext().menu.set({
+        section: {
+          title: {
+            text: game?.name ?? '',
+            routerLink: ['/', 'game', game?.key ?? ''],
+          },
+          entries: randomizers.map(r => signal({
+            link: {
+              title: r.name,
+              routerLink: ['/', 'game', game?.key ?? '', 'randomizer', r.key],
+            }
+          })),
+        }
+      });
     });
   }
 

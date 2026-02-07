@@ -1,7 +1,8 @@
-import { Component, inject, input, OnChanges, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
 import { TreeModelNode, TreeView } from '@project/components/tree-view/tree-view';
-import { Collection, CollectionGame } from '@project/services/collection/collection';
+import { Collection } from '@project/services/collection/collection';
 import { GameMetadataSet, Games } from '@project/services/games/games';
+import { NavigationContext } from '@project/services/navigation/navigation';
 
 @Component({
   selector: 'app-game-collection-page',
@@ -9,27 +10,32 @@ import { GameMetadataSet, Games } from '@project/services/games/games';
   templateUrl: './game-collection-page.html',
   styleUrl: './game-collection-page.css',
 })
-export class GameCollectionPage implements OnInit, OnChanges {
+export class GameCollectionPage implements OnInit {
   services = {
     games: inject(Games),
     collection: inject(Collection),
   }
-  game = input.required<CollectionGame>();
+  navigationContext = input.required<NavigationContext>();
   nodes = signal<TreeModelNode[]>([]);
 
-  ngOnInit() {
-    return this.ngOnChanges();
-  }
-  async ngOnChanges() {
-    this.nodes.set(await this.loadNodes());
+  constructor() {
+    effect(async () => {
+      const collection = await this.services.collection.game();
+      if (collection === undefined) {
+        this.nodes.set([]);
+        return;
+      }
+      const metadata = await this.services.games.getMetadata(collection.key);
+      const selecteds = new Set(collection.sets);
+      const nodes = (metadata?.sets || []).map(set => this.setToNode(set, selecteds));
+      this.nodes.set(nodes);
+    });
   }
 
-  async loadNodes(): Promise<TreeModelNode[]> {
-    const metadata = await this.services.games.getMetadata(this.game().key);
-    const selecteds = new Set(this.game().sets);
-    const nodes = (metadata?.sets || []).map(set => this.setToNode(set, selecteds));
-    return nodes;
+  async ngOnInit() {
+    this.navigationContext().title.set('Collection ✏️');
   }
+
   private setToNode(set: GameMetadataSet, selecteds: Set<string>): TreeModelNode {
     return {
       key: set.key,
@@ -42,7 +48,10 @@ export class GameCollectionPage implements OnInit, OnChanges {
   async handleSelectionEvent() {
     const selection: string[] = [];
     this.collectSelected(selection, this.nodes());
-    const game = this.game();
+    const game = this.services.collection.game();
+    if (game === undefined) {
+      return;
+    }
     game.sets = selection;
     await this.services.collection.updateGame(game);
   }

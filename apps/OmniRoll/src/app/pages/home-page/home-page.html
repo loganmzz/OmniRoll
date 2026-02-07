@@ -1,8 +1,8 @@
 <button [routerLink]="['collection']">✏️</button>
-@let collection = games();
-@if ((collection?.length ?? 0) > 0) {
+@let games = collection.games();
+@if (games.length  > 0) {
   <div class="cards">
-    @for (game of collection; track game.key) {
+    @for (game of games; track game.key) {
       <div class="card link" [routerLink]="['game', game.key]">
         <div>{{ game.name }}</div>
       </div>
