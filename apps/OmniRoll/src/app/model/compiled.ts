@@ -1,5 +1,17 @@
 import { Result } from './common';
-import { DataModelComponent, DataModelGame, DataModelRandomizer, DataModelRandomizerGroup, DataModelRandomizerPick, DataModelRandomizerPool, DataModelRandomizerSlot, DataModelSet, KeyPattern } from './data-model';
+import {
+  DataModelComponent,
+  DataModelGame,
+  DataModelRandomizer,
+  DataModelRandomizerGroup,
+  DataModelRandomizerPick,
+  DataModelRandomizerPool,
+  DataModelRandomizerSlot,
+  DataModelRandomizerVariable,
+  DataModelRandomizerVariableInteger,
+  DataModelSet,
+  KeyPattern,
+} from './data-model';
 import { Expression, ExpressionLike } from './expression';
 
 export class CompiledDataLocation {
@@ -251,6 +263,7 @@ export interface CompiledComponentLike extends Record<string, boolean|number|str
 export class CompiledRandomizer implements CompiledElement {
   key = '';
   name = '';
+  variables: CompiledRandomizerVariable[] = [];
   pools: CompiledRandomizerPool[] = [];
   groups: CompiledRandomizerGroup[] = [];
   slots: CompiledRandomizerSlot[] = [];
@@ -268,6 +281,18 @@ export class CompiledRandomizer implements CompiledElement {
     const compiled = new CompiledRandomizer();
     compiled.key = spec.key;
     compiled.name = spec.name ?? spec.key;
+
+    for (const [variableIndex, variableSpec] of (spec.variables ?? []).entries()) {
+      const variableLocation = location.index('variables', [variableIndex, variableSpec.key]);
+      const result = CompiledRandomizerVariable.newFromDataModel(variableSpec, variableLocation);
+      if (result.err !== undefined) {
+        errors.push(...result.err);
+      }
+      if (result.ok !== undefined) {
+        compiled.variables.push(result.ok);
+      }
+    }
+
     for (const [poolIndex, poolSpec] of (spec.pools ?? []).entries()) {
       const poolLocation = location.index('pools', [poolIndex, poolSpec.key]);
       const result = CompiledRandomizerPool.newFromDataModel(poolSpec, poolLocation);
@@ -337,6 +362,113 @@ export interface CompiledRandomizerLike {
   pools: CompiledRandomizerPoolLike[];
   groups: CompiledRandomizerGroupLike[];
   slots: CompiledRandomizerSlotLike[];
+}
+
+export class CompiledRandomizerVariable implements CompiledElement {
+  protected constructor(
+    public key: string,
+    public name: string,
+  ) {}
+
+  toJSON(): CompiledRandomizerVariableLike {
+    return {
+      key: this.key,
+      name: this.name,
+      type: null,
+    };
+  }
+
+  static newFromDataModel(spec: DataModelRandomizerVariable, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerVariable, CompiledDataError[]> {
+    switch (spec.type) {
+      case 'integer':
+        return CompiledRandomizerVariableInteger.newFromDataModel(spec, location);
+      default:
+        return Result.err(
+          [new CompiledDataError(
+            location.child('type'),
+            `Unsupported randomizer variable type ${JSON.stringify(spec.type)}`
+          )],
+          new CompiledRandomizerVariable(spec.key, spec.name ?? spec.key),
+        );
+    }
+  }
+
+  static fromJSON(data: CompiledRandomizerVariableLike): CompiledRandomizerVariable {
+    switch (true) {
+      case CompiledRandomizerVariableInteger.isJSON(data):
+        return CompiledRandomizerVariableInteger.fromJSON(data);
+      default:
+        throw new Error(`Unsupported JSON randomizer variable:\n${JSON.stringify(data, undefined, 2)}`);
+    }
+  }
+}
+export class CompiledRandomizerVariableInteger extends CompiledRandomizerVariable {
+  min = 0;
+  max = 100;
+  default = 0;
+
+  constructor(key: string, name: string) {
+    super(key, name);
+  }
+
+  static override newFromDataModel(spec: DataModelRandomizerVariableInteger, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerVariableInteger, CompiledDataError[]> {
+    const errors: CompiledDataError[] = [];
+    if (!KeyPattern.test(spec.key)) {
+      errors.push(new CompiledDataError(location.child('key'), `Randomizer variable key ${JSON.stringify(spec.key)} is invalid`));
+    }
+    const compiled = new CompiledRandomizerVariableInteger(spec.key, spec.name ?? spec.key);
+    if (spec.min !== undefined) {
+      compiled.min = spec.min;
+    }
+    if (spec.max !== undefined) {
+      compiled.max = spec.max;
+    }
+    if (spec.default !== undefined) {
+      compiled.default = spec.default;
+    }
+    if (compiled.min >= compiled.max) {
+      errors.push(new CompiledDataError(location, `Randomizer variable min ${compiled.min} must be less than max ${compiled.max}`));
+    }
+    if (compiled.default < compiled.min || compiled.default > compiled.max) {
+      errors.push(new CompiledDataError(location, `Randomizer variable default ${compiled.default} must be between min ${compiled.min} and max ${compiled.max}`));
+    }
+    return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
+  }
+
+  override toJSON(): CompiledRandomizerVariableIntegerLike {
+    return {
+      key: this.key,
+      name: this.name,
+      type: 'integer',
+      min: this.min,
+      max: this.max,
+      default: this.default,
+    };
+  }
+  static isJSON(data: CompiledRandomizerVariableLike): data is CompiledRandomizerVariableIntegerLike {
+    return 'type' in data && data.type === 'integer';
+  }
+  static override fromJSON(data: CompiledRandomizerVariableIntegerLike): CompiledRandomizerVariableInteger {
+    const result = new CompiledRandomizerVariableInteger(data.key, data.name);
+    result.min = data.min ?? result.min;
+    result.max = data.max ?? result.max;
+    result.default = data.default ?? result.default;
+    return result;
+  }
+}
+export type CompiledRandomizerVariableLike = CompiledRandomizerVariableAbstractLike | CompiledRandomizerVariableIntegerLike;
+export interface CompiledRandomizerVariableAbstractLike {
+  key: string;
+  name: string;
+  type: null;
+}
+export interface CompiledRandomizerVariableIntegerLike {
+  key: string;
+  name: string;
+  type: 'integer';
+  min?: number;
+  max?: number;
+  default?: number;
 }
 
 export class CompiledRandomizerPool implements CompiledElement {
@@ -424,6 +556,7 @@ export interface CompiledRandomizerGroupLike {
 export class CompiledRandomizerSlot implements CompiledElement {
   key = '';
   name = '';
+  count: Expression = Expression.literal(1);
   pool = '';
   group: string|undefined = undefined;
   pick: DataModelRandomizerPick = 'remove';
@@ -439,6 +572,26 @@ export class CompiledRandomizerSlot implements CompiledElement {
     compiled.key = spec.key;
     compiled.name = spec.name ?? spec.key;
     compiled.pool = spec.pool;
+
+    switch (typeof spec.count) {
+      case 'number':
+        if (spec.count <= 0) {
+          errors.push(new CompiledDataError(location.child('count'), `Randomizer slot count ${spec.count} must be greater than 0`));
+        } else {
+          compiled.count = Expression.literal(spec.count);
+        }
+        break;
+      case 'string': {
+        const countResult = Expression.compile(spec.count);
+        if (countResult.err !== undefined) {
+          errors.push(new CompiledDataError(location.child('count'), `${countResult.err}`));
+        }
+        if (countResult.ok !== undefined) {
+          compiled.count = countResult.ok;
+        }
+        break;
+      }
+    }
 
     compiled.group = spec.group;
     if (parent !== undefined) {
@@ -490,6 +643,7 @@ export class CompiledRandomizerSlot implements CompiledElement {
   toJSON(): CompiledRandomizerSlotLike {
     return {
       ...this,
+      count: this.count.toJSON(),
       criteria: this.criteria?.toJSON(),
     };
   }
@@ -497,6 +651,7 @@ export class CompiledRandomizerSlot implements CompiledElement {
     const result = new CompiledRandomizerSlot();
     result.key = data.key;
     result.name = data.name;
+    result.count = Expression.fromJSON(data.count);
     result.pool = data.pool;
     result.group = data.group;
     if (data.criteria !== undefined) {
@@ -508,6 +663,7 @@ export class CompiledRandomizerSlot implements CompiledElement {
 export interface CompiledRandomizerSlotLike {
   key: string;
   name: string;
+  count: ExpressionLike;
   pool: string;
   group: string|undefined;
   pick: DataModelRandomizerPick;

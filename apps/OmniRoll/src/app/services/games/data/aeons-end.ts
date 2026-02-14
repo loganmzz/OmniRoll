@@ -19,8 +19,17 @@ export const aeonsend: Record<string, GameDataLoader> = {
         ],
         randomizers: [
           {
-            key: '2-players',
-            name: 'Two players',
+            key: 'default',
+            name: 'Default',
+            variables: [
+              {
+                key: 'players',
+                name: '# of players',
+                min: 1,
+                max: 4,
+                default: 2,
+              },
+            ],
             pools: [
               {
                 key: 'nemesis',
@@ -72,12 +81,8 @@ export const aeonsend: Record<string, GameDataLoader> = {
                 group: 'nemesis',
               },
               {
-                key: 'mage1',
-                pool: 'mages',
-                group: 'mages',
-              },
-              {
-                key: 'mage2',
+                key: 'mage',
+                count: 'v.players',
                 pool: 'mages',
                 group: 'mages',
               },
