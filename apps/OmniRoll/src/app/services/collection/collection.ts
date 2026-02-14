@@ -1,8 +1,23 @@
-import { effect, inject, Injectable, signal } from '@angular/core';
+import {
+  Injectable,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRouteSnapshot, EventType, Router } from '@angular/router';
-import { CompiledGame, CompiledGameLike } from '@project/model/compiled';
-import { GameMetadata, Games } from '@project/services/games/games';
+import {
+  ActivatedRouteSnapshot,
+  EventType,
+  Router,
+} from '@angular/router';
+import {
+  CompiledGame,
+  CompiledGameLike,
+} from '@project/model/compiled';
+import {
+  GameMetadata,
+  Games,
+} from '@project/services/games/games';
 import Dexie from 'dexie';
 
 export interface CollectionGame {

@@ -70,6 +70,16 @@
         {
           "key": "mages",
           "name": "Mages",
+          "variables": [
+            {
+              "key": "players",
+              "type": "integer",
+              "name": "# of players",
+              "min": 1,
+              "max": 4,
+              "default": 2
+            }
+          ],
           "pools": [
             {
               "key": "mages",
@@ -78,12 +88,9 @@
           ],
           "slots": [
             {
-              "key": "mage-1",
-              "pool": "mages"
-            },
-            {
-              "key": "mage-2",
-              "pool": "mages"
+              "key": "mages",
+              "pool": "mages",
+              "count": "v.players"
             }
           ]
         },
@@ -100,7 +107,7 @@
             {
               "key": "gem-1",
               "pool": "market",
-              "criteria": "c.types == 'gem' && c.cost < 4"
+              "criteria": "c.types == 'gem'"
             },
             {
               "key": "gem-2",
@@ -113,12 +120,8 @@
               "criteria": "c.types == 'gem'"
             },
             {
-              "key": "relic-1",
-              "pool": "market",
-              "criteria": "c.types == 'relic'"
-            },
-            {
-              "key": "relic-2",
+              "key": "relics",
+              "count": 2,
               "pool": "market",
               "criteria": "c.types == 'relic'"
             },

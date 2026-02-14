@@ -1,8 +1,8 @@
+import { Stats } from 'node:fs';
+import * as fs from 'node:fs/promises';
+import { env } from 'node:process';
 import AERData from 'aer-data';
 import * as types from 'aer-types/types';
-import { Stats } from 'fs';
-import * as fs from 'fs/promises';
-import { env } from 'process';
 
 class Canonizer {
   constructor(private language: string) {}

@@ -1,0 +1,39 @@
+<div class="form-container">
+
+  @if (compact()) {
+    <div
+      tabindex="0"
+      role="button"
+      class="chip-container"
+      (keyup)="expand()"
+      (click)="expand()"
+    >
+      @for (f of fields(); track f.key) {
+        <span class="chip-item">{{ f.label }}: {{ formValues[f.key]().value() }}</span>
+      }
+    </div>
+  } @else {
+    <div class="form-expanded">
+      @for (f of fields(); track f.key) {
+        <div class="form-field-title">{{ f.label }}: {{ formValues[f.key]().value() }}</div>
+        <div class="form-field-value">
+          @switch (f.type) {
+            @case ("integer") {
+              <input type="range" [formField]="formValues[f.key]" [(min)]="f.min" [(max)]="f.max" />
+            }
+            @default {
+            }
+          }
+        </div>
+      }
+      <div class="form-actions">
+        <button
+          type="button"
+          (click)="collapse()">
+            Close
+        </button>
+      </div>
+    </div>
+  }
+
+</div>

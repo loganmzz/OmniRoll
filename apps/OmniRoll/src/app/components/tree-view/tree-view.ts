@@ -1,4 +1,8 @@
-import { Component, input, output } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+} from '@angular/core';
 
 export interface TreeModelNode {
   key: string;

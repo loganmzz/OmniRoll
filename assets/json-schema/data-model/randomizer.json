@@ -21,6 +21,42 @@
     "description": {
       "type": "string"
     },
+    "variables": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "key",
+              "type",
+              "default"
+            ],
+            "properties": {
+              "key": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9-]*$"
+              },
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "const": "integer"
+              },
+              "min": {
+                "type": "integer"
+              },
+              "max": {
+                "type": "integer"
+              },
+              "default": {
+                "type": "integer"
+              }
+            }
+          }
+        ]
+      }
+    },
     "pools": {
       "type": "array",
       "items": {
@@ -72,6 +108,16 @@
           },
           "name": {
             "type": "string"
+          },
+          "count": {
+            "oneOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "pool": {
             "type": "string",

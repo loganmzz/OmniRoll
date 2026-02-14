@@ -1,12 +1,11 @@
 @reference "tailwindcss";
 
-//CSS Flex
 :host {
   @apply flex justify-center;
 }
 
 section {
-  @apply mx-0 items-start;
+  @apply mx-0 items-start w-full;
 }
 
 header {
@@ -23,10 +22,14 @@ app-menu {
   @apply hidden;
 }
 
+.chip-container {
+  @apply flex;
+}
+.chip-item {
+  @apply bg-gray-200 text-gray-800 px-2 py-1 rounded;
+}
+
 @variant max-lg {
-  section {
-    @apply w-full;
-  }
   app-menu {
     @apply hidden fixed left-0 z-100;
   }

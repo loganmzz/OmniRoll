@@ -1,4 +1,8 @@
-import { Component, inject, output } from '@angular/core';
+import {
+  Component,
+  inject,
+  output,
+} from '@angular/core';
 import { NavigationService } from '@project/services/navigation/navigation';
 import { MenuItem } from './menu-item';
 

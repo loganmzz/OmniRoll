@@ -1,5 +1,12 @@
-import { CompiledComponent, CompiledGame, CompiledRandomizer } from '@project/model/compiled';
-import { DataModelGame, DataModelRandomizer } from '@project/model/data-model';
+import {
+  CompiledComponent,
+  CompiledGame,
+  CompiledRandomizer,
+} from '@project/model/compiled';
+import {
+  DataModelGame,
+  DataModelRandomizer,
+} from '@project/model/data-model';
 import { Randomizer } from './randomizer';
 
 function toKey(input: Record<string, CompiledComponent>): Record<string, string> {
@@ -45,7 +52,7 @@ describe('service/randomizer', () => {
 
         const compiled = CompiledRandomizer.newFromDataModel(model).expect();
         expect(
-          toKey(randomizer.randomize(components, compiled))
+          toKey(randomizer.randomize(components, compiled, {}))
         ).toEqual(expected);
       });
 
@@ -73,7 +80,7 @@ describe('service/randomizer', () => {
 
         const compiled = CompiledRandomizer.newFromDataModel(model).expect();
         expect(
-          () => randomizer.randomize(components, compiled)
+          () => randomizer.randomize(components, compiled, {})
         ).toThrow('Slot "impossible" can\'t be fulfilled. No left component matching.');
       });
     });
@@ -122,12 +129,12 @@ describe('service/randomizer', () => {
           ],
         };
         const expected: Record<string, string[]> = {
-          single: expect.toBeOneOf(['one','two','three','four','five','six']),
+          single: expect.toBeOneOf(['one', 'two', 'three', 'four', 'five', 'six']),
         };
 
         const compiled = CompiledRandomizer.newFromDataModel(model).expect();
         expect(
-          toKey(randomizer.randomize(components, compiled))
+          toKey(randomizer.randomize(components, compiled, {}))
         ).toMatchObject(expected);
       });
       test('select-10-x-100', () => {
@@ -145,22 +152,22 @@ describe('service/randomizer', () => {
           })),
         };
         const expected: Record<string, string[]> = {
-          try0: expect.toBeOneOf(['one','two','three','four','five','six']),
-          try1: expect.toBeOneOf(['one','two','three','four','five','six']),
-          try2: expect.toBeOneOf(['one','two','three','four','five','six']),
-          try3: expect.toBeOneOf(['one','two','three','four','five','six']),
-          try4: expect.toBeOneOf(['one','two','three','four','five','six']),
-          try5: expect.toBeOneOf(['one','two','three','four','five','six']),
-          try6: expect.toBeOneOf(['one','two','three','four','five','six']),
-          try7: expect.toBeOneOf(['one','two','three','four','five','six']),
-          try8: expect.toBeOneOf(['one','two','three','four','five','six']),
-          try9: expect.toBeOneOf(['one','two','three','four','five','six']),
+          try0: expect.toBeOneOf(['one', 'two', 'three', 'four', 'five', 'six']),
+          try1: expect.toBeOneOf(['one', 'two', 'three', 'four', 'five', 'six']),
+          try2: expect.toBeOneOf(['one', 'two', 'three', 'four', 'five', 'six']),
+          try3: expect.toBeOneOf(['one', 'two', 'three', 'four', 'five', 'six']),
+          try4: expect.toBeOneOf(['one', 'two', 'three', 'four', 'five', 'six']),
+          try5: expect.toBeOneOf(['one', 'two', 'three', 'four', 'five', 'six']),
+          try6: expect.toBeOneOf(['one', 'two', 'three', 'four', 'five', 'six']),
+          try7: expect.toBeOneOf(['one', 'two', 'three', 'four', 'five', 'six']),
+          try8: expect.toBeOneOf(['one', 'two', 'three', 'four', 'five', 'six']),
+          try9: expect.toBeOneOf(['one', 'two', 'three', 'four', 'five', 'six']),
         };
 
         for (let i = 0; i < 100; i++) {
           const compiled = CompiledRandomizer.newFromDataModel(model).expect();
           expect(
-            toKey(randomizer.randomize(components, compiled))
+            toKey(randomizer.randomize(components, compiled, {}))
           ).toMatchObject(expected);
         }
       });
@@ -181,8 +188,8 @@ describe('service/randomizer', () => {
 
         for (let i = 0; i < 100; i++) {
           const compiled = CompiledRandomizer.newFromDataModel(model).expect();
-          const actual = toKey(randomizer.randomize(components, compiled));
-          const left = new Set(['one','two','three','four','five','six']);
+          const actual = toKey(randomizer.randomize(components, compiled, {}));
+          const left = new Set(['one', 'two', 'three', 'four', 'five', 'six']);
           const expected: Record<string, unknown> = {};
           [0, 1, 2].forEach(i => {
             expected[`try${i}`] = expect.toBeOneOf([...left]);
@@ -378,6 +385,7 @@ describe('service/randomizer', () => {
         const randomized = randomizer.randomize(
           compiled.components,
           rand,
+          {},
         );
         const expected = {
           nemesis: 'carapace-queen',

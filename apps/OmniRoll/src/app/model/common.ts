@@ -1,4 +1,4 @@
-export class Result<T,E> {
+export class Result<T, E> {
   constructor(
     public readonly ok: T|undefined,
     public readonly err: E|undefined,
@@ -14,11 +14,11 @@ export class Result<T,E> {
     return this.ok;
   }
 
-  static ok<T,E>(ok: T): Result<T,E> {
-    return new Result<T,E>(ok, undefined);
+  static ok<T, E>(ok: T): Result<T, E> {
+    return new Result<T, E>(ok, undefined);
   }
-  static err<T,E>(err: E, ok?: T): Result<T,E> {
-    return new Result<T,E>(ok, err);
+  static err<T, E>(err: E, ok?: T): Result<T, E> {
+    return new Result<T, E>(ok, err);
   }
 
   toString(): string {

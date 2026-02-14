@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
-import { CompiledComponent, CompiledRandomizer } from '@project/model/compiled';
+import {
+  CompiledComponent,
+  CompiledRandomizer,
+  CompiledRandomizerVariableType,
+} from '@project/model/compiled';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Randomizer {
 
-  randomize(components: CompiledComponent[], randomizer: CompiledRandomizer): Record<string, CompiledComponent> {
+  randomize(components: CompiledComponent[], randomizer: CompiledRandomizer, variables: Record<string, CompiledRandomizerVariableType>): Record<string, CompiledComponent> {
     // No need to compute real component pools, just randomize whole
     const shuffled = [...components];
     const shuffle = () => {
@@ -21,7 +25,9 @@ export class Randomizer {
 
     const result: Record<string, CompiledComponent> = {};
     const removedFromPools: Record<string, Set<string>> = {};
-    for (const slot of randomizer.slots) {
+
+    const slots = randomizer.computeSlots(variables);
+    for (const slot of slots) {
       const pool = randomizer.pools.find(pool => pool.key === slot.pool);
       if (!pool) {
         throw new Error(`Slot ${JSON.stringify(slot.key)} is refering to missing pool ${JSON.stringify(slot.pool)}`);

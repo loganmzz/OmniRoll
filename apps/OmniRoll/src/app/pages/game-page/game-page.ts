@@ -1,5 +1,15 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import {
+  Component,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router,
+  RouterModule,
+} from '@angular/router';
 import { Collection } from '@project/services/collection/collection';
 import { NavigationContext } from '@project/services/navigation/navigation';
 

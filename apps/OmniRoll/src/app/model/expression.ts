@@ -37,6 +37,10 @@ export class ExpressionError {
     }
     return new ExpressionError(`${err}`);
   }
+
+  toString(): string {
+    return this.message;
+  }
 }
 export class ExpressionParseError extends ExpressionError {
   constructor(message: string) {
@@ -53,22 +57,23 @@ export class ExpressionParseError extends ExpressionError {
       .join('\n');
     return new ExpressionParseError(`${message}:\n${lines}`);
   }
-
-  override toString(): string {
-    return this.message;
-  }
 }
 
 export type ValueType = boolean|number|string|Set<string>|undefined;
 
 export type Context = {
   component?: unknown;
+  variables?: Record<string, ValueType>;
 }
 
 export class Expression {
   constructor(
     private expression: string,
     private resolver: AbstractResolver) {}
+
+  static literal(value: ValueType): Expression {
+    return new Expression(JSON.stringify(value), new LiteralResolver(value));
+  }
 
   static compile(expression: string): Result<Expression, ExpressionError> {
     try {
@@ -79,7 +84,11 @@ export class Expression {
       }
       return Result.ok(new Expression(expression, resolver.expect()));
     } catch (err) {
-      return Result.err(ExpressionError.fromError(err));
+      if (err instanceof ExpressionError) {
+        return Result.err(err);
+      }
+      // return Result.err(ExpressionError.fromError(err));
+      throw err;
     }
   }
 
@@ -97,6 +106,11 @@ export class Expression {
       evaluationContext['component'] = context.component;
       evaluationContext['cmp'] = context.component;
       evaluationContext['c'] = context.component;
+    }
+    if (context.variables !== undefined) {
+      evaluationContext['variables'] = context.variables;
+      evaluationContext['var'] = context.variables;
+      evaluationContext['v'] = context.variables;
     }
     return this.resolver.resolve(evaluationContext);
   }
@@ -345,7 +359,8 @@ abstract class BinaryExpressionResolver extends AbstractResolver {
 
   constructor(
     protected left: AbstractResolver,
-    protected right: AbstractResolver,) {
+    protected right: AbstractResolver,
+  ) {
     super();
   }
   static override from(ast: jsep.BinaryExpression): Result<BinaryExpressionResolver, ExpressionParseError> {

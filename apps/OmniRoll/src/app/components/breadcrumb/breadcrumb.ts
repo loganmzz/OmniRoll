@@ -1,4 +1,9 @@
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavigationService } from '@project/services/navigation/navigation';
 

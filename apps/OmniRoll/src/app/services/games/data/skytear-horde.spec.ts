@@ -1,4 +1,7 @@
-import { CompiledComponent, CompiledGame } from '@project/model/compiled';
+import {
+  CompiledComponent,
+  CompiledGame,
+} from '@project/model/compiled';
 import { skytearhorde } from './skytear-horde';
 
 describe('games/data/skytear-horde', () => {
@@ -108,4 +111,4 @@ describe('games/data/skytear-horde', () => {
       }
     }
   })
-})
+});

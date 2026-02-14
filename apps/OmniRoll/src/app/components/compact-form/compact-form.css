@@ -1,0 +1,28 @@
+@reference "tailwindcss";
+
+.form-container {
+  @apply flex flex-col;
+}
+
+.chip-container {
+  @apply flex flex-wrap p-2 hover:outline hover:rounded-sm hover:cursor-pointer;
+}
+.chip-item {
+  @apply text-sm bg-gray-200 rounded-3xl px-2 py-1 m-1;
+}
+
+.form-expanded {
+  @apply outline rounded-sm p-3 grid grid-cols-[200px_auto] gap-2;
+}
+.form-actions {
+  @apply col-span-2 flex justify-center;
+}
+.form-actions button {
+  @apply text-sm p-2 min-w-16;
+}
+
+@variant max-sm {
+  .form-expanded {
+    @apply grid-cols-[auto];
+  }
+}

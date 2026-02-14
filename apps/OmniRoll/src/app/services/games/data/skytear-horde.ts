@@ -2,7 +2,7 @@ import { GameDataLoader } from './loader';
 
 export const skytearhorde: Record<string, GameDataLoader> = {
   'skytear-horde': {
-    version: '2026-02-24T20:00:00.000Z',
+    version: '2026-03-08T14:00:00.000Z',
     async load() {
       return {
         key: 'skytear-horde',
@@ -751,41 +751,16 @@ export const skytearhorde: Record<string, GameDataLoader> = {
           {
             key: 'solo-one-shot',
             name: 'Solo one-shot',
-            pools: [
+            variables: [
               {
-                key: 'alliance',
-                criteria: 'c.kinds == \'Alliance\'',
-              },
-              {
-                key: 'horde',
-                criteria: 'c.kinds == \'Horde\'',
-              },
-              {
-                key: 'outsider',
-                criteria: 'c.kinds == \'Outsider\'',
-              },
+                key: 'portal',
+                name: 'Portal',
+                type: 'integer',
+                min: 0,
+                max: 1,
+                default: 0,
+              }
             ],
-            slots: [
-              {
-                key: 'alliance',
-                name: 'Alliance',
-                pool: 'alliance',
-              },
-              {
-                key: 'horde',
-                name: 'Horde',
-                pool: 'horde',
-              },
-              {
-                key: 'outsider',
-                name: 'Outsider',
-                pool: 'outsider',
-              },
-            ],
-          },
-          {
-            key: 'solo-one-shot-portal',
-            name: 'Solo one-shot (Portal)',
             pools: [
               {
                 key: 'alliance',
@@ -822,6 +797,7 @@ export const skytearhorde: Record<string, GameDataLoader> = {
               },
               {
                 key: 'portal',
+                count: 'v.portal',
                 name: 'Portal',
                 pool: 'portal',
               },
@@ -882,44 +858,15 @@ export const skytearhorde: Record<string, GameDataLoader> = {
                 group: 'alliance',
               },
               {
-                key: 'horde-0',
-                name: 'Horde #1',
+                key: 'horde',
+                count: 3,
+                name: 'Horde ',
                 pool: 'horde',
                 group: 'horde',
               },
               {
-                key: 'horde-1',
-                name: 'Horde #2',
-                pool: 'horde',
-                group: 'horde',
-              },
-              {
-                key: 'horde-2',
-                name: 'Horde #3',
-                pool: 'horde',
-                group: 'horde',
-              },
-              {
-                key: 'portal-0',
-                name: 'Game #1',
-                pool: 'portal',
-                group: 'portal',
-              },
-              {
-                key: 'portal-1',
-                name: 'Game #2',
-                pool: 'portal',
-                group: 'portal',
-              },
-              {
-                key: 'portal-2',
-                name: 'Game #3',
-                pool: 'portal',
-                group: 'portal',
-              },
-              {
-                key: 'portal-3',
-                name: 'Game #4',
+                key: 'portal',
+                count: 4,
                 pool: 'portal',
                 group: 'portal',
               },
