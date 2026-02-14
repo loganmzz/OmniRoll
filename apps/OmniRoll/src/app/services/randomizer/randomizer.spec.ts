@@ -22,7 +22,7 @@ describe('service/randomizer', () => {
             },
           ],
         }
-      });
+      }, );
       test('select 1', () => {
         const model: DataModelRandomizer = {
           key: 'select-1',
