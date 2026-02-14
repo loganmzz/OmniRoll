@@ -1,6 +1,15 @@
-import { Component, input } from '@angular/core';
+import {
+  Component,
+  input,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { isMenuLink, isMenuSection, MenuEntry, MenuLink, MenuSection } from '@project/services/navigation/navigation';
+import {
+  MenuEntry,
+  MenuLink,
+  MenuSection,
+  isMenuLink,
+  isMenuSection,
+} from '@project/services/navigation/navigation';
 
 @Component({
   selector: 'app-menu-item',

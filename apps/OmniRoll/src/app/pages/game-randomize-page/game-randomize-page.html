@@ -1,3 +1,9 @@
+@if (form(); as form) {
+  @if (form.fields.length > 0) {
+    <app-compact-form [fields]="form.fields" [(values)]="form.values"></app-compact-form>
+  }
+}
+
 <ul>
   <li><button type="button" (click)="roll()">Roll</button></li>
 </ul>

@@ -1,3 +1,4 @@
+import { DataModelGame } from '@project/model/data-model';
 import * as de from './aeons-end/de-sets.json';
 import * as eng from './aeons-end/eng-sets.json';
 import * as fr from './aeons-end/fr-sets.json';
@@ -6,9 +7,9 @@ import { GameDataLoader } from './loader';
 
 export const aeonsend: Record<string, GameDataLoader> = {
   'aeons-end': {
-    version: '2026-02-24T20:00:00.000Z',
+    version: '2026-03-08T14:00:00.000Z',
     async load() {
-      return {
+      const data: DataModelGame = {
         key: 'aeons-end',
         name: 'Aeon\'s End',
         sets: [
@@ -19,8 +20,18 @@ export const aeonsend: Record<string, GameDataLoader> = {
         ],
         randomizers: [
           {
-            key: '2-players',
-            name: 'Two players',
+            key: 'default',
+            name: 'Default',
+            variables: [
+              {
+                key: 'players',
+                type: 'integer',
+                name: '# of players',
+                min: 1,
+                max: 4,
+                default: 2,
+              },
+            ],
             pools: [
               {
                 key: 'nemesis',
@@ -72,12 +83,8 @@ export const aeonsend: Record<string, GameDataLoader> = {
                 group: 'nemesis',
               },
               {
-                key: 'mage1',
-                pool: 'mages',
-                group: 'mages',
-              },
-              {
-                key: 'mage2',
+                key: 'mage',
+                count: 'v.players',
                 pool: 'mages',
                 group: 'mages',
               },
@@ -139,6 +146,7 @@ export const aeonsend: Record<string, GameDataLoader> = {
           },
         ],
       };
+      return data;
     }
   },
 };

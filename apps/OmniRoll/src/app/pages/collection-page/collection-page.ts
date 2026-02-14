@@ -1,7 +1,20 @@
-import { Component, computed, inject, OnChanges, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Collection, CollectionGame } from '@project/services/collection/collection';
-import { GameMetadata, Games } from '@project/services/games/games';
+import {
+  Collection,
+  CollectionGame,
+} from '@project/services/collection/collection';
+import {
+  GameMetadata,
+  Games,
+} from '@project/services/games/games';
 
 class UIGame {
   key: string;

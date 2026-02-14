@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CompiledGame } from '@project/model/compiled';
-import { DataModelGame, DataModelSet } from '@project/model/data-model';
+import {
+  DataModelGame,
+  DataModelSet,
+} from '@project/model/data-model';
 import { Dexie } from 'dexie';
 import { data } from './data';
 
@@ -54,7 +57,7 @@ export class DataModelDatabase extends Dexie {
       console.log(`Game(${gameKey}): Refresh data`);
       const model = await loader.load();
       const newMeta = metadata = fromGameModelToMetadata(model, loader.version);
-      await this.transaction('readwrite', ['Game','Component'], async tx => {
+      await this.transaction('readwrite', ['Game', 'Component'], async tx => {
         tx.table<GameMetadata>('Game').put(newMeta, gameKey);
         tx.table<DataModelGame>('Component').put(model, gameKey);
       });

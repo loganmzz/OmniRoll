@@ -1,7 +1,20 @@
-import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
-import { TreeModelNode, TreeView } from '@project/components/tree-view/tree-view';
+import {
+  Component,
+  OnInit,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
+import {
+  TreeModelNode,
+  TreeView,
+} from '@project/components/tree-view/tree-view';
 import { Collection } from '@project/services/collection/collection';
-import { GameMetadataSet, Games } from '@project/services/games/games';
+import {
+  GameMetadataSet,
+  Games,
+} from '@project/services/games/games';
 import { NavigationContext } from '@project/services/navigation/navigation';
 
 @Component({

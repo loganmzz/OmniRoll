@@ -1,4 +1,7 @@
-import { CompiledComponent, CompiledGame } from './compiled';
+import {
+  CompiledComponent,
+  CompiledGame,
+} from './compiled';
 import { DataModelGame } from './data-model';
 
 describe('model/compiled', () => {

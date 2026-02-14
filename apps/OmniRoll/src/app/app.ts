@@ -1,9 +1,17 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Breadcrumb } from './components/breadcrumb/breadcrumb';
 import { Menu } from './components/menu/menu';
 import { Collection } from './services/collection/collection';
-import { MenuSection, NavigationService } from './services/navigation/navigation';
+import {
+  MenuSection,
+  NavigationService,
+} from './services/navigation/navigation';
 
 @Component({
   imports: [RouterModule, Breadcrumb, Menu],

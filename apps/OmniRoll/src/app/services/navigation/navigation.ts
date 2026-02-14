@@ -1,6 +1,20 @@
-import { inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import {
+  Injectable,
+  Signal,
+  WritableSignal,
+  inject,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRouteSnapshot, EventType, Router, RouterLink, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  EventType,
+  Router,
+  RouterLink,
+  UrlSegment,
+  UrlSegmentGroup,
+  UrlTree,
+} from '@angular/router';
 
 export interface NavigationContextHolder {
   navigationContext: NavigationContext;

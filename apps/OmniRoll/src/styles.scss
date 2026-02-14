@@ -10,7 +10,7 @@
     @apply text-3xl font-bold;
   }
   h1 {
-    @apply text-3xl text-center m-5;
+    @apply text-3xl m-4;
   }
 
   h2 {
@@ -18,7 +18,7 @@
   }
 
   section {
-    @apply mx-auto max-w-4xl flex flex-col items-center gap-x-4 rounded-xl p-6 shadow-lg outline outline-black/5 bg-neutral-50 min-h-dvh;
+    @apply mx-auto max-w-3xl flex flex-col items-center gap-x-4 rounded-xl p-3 shadow-lg outline outline-black/5 bg-neutral-50 min-h-dvh;
   }
   section > * {
     @apply w-full;
@@ -92,5 +92,20 @@
   }
   .card > header {
     @apply absolute top-1 left-1 font-bold;
+  }
+
+  @variant max-lg {
+    app-root {
+      @apply w-full;
+    }
+    .cards {
+      @apply grid-cols-3;
+    }
+  }
+
+  @variant max-sm {
+    .cards {
+      @apply grid-cols-2;
+    }
   }
 }

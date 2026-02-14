@@ -37,11 +37,22 @@ export type DataModelRandomizer = {
   key: string;
   name?: string;
   description?: string;
+  variables?: DataModelRandomizerVariable[];
   pools: DataModelRandomizerPool[];
   groups?: DataModelRandomizerGroup[];
   slots: DataModelRandomizerSlot[];
   mergeStrategy?: DataModelMergeStategy;
   updatedAt?: string;
+}
+
+export type DataModelRandomizerVariable = DataModelRandomizerVariableInteger;
+export type DataModelRandomizerVariableInteger = {
+  key: string;
+  name?: string;
+  type: 'integer';
+  min?: number;
+  max?: number;
+  default: number;
 }
 
 export type DataModelRandomizerPool = {
@@ -57,6 +68,7 @@ export type DataModelRandomizerGroup = {
 export type DataModelRandomizerSlot = {
   key: string;
   name?: string;
+  count?: number|string;
   pool: string;
   group?: string;
   pick?: DataModelRandomizerPick;
