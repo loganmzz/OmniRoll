@@ -34,10 +34,7 @@
             "pattern": "^[a-z0-9][a-z0-9-]*$"
           },
           "criteria": {
-            "type": "array",
-            "items": {
-              "$ref": "#/$defs/Criteria"
-            }
+            "type": "string"
           }
         }
       }
@@ -89,10 +86,7 @@
             "default": "remove"
           },
           "criteria": {
-            "type": "array",
-            "items": {
-              "$ref": "#/$defs/Criteria"
-            }
+            "type": "string"
           }
         }
       }
@@ -105,11 +99,6 @@
     "updated-at": {
       "type": "string",
       "format": "date-time"
-    }
-  },
-  "$defs": {
-    "Criteria": {
-      "type": "string"
     }
   }
 }

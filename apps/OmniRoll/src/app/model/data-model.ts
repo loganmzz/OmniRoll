@@ -46,7 +46,7 @@ export type DataModelRandomizer = {
 
 export type DataModelRandomizerPool = {
   key: string;
-  criteria?: string[];
+  criteria?: string;
 }
 
 export type DataModelRandomizerGroup = {
@@ -60,5 +60,5 @@ export type DataModelRandomizerSlot = {
   pool: string;
   group?: string;
   pick?: DataModelRandomizerPick;
-  criteria?: string[];
+  criteria?: string;
 }

@@ -31,6 +31,11 @@ describe('model/compiled', () => {
                   properties: {
                     foo: 'bar',
                     answer: 42,
+                    // Check non-hidding common properties
+                    key: false,
+                    name: false,
+                    kinds: false,
+                    sets: false,
                   },
                 },
               ],
@@ -48,8 +53,8 @@ describe('model/compiled', () => {
         component.name = 'Neo';
         component.kinds.add('One');
         component.sets.add('singleton');
-        component.properties['foo'] = 'bar';
-        component.properties['answer'] = 42;
+        component['foo'] = 'bar';
+        component['answer'] = 42;
         return component;
       })());
 

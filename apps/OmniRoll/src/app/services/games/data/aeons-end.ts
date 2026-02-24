@@ -6,7 +6,7 @@ import { GameDataLoader } from './loader';
 
 export const aeonsend: Record<string, GameDataLoader> = {
   'aeons-end': {
-    version: '2026-01-08T13:30:00.000Z',
+    version: '2026-02-24T20:00:00.000Z',
     async load() {
       return {
         key: 'aeons-end',
@@ -24,33 +24,23 @@ export const aeonsend: Record<string, GameDataLoader> = {
             pools: [
               {
                 key: 'nemesis',
-                criteria: [
-                  '@kinds == \'Nemesis\''
-                ]
+                criteria: 'c.kinds == \'Nemesis\''
               },
               {
                 key: 'mages',
-                criteria: [
-                  '@kinds == \'Mage\''
-                ]
+                criteria: 'c.kinds == \'Mage\''
               },
               {
                 key: 'gems',
-                criteria: [
-                  '@kinds == \'Card\' && @type == \'Gem\''
-                ]
+                criteria: 'c.kinds == \'Card\' && c.type == \'Gem\''
               },
               {
                 key: 'relics',
-                criteria: [
-                  '@kinds == \'Card\' && @type == \'Relic\''
-                ]
+                criteria: 'c.kinds == \'Card\' && c.type == \'Relic\''
               },
               {
                 key: 'spells',
-                criteria: [
-                  '@kinds == \'Card\' && @type == \'Spell\''
-                ]
+                criteria: 'c.kinds == \'Card\' && c.type == \'Spell\''
               },
             ],
             groups: [
@@ -95,76 +85,58 @@ export const aeonsend: Record<string, GameDataLoader> = {
                 key: 'gem1',
                 pool: 'gems',
                 group: 'gems',
-                criteria: [
-                  '@cost < 4'
-                ],
+                criteria: 'c.cost < 4',
               },
               {
                 key: 'gem2',
                 pool: 'gems',
                 group: 'gems',
-                criteria: [
-                  '@cost == 4'
-                ],
+                criteria: 'c.cost == 4',
               },
               {
                 key: 'gem3',
                 pool: 'gems',
                 group: 'gems',
-                criteria: [
-                  '@cost > 4'
-                ],
+                criteria: 'c.cost > 4',
               },
               {
                 key: 'relic1',
                 pool: 'relics',
                 group: 'relics',
-                criteria: [
-                  '@cost < 4'
-                ]
+                criteria: 'c.cost < 4',
               },
               {
                 key: 'relic2',
                 pool: 'relics',
                 group: 'relics',
-                criteria: [
-                  '@cost >= 4'
-                ]
+                criteria: 'c.cost >= 4',
               },
               {
                 key: 'spell1',
                 pool: 'spells',
                 group: 'spells',
-                criteria: [
-                  '@cost < 4'
-                ]
+                criteria: 'c.cost < 4',
               },
               {
                 key: 'spell2',
                 pool: 'spells',
                 group: 'spells',
-                criteria: [
-                  '@cost == 4'
-                ]
+                criteria: 'c.cost == 4',
               },
               {
                 key: 'spell3',
                 pool: 'spells',
                 group: 'spells',
-                criteria: [
-                  '@cost == 5'
-                ]
+                criteria: 'c.cost == 5',
               },
               {
                 key: 'spell4',
                 pool: 'spells',
                 group: 'spells',
-                criteria: [
-                  '@cost >= 6'
-                ]
-              }
-            ]
-          }
+                criteria: 'c.cost >= 6',
+              },
+            ],
+          },
         ],
       };
     }

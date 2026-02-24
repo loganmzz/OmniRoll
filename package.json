@@ -86,6 +86,7 @@
     "aer-types": "3.10.0",
     "dexie": "4.2.1",
     "express": "^4.21.2",
+    "jsep": "1.4.0",
     "postcss": "^8.5.6",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.1.15",

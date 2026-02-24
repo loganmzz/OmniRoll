@@ -1,6 +1,6 @@
 import { Result } from './common';
-import { Criteria, CriteriaLike, CriteriaParser } from './criteria';
 import { DataModelComponent, DataModelGame, DataModelRandomizer, DataModelRandomizerGroup, DataModelRandomizerPick, DataModelRandomizerPool, DataModelRandomizerSlot, DataModelSet, KeyPattern } from './data-model';
+import { Expression, ExpressionLike } from './expression';
 
 export class CompiledDataLocation {
 
@@ -148,9 +148,9 @@ export class CompiledSet implements CompiledElement {
 export class CompiledComponent implements CompiledElement {
   key = '';
   name = '';
-  properties: Record<string, boolean|number|string|string[]> = {};
   sets = new Set<string>();
   kinds = new Set<string>();
+  [key: string]: boolean|number|string|Set<string>|((...args: unknown[]) => unknown);
 
   static fillFromDataModel(output: CompiledComponent[], parentSets: Set<string>, spec: DataModelSet, registries: {sets: CompiledRegistry<CompiledSet>, components: CompiledRegistry<CompiledComponent>}|undefined, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledComponent[], CompiledDataError[]> {
     const errors: CompiledDataError[] = [];
@@ -207,36 +207,43 @@ export class CompiledComponent implements CompiledElement {
       errors.push(new CompiledDataError(location.child('key'), `Component key ${JSON.stringify(spec.key)} is invalid`));
     }
     const compiled = new CompiledComponent();
+
+    const commonProperties = new Set(Object.keys(compiled));
+    for (const [propertyKey, propertyValue] of Object.entries(spec.properties ?? {})) {
+      if (!commonProperties.has(propertyKey)) {
+        compiled[propertyKey] = Array.isArray(propertyValue) ? new Set<string>(propertyValue) : propertyValue;
+      }
+    }
+
     compiled.key = spec.key;
     compiled.name = spec.name ?? spec.key;
     compiled.sets = new Set(parentsSets);
     compiled.kinds.add(kind);
-    compiled.properties = {...spec.properties};
 
     return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
   }
 
   toJSON(): CompiledComponentLike {
-    return {
-      ...this,
-      kinds: [...this.kinds],
-      sets: [...this.sets],
-    };
+    const result = {} as CompiledComponentLike;
+    for (const [key, value] of Object.entries(this)) {
+      if (typeof value !== 'function') {
+        result[key] = value instanceof Set ? [...value] : value;
+      }
+    }
+    return result;
   }
   static fromJSON(data: CompiledComponentLike): CompiledComponent {
     const result = new CompiledComponent();
     result.key = data.key;
     result.name = data.name;
-    result.properties = data.properties;
     result.sets = new Set(data.sets);
     result.kinds = new Set(data.kinds);
     return result;
   }
 }
-export interface CompiledComponentLike {
+export interface CompiledComponentLike extends Record<string, boolean|number|string|string[]> {
   key: string;
   name: string;
-  properties: Record<string, boolean|number|string|string[]>;
   sets: string[];
   kinds: string[];
 }
@@ -334,7 +341,7 @@ export interface CompiledRandomizerLike {
 
 export class CompiledRandomizerPool implements CompiledElement {
   key = '';
-  criteria: Criteria[] = [];
+  criteria?: Expression;
 
   static newFromDataModel(spec: DataModelRandomizerPool, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerPool, CompiledDataError[]> {
     const errors: CompiledDataError[] = [];
@@ -343,43 +350,43 @@ export class CompiledRandomizerPool implements CompiledElement {
     }
     const compiled = new CompiledRandomizerPool();
     compiled.key = spec.key;
-    const specCriteriaList = spec.criteria ?? [];
-    for (let i = 0; i < specCriteriaList.length; i++) {
-      const specCriteria = specCriteriaList[i];
-      const result = new CriteriaParser(specCriteria).tryReadCriteria();
-      if (result.err !== undefined) {
+    if (spec.criteria !== undefined) {
+      const criteriaResult = Expression.compile(spec.criteria);
+      if (criteriaResult.err !== undefined) {
         errors.push(new CompiledDataError(
-          location.index('criteria', i),
-          `${result.err}`,
+          location.child('criteria'),
+          `${criteriaResult.err}`,
         ));
       }
-      if (result.ok !== undefined) {
-        compiled.criteria.push(result.ok);
+      if (criteriaResult.ok !== undefined) {
+        compiled.criteria = criteriaResult.ok;
       }
     }
     return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
   }
 
   test(component: CompiledComponent): boolean {
-    return this.criteria.length === 0 || this.criteria.some(criteria => criteria.resolve(component as unknown as Record<string, unknown>));
+    return this.criteria === undefined || this.criteria.resolveAsBoolean({ component });
   }
 
   toJSON(): CompiledRandomizerPoolLike {
     return {
       ...this,
-      criteria: this.criteria.map(c => c.toJSON()),
+      criteria: this.criteria?.toJSON(),
     };
   }
   static fromJSON(data: CompiledRandomizerPoolLike): CompiledRandomizerPool {
     const result = new CompiledRandomizerPool();
     result.key = data.key;
-    result.criteria = data.criteria.map(c => Criteria.fromJSON(c));
+    if (data.criteria !== undefined) {
+      result.criteria = Expression.fromJSON(data.criteria);
+    }
     return result;
   }
 }
 export interface CompiledRandomizerPoolLike {
   key: string;
-  criteria: CriteriaLike[];
+  criteria?: ExpressionLike;
 }
 
 export class CompiledRandomizerGroup implements CompiledElement {
@@ -420,7 +427,7 @@ export class CompiledRandomizerSlot implements CompiledElement {
   pool = '';
   group: string|undefined = undefined;
   pick: DataModelRandomizerPick = 'remove';
-  criteria: Criteria[] = [];
+  criteria?: Expression;
 
   static newFromDataModel(spec: DataModelRandomizerSlot, parent: CompiledRandomizer|undefined, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerSlot, CompiledDataError[]> {
     const errors: CompiledDataError[] = [];
@@ -460,31 +467,30 @@ export class CompiledRandomizerSlot implements CompiledElement {
     }
 
     compiled.pick = spec.pick ?? compiled.pick;
-    const specCriteriaList = spec.criteria ?? [];
-    for (let i = 0; i < specCriteriaList.length; i++) {
-      const specCriteria = specCriteriaList[i];
-      const result = new CriteriaParser(specCriteria).tryReadCriteria();
-      if (result.ok !== undefined) {
-        compiled.criteria.push(result.ok);
-      }
-      if (result.err !== undefined) {
+
+    if (spec.criteria !== undefined) {
+      const criteriaResult = Expression.compile(spec.criteria);
+      if (criteriaResult.err !== undefined) {
         errors.push(new CompiledDataError(
-          location.index('criteria', i),
-          `${result.err}`,
+          location.child('criteria'),
+          `${criteriaResult.err}`,
         ));
+      }
+      if (criteriaResult.ok !== undefined) {
+        compiled.criteria = criteriaResult.ok;
       }
     }
     return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
   }
 
   test(component: CompiledComponent): boolean {
-    return this.criteria.length === 0 || this.criteria.some(criteria => criteria.resolve(component as unknown as Record<string, unknown>));
+    return this.criteria === undefined || this.criteria.resolveAsBoolean({component});
   }
 
   toJSON(): CompiledRandomizerSlotLike {
     return {
       ...this,
-      criteria: this.criteria.map(c => c.toJSON()),
+      criteria: this.criteria?.toJSON(),
     };
   }
   static fromJSON(data: CompiledRandomizerSlotLike): CompiledRandomizerSlot {
@@ -493,7 +499,9 @@ export class CompiledRandomizerSlot implements CompiledElement {
     result.name = data.name;
     result.pool = data.pool;
     result.group = data.group;
-    result.criteria = data.criteria.map(c => Criteria.fromJSON(c));
+    if (data.criteria !== undefined) {
+      result.criteria = Expression.fromJSON(data.criteria);
+    }
     return result;
   }
 }
@@ -503,5 +511,5 @@ export interface CompiledRandomizerSlotLike {
   pool: string;
   group: string|undefined;
   pick: DataModelRandomizerPick;
-  criteria: CriteriaLike[];
+  criteria?: ExpressionLike;
 }
