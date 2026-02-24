@@ -11,6 +11,7 @@
     "isolatedModules": true,
     "emitDecoratorMetadata": false,
     "module": "preserve",
+    "esModuleInterop": true,
     "paths": {
       "@project/*": ["./apps/OmniRoll/src/app/*"],
     }

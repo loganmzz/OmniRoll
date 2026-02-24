@@ -57,9 +57,7 @@
           "pools": [
             {
               "key": "nemesis",
-              "criteria": [
-                "@kind == 'Nemesis'"
-              ]
+              "criteria": "c.kind == 'Nemesis'"
             }
           ],
           "slots": [
@@ -75,9 +73,7 @@
           "pools": [
             {
               "key": "mages",
-              "criteria": [
-                "@kind == 'Mage'"
-              ]
+              "criteria": "c.kind == 'Mage'"
             }
           ],
           "slots": [
@@ -97,74 +93,54 @@
           "pools": [
             {
               "key": "market",
-              "criteria": [
-                "@kind == 'Market'"
-              ]
+              "criteria": "c.kind == 'Market'"
             }
           ],
           "slots": [
             {
               "key": "gem-1",
               "pool": "market",
-              "criteria": [
-                "@types == 'gem' && @cost < 4"
-              ]
+              "criteria": "c.types == 'gem' && c.cost < 4"
             },
             {
               "key": "gem-2",
               "pool": "market",
-              "criteria": [
-                "@types == 'gem' && @cost == 4"
-              ]
+              "criteria": "c.types == 'gem' && c.cost == 4"
             },
             {
               "key": "gem-3",
               "pool": "market",
-              "criteria": [
-                "@types == 'gem'"
-              ]
+              "criteria": "c.types == 'gem'"
             },
             {
               "key": "relic-1",
               "pool": "market",
-              "criteria": [
-                "@types == 'relic'"
-              ]
+              "criteria": "c.types == 'relic'"
             },
             {
               "key": "relic-2",
               "pool": "market",
-              "criteria": [
-                "@types == 'relic'"
-              ]
+              "criteria": "c.types == 'relic'"
             },
             {
               "key": "spell-1",
               "pool": "market",
-              "criteria": [
-                "@types == 'spell' && @cost <= 5"
-              ]
+              "criteria": "c.types == 'spell' && c.cost <= 5"
             },
             {
               "key": "spell-2",
               "pool": "market",
-              "criteria": [
-                "@types == 'spell' && @cost <= 5"
-              ]
+              "criteria": "c.types == 'spell' && c.cost <= 5"
             },
             {
               "key": "spell-3",
               "pool": "market",
-              "criteria": [
-                "@types == 'spell' && @cost >= 5"
-              ]
+              "criteria": "c.types == 'spell' && c.cost >= 5"
             },
             {
               "key": "spell-4",
               "pool": "market",
-              "criteria": [
-                "@types == 'spell' && @cost >= 5"
-              ]
+              "criteria": "c.types == 'spell' && c.cost >= 5"
             }
           ]
         }

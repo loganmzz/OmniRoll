@@ -2,7 +2,7 @@ import { GameDataLoader } from './loader';
 
 export const skytearhorde: Record<string, GameDataLoader> = {
   'skytear-horde': {
-    version: '2026-01-10T23:15:00',
+    version: '2026-02-24T20:00:00.000Z',
     async load() {
       return {
         key: 'skytear-horde',
@@ -754,21 +754,15 @@ export const skytearhorde: Record<string, GameDataLoader> = {
             pools: [
               {
                 key: 'alliance',
-                criteria: [
-                  '@kinds == \'Alliance\'',
-                ],
+                criteria: 'c.kinds == \'Alliance\'',
               },
               {
                 key: 'horde',
-                criteria: [
-                  '@kinds == \'Horde\'',
-                ],
+                criteria: 'c.kinds == \'Horde\'',
               },
               {
                 key: 'outsider',
-                criteria: [
-                  '@kinds == \'Outsider\'',
-                ],
+                criteria: 'c.kinds == \'Outsider\'',
               },
             ],
             slots: [
@@ -795,27 +789,19 @@ export const skytearhorde: Record<string, GameDataLoader> = {
             pools: [
               {
                 key: 'alliance',
-                criteria: [
-                  '@kinds == \'Alliance\'',
-                ],
+                criteria: 'c.kinds == \'Alliance\'',
               },
               {
                 key: 'horde',
-                criteria: [
-                  '@kinds == \'Horde\'',
-                ],
+                criteria: 'c.kinds == \'Horde\'',
               },
               {
                 key: 'outsider',
-                criteria: [
-                  '@kinds == \'Outsider\'',
-                ],
+                criteria: 'c.kinds == \'Outsider\'',
               },
               {
                 key: 'portal',
-                criteria: [
-                  '@kinds == \'Portal\'',
-                ],
+                criteria: 'c.kinds == \'Portal\'',
               },
             ],
             slots: [
@@ -847,33 +833,23 @@ export const skytearhorde: Record<string, GameDataLoader> = {
             pools: [
               {
                 key: 'alliance',
-                criteria: [
-                  '@kinds == \'Alliance\'',
-                ],
+                criteria: 'c.kinds == \'Alliance\'',
               },
               {
                 key: 'horde',
-                criteria: [
-                  '@kinds == \'Horde\'',
-                ],
+                criteria: 'c.kinds == \'Horde\'',
               },
               {
                 key: 'outsider',
-                criteria: [
-                  '@kinds == \'Outsider\'',
-                ],
+                criteria: 'c.kinds == \'Outsider\'',
               },
               {
                 key: 'portal',
-                criteria: [
-                  '@kinds == \'Portal\'',
-                ],
+                criteria: 'c.kinds == \'Portal\'',
               },
               {
                 key: 'scenario',
-                criteria: [
-                  '@kinds == \'Scenario\'',
-                ],
+                criteria: 'c.kinds == \'Scenario\'',
               },
             ],
             groups: [

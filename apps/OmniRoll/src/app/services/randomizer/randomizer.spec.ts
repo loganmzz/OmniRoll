@@ -287,33 +287,23 @@ describe('service/randomizer', () => {
             pools: [
               {
                 key: 'nemesis',
-                criteria: [
-                  '@kinds == \'Nemesis\''
-                ]
+                criteria: 'c.kinds == \'Nemesis\'',
               },
               {
                 key: 'mages',
-                criteria: [
-                  '@kinds == \'Mage\''
-                ]
+                criteria: 'c.kinds == \'Mage\'',
               },
               {
                 key: 'gems',
-                criteria: [
-                  '@kinds == \'Market\' && @type == \'gem\''
-                ]
+                criteria: 'c.kinds == \'Market\' && c.type == \'gem\'',
               },
               {
                 key: 'relics',
-                criteria: [
-                  '@kinds == \'Market\' && @type == \'relic\''
-                ]
+                criteria: 'c.kinds == \'Market\' && c.type == \'relic\'',
               },
               {
                 key: 'spells',
-                criteria: [
-                  '@kinds == \'Market\' && @type == \'spell\''
-                ]
+                criteria: 'c.kinds == \'Market\' && c.type == \'spell\'',
               },
             ],
             slots: [
@@ -332,65 +322,47 @@ describe('service/randomizer', () => {
               {
                 key: 'gem1',
                 pool: 'gems',
-                criteria: [
-                  '@cost < 4'
-                ],
+                criteria: 'c.cost < 4',
               },
               {
                 key: 'gem2',
                 pool: 'gems',
-                criteria: [
-                  '@cost == 4'
-                ],
+                criteria: 'c.cost == 4',
               },
               {
                 key: 'gem3',
                 pool: 'gems',
-                criteria: [
-                  '@cost > 4'
-                ],
+                criteria: 'c.cost > 4',
               },
               {
                 key: 'relic1',
                 pool: 'relics',
-                criteria: [
-                  '@cost < 4'
-                ]
+                criteria: 'c.cost < 4',
               },
               {
                 key: 'relic2',
                 pool: 'relics',
-                criteria: [
-                  '@cost >= 4'
-                ]
+                criteria: 'c.cost >= 4',
               },
               {
                 key: 'spell1',
                 pool: 'spells',
-                criteria: [
-                  '@cost < 4'
-                ]
+                criteria: 'c.cost < 4'
               },
               {
                 key: 'spell2',
                 pool: 'spells',
-                criteria: [
-                  '@cost == 4'
-                ]
+                criteria: 'c.cost == 4',
               },
               {
                 key: 'spell3',
                 pool: 'spells',
-                criteria: [
-                  '@cost == 5'
-                ]
+                criteria: 'c.cost == 5',
               },
               {
                 key: 'spell4',
                 pool: 'spells',
-                criteria: [
-                  '@cost >= 6'
-                ]
+                criteria: 'c.cost >= 6',
               }
             ]
           }

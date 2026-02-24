@@ -17,8 +17,8 @@ describe('games/data/skytear-horde', () => {
     const errors: string[] = [];
     for (const component of compiled.components) {
       // If refering a horde, must exists
-      if ('horde' in component.properties) {
-        const hordeKey = component.properties['horde'];
+      if ('horde' in component) {
+        const hordeKey = component['horde'];
         const horde = index.get(`${hordeKey}`);
         if (horde === undefined) {
           errors.push(`Component ${JSON.stringify(component.key)} is referring a missing horde ${JSON.stringify(hordeKey)}`);
@@ -30,8 +30,8 @@ describe('games/data/skytear-horde', () => {
       }
 
       // If refering an alliance, must exists
-      if ('alliance' in component.properties) {
-        const allianceKey = component.properties['alliance'];
+      if ('alliance' in component) {
+        const allianceKey = component['alliance'];
         const alliance = index.get(`${allianceKey}`);
         if (alliance === undefined) {
           errors.push(`Component ${JSON.stringify(component.key)} is referring a missing alliance ${JSON.stringify(allianceKey)}`);
@@ -44,18 +44,18 @@ describe('games/data/skytear-horde', () => {
 
       // If Alliance
       if (component.kinds.has('Alliance')) {
-        if (!('complexity' in component.properties)) {
+        if (!('complexity' in component)) {
           errors.push(`Alliance ${JSON.stringify(component.key)} is missing complexity`);
         } else {
-          const complexity = component.properties['complexity'];
+          const complexity = component['complexity'];
           if (typeof complexity !== 'number') {
             errors.push(`Alliance ${JSON.stringify(component.key)} has non-numeric complexity`);
           }
         }
-        if (!('faction' in component.properties)) {
+        if (!('faction' in component)) {
           errors.push(`Alliance ${JSON.stringify(component.key)} is missing faction`);
         } else {
-          const faction = component.properties['faction'];
+          const faction = component['faction'];
           if (typeof faction !== 'string') {
             errors.push(`Alliance ${JSON.stringify(component.key)} has non-string faction`);
           } else if (!allianceFactions.includes(faction)) {
@@ -66,10 +66,10 @@ describe('games/data/skytear-horde', () => {
 
       // If Horde
       if (component.kinds.has('Horde')) {
-        if (!('difficulty' in component.properties)) {
+        if (!('difficulty' in component)) {
           errors.push(`Horde ${JSON.stringify(component.key)} is missing difficulty`);
         } else {
-          const difficulty = component.properties['difficulty'];
+          const difficulty = component['difficulty'];
           if (typeof difficulty !== 'number') {
             errors.push(`Horde ${JSON.stringify(component.key)} has non-numeric difficulty`);
           }
@@ -78,31 +78,31 @@ describe('games/data/skytear-horde', () => {
 
       // If Outsider
       if (component.kinds.has('Outsider')) {
-        if (!('type' in component.properties)) {
+        if (!('type' in component)) {
           errors.push(`Outsider ${JSON.stringify(component.key)} is missing type`);
         } else {
-          const type = component.properties['type'];
+          const type = component['type'];
           if (typeof type !== 'string') {
             errors.push(`Outsider ${JSON.stringify(component.key)} has non-string type`);
           } else if (!outsiderTypes.includes(type)) {
             errors.push(`Outsider ${JSON.stringify(component.key)} has invalid type ${JSON.stringify(type)}: must be one of ${outsiderTypes.join(', ')}`);
           }
         }
-        if (!('horde' in component.properties)) {
+        if (!('horde' in component)) {
           errors.push(`Outsider ${JSON.stringify(component.key)} is missing horde`);
         }
       }
 
       // If Portal
       if (component.kinds.has('Portal')) {
-        if (!('horde' in component.properties)) {
+        if (!('horde' in component)) {
           errors.push(`Portal ${JSON.stringify(component.key)} is missing horde`);
         }
       }
 
       // If Scenario
       if (component.kinds.has('Scenario')) {
-        if (!('horde' in component.properties)) {
+        if (!('horde' in component)) {
           errors.push(`Scenario ${JSON.stringify(component.key)} is missing horde`);
         }
       }
