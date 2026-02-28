@@ -37,6 +37,10 @@ export class ExpressionError {
     }
     return new ExpressionError(`${err}`);
   }
+
+  toString(): string {
+    return this.message;
+  }
 }
 export class ExpressionParseError extends ExpressionError {
   constructor(message: string) {
@@ -53,10 +57,6 @@ export class ExpressionParseError extends ExpressionError {
       .join('\n');
     return new ExpressionParseError(`${message}:\n${lines}`);
   }
-
-  override toString(): string {
-    return this.message;
-  }
 }
 
 export type ValueType = boolean|number|string|Set<string>|undefined;
@@ -69,6 +69,10 @@ export class Expression {
   constructor(
     private expression: string,
     private resolver: AbstractResolver) {}
+
+  static literal(value: ValueType): Expression {
+    return new Expression(JSON.stringify(value), new LiteralResolver(value));
+  }
 
   static compile(expression: string): Result<Expression, ExpressionError> {
     try {
