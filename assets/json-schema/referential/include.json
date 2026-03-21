@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://loganmzz.github.io/OmniRoll/schemas/referential/include.json",
+  "title": "Boardgame Universal Randomizer - Referential | Include",
+  "type": "object",
+  "required": [
+    "include"
+  ],
+  "properties": {
+    "include": {
+      "type": "string"
+    }
+  }
+}

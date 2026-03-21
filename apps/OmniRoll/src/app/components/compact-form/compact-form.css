@@ -12,13 +12,26 @@
 }
 
 .form-expanded {
-  @apply outline rounded-sm p-3 grid grid-cols-[200px_auto] gap-2;
+  @apply outline rounded-sm p-3 grid grid-cols-[150px_2em_1fr] gap-2;
+}
+.form-errors {
+  @apply col-span-3 text-red-500 text-sm;
 }
 .form-actions {
-  @apply col-span-2 flex justify-center;
+  @apply col-span-3 flex justify-center;
 }
 .form-actions button {
   @apply text-sm p-2 min-w-16;
+}
+
+input {
+  width: stretch;
+}
+.form-field-range-value {
+  @apply text-end;
+}
+.form-field-text-input {
+  @apply col-span-2;
 }
 
 @variant max-sm {

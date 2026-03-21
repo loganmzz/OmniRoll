@@ -218,12 +218,12 @@ async function main() {
       }
     }
 
-    const outputDir = env['GAME_DATA_AEONS_END_GENERATOR_OUTPUT_DIR'] ?? 'apps/OmniRoll/src/app/services/games/data/aeons-end';
+    const outputDir = env['GAME_DATA_AEONS_END_GENERATOR_OUTPUT_DIR'] ?? 'apps/OmniRoll/public/data/games/aeons-end';
     let outputDirStat: Stats|undefined = undefined;
     try {
       outputDirStat = await fs.stat(outputDir);
     } catch (e) {
-      if ('code' in e && e.code === 'ENOENT') {
+      if (typeof e === 'object' && e !== null && 'code' in e && e.code === 'ENOENT') {
         // Not exists
       } else {
         throw e;

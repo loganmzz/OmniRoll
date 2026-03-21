@@ -6,9 +6,9 @@ source "${bindir}/__init.shrc" &&
 true || exit $?
 
 function main.run() {
-  files.set_schema_files 'data-model' || return $?
+  files.set_schema_files 'referential' || return $?
 
-  example_root="${basedir}/examples/data-model"
+  example_root="${basedir}/examples/referential"
 
   schema_keys=()
   local schema_key=''

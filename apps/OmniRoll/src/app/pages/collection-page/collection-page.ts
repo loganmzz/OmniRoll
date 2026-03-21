@@ -2,7 +2,6 @@ import {
   Component,
   OnChanges,
   OnInit,
-  computed,
   inject,
   signal,
 } from '@angular/core';
@@ -11,22 +10,6 @@ import {
   Collection,
   CollectionGame,
 } from '@project/services/collection/collection';
-import {
-  GameMetadata,
-  Games,
-} from '@project/services/games/games';
-
-class UIGame {
-  key: string;
-  name: string;
-  enabled: boolean;
-
-  constructor(public model: GameMetadata, public collection: CollectionGame|undefined) {
-    this.key  = model.key;
-    this.name = model.name;
-    this.enabled = collection?.enabled ?? false;
-  }
-}
 
 @Component({
   selector: 'app-collection-page',
@@ -36,35 +19,19 @@ class UIGame {
 })
 export class CollectionPage implements OnInit, OnChanges {
   collectionService = inject(Collection);
-  gamesService = inject(Games);
 
-  metadatas = signal<GameMetadata[]>([]);
-  options = computed(() => {
-    const metadatas  = this.metadatas();
-    const collection = this.collectionService.games();
-
-    const collectionByKey = new Map<string, CollectionGame>();
-    for (const game of collection) {
-      collectionByKey.set(game.key, game);
-    }
-
-    const options: UIGame[] = [];
-    for (const metadata of metadatas) {
-      options.push(new UIGame(metadata, collectionByKey.get(metadata.key)));
-    }
-
-    return options;
-  });
+  games = signal<CollectionGame[]>([]);
 
   ngOnInit() {
     this.ngOnChanges();
   }
   async ngOnChanges() {
-    this.metadatas.set(await this.gamesService.list());
+    const games = await this.collectionService.getAvailableGames();
+    this.games.set(games);
   }
 
-  async reverse(game: UIGame) {
-    await this.collectionService.updateGameStatus(game.model, !game.enabled);
+  async reverse(game: CollectionGame): Promise<void> {
+    await this.collectionService.updateGameStatus(game.key, !game.enabled);
     await this.ngOnInit();
   }
 }

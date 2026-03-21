@@ -7,8 +7,10 @@ import {
   MenuEntry,
   MenuLink,
   MenuSection,
+  MenuSeparator,
   isMenuLink,
   isMenuSection,
+  isMenuSeparator,
 } from '@project/services/navigation/navigation';
 
 @Component({
@@ -31,6 +33,13 @@ export class MenuItem {
     const entry = this.entry();
     if (isMenuLink(entry)) {
       return entry.link;
+    }
+    return null;
+  }
+  asSeparator(): MenuSeparator['separator']|null {
+    const entry = this.entry();
+    if (isMenuSeparator(entry)) {
+      return entry.separator;
     }
     return null;
   }

@@ -1,6 +1,8 @@
 <div class="form-container">
 
-  @if (compact()) {
+  @let form = form$;
+
+  @if (!expanded() && compact()) {
     <div
       tabindex="0"
       role="button"
@@ -9,29 +11,67 @@
       (click)="expand()"
     >
       @for (f of fields(); track f.key) {
-        <span class="chip-item">{{ f.label }}: {{ formValues[f.key]().value() }}</span>
+        <span class="chip-item">{{ f.label }}: {{ form[f.key]().value() }}</span>
       }
     </div>
   } @else {
     <div class="form-expanded">
       @for (f of fields(); track f.key) {
-        <div class="form-field-title">{{ f.label }}: {{ formValues[f.key]().value() }}</div>
-        <div class="form-field-value">
+        <div class="form-field-title">{{ f.label }}: </div>
+          @let formField = form[f.key]();
           @switch (f.type) {
-            @case ("integer") {
-              <input type="range" [formField]="formValues[f.key]" [(min)]="f.min" [(max)]="f.max" />
+            @case ("range") {
+              <span class="form-field-range-value">{{ formField.value() }}</span>
+              <input class="form-field-range-input" type="range" [formField]="integerField(form, f.key)" [(min)]="f.min" [(max)]="f.max" />
+            }
+            @case ("text") {
+              <input class="form-field-text-input" type="text" [formField]="stringField(form, f.key)" />
+            }
+            @case ("url") {
+              <input class="form-field-text-input" type="url" [formField]="stringField(form, f.key)" />
             }
             @default {
             }
           }
+          @if (formField.touched() && formField.invalid()) {
+          <div class="form-errors">
+            <ul>
+              @for (error of formField.errors(); track error) {
+                <li>{{ error.message }}</li>
+              }
+            </ul>
+          </div>
+          }
+        }
+      @if (form().touched() && form().invalid()) {
+        <div class="form-errors">
+          <ul>
+            @for (error of form().errors(); track error) {
+              <li>{{ error.message }}</li>
+            }
+          </ul>
         </div>
       }
       <div class="form-actions">
-        <button
-          type="button"
-          (click)="collapse()">
-            Close
-        </button>
+          @if (expanded()) {
+            <button
+              type="button"
+              [disabled]="!form().valid()"
+              (click)="save()">
+                Save
+            </button>
+            <button
+              type="button"
+              (click)="cancel()">
+                Cancel
+            </button>
+          } @else {
+            <button
+              type="button"
+              (click)="close()">
+                Close
+            </button>
+          }
       </div>
     </div>
   }

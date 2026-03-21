@@ -1,0 +1,117 @@
+key: "skytear-horde"
+name: "Skytear Horde"
+
+sets:
+- include: "skytear-horde/eng-sets.yaml"
+
+randomizers:
+
+- key: "solo-one-shot"
+  name: "Solo one-shot"
+  variables:
+  - key: "portal"
+    name: "Portal"
+    type: "integer"
+    min: 0
+    max: 1
+    default: 0
+  pools:
+  - key: "alliance"
+    criteria: |
+      c.kinds == "Alliance"
+  - key: "horde"
+    criteria: |
+      c.kinds == "Horde"
+  - key: "outsider"
+    criteria: |
+      c.kinds == "Outsider"
+  - key: "portal"
+    criteria: |
+      c.kinds == "Portal"
+  slots:
+  - key: "alliance"
+    name: "Alliance"
+    pool: "alliance"
+  - key: "horde"
+    name: "Horde"
+    pool: "horde"
+  - key: "outsider"
+    name: "Outsider"
+    pool: "outsider"
+  - key: "portal"
+    count: |
+      v.portal
+    name: "Portal"
+    pool: "portal"
+
+- key: "solo-campaign"
+  name: "Solo campaign"
+  pools:
+  - key: "alliance"
+    criteria: |
+      c.kinds == "Alliance"
+  - key: "horde"
+    criteria: |
+      c.kinds == "Horde"
+  - key: "outsider"
+    criteria: |
+      c.kinds == "Outsider"
+  - key: "portal"
+    criteria: |
+      c.kinds == "Portal"
+  - key: "scenario"
+    criteria: |
+      c.kinds == "Scenario"
+  groups:
+  - key: "alliance"
+    name: "Alliance"
+  - key: "horde"
+    name: "Horde"
+  - key: "portal"
+    name: "Portal"
+  - key: "scenario"
+    name: "Scenario"
+  - key: "outsider"
+    name: "Final Outsider"
+  slots:
+  - key: "alliance"
+    name: ""
+    pool: "alliance"
+    group: "alliance"
+  - key: "horde"
+    count: 3
+    name: "Horde "
+    pool: "horde"
+    group: "horde"
+  - key: "portal"
+    count: 4
+    pool: "portal"
+    group: "portal"
+  - key: "scenario-0"
+    name: "Game #1"
+    pool: "scenario"
+    group: "scenario"
+  - key: "scenario-1"
+    name: "Game #2"
+    pool: "scenario"
+    group: "scenario"
+  - key: "scenario-2"
+    name: "Henchman #2"
+    pool: "scenario"
+    group: "scenario"
+  - key: "scenario-3"
+    name: "Game #3"
+    pool: "scenario"
+    group: "scenario"
+  - key: "scenario-4"
+    name: "Henchman #3"
+    pool: "scenario"
+    group: "scenario"
+  - key: "scenario-5"
+    name: "Game #4"
+    pool: "scenario"
+    group: "scenario"
+  - key: "outsider"
+    name: ""
+    pool: "outsider"
+    group: "outsider"

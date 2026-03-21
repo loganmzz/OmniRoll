@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.separator {
+  @apply my-2;
+}

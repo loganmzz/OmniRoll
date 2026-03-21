@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://loganmzz.github.io/OmniRoll/schemas/data-model/randomizer.json",
-  "title": "Boardgame Universal Randomizer - Data Model | Randomizer",
+  "$id": "https://loganmzz.github.io/OmniRoll/schemas/referential/randomizer.json",
+  "title": "Boardgame Universal Randomizer - Referential | Randomizer",
   "type": "object",
   "required": [
     "key",

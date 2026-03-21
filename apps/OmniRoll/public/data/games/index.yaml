@@ -1,0 +1,6 @@
+key: "omniroll-default"
+name: "OmniRoll"
+updatedAt: "2026-03-14T22:30:00.000Z"
+games:
+- include: "./aeons-end.yaml"
+- include: "./skytear-horde.yaml"

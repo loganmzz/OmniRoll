@@ -6,7 +6,7 @@ source "${bindir}/__init.shrc" &&
 true || exit $?
 
 function main.run() {
-  files.set_schema_files 'data-model' &&
+  files.set_schema_files 'referential' &&
   schema.validate_schema 'module.json' &&
   true
 }
