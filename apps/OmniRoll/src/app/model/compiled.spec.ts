@@ -2,12 +2,12 @@ import {
   CompiledComponent,
   CompiledGame,
 } from './compiled';
-import { DataModelGame } from './data-model';
+import { ReferentialGame } from './referential';
 
 describe('model/compiled', () => {
   describe('game', () => {
     test('empty', () => {
-      const input: DataModelGame = {
+      const input: ReferentialGame = {
         key: 'empty',
       };
 
@@ -19,7 +19,7 @@ describe('model/compiled', () => {
     });
 
     test('component', () => {
-      const input: DataModelGame = {
+      const input: ReferentialGame = {
         key: 'component',
         name: 'Component',
         sets: [
@@ -613,15 +613,15 @@ describe('model/compiled', () => {
             `/randomizers[0:default]/slots[0:a]/group: Randomizer slot group "default" is provided but none is expected`,
           ],
         },
-      ] as {title: string, input: DataModelGame, expected: string[]}[]
+      ] as {title: string, input: ReferentialGame, expected: string[]}[]
     )(
       'validation-errors[$#] $title',
-      ({input, expected}: {input: DataModelGame, expected: string[]}) => {
+      ({input, expected}: {input: ReferentialGame, expected: string[]}) => {
         const result = CompiledGame.newFromDataModel(input);
         if (result.err === undefined) {
           throw new Error(`Should have failed with:\n${expected.join('\n')}`);
         }
-        expect(result.err.map(e => `${e}`)).toStrictEqual(expected);
+        expect(`${result.err}`).toStrictEqual(expected.map(e => `- ${e}`).join('\n'));
       }
     );
   });

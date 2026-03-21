@@ -1,21 +1,21 @@
 import { Result } from './common';
 import {
-  DataModelComponent,
-  DataModelGame,
-  DataModelRandomizer,
-  DataModelRandomizerGroup,
-  DataModelRandomizerPick,
-  DataModelRandomizerPool,
-  DataModelRandomizerSlot,
-  DataModelRandomizerVariable,
-  DataModelRandomizerVariableInteger,
-  DataModelSet,
-  KeyPattern,
-} from './data-model';
-import {
   Expression,
   ExpressionLike,
 } from './expression';
+import {
+  KeyPattern,
+  ReferentialComponent,
+  ReferentialGame,
+  ReferentialRandomizer,
+  ReferentialRandomizerGroup,
+  ReferentialRandomizerPick,
+  ReferentialRandomizerPool,
+  ReferentialRandomizerSlot,
+  ReferentialRandomizerVariable,
+  ReferentialRandomizerVariableInteger,
+  ReferentialSet,
+} from './referential';
 
 export type CompiledDataLocationIndex = string | number | [number, string];
 export class CompiledDataLocation {
@@ -47,6 +47,25 @@ export class CompiledDataError {
   }
 }
 
+export class CompiledDataErrors {
+  constructor(public errors: CompiledDataError[] = []) {}
+
+  get length(): number {
+    return this.errors.length;
+  }
+
+  addError(error: CompiledDataError): void {
+    this.errors.push(error);
+  }
+  addErrors(errors: CompiledDataErrors): void {
+    this.errors.push(...errors.errors);
+  }
+
+  toString(): string {
+    return this.errors.map(e => `- ${e}`).join('\n');
+  }
+}
+
 interface CompiledElement {
   key: string;
   name?: string;
@@ -72,15 +91,15 @@ export class CompiledGame implements CompiledElement {
   components: CompiledComponent[] = [];
   randomizers: CompiledRandomizer[] = [];
 
-  static newFromDataModel(spec: DataModelGame, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledGame, CompiledDataError[]> {
-    const errors: CompiledDataError[] = [];
+  static newFromDataModel(spec: ReferentialGame, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledGame, CompiledDataErrors> {
+    const errors: CompiledDataErrors = new CompiledDataErrors();
     const components = new CompiledRegistry<CompiledComponent>('Component');
     const sets = new CompiledRegistry<CompiledSet>('Set');
     const randomizers = new CompiledRegistry<CompiledRandomizer>('Randomizer');
 
     const compiled = new CompiledGame();
     if (!KeyPattern.test(spec.key)) {
-      errors.push(new CompiledDataError(location.child('key'), `Game key ${JSON.stringify(spec.key)} is invalid`));
+      errors.addError(new CompiledDataError(location.child('key'), `Game key ${JSON.stringify(spec.key)} is invalid`));
     }
     compiled.key = spec.key;
     compiled.name = spec.name ?? spec.key;
@@ -88,29 +107,29 @@ export class CompiledGame implements CompiledElement {
       const setLocation = location.index('sets', [specIndex, specSet.key]);
       const setResult = CompiledSet.newFromDataModel(specSet, setLocation);
       if (setResult.err !== undefined) {
-        errors.push(...setResult.err);
+        errors.addErrors(setResult.err);
       }
       if (setResult.ok !== undefined) {
         const setRegistryResult = sets.add(setResult.ok, setLocation);
         if (setRegistryResult.err !== undefined) {
-          errors.push(setRegistryResult.err);
+          errors.addError(setRegistryResult.err);
         }
       }
       const componentsResult = CompiledComponent.fillFromDataModel(compiled.components, new Set(), specSet, {sets, components}, setLocation);
       if (componentsResult.err !== undefined) {
-        errors.push(...componentsResult.err);
+        errors.addErrors(componentsResult.err);
       }
     }
     for (const [randomizerIndex, specRandomizer] of (spec.randomizers ?? []).entries()) {
       const randomizerLocation = location.index('randomizers', [randomizerIndex, specRandomizer.key]);
       const result = CompiledRandomizer.newFromDataModel(specRandomizer, randomizerLocation);
       if (result.err !== undefined) {
-        errors.push(...result.err);
+        errors.addErrors(result.err);
       }
       if (result.ok !== undefined) {
         const addResult = randomizers.add(result.ok, randomizerLocation);
         if (addResult.err !== undefined) {
-          errors.push(addResult.err);
+          errors.addError(addResult.err);
         }
         compiled.randomizers.push(result.ok);
       }
@@ -146,11 +165,11 @@ export class CompiledSet implements CompiledElement {
   key = '';
   name = '';
 
-  static newFromDataModel(spec: DataModelSet, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledSet, CompiledDataError[]> {
-    const errors: CompiledDataError[] = [];
+  static newFromDataModel(spec: ReferentialSet, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledSet, CompiledDataErrors> {
+    const errors: CompiledDataErrors = new CompiledDataErrors();
 
     if (!KeyPattern.test(spec.key)) {
-      errors.push(new CompiledDataError(location.child('key'), `Set key ${JSON.stringify(spec.key)} is invalid`));
+      errors.addError(new CompiledDataError(location.child('key'), `Set key ${JSON.stringify(spec.key)} is invalid`));
     }
 
     const compiled = new CompiledSet();
@@ -168,8 +187,8 @@ export class CompiledComponent implements CompiledElement {
   kinds = new Set<string>();
   [key: string]: boolean|number|string|Set<string>|((...args: unknown[]) => unknown);
 
-  static fillFromDataModel(output: CompiledComponent[], parentSets: Set<string>, spec: DataModelSet, registries: {sets: CompiledRegistry<CompiledSet>, components: CompiledRegistry<CompiledComponent>}|undefined = undefined, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledComponent[], CompiledDataError[]> {
-    const errors: CompiledDataError[] = [];
+  static fillFromDataModel(output: CompiledComponent[], parentSets: Set<string>, spec: ReferentialSet, registries: {sets: CompiledRegistry<CompiledSet>, components: CompiledRegistry<CompiledComponent>}|undefined = undefined, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledComponent[], CompiledDataErrors> {
+    const errors: CompiledDataErrors = new CompiledDataErrors();
 
     const sets = new Set(parentSets);
     sets.add(spec.key);
@@ -178,19 +197,19 @@ export class CompiledComponent implements CompiledElement {
       const setLocation = location.index('sets', [setIndex, childSet.key]);
       const setResult = CompiledSet.newFromDataModel(childSet);
       if (setResult.err !== undefined) {
-        errors.push(...setResult.err);
+        errors.addErrors(setResult.err);
       }
       if (setResult.ok !== undefined) {
         if (registries?.sets !== undefined) {
           const setRegistryResult = registries.sets.add(setResult.ok, setLocation);
           if (setRegistryResult.err !== undefined) {
-            errors.push(setRegistryResult.err);
+            errors.addError(setRegistryResult.err);
           }
         }
       }
       const result = this.fillFromDataModel(output, sets, childSet, registries, setLocation);
       if (result.err !== undefined) {
-        errors.push(...result.err);
+        errors.addErrors(result.err);
       }
     }
     for (const kind in spec.components) {
@@ -200,13 +219,13 @@ export class CompiledComponent implements CompiledElement {
         const componentLocation = kindLocation.index('', [componentIndex, specComponent.key]);
         const result = this.newFromDataModel(sets, kind, specComponent, componentLocation);
         if (result.err !== undefined) {
-          errors.push(...result.err);
+          errors.addErrors(result.err);
         }
         if (result.ok !== undefined) {
           if (registries?.components !== undefined) {
             const componentRegistryResult = registries.components.add(result.ok, componentLocation);
             if (componentRegistryResult.err !== undefined) {
-              errors.push(componentRegistryResult.err);
+              errors.addError(componentRegistryResult.err);
             }
           }
           output.push(result.ok);
@@ -216,11 +235,11 @@ export class CompiledComponent implements CompiledElement {
     return errors.length === 0 ? Result.ok(output) : Result.err(errors, output);
   }
 
-  static newFromDataModel(parentsSets: Set<string>, kind: string, spec: DataModelComponent, location: CompiledDataLocation): Result<CompiledComponent, CompiledDataError[]> {
-    const errors: CompiledDataError[] = [];
+  static newFromDataModel(parentsSets: Set<string>, kind: string, spec: ReferentialComponent, location: CompiledDataLocation): Result<CompiledComponent, CompiledDataErrors> {
+    const errors: CompiledDataErrors = new CompiledDataErrors();
 
     if (!KeyPattern.test(spec.key)) {
-      errors.push(new CompiledDataError(location.child('key'), `Component key ${JSON.stringify(spec.key)} is invalid`));
+      errors.addError(new CompiledDataError(location.child('key'), `Component key ${JSON.stringify(spec.key)} is invalid`));
     }
     const compiled = new CompiledComponent();
 
@@ -279,8 +298,8 @@ export class CompiledRandomizer implements CompiledElement {
   groups: CompiledRandomizerGroup[] = [];
   slots: CompiledRandomizerSlot[] = [];
 
-  static newFromDataModel(spec: DataModelRandomizer, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizer, CompiledDataError[]> {
-    const errors: CompiledDataError[] = [];
+  static newFromDataModel(spec: ReferentialRandomizer, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizer, CompiledDataErrors> {
+    const errors: CompiledDataErrors = new CompiledDataErrors();
 
     const variables = new CompiledRegistry<CompiledRandomizerVariable>('Randomizer variable');
     const pools = new CompiledRegistry<CompiledRandomizerPool>('Randomizer pool');
@@ -288,7 +307,7 @@ export class CompiledRandomizer implements CompiledElement {
     const slots = new CompiledRegistry<CompiledRandomizerSlot>('Randomizer slot');
 
     if (!KeyPattern.test(spec.key)) {
-      errors.push(new CompiledDataError(location.child('key'), `Randomizer key ${JSON.stringify(spec.key)} is invalid`));
+      errors.addError(new CompiledDataError(location.child('key'), `Randomizer key ${JSON.stringify(spec.key)} is invalid`));
     }
     const compiled = new CompiledRandomizer();
     compiled.key = spec.key;
@@ -298,12 +317,12 @@ export class CompiledRandomizer implements CompiledElement {
       const variableLocation = location.index('variables', [variableIndex, variableSpec.key]);
       const result = CompiledRandomizerVariable.newFromDataModel(variableSpec, variableLocation);
       if (result.err !== undefined) {
-        errors.push(...result.err);
+        errors.addErrors(result.err);
       }
       if (result.ok !== undefined) {
         const addVariableResult = variables.add(result.ok, variableLocation);
         if (addVariableResult.err !== undefined) {
-          errors.push(addVariableResult.err);
+          errors.addError(addVariableResult.err);
         }
         compiled.variables.push(result.ok);
       }
@@ -313,12 +332,12 @@ export class CompiledRandomizer implements CompiledElement {
       const poolLocation = location.index('pools', [poolIndex, poolSpec.key]);
       const result = CompiledRandomizerPool.newFromDataModel(poolSpec, poolLocation);
       if (result.err !== undefined) {
-        errors.push(...result.err);
+        errors.addErrors(result.err);
       }
       if (result.ok !== undefined) {
         const addPoolResult = pools.add(result.ok, poolLocation);
         if (addPoolResult.err !== undefined) {
-          errors.push(addPoolResult.err);
+          errors.addError(addPoolResult.err);
         }
         compiled.pools.push(result.ok);
       }
@@ -328,12 +347,12 @@ export class CompiledRandomizer implements CompiledElement {
       const groupLocation = location.index('groups', [groupIndex, groupSpec.key]);
       const result = CompiledRandomizerGroup.newFromDataModel(groupSpec, groupLocation);
       if (result.err !== undefined) {
-        errors.push(...result.err);
+        errors.addErrors(result.err);
       }
       if (result.ok !== undefined) {
         const addGroupResult = groups.add(result.ok, groupLocation);
         if (addGroupResult.err !== undefined) {
-          errors.push(addGroupResult.err);
+          errors.addError(addGroupResult.err);
         }
         compiled.groups.push(result.ok);
       }
@@ -342,12 +361,12 @@ export class CompiledRandomizer implements CompiledElement {
       const slotLocation = location.index('slots', [slotIndex, slotSpec.key]);
       const result = CompiledRandomizerSlot.newFromDataModel(slotSpec, compiled, slotLocation);
       if (result.err !== undefined) {
-        errors.push(...result.err);
+        errors.addErrors(result.err);
       }
       if (result.ok !== undefined) {
         const addSlotResult = slots.add(result.ok, slotLocation);
         if (addSlotResult.err !== undefined) {
-          errors.push(addSlotResult.err);
+          errors.addError(addSlotResult.err);
         }
         compiled.slots.push(result.ok);
       }
@@ -388,7 +407,7 @@ export interface CompiledRandomizerLike {
   slots: CompiledRandomizerSlotLike[];
 }
 
-export type CompiledRandomizerVariableType = number | undefined;
+export type CompiledRandomizerVariableType = number | string | undefined;
 
 export class CompiledRandomizerVariable implements CompiledElement {
   protected constructor(
@@ -406,16 +425,18 @@ export class CompiledRandomizerVariable implements CompiledElement {
     };
   }
 
-  static newFromDataModel(spec: DataModelRandomizerVariable, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerVariable, CompiledDataError[]> {
+  static newFromDataModel(spec: ReferentialRandomizerVariable, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerVariable, CompiledDataErrors> {
     switch (spec.type) {
       case 'integer':
         return CompiledRandomizerVariableInteger.newFromDataModel(spec, location);
       default:
         return Result.err(
-          [new CompiledDataError(
-            location.child('type'),
-            `Unsupported randomizer variable type ${JSON.stringify(spec.type)}`
-          )],
+          new CompiledDataErrors([
+            new CompiledDataError(
+              location.child('type'),
+              `Unsupported randomizer variable type ${JSON.stringify(spec.type)}`,
+            ),
+          ]),
           new CompiledRandomizerVariable(spec.key, spec.name ?? spec.key, undefined),
         );
     }
@@ -439,10 +460,10 @@ export class CompiledRandomizerVariableInteger extends CompiledRandomizerVariabl
     super(key, name, defaultValue);
   }
 
-  static override newFromDataModel(spec: DataModelRandomizerVariableInteger, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerVariableInteger, CompiledDataError[]> {
-    const errors: CompiledDataError[] = [];
+  static override newFromDataModel(spec: ReferentialRandomizerVariableInteger, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerVariableInteger, CompiledDataErrors> {
+    const errors = new CompiledDataErrors();
     if (!KeyPattern.test(spec.key)) {
-      errors.push(new CompiledDataError(location.child('key'), `Randomizer variable key ${JSON.stringify(spec.key)} is invalid`));
+      errors.addError(new CompiledDataError(location.child('key'), `Randomizer variable key ${JSON.stringify(spec.key)} is invalid`));
     }
     const compiled = new CompiledRandomizerVariableInteger(spec.key, spec.name ?? spec.key, spec.default);
     if (spec.min !== undefined) {
@@ -455,10 +476,10 @@ export class CompiledRandomizerVariableInteger extends CompiledRandomizerVariabl
       compiled.default = spec.default;
     }
     if (compiled.min >= compiled.max) {
-      errors.push(new CompiledDataError(location, `Randomizer variable min ${compiled.min} must be less than max ${compiled.max}`));
+      errors.addError(new CompiledDataError(location, `Randomizer variable min ${compiled.min} must be less than max ${compiled.max}`));
     }
     if (compiled.default < compiled.min || compiled.default > compiled.max) {
-      errors.push(new CompiledDataError(location, `Randomizer variable default ${compiled.default} must be between min ${compiled.min} and max ${compiled.max}`));
+      errors.addError(new CompiledDataError(location, `Randomizer variable default ${compiled.default} must be between min ${compiled.min} and max ${compiled.max}`));
     }
     return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
   }
@@ -503,17 +524,17 @@ export class CompiledRandomizerPool implements CompiledElement {
   key = '';
   criteria?: Expression;
 
-  static newFromDataModel(spec: DataModelRandomizerPool, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerPool, CompiledDataError[]> {
-    const errors: CompiledDataError[] = [];
+  static newFromDataModel(spec: ReferentialRandomizerPool, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerPool, CompiledDataErrors> {
+    const errors = new CompiledDataErrors();
     if (!KeyPattern.test(spec.key)) {
-      errors.push(new CompiledDataError(location.child('key'), `Randomizer pool key ${JSON.stringify(spec.key)} is invalid`));
+      errors.addError(new CompiledDataError(location.child('key'), `Randomizer pool key ${JSON.stringify(spec.key)} is invalid`));
     }
     const compiled = new CompiledRandomizerPool();
     compiled.key = spec.key;
     if (spec.criteria !== undefined) {
       const criteriaResult = Expression.compile(spec.criteria);
       if (criteriaResult.err !== undefined) {
-        errors.push(new CompiledDataError(
+        errors.addError(new CompiledDataError(
           location.child('criteria'),
           `${criteriaResult.err}`,
         ));
@@ -553,10 +574,10 @@ export class CompiledRandomizerGroup implements CompiledElement {
   key = '';
   name = '';
 
-  static newFromDataModel(spec: DataModelRandomizerGroup, location: CompiledDataLocation): Result<CompiledRandomizerGroup, CompiledDataError[]> {
-    const errors: CompiledDataError[] = [];
+  static newFromDataModel(spec: ReferentialRandomizerGroup, location: CompiledDataLocation): Result<CompiledRandomizerGroup, CompiledDataErrors> {
+    const errors = new CompiledDataErrors();
     if (!KeyPattern.test(spec.key)) {
-      errors.push(new CompiledDataError(location.child('key'), `Randomizer group key ${JSON.stringify(spec.key)} is invalid`));
+      errors.addError(new CompiledDataError(location.child('key'), `Randomizer group key ${JSON.stringify(spec.key)} is invalid`));
     }
     const compiled = new CompiledRandomizerGroup();
     compiled.key  = spec.key;
@@ -587,15 +608,15 @@ export class CompiledRandomizerSlot implements CompiledElement {
   count: Expression = Expression.literal(1);
   pool = '';
   group: string|undefined = undefined;
-  pick: DataModelRandomizerPick = 'remove';
+  pick: ReferentialRandomizerPick = 'remove';
   criteria?: Expression;
 
-  static newFromDataModel(spec: DataModelRandomizerSlot, parent: CompiledRandomizer|undefined, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerSlot, CompiledDataError[]> {
-    const errors: CompiledDataError[] = [];
+  static newFromDataModel(spec: ReferentialRandomizerSlot, parent: CompiledRandomizer|undefined, location: CompiledDataLocation = new CompiledDataLocation()): Result<CompiledRandomizerSlot, CompiledDataErrors> {
+    const errors = new CompiledDataErrors();
     const compiled = new CompiledRandomizerSlot();
 
     if (!KeyPattern.test(spec.key)) {
-      errors.push(new CompiledDataError(location.child('key'), `Randomizer slot key ${JSON.stringify(spec.key)} is invalid`));
+      errors.addError(new CompiledDataError(location.child('key'), `Randomizer slot key ${JSON.stringify(spec.key)} is invalid`));
     }
     compiled.key = spec.key;
     compiled.group = spec.group;
@@ -605,7 +626,7 @@ export class CompiledRandomizerSlot implements CompiledElement {
     switch (typeof spec.count) {
       case 'number':
         if (spec.count <= 0) {
-          errors.push(new CompiledDataError(location.child('count'), `Randomizer slot count ${spec.count} must be greater than 0`));
+          errors.addError(new CompiledDataError(location.child('count'), `Randomizer slot count ${spec.count} must be greater than 0`));
         } else {
           compiled.count = Expression.literal(spec.count);
         }
@@ -613,7 +634,7 @@ export class CompiledRandomizerSlot implements CompiledElement {
       case 'string': {
         const countResult = Expression.compile(spec.count);
         if (countResult.err !== undefined) {
-          errors.push(new CompiledDataError(location.child('count'), `${countResult.err}`));
+          errors.addError(new CompiledDataError(location.child('count'), `${countResult.err}`));
         }
         if (countResult.ok !== undefined) {
           compiled.count = countResult.ok;
@@ -625,13 +646,13 @@ export class CompiledRandomizerSlot implements CompiledElement {
     if (parent !== undefined) {
       if (parent.groups.length > 0) {
         if (!compiled.group) {
-          errors.push(new CompiledDataError(
+          errors.addError(new CompiledDataError(
             location.child('group'),
             `Randomizer slot group is required. Must be one of: ${parent.groups.map(g => g.key).join(`, `)}`,
           ));
         } else {
           if (!parent.groups.some(g => g.key === compiled.group)) {
-            errors.push(new CompiledDataError(
+            errors.addError(new CompiledDataError(
               location.child('group'),
               `Randomizer slot group ${JSON.stringify(compiled.group)} is invalid. Must be one of: ${parent.groups.map(g => g.key).join(`, `)}`,
             ));
@@ -639,7 +660,7 @@ export class CompiledRandomizerSlot implements CompiledElement {
         }
       } else {
         if (compiled.group) {
-          errors.push(new CompiledDataError(
+          errors.addError(new CompiledDataError(
             location.child('group'),
             `Randomizer slot group ${JSON.stringify(compiled.group)} is provided but none is expected`,
           ));
@@ -652,7 +673,7 @@ export class CompiledRandomizerSlot implements CompiledElement {
     if (spec.criteria !== undefined) {
       const criteriaResult = Expression.compile(spec.criteria);
       if (criteriaResult.err !== undefined) {
-        errors.push(new CompiledDataError(
+        errors.addError(new CompiledDataError(
           location.child('criteria'),
           `${criteriaResult.err}`,
         ));
@@ -715,6 +736,6 @@ export interface CompiledRandomizerSlotLike {
   count: ExpressionLike;
   pool: string;
   group: string|undefined;
-  pick: DataModelRandomizerPick;
+  pick: ReferentialRandomizerPick;
   criteria?: ExpressionLike;
 }

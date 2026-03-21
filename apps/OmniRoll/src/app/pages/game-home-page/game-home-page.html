@@ -1,7 +1,7 @@
 @let current = collection.content();
 @if (current !== undefined) {
   <button [routerLink]="['collection']">✏️</button>
-  @if (collection.game()?.sets?.length ?? 0 > 0) {
+  @if (collection.game()?.selectedSets?.length ?? 0 > 0) {
     <h2>Randomizers</h2>
     <div class="cards">
       @for (randomizer of current.randomizers; track randomizer.key) {

@@ -21,3 +21,7 @@
 @if (asLink(); as link) {
   <a [routerLink]="link.routerLink" class="link">{{ link.title }}</a>
 }
+
+@if (asSeparator()) {
+  <hr class="separator" />
+}

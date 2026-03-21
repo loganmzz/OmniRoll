@@ -10,11 +10,10 @@ import {
   TreeModelNode,
   TreeView,
 } from '@project/components/tree-view/tree-view';
-import { Collection } from '@project/services/collection/collection';
 import {
-  GameMetadataSet,
-  Games,
-} from '@project/services/games/games';
+  Collection,
+  CollectionGameSet,
+} from '@project/services/collection/collection';
 import { NavigationContext } from '@project/services/navigation/navigation';
 
 @Component({
@@ -25,7 +24,6 @@ import { NavigationContext } from '@project/services/navigation/navigation';
 })
 export class GameCollectionPage implements OnInit {
   services = {
-    games: inject(Games),
     collection: inject(Collection),
   }
   navigationContext = input.required<NavigationContext>();
@@ -38,9 +36,8 @@ export class GameCollectionPage implements OnInit {
         this.nodes.set([]);
         return;
       }
-      const metadata = await this.services.games.getMetadata(collection.key);
-      const selecteds = new Set(collection.sets);
-      const nodes = (metadata?.sets || []).map(set => this.setToNode(set, selecteds));
+      const selecteds = new Set(collection.selectedSets);
+      const nodes = collection.availableSets.map(set => this.setToNode(set, selecteds));
       this.nodes.set(nodes);
     });
   }
@@ -49,7 +46,7 @@ export class GameCollectionPage implements OnInit {
     this.navigationContext().title.set('Collection ✏️');
   }
 
-  private setToNode(set: GameMetadataSet, selecteds: Set<string>): TreeModelNode {
+  private setToNode(set: CollectionGameSet, selecteds: Set<string>): TreeModelNode {
     return {
       key: set.key,
       label: set.name,
@@ -65,7 +62,7 @@ export class GameCollectionPage implements OnInit {
     if (game === undefined) {
       return;
     }
-    game.sets = selection;
+    game.selectedSets = selection;
     await this.services.collection.updateGame(game);
   }
   private collectSelected(selection: string[], nodes: TreeModelNode[]) {

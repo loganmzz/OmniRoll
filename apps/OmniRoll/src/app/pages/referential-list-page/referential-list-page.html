@@ -1,0 +1,50 @@
+@let form = form$();
+@if (form !== undefined && form.source === undefined) {
+    <app-compact-form
+      [fields]="form.fields"
+      [(values)]="form.values"
+      [expanded]="true"
+      (saved)="saveEditForm($event)"
+      (cancelled)="cancelEditForm()"
+    ></app-compact-form>
+} @else {
+  <button (click)="openEditForm()" [disabled]="form !== undefined">➕ Add referential</button>
+}
+
+<div class="source-list">
+@for (source of sources(); track source.key) {
+  <div class="source-item">
+    <div class="source-title">{{ source.name }}</div>
+    <button class="icon" (click)="moveSourceUp(source)" [disabled]="$first">🔼</button>
+    <button class="icon" (click)="moveSourceDown(source)" [disabled]="$last">🔽</button>
+    <button class="icon source-action-refresh" (click)="refreshSource(source)" [disabled]="source.refreshing">🔄️</button>
+    <button class="icon" [disabled]="source.protected || form !== undefined" (click)="openEditForm(source)">✏️</button>
+    <button class="icon" (click)="clearSource(source)">🧹</button>
+    @if (source.enabled) {
+      <button class="icon" (click)="disableSource(source)">🚫</button>
+    } @else {
+      <button class="icon" (click)="enableSource(source)">✅</button>
+    }
+    <button class="icon" [disabled]="source.protected" (click)="removeSource(source)">❌</button>
+  </div>
+  @if (form !== undefined && form.source?.key === source.key) {
+    <div class="source-edit-form">
+      <app-compact-form
+        [fields]="form.fields"
+        [(values)]="form.values"
+        [expanded]="true"
+        (saved)="saveEditForm($event, source.key)"
+        (cancelled)="cancelEditForm()"
+      ></app-compact-form>
+    </div>
+  } @else {
+    @for (game of source.module?.games ?? []; track game.key) {
+    <div class="source-game-item" [class.source-game-disabled]="!game.enabled">
+      <div class="source-game-name">{{ game.name }}</div>
+      <div class="source-game-sets">{{ game.stat.sets }} 📦</div>
+      <div class="source-game-components">{{ game.stat.components }} ♟️</div>
+    </div>
+    }
+  }
+}
+</div>

@@ -9,8 +9,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ActivatedRouteSnapshot,
   EventType,
+  Route,
   Router,
   RouterLink,
+  Routes,
   UrlSegment,
   UrlSegmentGroup,
   UrlTree,
@@ -25,6 +27,15 @@ export function isNavigationContextHolder(object: unknown): object is Navigation
 export class NavigationContext {
   title: WritableSignal<string|undefined> = signal(undefined);
   menu: WritableSignal<MenuEntry|undefined> = signal(undefined);
+
+  constructor({title, menu}: {title?: string, menu?: MenuEntry} = {}) {
+    if (title !== undefined) {
+      this.title.set(title);
+    }
+    if (menu !== undefined) {
+      this.menu.set(menu);
+    }
+  }
 }
 
 export interface BreadcrumbSegment {
@@ -32,7 +43,7 @@ export interface BreadcrumbSegment {
   routerLink?: RouterLink['routerLink'];
 }
 
-export type MenuEntry = MenuSection | MenuLink;
+export type MenuEntry = MenuSection | MenuLink | MenuSeparator;
 export interface MenuSection {
   section: {
     title: {
@@ -48,11 +59,17 @@ export interface MenuLink {
     routerLink: RouterLink['routerLink'];
   };
 }
+export interface MenuSeparator {
+  separator: object;
+}
 export function isMenuSection(entry: unknown): entry is MenuSection {
   return typeof entry === 'object' && entry !== null && 'section' in entry;
 }
 export function isMenuLink(entry: unknown): entry is MenuLink {
   return typeof entry === 'object' && entry !== null && 'link' in entry;
+}
+export function isMenuSeparator(entry: unknown): entry is MenuSeparator {
+  return typeof entry === 'object' && entry !== null && 'separator' in entry;
 }
 
 export class UrlTreeBuilder {
@@ -81,14 +98,6 @@ export class NavigationService {
   private router = inject(Router);
   root = new NavigationContext();
   segments = signal<BreadcrumbSegment[]>([]);
-  menu = signal<MenuEntry>({
-    section: {
-      title: {
-        text: '',
-      },
-      entries: [],
-    },
-  });
   private readonly _contexts = signal<NavigationContext[]>([]);
   readonly contexts = this._contexts.asReadonly();
 
@@ -98,10 +107,22 @@ export class NavigationService {
         case EventType.NavigationEnd:
           this.refreshContext();
           this.refreshBreadcrumbs();
-          this.refreshMenu();
           break;
       }
     });
+  }
+
+  public browseRoutes(consumer: (route: Route, path: Route[]) => void): void {
+    const recurse = (routes: Routes, path: Route[]) => {
+      for (const route of routes) {
+        const newPath = [...path, route];
+        consumer(route, newPath);
+        if (route.children !== undefined) {
+          recurse(route.children, newPath);
+        }
+      }
+    };
+    recurse(this.router.config, []);
   }
 
   private browseNavigationContext(process: (context: NavigationContext, path: UrlTreeBuilder) => void) {
@@ -148,20 +169,5 @@ export class NavigationService {
       });
     });
     this.segments.set(segments.length === 1 ? [] : segments);
-  }
-
-  private refreshMenu() {
-    const menu: MenuSection = {
-      section: {
-        title: {
-          text: '',
-        },
-        entries: [],
-      },
-    }
-    this.browseNavigationContext((context) => {
-      menu.section.entries.push(context.menu);
-    });
-    this.menu.set(menu);
   }
 }

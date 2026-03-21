@@ -1,5 +1,6 @@
 import {
   Component,
+  OnInit,
   effect,
   inject,
   signal,
@@ -10,8 +11,14 @@ import { Menu } from './components/menu/menu';
 import { Collection } from './services/collection/collection';
 import {
   MenuSection,
+  NavigationContext,
   NavigationService,
 } from './services/navigation/navigation';
+
+interface MainMenuEntry {
+  path: string[];
+  context: NavigationContext;
+}
 
 @Component({
   imports: [RouterModule, Breadcrumb, Menu],
@@ -19,10 +26,11 @@ import {
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
+export class App implements OnInit {
   protected title = 'OmniRoll';
   navigation = inject(NavigationService);
   collection = inject(Collection);
+  mainMenu = signal<MainMenuEntry[]>([]);
   menuOpen = signal(false);
 
   constructor() {
@@ -34,16 +42,43 @@ export class App {
             text: this.title,
             routerLink: ['/'],
           },
-          entries: games.map(game => signal({
-            link: {
-              title: game.name,
-              routerLink: ['/', 'game', game.key],
-            },
-          })),
+          entries: [
+            ...this.mainMenu().map(entry => signal({
+              link: {
+                title: entry.context.title(),
+                routerLink: entry.path,
+              },
+            })),
+            signal({
+              separator: {},
+            }),
+            ...games.map(game => signal({
+              link: {
+                title: game.name,
+                routerLink: ['/', 'game', game.key],
+              },
+            })),
+            signal({
+              separator: {},
+            }),
+          ]
         },
       };
       this.navigation.root.menu.set(menu);
     });
+  }
+
+  ngOnInit() {
+    const mainMenu: MainMenuEntry[] = [];
+    this.navigation.browseRoutes((route, path) => {
+      if (route.data?.['mainMenu'] && route.data?.['navigationContext']) {
+        mainMenu.push({
+          path: path.map(node => node.path ?? ''),
+          context: route.data['navigationContext']
+        });
+      }
+    });
+    this.mainMenu.set(mainMenu);
   }
 
   toggleMenu() {

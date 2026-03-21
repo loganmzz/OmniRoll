@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://loganmzz.github.io/OmniRoll/schemas/data-model/game.json",
-  "title": "Boardgame Universal Randomizer - Data Model | Module",
+  "$id": "https://loganmzz.github.io/OmniRoll/schemas/referential/set.json",
+  "title": "Boardgame Universal Randomizer - Referential | Module",
   "type": "object",
   "required": [
     "key",
@@ -19,11 +19,6 @@
     "description": {
       "type": "string"
     },
-    "merge-strategy": {
-      "type": "string",
-      "enum": ["merge", "override"],
-      "default": "merge"
-    },
     "updated-at": {
       "type": "string",
       "format": "date-time"
@@ -31,13 +26,23 @@
     "sets": {
       "type": "array",
       "items": {
-        "$ref": "set.json"
+        "oneOf": [
+          {
+            "$ref": "set.json"
+          },
+          {
+            "$ref": "include.json"
+          }
+        ]
       }
     },
-    "randomizers": {
-      "type": "array",
-      "items": {
-        "$ref": "randomizer.json"
+    "components": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "$ref": "component.json"
+        }
       }
     }
   }

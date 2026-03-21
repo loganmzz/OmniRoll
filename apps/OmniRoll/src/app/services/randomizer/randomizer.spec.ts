@@ -4,9 +4,9 @@ import {
   CompiledRandomizer,
 } from '@project/model/compiled';
 import {
-  DataModelGame,
-  DataModelRandomizer,
-} from '@project/model/data-model';
+  ReferentialGame,
+  ReferentialRandomizer,
+} from '@project/model/referential';
 import { Randomizer } from './randomizer';
 
 function toKey(input: Record<string, CompiledComponent>): Record<string, string> {
@@ -31,7 +31,7 @@ describe('service/randomizer', () => {
         }
       });
       test('select 1', () => {
-        const model: DataModelRandomizer = {
+        const model: ReferentialRandomizer = {
           key: 'select-1',
           pools: [
             {
@@ -57,7 +57,7 @@ describe('service/randomizer', () => {
       });
 
       test('select-2', () => {
-        const model: DataModelRandomizer = {
+        const model: ReferentialRandomizer = {
           key: 'select-2',
           pools: [
             {
@@ -113,7 +113,7 @@ describe('service/randomizer', () => {
         }
       });
       test('select-1', () => {
-        const model: DataModelRandomizer = {
+        const model: ReferentialRandomizer = {
           key: 'select-1',
           pools: [
             {
@@ -138,7 +138,7 @@ describe('service/randomizer', () => {
         ).toMatchObject(expected);
       });
       test('select-10-x-100', () => {
-        const model: DataModelRandomizer = {
+        const model: ReferentialRandomizer = {
           key: 'select-10-x-100',
           pools: [
             {
@@ -172,7 +172,7 @@ describe('service/randomizer', () => {
         }
       });
       test('pick-3-x-100', () => {
-        const model: DataModelRandomizer = {
+        const model: ReferentialRandomizer = {
           key: 'pick-3-x-100',
           pools: [
             {
@@ -201,7 +201,7 @@ describe('service/randomizer', () => {
     });
 
     describe('aeon\'s end', () => {
-      const model: DataModelGame = {
+      const model: ReferentialGame = {
         key: 'aeons-end',
         sets: [
           {

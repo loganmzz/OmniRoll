@@ -1,0 +1,101 @@
+key: "aeons-end"
+name: "Aeon's End"
+
+sets:
+- include: "aeons-end/eng-sets.json"
+- include: "aeons-end/fr-sets.json"
+- include: "aeons-end/de-sets.json"
+- include: "aeons-end/pl-sets.json"
+
+randomizers:
+
+- key: "default"
+  name: "Default"
+  variables:
+  - key: "players"
+    type: "integer"
+    name: "# of players"
+    min: 1
+    max: 4
+    default: 2
+  pools:
+  - key: "nemesis"
+    criteria: |
+      c.kinds == "Nemesis"
+  - key: "mages"
+    criteria: |
+      c.kinds == "Mage"
+  - key: "gems"
+    criteria: |
+      c.kinds == "Card" && c.type == "Gem"
+  - key: "relics"
+    criteria: |
+      c.kinds == "Card" && c.type == "Relic"
+  - key: "spells"
+    criteria: |
+      c.kinds == "Card" && c.type == "Spell"
+  groups:
+  - key: "nemesis"
+    name: "Nemesis"
+  - key: "mages"
+    name: "Mages"
+  - key: "gems"
+    name: "Gems"
+  - key: "relics"
+    name: "Relics"
+  - key: "spells"
+    name: "Spells"
+  slots:
+  - key: "nemesis"
+    pool: "nemesis"
+    group: "nemesis"
+  - key: "mage"
+    count: |
+      v.players
+    pool: "mages"
+    group: "mages"
+  - key: "gem1"
+    pool: "gems"
+    group: "gems"
+    criteria: |
+      c.cost < 4
+  - key: "gem2"
+    pool: "gems"
+    group: "gems"
+    criteria: |
+      c.cost == 4
+  - key: "gem3"
+    pool: "gems"
+    group: "gems"
+    criteria: |
+      c.cost > 4
+  - key: "relic1"
+    pool: "relics"
+    group: "relics"
+    criteria: |
+      c.cost < 4
+  - key: "relic2"
+    pool: "relics"
+    group: "relics"
+    criteria: |
+      c.cost >= 4
+  - key: "spell1"
+    pool: "spells"
+    group: "spells"
+    criteria: |
+      c.cost < 4
+  - key: "spell2"
+    pool: "spells"
+    group: "spells"
+    criteria: |
+      c.cost == 4
+  - key: "spell3"
+    pool: "spells"
+    group: "spells"
+    criteria: |
+      c.cost == 5
+  - key: "spell4"
+    pool: "spells"
+    group: "spells"
+    criteria: |
+      c.cost >= 6

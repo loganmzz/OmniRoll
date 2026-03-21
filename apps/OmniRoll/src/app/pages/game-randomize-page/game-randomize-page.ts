@@ -11,7 +11,7 @@ import {
 import {
   CompactForm,
   CompactFormField,
-  CompactFormFieldInteger,
+  CompactFormFieldRange,
   CompactFormFields,
   CompactFormValues,
 } from '@project/components/compact-form/compact-form';
@@ -129,11 +129,11 @@ function fromVariableToField(variable: CompiledRandomizerVariable): CompactFormF
     case variable instanceof CompiledRandomizerVariableInteger:
       return {
         key: variable.key,
-        type: 'integer',
+        type: 'range',
         label: variable.name,
         min: variable.min,
         max: variable.max,
-      } as CompactFormFieldInteger;
+      } as CompactFormFieldRange;
   }
   throw new Error('Unsupported variable type');
 }
