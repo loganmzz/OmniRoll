@@ -1,2 +1,7 @@
 [context.production]
   publish="dist/apps/OmniRoll/browser"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
