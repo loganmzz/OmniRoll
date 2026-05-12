@@ -1,7 +1,10 @@
 import {
+  ErrorHandler,
   Injectable,
+  inject,
   signal,
 } from '@angular/core';
+import { formatEntity } from '@project/model/common';
 import {
   Include,
   ReferentialGame,
@@ -17,7 +20,9 @@ import {
 } from '@project/services/data-fetch/data-fetch';
 import { Dexie } from 'dexie';
 import * as yaml from 'js-yaml';
+import { MessageService } from 'primeng/api';
 import * as uuid from 'uuid';
+import { OmniRollError } from '../error/error-api';
 
 export interface ReferentialSource {
   key: string;
@@ -341,9 +346,11 @@ export class ReferentialDatabase extends Dexie {
   providedIn: 'root'
 })
 export class Referential {
+  private messageService = inject(MessageService);
+  private errorHandler = inject(ErrorHandler);
   private database = new ReferentialDatabase();
   private initPromise: Promise<void> = this._init();
-  private sourceRefreshing = new Map<string, Promise<void>>();
+  private sourceRefreshing = new Map<string, Promise<ReferentialSource>>();
   readonly refreshes = signal([] as string[]);
 
   private async _init(): Promise<void> {
@@ -407,16 +414,27 @@ export class Referential {
     return this.database.moveSourceDown(key);
   }
 
-  refreshSource(key: string): Promise<void> {
+  refreshSource(key: string): Promise<ReferentialSource> {
     let promise = this.sourceRefreshing.get(key);
     if (promise === undefined) {
-      promise = this.fetchSource(key);
+      promise = this.fetchSource(key)
+        .then(source => {
+          this.messageService.add({
+            severity: 'success',
+            summary: `Source ${formatEntity(source)} refreshed successfully`
+          });
+          return source;
+        })
+        .catch(error => {
+          this.errorHandler.handleError(error);
+          throw error;
+        })
+        .finally(() => {
+          this.sourceRefreshing.delete(key);
+          this.notifyRefreshes();
+        });
       this.sourceRefreshing.set(key, promise);
       this.notifyRefreshes();
-      promise.finally(() => {
-        this.sourceRefreshing.delete(key);
-        this.notifyRefreshes();
-      });
     }
     return promise;
   }
@@ -425,11 +443,15 @@ export class Referential {
     this.refreshes.set(Array.from(this.sourceRefreshing.keys()));
   }
 
-  async fetchSource(key: string): Promise<void> {
+  async fetchSource(key: string): Promise<ReferentialSource> {
     console.log(`Fetch source ${key}`);
     const source = await this.getSource(key);
     if (source === undefined) {
-      throw new Error(`Source ${JSON.stringify(key)} not found`);
+      throw new OmniRollError(
+        'REFERENTIAL_REFRESH_SOURCE_NOT_FOUND',
+        `Referential: cannot refresh source`,
+        `Source ${formatEntity(key)} was not found`,
+      );
     }
     switch (source.type) {
       case 'url':
@@ -445,6 +467,7 @@ export class Referential {
         await new Promise(f => setTimeout(f, 5000));
         break;
     }
+    return source;
   }
 
   clearSource(key: string): Promise<void> {

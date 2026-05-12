@@ -75,8 +75,9 @@
   button:disabled {
     @apply cursor-not-allowed opacity-40;
   }
-  .pulse button {
-    @apply opacity-100 animate-pulse;
+  .spinning button {
+    --animate-spin: spin 1.5s linear infinite;
+    @apply opacity-100 animate-spin;
   }
 
   /** Link **/

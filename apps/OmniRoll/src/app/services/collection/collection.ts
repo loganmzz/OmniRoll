@@ -10,10 +10,12 @@ import {
   EventType,
   Router,
 } from '@angular/router';
+import { formatEntity } from '@project/model/common';
 import {
   CompiledGame,
   CompiledGameLike,
 } from '@project/model/compiled';
+import { OmniRollError } from '@project/services/error/error-api';
 import Dexie from 'dexie';
 import {
   Referential,
@@ -54,71 +56,161 @@ export class CollectionDatabase extends Dexie {
   }
 
   listGames(): Promise<CollectionGame[]> {
-    return this.transaction('readonly', 'Game', tx => tx.table<CollectionGame>('Game').toArray());
+    return this
+      .transaction(
+        'readonly',
+        'Game',
+        tx => tx.table<CollectionGame>('Game').toArray(),
+      )
+      .catch(err => {
+        throw new OmniRollError(
+          'COLLECTION_GAME_LIST_ERROR',
+          'Collection: cannot list games',
+          'list games from collection',
+          err,
+        );
+      });
   }
   getGame(gameKey: string): Promise<CollectionGame|undefined> {
-    return this.transaction('readonly', 'Game', tx => tx.table<CollectionGame, string>('Game').get(gameKey));
+    return this
+      .transaction(
+        'readonly',
+        'Game',
+        tx => tx.table<CollectionGame, string>('Game').get(gameKey),
+      )
+      .catch(err => {
+        throw new OmniRollError(
+          'COLLECTION_GAME_READ_ERROR',
+          `Collection: cannot get game ${formatEntity(gameKey)}`,
+          `get game ${formatEntity(gameKey)} from collection`,
+          err,
+        );
+      });
   }
   async updateGame(game: CollectionGame): Promise<void> {
     game.update_timestamp = Date.now();
-    await this.transaction('readwrite', 'Game', tx => tx.table<CollectionGame, string>('Game').put(game, game.key));
+    await this
+      .transaction(
+        'readwrite',
+        'Game',
+        tx => tx.table<CollectionGame, string>('Game').put(game, game.key)
+      )
+      .catch(err => {
+        throw new OmniRollError(
+          'COLLECTION_GAME_UPDATE_ERROR',
+          `Collection: cannot update game ${formatEntity(game)}`,
+          `update game ${formatEntity(game)} in collection`,
+          err,
+        );
+      });
   }
 
   disableGame(game: string): Promise<void> {
-    return this.transaction(
-      'readwrite',
-      ['Game', 'Content'],
-      async tx => {
-        const tGame = tx.table<CollectionGame, string>('Game');
-        const metadata = await tGame.get(game);
-        if (metadata !== undefined) {
-          metadata.enabled = false;
-          metadata.update_timestamp = Date.now();
-          await tGame.put(metadata, game);
-        }
-        await tx.table<CollectionContent, string>('Content').delete(game);
-      }
-    );
+    return this
+      .transaction(
+        'readwrite',
+        ['Game', 'Content'],
+        async tx => {
+          const tGame = tx.table<CollectionGame, string>('Game');
+          const metadata = await tGame.get(game);
+          if (metadata !== undefined) {
+            metadata.enabled = false;
+            metadata.update_timestamp = Date.now();
+            await tGame.put(metadata, game);
+          }
+          await tx.table<CollectionContent, string>('Content').delete(game);
+        },
+      )
+      .catch(err => {
+        throw new OmniRollError(
+          'COLLECTION_GAME_DISABLE_ERROR',
+          `Collection: cannot disable game ${formatEntity(game)}`,
+          `disable game ${formatEntity(game)} in collection`,
+          err,
+        );
+      });
   }
   enableGame(game: string, metadata: ReferentialGameMetadata): Promise<CollectionGame|undefined> {
-    return this.transaction(
-      'readwrite',
-      'Game',
-      async tx => {
-        const Game = tx.table<CollectionGame, string>('Game');
-        let entity = await Game.get(game);
-        if (entity !== undefined) {
-          entity.enabled = true;
-          entity.update_timestamp = Date.now();
-          entity.name = metadata.name;
-          entity.version = metadata.version;
-        } else {
-          entity = {
-            key: metadata.key,
-            enabled: true,
-            update_timestamp: Date.now(),
-            name: metadata.name,
-            version: metadata.version,
-            selectedSets: [],
-            availableSets: metadata.sets,
-          };
-        }
-        await Game.put(entity);
-        return entity;
-      },
-    );
+    return this
+      .transaction(
+        'readwrite',
+        'Game',
+        async tx => {
+          const Game = tx.table<CollectionGame, string>('Game');
+          let entity = await Game.get(game);
+          if (entity !== undefined) {
+            entity.enabled = true;
+            entity.update_timestamp = Date.now();
+            entity.name = metadata.name;
+            entity.version = metadata.version;
+          } else {
+            entity = {
+              key: metadata.key,
+              enabled: true,
+              update_timestamp: Date.now(),
+              name: metadata.name,
+              version: metadata.version,
+              selectedSets: [],
+              availableSets: metadata.sets,
+            };
+          }
+          await Game.put(entity);
+          return entity;
+        },
+      )
+      .catch(err => {
+        throw new OmniRollError(
+          'COLLECTION_GAME_ENABLE_ERROR',
+          `Collection: cannot enable game ${formatEntity(metadata)}`,
+          `enable game ${formatEntity(metadata)} in collection`,
+          err,
+        );
+      });
   }
 
   removeGame(gameKey: string): Promise<void> {
-    return this.transaction('readwrite', 'Game', tx => tx.table<CollectionGame, string>('Game').delete(gameKey));
+    return this
+      .transaction(
+        'readwrite',
+        'Game',
+        tx => tx.table<CollectionGame, string>('Game').delete(gameKey),
+      )
+      .catch(err => {
+        throw new OmniRollError(
+          'COLLECTION_GAME_DELETE_ERROR',
+          `Collection: cannot delete game ${formatEntity(gameKey)}`,
+          `delete game ${formatEntity(gameKey)} from collection`,
+          err,
+        );
+      });
   }
 
   async resolveContent(game: CollectionGame, resolver: () => Promise<CompiledGame|undefined>): Promise<CompiledGame|undefined> {
-    let content = await this.transaction('readonly', 'Content', tx => {
-      return tx.table<CollectionContent, string>('Content').get(game.key);
-    });
+    let content = await this
+      .transaction(
+        'readonly',
+        'Content',
+        tx => tx.table<CollectionContent, string>('Content').get(game.key),
+      )
+      .catch(err => {
+        throw new OmniRollError(
+          'COLLECTION_CONTENT_RESOLVE_CHECK_ERROR',
+          `Collection: cannot resolve content for game ${formatEntity(game)}`,
+          `get existing content for game ${formatEntity(game)} in collection`,
+          err,
+        );
+      });
     if (content !== undefined && content.version === game.version && content.update_timestamp === game.update_timestamp) {
-      return CompiledGame.fromJSON(content.content);
+      try {
+        return CompiledGame.fromJSON(content.content);
+      } catch (err) {
+        throw new OmniRollError(
+          'COLLECTION_CONTENT_RESOLVE_DESERIALIZE_ERROR',
+          `Collection: cannot resolve content for game ${formatEntity(game)}`,
+          `deserialize content for game ${formatEntity(game)} in collection`,
+          err,
+        );
+      }
     }
     console.log(`Collection(${game.key}): Refresh content`);
     const compiled = await resolver();
@@ -133,9 +225,20 @@ export class CollectionDatabase extends Dexie {
       update_timestamp: game.update_timestamp,
       content: compiled.toJSON(),
     };
-    await this.transaction('readwrite', 'Content', tx => {
-      return tx.table<CollectionContent, string>('Content').put(content, game.key);
-    });
+    await this
+      .transaction(
+        'readwrite',
+        'Content',
+        tx => tx.table<CollectionContent, string>('Content').put(content, game.key),
+      )
+      .catch(err => {
+        throw new OmniRollError(
+          'COLLECTION_CONTENT_RESOLVE_SAVE_ERROR',
+          `Collection: cannot resolve content for game ${formatEntity(game)}`,
+          `save resolved content for game ${formatEntity(game)} in collection`,
+          err,
+        );
+      });
     return compiled;
   }
 }
@@ -171,13 +274,22 @@ export class Collection {
         this._game.set(undefined);
         this._content.set(undefined);
       } else {
-        console.log(`Collection: Game selected: ${JSON.stringify(key)}`);
-        const game = await this.getGame(key);
-        console.log(`Collection: Game name: ${JSON.stringify(game?.name)}`);
-        this._game.set(game);
-        const content = game !== undefined ? await this.getContent(game) : undefined;
-        console.log(`Collection: Game components: ${JSON.stringify(content?.components.length)}`);
-        this._content.set(content);
+        try {
+          console.log(`Collection: Game selected: ${JSON.stringify(key)}`);
+          const game = await this.getGame(key);
+          console.log(`Collection: Game name: ${JSON.stringify(game?.name)}`);
+          this._game.set(game);
+          const content = game !== undefined ? await this.getContent(game) : undefined;
+          console.log(`Collection: Game components: ${JSON.stringify(content?.components.length)}`);
+          this._content.set(content);
+        } catch (err) {
+          throw new OmniRollError(
+            'COLLECTION_GAME_CURRENT_ERROR',
+            `Collection: cannot load current game ${formatEntity(key)}`,
+            `load current game ${formatEntity(key)} from collection`,
+            err,
+          );
+        }
       }
     });
     this.refresh();
@@ -277,7 +389,22 @@ export class Collection {
       if (content === undefined) {
         return undefined;
       }
-      return CompiledGame.newFromDataModel(content).expect();
+      const compilation = CompiledGame.newFromDataModel(content);
+      if (compilation.err !== undefined) {
+        throw new OmniRollError(
+          'COLLECTION_CONTENT_COMPILATION_ERROR',
+          `Collection: cannot compile content for game ${formatEntity(game)}`,
+          `compile content for game ${formatEntity(game)}`,
+          compilation.err,
+        );
+      } else if (compilation.ok !== undefined) {
+        return compilation.ok;
+      }
+      throw new OmniRollError(
+        'COLLECTION_CONTENT_COMPILATION_UNKNOWN',
+        `Collection: cannot compile content for game ${formatEntity(game)}`,
+        `compile content for game ${formatEntity(game)}: unknonwn result`,
+      );
     });
   }
 

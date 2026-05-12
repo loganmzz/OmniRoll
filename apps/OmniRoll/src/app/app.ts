@@ -8,6 +8,7 @@ import {
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DrawerModule } from 'primeng/drawer';
+import { ToastModule } from 'primeng/toast';
 import { Breadcrumb } from './components/breadcrumb/breadcrumb';
 import { Menu } from './components/menu/menu';
 import { Collection } from './services/collection/collection';
@@ -29,6 +30,7 @@ interface MainMenuEntry {
     Menu,
     ButtonModule,
     DrawerModule,
+    ToastModule,
   ],
   selector: 'app-root',
   templateUrl: './app.html',
@@ -97,5 +99,9 @@ export class App implements OnInit {
   }
   closeMenu() {
     this.menuVisible.set(false);
+  }
+
+  sendTestMessage() {
+    throw new Error('This is a test error');
   }
 }
