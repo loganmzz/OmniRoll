@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  ErrorHandler,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -13,6 +14,7 @@ import {
   withRouterConfig,
 } from '@angular/router';
 import { appRoutes } from './app.routes';
+import { ErrorHandlerService } from './services/error/error-handler';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,5 +28,6 @@ export const appConfig: ApplicationConfig = {
       }),
       withComponentInputBinding(),
     ),
+    { provide: ErrorHandler, useClass: ErrorHandlerService }
   ],
 };
