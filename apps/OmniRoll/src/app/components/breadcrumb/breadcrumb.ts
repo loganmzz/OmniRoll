@@ -16,7 +16,6 @@ export class Breadcrumb {
   navigation = inject(NavigationService);
   segments = computed(() => {
     const segments = this.navigation.segments();
-    console.log(`DEBUG: breadcrumb.segments> Recomputing segments, count: ${segments.length}`);
     const active = segments.flatMap(segment => {
       const label = segment.label();
       if (label === undefined) {

@@ -40,7 +40,7 @@
           <td class="referential-table-source-cell-action">
             <p-button icon="pi pi-angle-down" text (click)="moveSourceDown(rowData.source)" [disabled]="!rowData.can.moveDown" />
           </td>
-          <td class="referential-table-source-cell-action" [class.pulse]="rowData.isRefreshing">
+          <td class="referential-table-source-cell-action" [class.spinning]="rowData.isRefreshing">
             <p-button icon="pi pi-sync" text (click)="refreshSource(rowData.source)" [disabled]="!rowData.can.refresh"/>
           </td>
           <td class="referential-table-source-cell-action">

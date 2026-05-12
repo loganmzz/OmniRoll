@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  ErrorHandler,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -12,8 +13,10 @@ import {
   withComponentInputBinding,
   withRouterConfig,
 } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { primeNGProviders } from './app.primeng';
 import { appRoutes } from './app.routes';
+import { ErrorHandlerService } from './services/error/error-handler';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,5 +31,7 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
     ),
     primeNGProviders,
+    MessageService,
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
   ],
 };

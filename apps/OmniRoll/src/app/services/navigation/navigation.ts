@@ -162,7 +162,6 @@ export class NavigationService {
   }
 
   private refreshBreadcrumbs() {
-    console.log(`DEBUG: navigation.refreshBreadcrumbs> Start`);
     const segments: BreadcrumbSegment[] = [];
     this.browseNavigationContext((context, path) => {
       segments.push({
@@ -171,7 +170,6 @@ export class NavigationService {
         routerLink: path.build(),
       });
     });
-    console.log(`DEBUG: navigation.refreshBreadcrumbs> Segment count: ${segments.length}`);
     this.segments.set(segments);
   }
 }

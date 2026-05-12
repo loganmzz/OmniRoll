@@ -31,3 +31,23 @@ export class Result<T, E> {
     return `Ok(${this.ok})`;
   }
 }
+
+export interface Entity {
+  key: string;
+  name: string;
+}
+export function isEntity(entity: unknown): entity is Entity {
+  return typeof entity === 'object' && entity !== null && 'key' in entity && 'name' in entity;
+}
+export function formatEntity(entity: string|Entity): string {
+  if (typeof entity === 'string') {
+    return JSON.stringify(entity);
+  }
+  if (isEntity(entity)) {
+    if (entity.name) {
+      return `${JSON.stringify(entity.name)}`;
+    }
+    return JSON.stringify(entity.key);
+  }
+  return JSON.stringify(entity);
+}
