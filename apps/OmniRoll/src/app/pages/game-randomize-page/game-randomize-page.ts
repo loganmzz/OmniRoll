@@ -22,6 +22,9 @@ import {
 import { Collection } from '@project/services/collection/collection';
 import { NavigationContext } from '@project/services/navigation/navigation';
 import { Randomizer } from '@project/services/randomizer/randomizer';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { DataViewModule } from 'primeng/dataview';
 
 type UISlot = {
   key: string;
@@ -38,6 +41,9 @@ type UISlotGroup = {
   selector: 'app-game-randomize-page',
   imports: [
     CompactForm,
+    ButtonModule,
+    CardModule,
+    DataViewModule,
   ],
   templateUrl: './game-randomize-page.html',
   styleUrl: './game-randomize-page.css',
@@ -113,6 +119,10 @@ export class GameRandomizePage {
     for (const slot of this.state().slots) {
       slot.text = roll[slot.key].name ?? '';
     }
+  }
+
+  trackByKey(o: {key: string}): string {
+    return o.key;
   }
 }
 

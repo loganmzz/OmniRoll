@@ -5,17 +5,25 @@
 }
 
 <ul>
-  <li><button type="button" (click)="roll()">Roll</button></li>
+  <li><p-button (click)="roll()" icon="pi pi-refresh" label="Roll"></p-button></li>
 </ul>
 
 @for (group of state().groups; track group.key) {
   <h2>{{ group.title }}</h2>
-  <div class="cards randomizer-slots">
-    @for (slot of group.slots; track slot.key) {
-      <div class="card">
-        <header>{{slot.title}}</header>
-        <div>{{slot.text}}</div>
-      </div>
-    }
-  </div>
+  <p-dataview
+    [value]="group.slots"
+    [trackBy]="trackByKey"
+    layout="grid">
+      <ng-template #grid let-items>
+        <div class="grid">
+          @for(slot of items; track slot.key) {
+            <p-card>
+              <div>
+                {{slot.text}}
+              </div>
+            </p-card>
+          }
+        </div>
+      </ng-template>
+  </p-dataview>
 }

@@ -1,15 +1,19 @@
 @let current = collection.content();
 @if (current !== undefined) {
-  <button [routerLink]="['collection']">✏️</button>
+  <p-button [routerLink]="['collection']" icon="pi pi-pen-to-square" label="Collection"></p-button>
   @if (collection.game()?.selectedSets?.length ?? 0 > 0) {
     <h2>Randomizers</h2>
-    <div class="cards">
-      @for (randomizer of current.randomizers; track randomizer.key) {
-        <div class="card link" [routerLink]="['randomizer', randomizer.key]">
-          <div>{{randomizer.name}}</div>
+    <p-dataview [value]="current.randomizers" [trackBy]="trackByKey" layout="grid">
+      <ng-template #grid let-items>
+        <div class="grid">
+          @for (randomizer of items; track randomizer.key) {
+            <p-card class="link" [routerLink]="['randomizer', randomizer.key]">
+              <div>{{randomizer.name}}</div>
+            </p-card>
+          }
         </div>
-      }
-    </div>
+      </ng-template>
+    </p-dataview>
   } @else {
     <p>No content available! <a routerLink="collection">Update your {{ current.name }} collection?</a></p>
   }

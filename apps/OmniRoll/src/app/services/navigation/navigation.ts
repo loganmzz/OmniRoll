@@ -25,10 +25,14 @@ export function isNavigationContextHolder(object: unknown): object is Navigation
   return typeof object === 'object' && object !== null && 'navigationContext' in object;
 }
 export class NavigationContext {
+  logo: WritableSignal<string|undefined> = signal(undefined);
   title: WritableSignal<string|undefined> = signal(undefined);
   menu: WritableSignal<MenuEntry|undefined> = signal(undefined);
 
-  constructor({title, menu}: {title?: string, menu?: MenuEntry} = {}) {
+  constructor({logo, title, menu}: {logo?: string, title?: string, menu?: MenuEntry} = {}) {
+    if (logo !== undefined) {
+      this.logo.set(logo);
+    }
     if (title !== undefined) {
       this.title.set(title);
     }
@@ -39,6 +43,7 @@ export class NavigationContext {
 }
 
 export interface BreadcrumbSegment {
+  logo: Signal<string|undefined>;
   label: Signal<string|undefined>;
   routerLink?: RouterLink['routerLink'];
 }
@@ -47,6 +52,7 @@ export type MenuEntry = MenuSection | MenuLink | MenuSeparator;
 export interface MenuSection {
   section: {
     title: {
+      logo?: string|undefined;
       text: string|undefined;
       routerLink?: RouterLink['routerLink'];
     };
@@ -156,18 +162,16 @@ export class NavigationService {
   }
 
   private refreshBreadcrumbs() {
-    const segments: BreadcrumbSegment[] = [
-      {
-        label: signal('🏠'),
-        routerLink: ['/'],
-      }
-    ];
+    console.log(`DEBUG: navigation.refreshBreadcrumbs> Start`);
+    const segments: BreadcrumbSegment[] = [];
     this.browseNavigationContext((context, path) => {
       segments.push({
+        logo: context.logo,
         label: context.title,
         routerLink: path.build(),
       });
     });
-    this.segments.set(segments.length === 1 ? [] : segments);
+    console.log(`DEBUG: navigation.refreshBreadcrumbs> Segment count: ${segments.length}`);
+    this.segments.set(segments);
   }
 }

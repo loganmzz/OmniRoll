@@ -19,7 +19,7 @@ export const appRoutes: Route[] = [
     data: {
       'mainMenu': true,
       'navigationContext': new NavigationContext({
-        title: '🗄️ Referential',
+        title: '🗄️Referential',
       }),
     },
   },
@@ -29,7 +29,7 @@ export const appRoutes: Route[] = [
     data: {
       'mainMenu': true,
       'navigationContext': new NavigationContext({
-        title: '📚 Collection',
+        title: '📚Collection',
       }),
     },
   },

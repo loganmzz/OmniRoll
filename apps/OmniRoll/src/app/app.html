@@ -1,15 +1,20 @@
-<app-menu [class.menu-open]="menuOpen()" (closing)="closeMenu()"></app-menu>
-<section>
+<p-drawer
+  [(visible)]="menuVisible">
+  <app-menu></app-menu>
+</p-drawer>
+<section class="menu">
+  <app-menu></app-menu>
+</section>
+<section class="main">
   <header>
-    <div
-      tabindex="0"
-      role="button"
-      class="button menu-button"
-      (keyup)="toggleMenu()"
-      (click)="toggleMenu()"
-    >≡</div>
-    <img src="logo.png" alt="OmniRoll Logo" class="logo" />
-    <app-breadcrumb [default]="title"></app-breadcrumb>
+    <p-button
+      icon="pi pi-bars"
+      class="menu-button"
+      (onClick)="toggleMenu()"
+    />
+    <app-breadcrumb></app-breadcrumb>
   </header>
-  <router-outlet></router-outlet>
+  <content>
+    <router-outlet></router-outlet>
+  </content>
 </section>

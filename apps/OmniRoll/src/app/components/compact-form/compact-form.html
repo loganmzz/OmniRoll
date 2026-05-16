@@ -2,78 +2,73 @@
 
   @let form = form$;
 
-  @if (!expanded() && compact()) {
-    <div
-      tabindex="0"
-      role="button"
-      class="chip-container"
-      (keyup)="expand()"
-      (click)="expand()"
-    >
-      @for (f of fields(); track f.key) {
-        <span class="chip-item">{{ f.label }}: {{ form[f.key]().value() }}</span>
-      }
-    </div>
-  } @else {
-    <div class="form-expanded">
-      @for (f of fields(); track f.key) {
-        <div class="form-field-title">{{ f.label }}: </div>
-          @let formField = form[f.key]();
-          @switch (f.type) {
-            @case ("range") {
-              <span class="form-field-range-value">{{ formField.value() }}</span>
-              <input class="form-field-range-input" type="range" [formField]="integerField(form, f.key)" [(min)]="f.min" [(max)]="f.max" />
+  <p-inplace
+    [active]="expanded() === true"
+  >
+    <ng-template #display>
+      <div
+        class="chip-container">
+          @for (f of fields(); track f.key) {
+            <p-chip label="{{ f.label }}: {{ form[f.key]().value() }}"></p-chip>
+          }
+      </div>
+    </ng-template>
+
+    <ng-template #content let-closeCallback="closeCallback">
+      <div class="form-expanded">
+        @for (f of fields(); track f.key) {
+          <div class="form-field-title">{{ f.label }}: </div>
+            @let formField = form[f.key]();
+            @switch (f.type) {
+              @case ("range") {
+                <span class="form-field-range-value">{{ formField.value() }}</span>
+                <p-slider class="form-field-range-input" [formField]="integerField(form, f.key)" [min]="f.min" [max]="f.max"></p-slider>
+              }
+              @case ("text") {
+                <input pInputText class="form-field-text-input" type="text" [formField]="stringField(form, f.key)" />
+              }
+              @case ("url") {
+                <input pInputText class="form-field-text-input" type="url" [formField]="stringField(form, f.key)" />
+              }
+              @default {
+              }
             }
-            @case ("text") {
-              <input class="form-field-text-input" type="text" [formField]="stringField(form, f.key)" />
-            }
-            @case ("url") {
-              <input class="form-field-text-input" type="url" [formField]="stringField(form, f.key)" />
-            }
-            @default {
+            @if (formField.touched() && formField.invalid()) {
+            <div class="form-errors">
+              <ul>
+                @for (error of formField.errors(); track error) {
+                  <li>{{ error.message }}</li>
+                }
+              </ul>
+            </div>
             }
           }
-          @if (formField.touched() && formField.invalid()) {
+        @if (form().touched() && form().invalid()) {
           <div class="form-errors">
             <ul>
-              @for (error of formField.errors(); track error) {
+              @for (error of form().errors(); track error) {
                 <li>{{ error.message }}</li>
               }
             </ul>
           </div>
-          }
         }
-      @if (form().touched() && form().invalid()) {
-        <div class="form-errors">
-          <ul>
-            @for (error of form().errors(); track error) {
-              <li>{{ error.message }}</li>
+        <div class="form-actions">
+            @if (expanded()) {
+              <p-button
+                label="Save"
+                [disabled]="!form().valid()"
+                (click)="save()"/>
+              <p-button
+                label="Cancel"
+                (click)="cancel()"/>
+            } @else {
+              <p-button
+                label="Close"
+                (click)="closeCallback(); close()"/>
             }
-          </ul>
         </div>
-      }
-      <div class="form-actions">
-          @if (expanded()) {
-            <button
-              type="button"
-              [disabled]="!form().valid()"
-              (click)="save()">
-                Save
-            </button>
-            <button
-              type="button"
-              (click)="cancel()">
-                Cancel
-            </button>
-          } @else {
-            <button
-              type="button"
-              (click)="close()">
-                Close
-            </button>
-          }
       </div>
-    </div>
-  }
+    </ng-template>
+  </p-inplace>
 
 </div>

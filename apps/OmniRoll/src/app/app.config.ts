@@ -12,6 +12,7 @@ import {
   withComponentInputBinding,
   withRouterConfig,
 } from '@angular/router';
+import { primeNGProviders } from './app.primeng';
 import { appRoutes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -26,5 +27,6 @@ export const appConfig: ApplicationConfig = {
       }),
       withComponentInputBinding(),
     ),
+    primeNGProviders,
   ],
 };

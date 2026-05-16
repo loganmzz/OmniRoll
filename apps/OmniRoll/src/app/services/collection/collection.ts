@@ -120,7 +120,7 @@ export class CollectionDatabase extends Dexie {
     if (content !== undefined && content.version === game.version && content.update_timestamp === game.update_timestamp) {
       return CompiledGame.fromJSON(content.content);
     }
-    console.log(`Collection(${game.key}): Refresh content\n${JSON.stringify(game, undefined, 2)}`);
+    console.log(`Collection(${game.key}): Refresh content`);
     const compiled = await resolver();
     if (compiled === undefined) {
       return undefined;

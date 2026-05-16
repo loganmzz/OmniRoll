@@ -10,10 +10,16 @@ import {
   Collection,
   CollectionGame,
 } from '@project/services/collection/collection';
+import { CardModule } from 'primeng/card';
+import { DataViewModule } from 'primeng/dataview';
 
 @Component({
   selector: 'app-collection-page',
-  imports: [FormsModule],
+  imports: [
+    FormsModule,
+    CardModule,
+    DataViewModule,
+  ],
   templateUrl: './collection-page.html',
   styleUrl: './collection-page.css',
 })
@@ -33,5 +39,9 @@ export class CollectionPage implements OnInit, OnChanges {
   async reverse(game: CollectionGame): Promise<void> {
     await this.collectionService.updateGameStatus(game.key, !game.enabled);
     await this.ngOnInit();
+  }
+
+  trackByKey(o: {key: string}): string {
+    return o.key;
   }
 }
