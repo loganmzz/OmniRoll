@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use "tailwindcss";
+@use "primeicons/primeicons.css";
 
 @layer omniroll {
   /** Global **/
@@ -37,6 +38,9 @@
   }
   .checkbox.selected {
     @apply outline-lime-600 bg-lime-600/10;
+  }
+  .checkbox.selected .pi {
+    @apply text-lime-600;
   }
   .checkbox.selected::before {
     content: "✅";
@@ -100,14 +104,14 @@
   .p-card.selected {
     @apply outline-lime-600 bg-lime-600/10;
   }
-  .p-card.selected > .p-card-body > .p-card-content > *:nth-child(1)::before {
-    content: "✅";
+  .p-card.selected .pi {
+    @apply text-lime-600;
   }
   .p-card.unselected {
     @apply outline-red-600 bg-red-600/10;
   }
-  .p-card.unselected > .p-card-body > .p-card-content > *:nth-child(1)::before {
-    content: "🚫";
+  .p-card.unselected .pi {
+    @apply text-red-600;
   }
 
   .card {

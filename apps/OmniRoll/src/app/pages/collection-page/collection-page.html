@@ -11,7 +11,10 @@
         [class.unselected]="!game.enabled"
         (keyup)="reverse(game)"
         (click)="reverse(game)">
-          <div>{{ game.name }}</div>
+          <div>
+            <span class="pi" [class.pi-check]="game.enabled" [class.pi-ban]="!game.enabled"></span>
+            {{ game.name }}
+          </div>
       </p-card>
       }
     </div>

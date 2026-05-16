@@ -8,7 +8,7 @@
       (cancelled)="cancelEditForm()"
     ></app-compact-form>
 } @else {
-  <p-button (click)="openEditForm()" [disabled]="form !== undefined" label="➕ Add referential"/>
+  <p-button (click)="openEditForm()" [disabled]="form !== undefined" icon="pi pi-plus" label="Referential"/>
 }
 
 <p-treetable [value]="tableNodes()">
@@ -35,29 +35,29 @@
             </div>
           </td>
           <td class="referential-table-source-cell-action">
-            <p-button label="🔼" text (click)="moveSourceUp(rowData.source)" [disabled]="!rowData.can.moveUp" />
+            <p-button icon="pi pi-angle-up" text (click)="moveSourceUp(rowData.source)" [disabled]="!rowData.can.moveUp" />
           </td>
           <td class="referential-table-source-cell-action">
-            <p-button label="🔽" text (click)="moveSourceDown(rowData.source)" [disabled]="!rowData.can.moveDown" />
+            <p-button icon="pi pi-angle-down" text (click)="moveSourceDown(rowData.source)" [disabled]="!rowData.can.moveDown" />
           </td>
           <td class="referential-table-source-cell-action" [class.pulse]="rowData.isRefreshing">
-            <p-button label="🔄️" text (click)="refreshSource(rowData.source)" [disabled]="!rowData.can.refresh"/>
+            <p-button icon="pi pi-sync" text (click)="refreshSource(rowData.source)" [disabled]="!rowData.can.refresh"/>
           </td>
           <td class="referential-table-source-cell-action">
-            <p-button label="✏️" text (click)="openEditForm(rowData.source)" [disabled]="!rowData.can.edit || form !== undefined"/>
+            <p-button icon="pi pi-pen-to-square" text (click)="openEditForm(rowData.source)" [disabled]="!rowData.can.edit || form !== undefined"/>
           </td>
           <td class="referential-table-source-cell-action">
-            <p-button label="🧹" text (click)="clearSource(rowData.source)" />
+            <p-button icon="pi pi-eraser" text (click)="clearSource(rowData.source)" />
           </td>
           <td class="referential-table-source-cell-action">
             @if (rowData.can.disable) {
-              <p-button label="🚫" text (click)="disableSource(rowData.source)" />
+              <p-button icon="pi pi-ban" text (click)="disableSource(rowData.source)" />
             } @else {
-              <p-button label="✅" text (click)="enableSource(rowData.source)" />
+              <p-button icon="pi pi-check" text (click)="enableSource(rowData.source)" />
             }
           </td>
           <td class="referential-table-source-cell-action">
-            <p-button label="🗑️" text (click)="removeSource(rowData.source)" [disabled]="!rowData.can.remove"/>
+            <p-button icon="pi pi-trash" text (click)="removeSource(rowData.source)" [disabled]="!rowData.can.remove"/>
           </td>
         }
         @case ('game') {
@@ -67,8 +67,8 @@
               <span>{{ rowData.name }}</span>
             </div>
           </td>
-          <td colspan="2" class="referential-table-game-cell-sets">{{ rowData.game.stat.sets }} 📦</td>
-          <td colspan="2" class="referential-table-game-cell-components">{{ rowData.game.stat.components }} ♟️</td>
+          <td colspan="2" class="referential-table-game-cell-sets">{{ rowData.game.stat.sets }} <span class="pi pi-box"></span></td>
+          <td colspan="2" class="referential-table-game-cell-components">{{ rowData.game.stat.components }} <span class="pi pi-tag"></span></td>
           <td colspan="3"></td>
         }
         @case ('edit-source') {
