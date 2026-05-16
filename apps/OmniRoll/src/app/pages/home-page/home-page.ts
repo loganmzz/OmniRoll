@@ -1,3 +1,6 @@
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { DataViewModule } from 'primeng/dataview';
 import {
   Component,
   OnInit,
@@ -9,7 +12,12 @@ import { Referential } from '@project/services/referential/referential';
 
 @Component({
   selector: 'app-home-page',
-  imports: [RouterLink],
+  imports: [
+    RouterLink,
+    ButtonModule,
+    CardModule,
+    DataViewModule,
+  ],
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',
 })

@@ -13,6 +13,7 @@
 
 .form-expanded {
   @apply outline rounded-sm p-3 grid grid-cols-[150px_2em_1fr] gap-2;
+  @apply max-sm:grid-cols-[auto];
 }
 .form-errors {
   @apply col-span-3 text-red-500 text-sm;
@@ -32,10 +33,4 @@ input {
 }
 .form-field-text-input {
   @apply col-span-2;
-}
-
-@variant max-sm {
-  .form-expanded {
-    @apply grid-cols-[auto];
-  }
 }

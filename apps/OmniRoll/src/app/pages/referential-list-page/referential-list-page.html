@@ -8,43 +8,84 @@
       (cancelled)="cancelEditForm()"
     ></app-compact-form>
 } @else {
-  <button (click)="openEditForm()" [disabled]="form !== undefined">➕ Add referential</button>
+  <p-button (click)="openEditForm()" [disabled]="form !== undefined" label="➕ Add referential"/>
 }
 
-<div class="source-list">
-@for (source of sources(); track source.key) {
-  <div class="source-item">
-    <div class="source-title">{{ source.name }}</div>
-    <button class="icon" (click)="moveSourceUp(source)" [disabled]="$first">🔼</button>
-    <button class="icon" (click)="moveSourceDown(source)" [disabled]="$last">🔽</button>
-    <button class="icon source-action-refresh" (click)="refreshSource(source)" [disabled]="source.refreshing">🔄️</button>
-    <button class="icon" [disabled]="source.protected || form !== undefined" (click)="openEditForm(source)">✏️</button>
-    <button class="icon" (click)="clearSource(source)">🧹</button>
-    @if (source.enabled) {
-      <button class="icon" (click)="disableSource(source)">🚫</button>
-    } @else {
-      <button class="icon" (click)="enableSource(source)">✅</button>
-    }
-    <button class="icon" [disabled]="source.protected" (click)="removeSource(source)">❌</button>
-  </div>
-  @if (form !== undefined && form.source?.key === source.key) {
-    <div class="source-edit-form">
-      <app-compact-form
-        [fields]="form.fields"
-        [(values)]="form.values"
-        [expanded]="true"
-        (saved)="saveEditForm($event, source.key)"
-        (cancelled)="cancelEditForm()"
-      ></app-compact-form>
-    </div>
-  } @else {
-    @for (game of source.module?.games ?? []; track game.key) {
-    <div class="source-game-item" [class.source-game-disabled]="!game.enabled">
-      <div class="source-game-name">{{ game.name }}</div>
-      <div class="source-game-sets">{{ game.stat.sets }} 📦</div>
-      <div class="source-game-components">{{ game.stat.components }} ♟️</div>
-    </div>
-    }
-  }
-}
-</div>
+<p-treetable [value]="tableNodes()">
+  <ng-template #colgroup>
+    <colgroup>
+      <col /> <!-- Name -->
+      <col class="referential-table-col-meta"/> <!-- Up (or sets) -->
+      <col class="referential-table-col-meta"/> <!-- Down (or sets) -->
+      <col class="referential-table-col-meta"/> <!-- Refresh (or components) -->
+      <col class="referential-table-col-meta"/> <!-- Edit (or components) -->
+      <col class="referential-table-col-meta"/> <!-- Clear -->
+      <col class="referential-table-col-meta"/> <!-- Disable/Enable -->
+      <col class="referential-table-col-meta"/> <!-- Remove -->
+    </colgroup>
+  </ng-template>
+  <ng-template #body let-rowNode let-rowData="rowData">
+    <tr [ttRow]="rowNode" [class.referential-table-row-disabled]="!rowData.isEnabled">
+      @switch (rowData.type) {
+        @case ('source') {
+          <td class="referential-table-cell-name">
+            <div class="flex items-center gap-2">
+              <p-treetable-toggler [rowNode]="rowNode" />
+              <span>{{ rowData.name }}</span>
+            </div>
+          </td>
+          <td class="referential-table-source-cell-action">
+            <p-button label="🔼" text (click)="moveSourceUp(rowData.source)" [disabled]="!rowData.can.moveUp" />
+          </td>
+          <td class="referential-table-source-cell-action">
+            <p-button label="🔽" text (click)="moveSourceDown(rowData.source)" [disabled]="!rowData.can.moveDown" />
+          </td>
+          <td class="referential-table-source-cell-action" [class.pulse]="rowData.isRefreshing">
+            <p-button label="🔄️" text (click)="refreshSource(rowData.source)" [disabled]="!rowData.can.refresh"/>
+          </td>
+          <td class="referential-table-source-cell-action">
+            <p-button label="✏️" text (click)="openEditForm(rowData.source)" [disabled]="!rowData.can.edit || form !== undefined"/>
+          </td>
+          <td class="referential-table-source-cell-action">
+            <p-button label="🧹" text (click)="clearSource(rowData.source)" />
+          </td>
+          <td class="referential-table-source-cell-action">
+            @if (rowData.can.disable) {
+              <p-button label="🚫" text (click)="disableSource(rowData.source)" />
+            } @else {
+              <p-button label="✅" text (click)="enableSource(rowData.source)" />
+            }
+          </td>
+          <td class="referential-table-source-cell-action">
+            <p-button label="🗑️" text (click)="removeSource(rowData.source)" [disabled]="!rowData.can.remove"/>
+          </td>
+        }
+        @case ('game') {
+          <td class="referential-table-cell-name">
+            <div class="flex items-center gap-2">
+              <p-treetable-toggler [rowNode]="rowNode" />
+              <span>{{ rowData.name }}</span>
+            </div>
+          </td>
+          <td colspan="2" class="referential-table-game-cell-sets">{{ rowData.game.stat.sets }} 📦</td>
+          <td colspan="2" class="referential-table-game-cell-components">{{ rowData.game.stat.components }} ♟️</td>
+          <td colspan="3"></td>
+        }
+        @case ('edit-source') {
+          <td colspan="8">
+            <app-compact-form
+              [fields]="rowData.form.fields"
+              [(values)]="rowData.form.values"
+              [expanded]="true"
+              (saved)="saveEditForm($event, rowData.source.key)"
+              (cancelled)="cancelEditForm()"
+            ></app-compact-form>
+          </td>
+        }
+        @default {
+          <td colspan="8"></td>
+        }
+      }
+    </tr>
+  </ng-template>
+</p-treetable>

@@ -1,9 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 @use "tailwindcss";
 
-@layer base {
+@layer omniroll {
+  /** Global **/
   body {
-    @apply bg-neutral-50 text-neutral-900 font-sans;
+    @apply bg-(--p-content-background) text-(--p-text-color) font-sans;
+  }
+
+  app-root {
+    @apply max-lg:w-full;
   }
 
   header {
@@ -18,34 +23,15 @@
   }
 
   section {
-    @apply mx-auto max-w-3xl flex flex-col items-center gap-x-4 rounded-xl p-3 shadow-lg outline outline-black/5 bg-neutral-50 min-h-dvh;
+    @apply mx-auto max-w-3xl flex flex-col items-center gap-x-4 rounded-xl p-3 shadow-lg outline outline-black/5 min-h-dvh;
   }
   section > * {
     @apply w-full;
   }
 
-  ul {
-    @apply p-2;
-  }
-  li ul {
-    @apply border-s-1 mb-3 border-gray-400;
-  }
 
-  button {
-    @apply m-1 bg-neutral-700 text-white p-4 rounded-sm cursor-pointer min-w-24;
-  }
-  button.icon {
-    @apply my-0 mx-1 py-0 px-0 min-w-auto bg-transparent;
-  }
-  button:disabled {
-    @apply cursor-not-allowed opacity-40;
-  }
-  input[type="checkbox"] {
-    @apply mr-1;
-  }
-  input[type="text"], input[type="url"] {
-    @apply border border-black rounded-lg px-2 py-1;
-  }
+
+  /** Pseudo checkbox **/
   .checkbox {
     @apply m-1 p-1 outline rounded-sm cursor-pointer;
   }
@@ -68,19 +54,62 @@
     content: "ℹ️";
   }
 
-  .button {
+  /** Button **/
+  button, .button {
     @apply cursor-pointer;
   }
+  button:disabled {
+    @apply cursor-not-allowed opacity-40;
+  }
+  .pulse button {
+    @apply opacity-100 animate-pulse;
+  }
+
+  /** Link **/
   .link {
     @apply cursor-pointer hover:underline;
   }
-  .edited {
-    @apply italic;
+
+  /** Grid **/
+  p-dataview.p-dataview-grid > .p-dataview-content > .grid {
+    @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4;
   }
 
-  .cards {
-    @apply grid grid-cols-2 md:grid-cols-4 gap-x-4;
+  p-dataview.p-dataview-grid > .p-dataview-content > .grid > * {
+    @apply aspect-square min-w-24 min-h-24;
   }
+  p-dataview.p-dataview-grid > .p-dataview-content > .grid > .link:hover {
+    @apply text-[var(--p-highlight-focus-color)] opacity-70;
+  }
+
+  /** Card **/
+  .cards {
+    @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4;
+  }
+  .cards > * {
+    @apply aspect-square min-w-24 min-h-24;
+  }
+  .p-card {
+    @apply outline flex items-center justify-center;
+  }
+
+  .p-card .link {
+    @apply hover:animate-pulse hover:text-[var(--p-highlight-focus-color)];
+  }
+
+  .p-card.selected {
+    @apply outline-lime-600 bg-lime-600/10;
+  }
+  .p-card.selected > .p-card-body > .p-card-content > *:nth-child(1)::before {
+    content: "✅";
+  }
+  .p-card.unselected {
+    @apply outline-red-600 bg-red-600/10;
+  }
+  .p-card.unselected > .p-card-body > .p-card-content > *:nth-child(1)::before {
+    content: "🚫";
+  }
+
   .card {
     @apply relative outline rounded-xl p-3 m-1 aspect-square content-center text-center min-w-24 min-h-24;
   }
@@ -101,20 +130,5 @@
   }
   .card > header {
     @apply absolute top-1 left-1 font-bold;
-  }
-
-  @variant max-lg {
-    app-root {
-      @apply w-full;
-    }
-    .cards {
-      @apply grid-cols-3;
-    }
-  }
-
-  @variant max-sm {
-    .cards {
-      @apply grid-cols-2;
-    }
   }
 }

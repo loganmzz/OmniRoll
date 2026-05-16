@@ -7,6 +7,9 @@
 section {
   @apply mx-0 items-start w-full;
 }
+section > content {
+  @apply py-4;
+}
 
 header {
   @apply flex items-center w-full;
@@ -14,12 +17,14 @@ header {
 
 app-menu {
   @apply h-full top-0 bottom-0;
+  @apply max-lg:hidden max-lg:fixed max-lg:left-0 max-lg:z-100;
 }
 .menu-open {
   @apply block;
 }
 .menu-button {
   @apply hidden;
+  @apply max-lg:block;
 }
 
 .chip-container {
@@ -27,13 +32,4 @@ app-menu {
 }
 .chip-item {
   @apply bg-gray-200 text-gray-800 px-2 py-1 rounded;
-}
-
-@variant max-lg {
-  app-menu {
-    @apply hidden fixed left-0 z-100;
-  }
-  .menu-button {
-    @apply block;
-  }
 }

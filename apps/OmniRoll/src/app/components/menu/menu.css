@@ -1,15 +1,10 @@
 @reference "tailwindcss";
 
 .menu > section {
-  @apply h-dvh overflow-auto;
+  @apply h-dvh overflow-auto bg-(--p-content-background);
 }
 
 header {
   @apply flex justify-end w-full;
-}
-
-@variant lg {
-  header {
-    @apply hidden;
-  }
+  @apply lg:hidden;
 }

@@ -1,15 +1,19 @@
-<div class="cards">
-  @for (game of games(); track game.key) {
-    <div
-      tabindex="0"
-      role="checkbox"
-      [aria-checked]="game.enabled"
-      class="card link"
-      [class.selected]="game.enabled"
-      [class.unselected]="!game.enabled"
-      (keyup)="reverse(game)"
-      (click)="reverse(game)">
-        <div>{{ game.name }}</div>
+<p-dataview [value]="games()" [trackBy]="game => game.key" layout="grid">
+  <ng-template #grid let-items>
+    <div class="grid">
+      @for (game of items; track game.key) {
+      <p-card
+        tabindex="0"
+        role="checkbox"
+        [aria-checked]="game.enabled"
+        class="link"
+        [class.selected]="game.enabled"
+        [class.unselected]="!game.enabled"
+        (keyup)="reverse(game)"
+        (click)="reverse(game)">
+          <div>{{ game.name }}</div>
+      </p-card>
+      }
     </div>
-  }
-</div>
+  </ng-template>
+</p-dataview>

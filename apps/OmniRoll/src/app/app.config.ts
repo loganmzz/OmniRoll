@@ -13,6 +13,7 @@ import {
   withComponentInputBinding,
   withRouterConfig,
 } from '@angular/router';
+import { primeNGProviders } from './app.primeng';
 import { appRoutes } from './app.routes';
 import { ErrorHandlerService } from './services/error/error-handler';
 
@@ -28,6 +29,7 @@ export const appConfig: ApplicationConfig = {
       }),
       withComponentInputBinding(),
     ),
-    { provide: ErrorHandler, useClass: ErrorHandlerService }
+    primeNGProviders,
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
   ],
 };

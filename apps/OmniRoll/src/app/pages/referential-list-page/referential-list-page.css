@@ -1,37 +1,22 @@
 @reference "tailwindcss";
 
-.source-list {
-  @apply grid grid-cols-[--spacing(5)_minmax(--spacing(25),_1fr)_repeat(7,--spacing(8))] gap-y-2;
+p-treetable col.referential-table-col-meta {
+  @apply w-8;
 }
 
-.source-item {
-  @apply grid grid-cols-subgrid col-span-full border border-gray-500 rounded bg-sky-100 mbs-2 ps-2;
+p-treetable tr.referential-table-game-row {
+  @apply font-light;
 }
 
-.source-title {
-  @apply col-span-2;
-}
-
-.source-action-refresh:disabled {
-  @apply opacity-100 animate-pulse;
-}
-
-.source-edit-form {
-  @apply col-span-8 col-start-2;
-}
-
-.source-game-item {
-  @apply grid grid-cols-subgrid col-start-2 -col-end-1 bg-gray-200 rounded ps-1 pe-1;
-}
-
-.source-game-disabled .source-game-name {
+p-treetable tr.referential-table-game-row.referential-table-row-disabled .referential-table-cell-name {
   @apply line-through;
 }
 
-.source-game-sets {
-  @apply col-[span_2] justify-self-end-safe;
+p-treetable td.referential-table-source-cell-action {
+  @apply text-center;
 }
 
-.source-game-components {
-  @apply col-[span_2] justify-self-end-safe;
+p-treetable td.referential-table-game-cell-sets,
+p-treetable td.referential-table-game-cell-components {
+  @apply text-end;
 }

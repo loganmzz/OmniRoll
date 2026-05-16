@@ -1,3 +1,5 @@
+import { CardModule } from 'primeng/card';
+import { DataViewModule } from 'primeng/dataview';
 import {
   Component,
   OnChanges,
@@ -13,7 +15,11 @@ import {
 
 @Component({
   selector: 'app-collection-page',
-  imports: [FormsModule],
+  imports: [
+    FormsModule,
+    CardModule,
+    DataViewModule,
+  ],
   templateUrl: './collection-page.html',
   styleUrl: './collection-page.css',
 })
