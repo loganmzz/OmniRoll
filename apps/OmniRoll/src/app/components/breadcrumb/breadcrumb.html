@@ -1,8 +1,15 @@
 <nav>
   <h1>
     <ol>
-      @for (segment of segments(); track $index) {
-        <li [routerLink]="segment.routerLink" class="link">{{segment.label}}</li>
+      @for (segment of segments(); track $index; let last = $last) {
+        <li [routerLink]="segment.routerLink" class="link">
+          @if (segment.logo) {
+            <img [src]="segment.logo" alt="Logo" class="logo" />
+          }
+          @if (!segment.logo || last) {
+            <span>{{segment.label}}</span>
+          }
+        </li>
       }
     </ol>
   </h1>

@@ -1,19 +1,8 @@
 <nav class="menu">
-  <section>
-    <header>
-      <div
-        tabindex="0"
-        role="button"
-        class="button"
-        (keyup)="closing.emit()"
-        (click)="closing.emit()"
-      >×</div>
-    </header>
-    @for (entry of navigation.contexts(); track $index) {
-      @let menu = entry.menu();
-      @if (menu !== undefined) {
-        <app-menu-item [entry]="menu"></app-menu-item>
-      }
+  @for (entry of navigation.contexts(); track $index) {
+    @let menu = entry.menu();
+    @if (menu !== undefined) {
+      <app-menu-item [entry]="menu"></app-menu-item>
     }
-  </section>
+  }
 </nav>

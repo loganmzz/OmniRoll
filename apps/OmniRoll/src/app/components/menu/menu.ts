@@ -1,7 +1,6 @@
 import {
   Component,
   inject,
-  output,
 } from '@angular/core';
 import { NavigationService } from '@project/services/navigation/navigation';
 import { MenuItem } from './menu-item';
@@ -14,5 +13,4 @@ import { MenuItem } from './menu-item';
 })
 export class Menu {
   navigation = inject(NavigationService);
-  closing = output<void>();
 }

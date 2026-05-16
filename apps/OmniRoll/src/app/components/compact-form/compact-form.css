@@ -1,41 +1,32 @@
 @reference "tailwindcss";
 
+:host {
+  @apply my-1;
+}
+
 .form-container {
   @apply flex flex-col;
 }
 
-.chip-container {
-  @apply flex flex-wrap p-2 hover:outline hover:rounded-sm hover:cursor-pointer;
-}
-.chip-item {
-  @apply text-sm bg-gray-200 rounded-3xl px-2 py-1 m-1;
-}
-
 .form-expanded {
-  @apply outline rounded-sm p-3 grid grid-cols-[150px_2em_1fr] gap-2;
+  @apply outline rounded-sm p-3 grid grid-cols-[8em_2em_1fr] sm:grid-cols-[8em_2em_1fr] gap-2;
 }
 .form-errors {
   @apply col-span-3 text-red-500 text-sm;
 }
 .form-actions {
-  @apply col-span-3 flex justify-center;
+  @apply col-span-3 gap-2 flex justify-center;
 }
 .form-actions button {
   @apply text-sm p-2 min-w-16;
 }
 
-input {
-  width: stretch;
+p-slider {
+  @apply self-center mx-2;
 }
 .form-field-range-value {
   @apply text-end;
 }
 .form-field-text-input {
   @apply col-span-2;
-}
-
-@variant max-sm {
-  .form-expanded {
-    @apply grid-cols-[auto];
-  }
 }

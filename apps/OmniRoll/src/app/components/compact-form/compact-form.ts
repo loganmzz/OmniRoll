@@ -9,8 +9,11 @@ import {
   input,
   model,
   output,
-  signal,
 } from '@angular/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   FieldTree,
   FormField,
@@ -20,6 +23,11 @@ import {
   pattern,
   required,
 } from '@angular/forms/signals';
+import { ButtonModule } from 'primeng/button';
+import { ChipModule } from 'primeng/chip';
+import { InplaceModule } from 'primeng/inplace';
+import { InputTextModule } from 'primeng/inputtext';
+import { SliderModule } from 'primeng/slider';
 
 export type CompactFormValue = number|string;
 export type CompactFormValues = Record<string, CompactFormValue>;
@@ -48,20 +56,29 @@ export interface CompactFormFieldUrl {
   selector: 'app-compact-form',
   imports: [
     FormField,
+    FormsModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    ChipModule,
+    InplaceModule,
+    InputTextModule,
+    SliderModule,
   ],
   templateUrl: './compact-form.html',
   styleUrl: './compact-form.css',
 })
 export class CompactForm implements OnChanges, OnDestroy {
   injector = inject(Injector);
+
   fields = input.required<CompactFormFields>();
+  values = model<CompactFormValues>({});
   expanded = input<boolean>(false);
 
-  values = model<CompactFormValues>({});
+  // Signal form
   form$!: FieldTree<CompactFormValues>;
-  formInjector: DestroyableInjector | undefined;
 
-  compact = signal(true);
+
+  formInjector: DestroyableInjector | undefined;
 
   saved = output<CompactFormValues>();
   cancelled = output<void>();
@@ -77,6 +94,7 @@ export class CompactForm implements OnChanges, OnDestroy {
         providers: [],
         parent: this.injector,
       });
+      // Signal form
       this.form$ = form(
         this.values,
         (p) => {
@@ -125,13 +143,6 @@ export class CompactForm implements OnChanges, OnDestroy {
     return form[key] as FieldTree<number, number>;
   }
 
-  expand() {
-    this.compact.set(false);
-  }
-  collapse() {
-    this.compact.set(true);
-  }
-
   save() {
     this.saved.emit(this.values());
   }
@@ -140,6 +151,5 @@ export class CompactForm implements OnChanges, OnDestroy {
   }
   close() {
     this.closed.emit();
-    this.collapse();
   }
 }

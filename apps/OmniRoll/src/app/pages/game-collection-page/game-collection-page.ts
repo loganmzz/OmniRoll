@@ -7,18 +7,18 @@ import {
   signal,
 } from '@angular/core';
 import {
-  TreeModelNode,
-  TreeView,
-} from '@project/components/tree-view/tree-view';
-import {
   Collection,
   CollectionGameSet,
 } from '@project/services/collection/collection';
 import { NavigationContext } from '@project/services/navigation/navigation';
+import { TreeNode } from 'primeng/api';
+import { TreeModule } from 'primeng/tree';
 
 @Component({
   selector: 'app-game-collection-page',
-  imports: [TreeView],
+  imports: [
+    TreeModule,
+  ],
   templateUrl: './game-collection-page.html',
   styleUrl: './game-collection-page.css',
 })
@@ -27,18 +27,21 @@ export class GameCollectionPage implements OnInit {
     collection: inject(Collection),
   }
   navigationContext = input.required<NavigationContext>();
-  nodes = signal<TreeModelNode[]>([]);
+  tree = signal<TreeNode[]>([]);
+  selectedNodes = signal<TreeNode[]>([]);
 
   constructor() {
     effect(async () => {
-      const collection = await this.services.collection.game();
+      const collection = this.services.collection.game();
       if (collection === undefined) {
-        this.nodes.set([]);
+        this.tree.set([]);
+        this.selectedNodes.set([]);
         return;
       }
       const selecteds = new Set(collection.selectedSets);
-      const nodes = collection.availableSets.map(set => this.setToNode(set, selecteds));
-      this.nodes.set(nodes);
+      this.selectedNodes.set(collection.selectedSets.map(key => ({ key })));
+
+      this.tree.set(collection.availableSets.map(set => this.computeTree(set, selecteds)))
     });
   }
 
@@ -46,31 +49,28 @@ export class GameCollectionPage implements OnInit {
     this.navigationContext().title.set('Collection ✏️');
   }
 
-  private setToNode(set: CollectionGameSet, selecteds: Set<string>): TreeModelNode {
+  private computeTree(set: CollectionGameSet, selecteds: Set<string>, preselected = false): TreeNode {
+    const selected = selecteds.has(set.key);
+    const icon = selected ? 'pi-check' : preselected ? 'pi-check-circle' : 'pi-ban';
+    const selectClass = selected ? 'selected' : preselected ? 'preselected' : 'unselected';
     return {
       key: set.key,
+      data: set,
       label: set.name,
-      selected: selecteds.has(set.key),
-      children: set.sets.map(s => this.setToNode(s, selecteds)),
-    };
+      expanded: true,
+      icon: `pi ${icon}`,
+      styleClass: `${selectClass}`,
+      children: set.sets.map(s => this.computeTree(s, selecteds, selected || preselected)),
+    }
   }
 
-  async handleSelectionEvent() {
-    const selection: string[] = [];
-    this.collectSelected(selection, this.nodes());
+  async handleTreeSelection() {
+    const selection = this.selectedNodes().map(node => node.key).filter(key => key !== undefined);
     const game = this.services.collection.game();
     if (game === undefined) {
       return;
     }
     game.selectedSets = selection;
     await this.services.collection.updateGame(game);
-  }
-  private collectSelected(selection: string[], nodes: TreeModelNode[]) {
-    for (const node of nodes) {
-      if (node.selected) {
-        selection.push(node.key);
-      }
-      this.collectSelected(selection, node.children);
-    }
   }
 }

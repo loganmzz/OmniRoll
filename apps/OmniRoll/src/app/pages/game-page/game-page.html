@@ -4,17 +4,24 @@
   <router-outlet></router-outlet>
 } @else if (current !== undefined) {
   <p>Game is not enabled!</p>
-  <div class="cards">
-  <div
-    tabindex="0"
-    role="checkbox"
-    aria-checked="false"
-    class="card link unselected"
-    (keyup)="enableGame(current.key)"
-    (click)="enableGame(current.key)">
-        <div>{{ current.name }}</div>
-    </div>
-  </div>
+  <p-dataview [value]="[current]" [trackBy]="trackByKey" layout="grid">
+    <ng-template #grid let-items>
+      <div class="grid">
+        <p-card
+          tabindex="0"
+          role="checkbox"
+          aria-checked="false"
+          class="link unselected"
+          (keyup)="enableGame(current.key)"
+          (click)="enableGame(current.key)">
+            <div>
+              <span class="pi pi-ban"></span>
+              {{ current.name }}
+            </div>
+        </p-card>
+      </div>
+    </ng-template>
+  </p-dataview>
 } @else {
   <p>Game doesn't exists! <a routerLink="/collection">Go home</a>.</p>
 }

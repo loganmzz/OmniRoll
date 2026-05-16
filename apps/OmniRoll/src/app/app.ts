@@ -6,6 +6,8 @@ import {
   signal,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+import { DrawerModule } from 'primeng/drawer';
 import { Breadcrumb } from './components/breadcrumb/breadcrumb';
 import { Menu } from './components/menu/menu';
 import { Collection } from './services/collection/collection';
@@ -21,7 +23,13 @@ interface MainMenuEntry {
 }
 
 @Component({
-  imports: [RouterModule, Breadcrumb, Menu],
+  imports: [
+    RouterModule,
+    Breadcrumb,
+    Menu,
+    ButtonModule,
+    DrawerModule,
+  ],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
@@ -31,7 +39,7 @@ export class App implements OnInit {
   navigation = inject(NavigationService);
   collection = inject(Collection);
   mainMenu = signal<MainMenuEntry[]>([]);
-  menuOpen = signal(false);
+  menuVisible = signal(false);
 
   constructor() {
     effect(() => {
@@ -39,6 +47,7 @@ export class App implements OnInit {
       const menu: MenuSection = {
         section: {
           title: {
+            logo: 'logo.png',
             text: this.title,
             routerLink: ['/'],
           },
@@ -65,6 +74,8 @@ export class App implements OnInit {
         },
       };
       this.navigation.root.menu.set(menu);
+      this.navigation.root.logo.set('logo.png');
+      this.navigation.root.title.set(this.title);
     });
   }
 
@@ -82,9 +93,9 @@ export class App implements OnInit {
   }
 
   toggleMenu() {
-    this.menuOpen.update(value => !value);
+    this.menuVisible.update(value => !value);
   }
   closeMenu() {
-    this.menuOpen.set(false);
+    this.menuVisible.set(false);
   }
 }

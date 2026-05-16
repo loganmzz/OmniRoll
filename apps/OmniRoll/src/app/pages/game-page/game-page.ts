@@ -12,10 +12,16 @@ import {
 } from '@angular/router';
 import { Collection } from '@project/services/collection/collection';
 import { NavigationContext } from '@project/services/navigation/navigation';
+import { CardModule } from 'primeng/card';
+import { DataViewModule } from 'primeng/dataview';
 
 @Component({
   selector: 'app-game-page',
-  imports: [RouterModule],
+  imports: [
+    RouterModule,
+    CardModule,
+    DataViewModule,
+  ],
   templateUrl: './game-page.html',
   styleUrl: './game-page.css',
 })
@@ -54,5 +60,9 @@ export class GamePage {
   async enableGame(gameKey: string) {
     await this.collection.updateGameStatus(gameKey, true);
     await this.router.navigate(['.'], { relativeTo: this.route, onSameUrlNavigation: 'reload' });
+  }
+
+  trackByKey(game: {key: string}): string {
+    return game.key;
   }
 }

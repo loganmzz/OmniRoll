@@ -3,6 +3,9 @@
 li::before {
   content: "›";
 }
+ol {
+  @apply flex flex-row gap-x-1 content-start justify-start flex-wrap;
+}
 li {
-  @apply inline mr-2;
+  @apply flex flex-row gap-x-1;
 }
