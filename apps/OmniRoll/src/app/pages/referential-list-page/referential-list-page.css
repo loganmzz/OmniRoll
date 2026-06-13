@@ -24,3 +24,7 @@ p-treetable td.referential-table-game-cell-sets,
 p-treetable td.referential-table-game-cell-components {
   @apply text-end;
 }
+
+p-treetable td.referential-table-cell-error > * {
+  @apply m-1;
+}

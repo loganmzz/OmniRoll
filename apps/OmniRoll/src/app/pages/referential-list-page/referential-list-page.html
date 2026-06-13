@@ -65,11 +65,19 @@
             <div class="flex items-center gap-2">
               <p-treetable-toggler [rowNode]="rowNode" />
               <span>{{ rowData.name }}</span>
+              @if (rowData.game.errors) {
+                <p-badge severity="danger" [value]="rowData.game.errors.length" badgeSize="small" />
+              }
             </div>
           </td>
           <td colspan="2" class="referential-table-game-cell-sets">{{ rowData.game.stat.sets }} <span class="pi pi-box"></span></td>
           <td colspan="2" class="referential-table-game-cell-components">{{ rowData.game.stat.components }} <span class="pi pi-tag"></span></td>
           <td colspan="3"></td>
+        }
+        @case ('game-error') {
+          <td class="referential-table-cell-error" colspan="8">
+            <p-message severity="error" size="small">{{ rowData.text }}</p-message>
+          </td>
         }
         @case ('edit-source') {
           <td colspan="8">

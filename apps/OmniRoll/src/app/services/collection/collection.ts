@@ -349,7 +349,7 @@ export class Collection {
 
   async getGame(key: string): Promise<CollectionGame|undefined> {
     let collection = await this.database.getGame(key);
-    const metadata = await this.referential.getGameMetadata(key);
+    const metadata = await this.referential.getGameMetadata(key, {withoutErrors: true});
     if (collection === undefined) {
       if (metadata !== undefined) {
         collection = {
