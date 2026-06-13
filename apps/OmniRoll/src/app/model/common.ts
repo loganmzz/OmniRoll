@@ -1,3 +1,78 @@
+export type DataLocationIndex = string | number | [number, string];
+
+export type DataLocationPath = {name: string, index?: DataLocationIndex}[];
+
+export class DataLocation {
+
+  constructor(readonly path: DataLocationPath = []) {}
+
+  child(name: string): DataLocation {
+    return new DataLocation(this.path.concat([{name}]));
+  }
+  index(name: string, index: DataLocationIndex): DataLocation {
+    return new DataLocation(this.path.concat([{name, index}]));
+  }
+
+  toString(): string {
+    return this.path
+      .map(({name, index}) => index !== undefined ? Array.isArray(index) ? `/${name}[${index.join(':')}]` : `/${name}[${index}]` : `/${name}`)
+      .join('');
+  }
+}
+
+export interface DataErrorLike {
+  path: DataLocationPath;
+  message: string;
+}
+
+export class DataError {
+  constructor(
+    public readonly location: DataLocation,
+    public readonly message: string,
+  ) {}
+
+  static fromJSON(error: DataErrorLike): DataError {
+    const location = new DataLocation(error.path);
+    return new DataError(location, error.message);
+  }
+
+  toString(): string {
+    return `${this.location}: ${this.message}`;
+  }
+  toJSON(): DataErrorLike {
+    return {
+      path: this.location.path,
+      message: this.message,
+    };
+  }
+}
+
+export class DataErrors {
+  constructor(public errors: DataError[] = []) {}
+
+  static fromJSON(errors: DataErrorLike[]): DataErrors {
+    return new DataErrors(errors.map(e => DataError.fromJSON(e)));
+  }
+
+  get length(): number {
+    return this.errors.length;
+  }
+
+  addError(error: DataError): void {
+    this.errors.push(error);
+  }
+  addErrors(errors: DataErrors): void {
+    this.errors.push(...errors.errors);
+  }
+
+  toString(): string {
+    return this.errors.map(e => `- ${e}`).join('\n');
+  }
+  toJSON(): DataErrorLike[] {
+    return this.errors.map(e => e.toJSON());
+  }
+}
+
 export class Result<T, E> {
   constructor(
     public readonly ok: T|undefined,

@@ -4,7 +4,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { formatEntity } from '@project/model/common';
+import { DataErrorLike, DataErrors, formatEntity } from '@project/model/common';
 import {
   Include,
   ReferentialGame,
@@ -23,6 +23,7 @@ import * as yaml from 'js-yaml';
 import { MessageService } from 'primeng/api';
 import * as uuid from 'uuid';
 import { OmniRollError } from '../error/error-api';
+import { CompiledGame } from '@project/model/compiled';
 
 export interface ReferentialSource {
   key: string;
@@ -49,6 +50,7 @@ export interface ReferentialGameMetadata {
   order: number;
   sets: ReferentialGameMetadataSet[];
   stat: ReferentialGameMetadataStat;
+  errors?: DataErrorLike[];
 }
 export interface ReferentialGameMetadataSet {
   key: string;
@@ -197,48 +199,56 @@ export class ReferentialDatabase extends Dexie {
     return this.moveSource(key, order => order + 1);
   }
 
-  async upsertModule(sourceKey: string, module: ReferentialModule): Promise<void> {
+  /**
+   * Replace module associated to source and save content to separate table (one entry per game).
+   * In case of compilation error, the raw content is kept (but collection one must be kept).
+   * @param sourceKey
+   * @param module
+   * @param errors
+   */
+  upsertModule(sourceKey: string, module: ReferentialModule, errors: Record<string, DataErrors>): Promise<ReferentialSource> {
     const defaultVersion = new Date().toISOString();
-    await this.transaction(
+    return this.transaction(
       'readwrite',
       ['Source', 'Game'],
       async tx => {
-        const source = await tx.table<ReferentialSource, string>('Source').get(sourceKey);
+        const tSource = tx.table<ReferentialSource, string>('Source');
+        const tGames  = tx.table<ReferentialGameContent>('Game');
+        const source = await tSource.get(sourceKey);
         if (source === undefined) {
           throw new Error(`Source ${JSON.stringify(sourceKey)} not found`);
         }
-        const games: ReferentialGameContent[] = module.games.map(game => ({
-          key: {
-            source: sourceKey,
-            game: game.key,
-          },
-          metadata: {
-            key: game.key,
-            name: game.name,
-            version: game.updatedAt ?? module.updatedAt ?? defaultVersion,
-            enabled: source.enabled,
-            order: source.order,
-            sets: computeMetadataSet(game.sets),
-            stat: countStat(game.sets),
-          },
-          content: game,
-        } as ReferentialGameContent));
+        const newGames: ReferentialGameContent[] = module.games.map(game => {
+          return {
+            key: {
+              source: sourceKey,
+              game: game.key,
+            },
+            metadata: {
+              key: game.key,
+              name: game.name,
+              version: game.updatedAt ?? module.updatedAt ?? defaultVersion,
+              enabled: source.enabled,
+              order: source.order,
+              sets: computeMetadataSet(game.sets),
+              stat: countStat(game.sets),
+              errors: errors[game.key]?.toJSON(),
+            },
+            content: game,
+          } as ReferentialGameContent;
+        });
         source.module = {
           key: module.key,
           name: module.name ?? module.key,
           updatedAt: module.updatedAt ?? defaultVersion,
-          games: games.map(game => game.metadata),
+          games: newGames.map(game => game.metadata),
         };
-        tx.table<ReferentialSource, string>('Source').put(source, sourceKey);
-        tx
-          .table<ReferentialGameContent>('Game')
-          .where({'key.source': sourceKey})
-          .delete();
-        for (const game of games) {
-          tx
-            .table<ReferentialGameContent>('Game')
-            .put(game);
+        tSource.put(source, sourceKey);
+        tGames.where({'key.source': sourceKey}).delete();
+        for (const newGame of newGames) {
+          tGames.put(newGame);
         }
+        return source;
       },
     );
   }
@@ -374,7 +384,7 @@ export class Referential {
       //   enabled: true,
       //   order: 1,
       // });
-      await this.refreshSource(omniroll.key);
+      await this.refreshSource(omniroll.key, {notify: false});
       await this.database.setSetting('init', 'done');
     }
   }
@@ -414,15 +424,31 @@ export class Referential {
     return this.database.moveSourceDown(key);
   }
 
-  refreshSource(key: string): Promise<ReferentialSource> {
+  refreshSource(key: string, {notify}: {notify?: boolean} = {}): Promise<ReferentialSource> {
     let promise = this.sourceRefreshing.get(key);
     if (promise === undefined) {
       promise = this.fetchSource(key)
         .then(source => {
-          this.messageService.add({
-            severity: 'success',
-            summary: `Source ${formatEntity(source)} refreshed successfully`
-          });
+          if (source.module === undefined) {
+            this.messageService.add({
+              severity: 'warn',
+              summary: `Source ${formatEntity(source)} refreshed but no module was found`
+            });
+          } else {
+            const gamesWithErrors = source.module.games.filter(game => game.errors !== undefined);
+            for (const gameWithErrors of gamesWithErrors) {
+              this.messageService.add({
+                severity: 'warn',
+                summary: `Source ${formatEntity(source)} refreshed but game ${formatEntity(gameWithErrors)} has errors`,
+              });
+            }
+            if (notify !== false && gamesWithErrors.length === 0) {
+              this.messageService.add({
+                severity: 'success',
+                summary: `Source ${formatEntity(source)} refreshed successfully`,
+              });
+            }
+          }
           return source;
         })
         .catch(error => {
@@ -460,9 +486,20 @@ export class Referential {
             `Source ${JSON.stringify(key)}`,
             new HttpDataFetcher().relative(new URL(source.url, document.baseURI)),
           );
-          await this.database.upsertModule(source.key, module);
+          const errors: Record<string, DataErrors> = {};
+          for (const game of module.games) {
+            const compiledResult = CompiledGame.newFromDataModel(game);
+            if (compiledResult.err !== undefined) {
+              errors[game.key] = compiledResult.err;
+            }
+          }
+          try {
+            return await this.database.upsertModule(source.key, module, errors);
+          } catch (error) {
+            console.error(`DEBUG: Referential: failed to upsert module for source ${formatEntity(source)}: ${error}`);
+            throw error;
+          }
         }
-        break;
       case 'dummy':
         await new Promise(f => setTimeout(f, 5000));
         break;
@@ -481,9 +518,13 @@ export class Referential {
     await this.init();
     return this.database.getGameMetadatas();
   }
-  async getGameMetadata(key: string): Promise<ReferentialGameMetadata|undefined> {
+  async getGameMetadata(key: string, {withoutErrors}: {withoutErrors?: boolean} = {}): Promise<ReferentialGameMetadata|undefined> {
     await this.init();
-    return this.database.getGameMetadata(key);
+    const metadata = await this.database.getGameMetadata(key);
+    if (metadata === undefined || metadata.errors !== undefined && withoutErrors) {
+      return undefined;
+    }
+    return metadata;
   }
   async getGameContent(key: string): Promise<ReferentialGame|undefined> {
     await this.init();
