@@ -19,7 +19,9 @@ import {
   ReferentialSource,
 } from '@project/services/referential/referential';
 import { TreeNode } from 'primeng/api';
+import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
+import { MessageModule } from 'primeng/message';
 import { TreeTableModule } from 'primeng/treetable';
 
 interface ReferentialEditForm {
@@ -29,7 +31,7 @@ interface ReferentialEditForm {
 }
 
 type ReferentialTreeNode = TreeNode<ReferentialTreeData>;
-type ReferentialTreeData = ReferentialTreeDataSource | ReferentialTreeDataGame | ReferentialTreeDataEditSource;
+type ReferentialTreeData = ReferentialTreeDataSource | ReferentialTreeDataGame | ReferentialTreeDataGameError | ReferentialTreeDataEditSource;
 interface ReferentialTreeDataBase {
   isEnabled: boolean;
   isRefreshing: boolean;
@@ -52,6 +54,10 @@ interface ReferentialTreeDataGame extends ReferentialTreeDataBase {
   name: string;
   game: ReferentialGameMetadata;
 }
+interface ReferentialTreeDataGameError extends ReferentialTreeDataBase {
+  type: 'game-error';
+  text: string;
+}
 interface ReferentialTreeDataEditSource extends ReferentialTreeDataBase {
   type: 'edit-source';
   source: ReferentialSource;
@@ -62,8 +68,10 @@ interface ReferentialTreeDataEditSource extends ReferentialTreeDataBase {
   selector: 'app-referential-list-page',
   imports: [
     CompactForm,
+    BadgeModule,
     ButtonModule,
     TreeTableModule,
+    MessageModule,
   ],
   templateUrl: './referential-list-page.html',
   styleUrl: './referential-list-page.css',
@@ -114,6 +122,13 @@ export class ReferentialListPage implements OnInit, OnChanges {
             isEnabled: source.enabled,
             isRefreshing: source.refreshing,
           } as ReferentialTreeDataGame,
+          children: game.errors?.errors.map((error, errorIndex) => ({
+            key: `source-${source.key}-game-${game.key}-error-${errorIndex}`,
+            data: {
+              type: 'game-error',
+              text: `${error.location}: ${error.message}`,
+            } as ReferentialTreeDataGameError,
+          })),
         styleClass: 'referential-table-game-row',
       } as ReferentialTreeNode)),
       styleClass: 'referential-table-source-row',
