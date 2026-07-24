@@ -52,12 +52,16 @@ export class App implements OnInit {
             logo: 'logo.png',
             text: this.title,
             routerLink: ['/'],
+            help: {
+              link: 'home',
+            },
           },
           entries: [
             ...this.mainMenu().map(entry => signal({
               link: {
                 title: entry.context.title(),
                 routerLink: entry.path,
+                help: entry.context.help(),
               },
             })),
             signal({

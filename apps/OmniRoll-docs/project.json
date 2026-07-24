@@ -1,0 +1,96 @@
+{
+  "name": "OmniRoll-docs",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/OmniRoll-docs/src",
+  "private": true,
+  "tags": [],
+  "targets": {
+    "docusaurus": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "docusaurus",
+            "cwd": "apps/OmniRoll-docs"
+          }
+        ]
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "command": "docusaurus build --out-dir=../../dist/apps/OmniRoll-docs",
+        "cwd": "apps/OmniRoll-docs",
+        "inputs": ["{root}/docs/*.(md|mdx)", "{root}/docs/**/*.(md|mdx)"],
+        "outputs": ["apps/OmniRoll-docs/build"],
+        "styles": ["apps/OmniRoll-docs/src/scss/custom.scss"]
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docusaurus start --no-open",
+        "cwd": "apps/OmniRoll-docs",
+        "styles": ["apps/OmniRoll-docs/src/scss/custom.scss"]
+      }
+    },
+    "swizzle": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docusaurus swizzle",
+        "cwd": "apps/OmniRoll-docs"
+      }
+    },
+    "clear": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docusaurus clear",
+        "cwd": "apps/OmniRoll-docs"
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docusaurus serve --dir=../../dist/apps/OmniRoll-docs",
+        "cwd": "apps/OmniRoll-docs"
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "netlify deploy --site 'omniroll-docs' --filter '{projectRoot}' --dir 'dist/{projectRoot}' --no-build",
+        "cwd": "{workspaceRoot}"
+      },
+      "configurations": {
+        "production": {
+          "args": [
+            "--prod"
+          ]
+        }
+      }
+    },
+    "write-translations": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docusaurus write-translations",
+        "cwd": "apps/OmniRoll-docs"
+      }
+    },
+    "write-heading-ids": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docusaurus write-heading-ids",
+        "cwd": "apps/OmniRoll-docs"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "browserslist": {
+      "production": [">0.5%", "not dead", "not op_mini all"],
+      "development": ["last 3 chrome version", "last 3 firefox version", "last 5 safari version"]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+[context.deploy-preview]
+  publish="../../dist/apps/OmniRoll-docs"
+
+[context.production]
+  publish="../../dist/apps/OmniRoll-docs"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

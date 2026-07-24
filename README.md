@@ -16,19 +16,22 @@ The application is developed using:
 ## Start locally
 
 ```bash
-npx nx serve apps/OmniRoll
+# Main application
+npm run start
+# Documentation
+npm run start:docs
 ```
 
 ## Launch tests
 
 ```bash
-npx nx test apps/OmniRoll
+bin/check-test.sh
 ```
 
 ## Build
 
 ```bash
-npx nx build apps/OmniRoll
+npm run build
 ```
 
 # Deployment
@@ -38,13 +41,15 @@ npx nx build apps/OmniRoll
 * (Optional) Deploy draft:
 
 ```bash
-npx netlify deploy --filter="OmniRoll"
+npm run build &&
+npm run deploy
 ```
 
 * Deploy production:
 
 ```bash
-npx netlify deploy --prod --filter="OmniRoll"
+npm run build -- --prod &&
+npm run deploy -- --prod
 ```
 
 # Design

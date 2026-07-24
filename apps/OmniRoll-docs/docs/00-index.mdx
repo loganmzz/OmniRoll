@@ -1,0 +1,355 @@
+---
+id: Index
+slug: /
+toc_max_heading_level: 4
+---
+
+> One App. Every Game. Infinite Setups.
+
+OmniRoll is a Web-based autonomous generic application to generate random setup for (close to) any boardgame:
+
+<dl>
+  <dt>web-based</dt>
+  <dd>Accessible from Web browser. From most Web browser (either desktop, or mobile), you can add it as "native" application.</dd>
+
+  <dt>autonomous</dt>
+  <dd>No server, no registration, no login. All data are stored locally on the device.</dd>
+
+  <dt>generic</dt>
+  <dd>It is not dedicated to a limited set of boardgames. Just add data (module) to support new games.</dd>
+</dl>
+
+## Features
+
+Application is split into several parts:
+
+* [**Referential**](#referential): List of data sources which define available game and content.
+* [**Collection**](#collection): Game and content owned by the user.
+
+## Referential
+
+Referential consists in a ordered list of data sources each providing games. Each game has a unique identifier and declare:
+
+* components (organized in hierarchical sets)
+* randomizers (random setup configuration)
+
+Each source defines location of a **module** [YAML file](https://yaml.org/). Currently, only source URL is supported.
+
+:::warning
+
+A game might be defined from many sources. However, only the one with highest priority (the first) will be taken into account.
+
+:::
+
+### Source actions
+
+* <i class="pi pi-angle-up"></i> : Move source up for higher priority.
+* <i class="pi pi-angle-down"></i> : Move source down for lower priority.
+* <i class="pi pi-sync"></i> : Fetch for updated module and check content. In case of error, previously loaded content is kept.
+* <i class="pi pi-pen-to-square"></i> : Open source edit form.
+* <i class="pi pi-eraser"></i> : Remove any data stored for this source. It must be fetched to be accessible again.
+* <i class="pi pi-ban"></i> : Disable source. Don't remove data but they are not taken into account for collection.
+* <i class="pi pi-check"></i> : Enable source. Make content accessible from collection.
+* <i class="pi pi-trash"></i> : Remove the source and all associated data.
+
+### Game metadata
+
+Once a module has been fetched and content checked, the list of available games are shown directly under each source:
+
+* <i class="pi pi-box"></i> : Total available sets.
+* <i class="pi pi-tag"></i> : Total available components.
+
+## Collection
+
+Collection consists of games, sets and components owned by the user. It is used to filter available components when generating random setup.
+
+### Game list
+
+By default, no game are accessible. However, collection page shows all game available from modules.
+
+* <i class="pi pi-ban icon-excluded"></i> : Game doesn't belong to collection. By clicking, it will be added. However, on first time no content (no set) is selected.
+* <i class="pi pi-check icon-included"></i> : Game belong to collection. By clicking, it will be removed. However, selected content is kept.
+
+### Game page
+
+Once a game is added to the collection, it is accessible from left menu.
+But randomizers are not accessible until content (set) is selected.
+
+When editing, a tree of content set is displayed. The search bar let filter out matching nodes.
+
+* <i class="pi pi-ban icon-excluded"></i> : Set doesn't belong to collection. By clicking, add it (and implicitly all sub-sets).
+* <i class="pi pi-check icon-included"></i> : Set explicitly belong to collection. By clicking, remove it (and implicitly all sub-sets).
+* <i class="pi pi-check-circle icon-implicit"></i> : Set implicitly belong to collection. By clicking, add it explicitly.
+
+### Randomizer page
+
+Randomizer page is divided in three parts:
+
+* (Optional) Variables: Only displayed if there's. Expand to a form when clicking the area, and collapse on `Close`.
+* Roll: A `Roll` button to fill/replace **all** slots regarding randomizer constraints and collection.
+* Slots: May be arranged by group.
+
+## Module
+
+### Writing a module
+
+#### Module
+
+At the root, a source defines a module:
+
+```yaml
+# Module
+key: ""           # (Required)
+name: ""          # (Required) Display name
+description: ""   # (Optional)
+updated-at: ""    # (Optional)
+games: []         # (Optional) List of games. See below.
+```
+
+:::tip
+
+It is adviced to split module into several files:
+
+```yaml
+# Module
+key: "my-module"
+name: "My module"
+games:
+- include: "game-1.yaml"
+- include: "game-2.yaml"
+```
+
+:::
+
+#### Game
+
+A game might be defined by many modules (but only first one is taken into account):
+
+```yaml
+# Game
+key: ""             # (Required) Unique game identifier
+name: ""            # (Required) Display name
+description: ""     # (Optional)
+updated-at: ""      # (Optional)
+sets: []            # (Optional) Hierarchical organisation of content
+randomizers: []     # (Optional) List of randomiers
+```
+
+:::tip
+
+For large sets, it is recommended to split into several files:
+
+```yaml
+# Game
+key: "my-game"
+name: "My game"
+sets:
+- include: "set-1.yaml"
+- include: "set-2.yaml"
+```
+
+:::
+
+#### Set
+
+Sets represents hierarchy of content (e.g. boxes, seasons, extensions).
+
+```yaml
+# Set
+key: ""             # (Required) Unique identifier for the game
+name: ""            # (Required) Display name
+description: ""     # (Optional)
+updated-at: ""      # (Optional)
+sets: []            # (Optional) Sub-sets
+components:         # (Optional) Dictionary of components by kind
+  Kind1: []         # List of components of given kind
+  Kind2: []         # List of components of given kind
+```
+
+```yaml
+# Component
+key: ""             # (Required) Unique identifier for the game
+name: ""            # (Required) Display name
+description: ""     # (Optional)
+properties: {}      # (Optional) Custom properties whose values are: boolean, number, string or array of string
+                    #            They are directly accessible when referenced in expressions
+```
+
+#### Randomizer
+
+Define how to generate random setup.
+
+```yaml
+# Randomizer
+key: ""             # (Required) Unique identifier for the game
+name: ""            # (Required) Display name
+description: ""     # (Optional)
+
+variables:          # (Optional) Supported types: `integer`
+- key: ""           # (Required) Unique identifier for the randomizer
+  name: ""          # (Optional) Display name (default to `key`)
+  type: "integer"   # (Required)
+  min: 0            # (Optional) Minimum value
+  max: 999          # (Optional) Maximum value
+  default: 10       # (Required) Default value
+
+pools:              # (Required) List of component pool to pick from
+- key: ""           # (Required) Unique identifier for the Randomizer
+  criteria: ""      # (Optional) Expression to select component (default to all owned)
+
+groups:             # (Optional) List of groups to gather slots
+- key: ""           # (Required) Unique identifier for the Randomizer
+  name: ""          # (Optional) Display name (default to `key`)
+
+slots:              # (Required)
+- key: ""           # (Required) Unique identifier for the Randomizer
+  name: ""          # (Optional) Display name (default to `key`)
+  count: 1          # (Optional) Number or expression
+  pool: ""          # (Required) Pool key to pick from
+  group: ""         # (Required if there are groups) Group key
+  pick: "remove"    # (Optional) One of: remove (default), keep
+  criteria: ""      # (Optional) Expression to filter pool components
+```
+
+#### Expression
+
+Several fields support expression. It relies on JavaScript syntax, but with some limitations and custom behaviors.
+
+An expression consists in:
+
+* Literals:
+  * Boolean: `true` or `false`
+  * Number: `0`, `1`, ...
+  * String: `'with single quote'`, `"with double quote"`, ...
+  * Set/collection of strings:  `[]`, `['a', 'b']`, ...
+* A reference to the `Context`:
+  * `component`, `component.name`
+* Unary operations:
+  * `! <expression>`
+* Binary operations (from lowest to highest priority):
+  * `<left> || <right>`
+  * `<left> && <right>`
+  * `<left> == <right>`
+  * `<left> != <right>`
+  * `<left> in <right>`
+  * `<left> > <right>`
+  * `<left> >= <right>`
+  * `<left> < <right>`
+  * `<left> <= <right>`
+  * `<left> + <right>`
+  * `<left> - <right>`
+  * `<left> % <right>`
+  * `<left> * <right>`
+  * `<left> / <right>`
+* Ternary expression: `<condition> ? <if-true> : <if-false>`
+* Grouping: `(<expression>)`
+
+However some syntax is not supported:
+
+* Literals: `null`, `undefined`, `NaN`, `Infinity`
+* Unary operations: `+`, `-`, `~`
+* Binary operations: `??`, `===`, `!==`, `<<`, `>>`, `>>>`, `&`, `|`, `^`
+
+For detail on how operations are evaluated:
+
+* "Truthy":
+  * `true` boolean
+  * a number different from zero
+  * a non-empty string
+  * a non-empty collection
+
+The `! <expression>` unary operation is used to reverse.
+
+Scalar values (boolean, number, string) are compared by value and type. `true` is greater than `false`, and strings are compared in lexicographical order.
+
+Collections are treated as sets of strings. A set is strictly greater if and only if it contains all elements of the other set and has more items. A string is considered equal or lesser than a collection if it is included in the collection.
+
+Here are some specific behaviors:
+
+<table>
+  <thead>
+    <tr>
+      <th>Expression</th>
+      <th>Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th colspan="2">Boolean</th>
+    </tr>
+    <tr>
+      <td>`boolean + boolean`</td>
+      <td>Logical OR (`||`)</td>
+    </tr>
+    <tr>
+      <td>`false - boolean`<br/>
+      `true - true`</td>
+      <td>`false`</td>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+      <td>`true - false`</td>
+      <td>`true`</td>
+    </tr>
+    <tr>
+      <td>`boolean * boolean`</td>
+      <td>Logical AND (`&&`)</td>
+    </tr>
+    <tr>
+      <th colspan="2">String</th>
+    </tr>
+    <tr>
+      <td>`string + scalar`<br/>
+      `scalar + string`</td>
+      <td>Concatenation</td>
+    </tr>
+    <tr>
+      <td>`string * number`<br/>
+      `number * string`</td>
+      <td>Repetition of the string</td>
+    </tr>
+    <tr>
+      <th colspan="2">Collection</th>
+    </tr>
+    <tr>
+      <td>`collection + string`<br/>
+      `collection + collection`<br/>
+      `string + collection`</td>
+      <td>Union of both</td>
+    </tr>
+    <tr>
+      <td>`collection - string`<br/>
+      `collection - collection`</td>
+      <td>Difference of both</td>
+    </tr>
+    <tr>
+      <td>`string in collection`<br/>
+      `collection in collection`</td>
+      <td>Check if included</td>
+    </tr>
+  </tbody>
+</table>
+
+### Hosting a module
+
+As only HTTP URLs are supported, module files must be hosted on publicly accessible server. For example:
+
+* [GitHub Gist](https://gist.github.com/) (See example below)
+* [GitHub](https://github.com/) (including [pages](https://docs.github.com/en/pages))
+* [GitLab](https://gitlab.com/) (including [pages](https://docs.gitlab.com/user/project/pages/))
+
+:::tip
+
+Gist is a simple service to host and edit files.
+
+:::
+
+* (If not already done) Create a GitHub account from [GitHub Gist](https://gist.github.com/)
+* Once logged in, click on `+` button on top right
+* You may enter a Gist description to give some context and explanation
+* Enter a filename for your module (e.g. `module.yaml`, `root.yaml`) and the associated content.
+* You may add more files by clicking on `Add file` button ; as recommended, it is better to split module into several files per game (e.g. `game1.yaml`, `game2.yaml`, ...) and sets (e.g. `game1-set1.yaml`, `game1-set2.yaml`, ...)
+* Once done, click on arrow from the green button and select `Create public gist`, and click on the button to publish your Gist.
+* Click on the `Raw` button of the module file, and copy the URL from the browser address bar. It should look like `https://gist.githubusercontent.com/<username>/<hash>/raw/<hash>/<filename>.yaml`
+* Use this URL as source URL in OmniRoll to load your module.

@@ -3,6 +3,7 @@ import {
   OnChanges,
   OnInit,
   inject,
+  input,
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +11,7 @@ import {
   Collection,
   CollectionGame,
 } from '@project/services/collection/collection';
+import { NavigationContext } from '@project/services/navigation/navigation';
 import { CardModule } from 'primeng/card';
 import { DataViewModule } from 'primeng/dataview';
 
@@ -25,6 +27,8 @@ import { DataViewModule } from 'primeng/dataview';
 })
 export class CollectionPage implements OnInit, OnChanges {
   collectionService = inject(Collection);
+
+  navigationContext = input.required<NavigationContext>();
 
   games = signal<CollectionGame[]>([]);
 

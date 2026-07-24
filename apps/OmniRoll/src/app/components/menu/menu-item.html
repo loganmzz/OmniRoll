@@ -10,6 +10,9 @@
     } @else {
       {{ section.title.text }}
     }
+    @if (section.title.help) {
+      <app-help [link]="section.title.help.link"></app-help>
+    }
   </h1>
   <ol>
     @for (entry$ of section.entries; track $index) {
@@ -25,6 +28,9 @@
 
 @if (asLink(); as link) {
   <a [routerLink]="link.routerLink" class="link">{{ link.title }}</a>
+    @if (link.help) {
+      &nbsp;<app-help [link]="link.help.link"></app-help>
+    }
 }
 
 @if (asSeparator()) {

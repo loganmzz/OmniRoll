@@ -1,13 +1,11 @@
 import nx from '@nx/eslint-plugin';
 import stylistic from '@stylistic/eslint-plugin';
 import importPlugin from 'eslint-plugin-import';
-import tailwind from 'eslint-plugin-tailwindcss';
 
 export default [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
-  ...tailwind.configs["flat/recommended"],
   {
     plugins: {
       '@stylistic': stylistic,
@@ -15,7 +13,11 @@ export default [
     },
   },
   {
-    ignores: ['**/dist'],
+    ignores: [
+      '**/dist',
+      '**/.docusaurus/',
+      'apps/OmniRoll-docs/build/',
+    ],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
