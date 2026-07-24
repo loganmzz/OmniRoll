@@ -17,6 +17,7 @@ import {
   UrlSegmentGroup,
   UrlTree,
 } from '@angular/router';
+import { DocumentationLinks } from '../documentation/documentation';
 
 export interface NavigationContextHolder {
   navigationContext: NavigationContext;
@@ -27,14 +28,18 @@ export function isNavigationContextHolder(object: unknown): object is Navigation
 export class NavigationContext {
   logo: WritableSignal<string|undefined> = signal(undefined);
   title: WritableSignal<string|undefined> = signal(undefined);
+  help: WritableSignal<NavigationHelp|undefined> = signal(undefined);
   menu: WritableSignal<MenuEntry|undefined> = signal(undefined);
 
-  constructor({logo, title, menu}: {logo?: string, title?: string, menu?: MenuEntry} = {}) {
+  constructor({logo, title, menu, help}: {logo?: string, title?: string, help?: NavigationHelp, menu?: MenuEntry} = {}) {
     if (logo !== undefined) {
       this.logo.set(logo);
     }
     if (title !== undefined) {
       this.title.set(title);
+    }
+    if (help !== undefined) {
+      this.help.set(help);
     }
     if (menu !== undefined) {
       this.menu.set(menu);
@@ -42,9 +47,14 @@ export class NavigationContext {
   }
 }
 
+export interface NavigationHelp {
+  link: DocumentationLinks;
+}
+
 export interface BreadcrumbSegment {
   logo: Signal<string|undefined>;
   label: Signal<string|undefined>;
+  help: Signal<NavigationHelp|undefined>;
   routerLink?: RouterLink['routerLink'];
 }
 
@@ -55,6 +65,7 @@ export interface MenuSection {
       logo?: string|undefined;
       text: string|undefined;
       routerLink?: RouterLink['routerLink'];
+      help?: NavigationHelp|undefined;
     };
     entries: Signal<MenuEntry|undefined>[];
   };
@@ -63,6 +74,7 @@ export interface MenuLink {
   link: {
     title: string|undefined;
     routerLink: RouterLink['routerLink'];
+    help?: NavigationHelp|undefined;
   };
 }
 export interface MenuSeparator {
@@ -167,6 +179,7 @@ export class NavigationService {
       segments.push({
         logo: context.logo,
         label: context.title,
+        help: context.help,
         routerLink: path.build(),
       });
     });

@@ -10,6 +10,7 @@ import {
   Collection,
   CollectionGameSet,
 } from '@project/services/collection/collection';
+import { Documentation } from '@project/services/documentation/documentation';
 import { NavigationContext } from '@project/services/navigation/navigation';
 import { TreeNode } from 'primeng/api';
 import { TreeModule } from 'primeng/tree';
@@ -25,7 +26,8 @@ import { TreeModule } from 'primeng/tree';
 export class GameCollectionPage implements OnInit {
   services = {
     collection: inject(Collection),
-  }
+    documentation: inject(Documentation),
+  };
   navigationContext = input.required<NavigationContext>();
   tree = signal<TreeNode[]>([]);
   selectedNodes = signal<TreeNode[]>([]);

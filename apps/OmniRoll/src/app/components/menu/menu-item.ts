@@ -3,6 +3,7 @@ import {
   input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Help } from '@project/components/help/help';
 import {
   MenuEntry,
   MenuLink,
@@ -15,7 +16,10 @@ import {
 
 @Component({
   selector: 'app-menu-item',
-  imports: [RouterLink],
+  imports: [
+    RouterLink,
+    Help,
+  ],
   templateUrl: './menu-item.html',
   styleUrl: './menu-item.css',
 })

@@ -6,6 +6,7 @@ import {
   computed,
   effect,
   inject,
+  input,
   signal,
 } from '@angular/core';
 import {
@@ -13,6 +14,8 @@ import {
   CompactFormFields,
   CompactFormValues,
 } from '@project/components/compact-form/compact-form';
+import { Documentation } from '@project/services/documentation/documentation';
+import { NavigationContext } from '@project/services/navigation/navigation';
 import {
   Referential,
   ReferentialGameMetadata,
@@ -77,7 +80,11 @@ interface ReferentialTreeDataEditSource extends ReferentialTreeDataBase {
   styleUrl: './referential-list-page.css',
 })
 export class ReferentialListPage implements OnInit, OnChanges {
+  documentation = inject(Documentation);
   referential = inject(Referential);
+
+  navigationContext = input.required<NavigationContext>();
+
   sources = signal([] as ReferentialSource[]);
   form$: WritableSignal<ReferentialEditForm | undefined> = signal(undefined);
   tableNodes = computed(() => {

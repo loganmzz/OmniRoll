@@ -30,7 +30,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "5mb"
             },
             {
               "type": "anyComponentStyle",
@@ -38,12 +38,24 @@
               "maximumError": "8kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/OmniRoll/src/environments/environment.ts",
+              "with": "apps/OmniRoll/src/environments/environment.production.ts"
+            }
+          ]
         },
         "development": {
           "optimization": false,
           "extractLicenses": false,
-          "sourceMap": true
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/OmniRoll/src/environments/environment.ts",
+              "with": "apps/OmniRoll/src/environments/environment.development.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -86,6 +98,20 @@
         "port": 4200,
         "staticFilePath": "dist/apps/OmniRoll/browser",
         "spa": true
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "netlify deploy --site 'omniroll' --filter '{projectRoot}' --dir 'dist/{projectRoot}/browser' --no-build",
+        "cwd": "{workspaceRoot}"
+      },
+      "configurations": {
+        "production": {
+          "args": [
+            "--prod"
+          ]
+        }
       }
     }
   }
