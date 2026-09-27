@@ -8,11 +8,15 @@
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/OmniRoll",
         "browser": "apps/OmniRoll/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/OmniRoll/tsconfig.app.json",
         "inlineStyleLanguage": "css",
         "assets": [
@@ -21,7 +25,9 @@
             "input": "apps/OmniRoll/public"
           }
         ],
-        "styles": ["apps/OmniRoll/src/styles.scss"],
+        "styles": [
+          "apps/OmniRoll/src/styles.scss"
+        ],
         "outputMode": "static"
       },
       "configurations": {
@@ -44,7 +50,8 @@
               "replace": "apps/OmniRoll/src/environments/environment.ts",
               "with": "apps/OmniRoll/src/environments/environment.production.ts"
             }
-          ]
+          ],
+          "serviceWorker": "apps/OmniRoll/ngsw-config.json"
         },
         "development": {
           "optimization": false,
@@ -84,7 +91,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/OmniRoll/jest.config.ts",
         "tsConfig": "apps/OmniRoll/tsconfig.spec.json"

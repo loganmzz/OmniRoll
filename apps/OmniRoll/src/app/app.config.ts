@@ -1,6 +1,7 @@
 import {
   ApplicationConfig,
   ErrorHandler,
+  isDevMode,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -13,6 +14,7 @@ import {
   withComponentInputBinding,
   withRouterConfig,
 } from '@angular/router';
+import { provideServiceWorker } from '@angular/service-worker';
 import { MessageService } from 'primeng/api';
 import { primeNGProviders } from './app.primeng';
 import { appRoutes } from './app.routes';
@@ -33,5 +35,9 @@ export const appConfig: ApplicationConfig = {
     primeNGProviders,
     MessageService,
     { provide: ErrorHandler, useClass: ErrorHandlerService },
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
 };
