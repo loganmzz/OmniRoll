@@ -14,3 +14,6 @@ footer {
 footer .pi {
   @apply text-2xl;
 }
+footer .footer-content {
+  @apply flex justify-between items-center;
+}
