@@ -1,1 +1,16 @@
 @reference "tailwindcss";
+
+:host {
+  @apply flex flex-col;
+}
+
+nav {
+  @apply flex flex-col justify-between grow;
+}
+
+footer {
+  @apply mbs-3;
+}
+footer .pi {
+  @apply text-2xl;
+}

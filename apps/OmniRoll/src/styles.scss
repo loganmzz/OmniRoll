@@ -33,6 +33,16 @@
     @apply w-full;
   }
 
+  .menu-drawer .p-drawer-header {
+    padding: inherit;
+  }
+  .menu-drawer .p-drawer-content {
+    @apply flex flex-col;
+  }
+  .menu-drawer .p-drawer-content app-menu {
+    @apply grow;
+  }
+
   /** Logo **/
   .logo {
     @apply max-w-[1.2em] max-h-[1.2em] inline-block;

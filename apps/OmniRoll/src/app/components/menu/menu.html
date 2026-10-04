@@ -1,8 +1,14 @@
 <nav class="menu">
+  <main>
   @for (entry of navigation.contexts(); track $index) {
     @let menu = entry.menu();
     @if (menu !== undefined) {
-      <app-menu-item [entry]="menu"></app-menu-item>
+      <app-menu-item [entry]="menu" (event)="forwardEvent($event)"></app-menu-item>
     }
   }
+  </main>
+  <footer>
+    <hr class="separator" />
+    <div class="github"><a href="https://github.com/loganmzz/OmniRoll" aria-description="Github repository" class="link"><i class="pi pi-github"></i></a></div>
+  </footer>
 </nav>
