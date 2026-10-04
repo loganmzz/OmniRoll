@@ -1,1 +1,3 @@
-{}
+releases:
+  label: "Releases"
+  description: "All release announcements"

@@ -11,7 +11,9 @@ const config: Config = {
   tagline: 'One App. Every Game. Infinite Setups.',
   favicon: 'img/logo.png',
 
-  plugins: ['docusaurus-plugin-sass'],
+  plugins: [
+    'docusaurus-plugin-sass',
+  ],
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
