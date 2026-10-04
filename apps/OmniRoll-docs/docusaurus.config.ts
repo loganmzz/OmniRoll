@@ -11,6 +11,8 @@ const config: Config = {
   tagline: 'One App. Every Game. Infinite Setups.',
   favicon: 'img/logo.png',
 
+  plugins: ['docusaurus-plugin-sass'],
+
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
@@ -67,7 +69,7 @@ const config: Config = {
           onUntruncatedBlogPosts: 'warn',
         },
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: [require.resolve('./src/css/custom.scss')],
         },
       } satisfies Preset.Options,
     ],
@@ -88,6 +90,11 @@ const config: Config = {
         {
           href: 'https://omniroll.netlify.app',
           label: 'OmniRoll',
+          position: 'right',
+        },
+        {
+          type: 'html',
+          value: '<a href="https://github.com/loganmzz/OmniRoll" target="_blank" class="navbar__link menu__link"><i class="pi pi-github" aria-description="GitHub repository"></i></a>',
           position: 'right',
         },
       ],

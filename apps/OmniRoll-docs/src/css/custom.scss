@@ -30,6 +30,19 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
+.navbar__link {
+  vertical-align: middle;
+}
+.navbar__item i.pi, .menu__list-item i.pi {
+  font-size: 1.2em;
+}
+
+.menu__list > div.menu__list-item {
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+}
+
 .icon-excluded {
   outline-color: oklch(0.577 0.245 27.325);
   outline-style: solid;
