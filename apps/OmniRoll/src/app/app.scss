@@ -16,7 +16,10 @@ header {
 }
 
 section.menu {
-  @apply max-lg:hidden max-lg:fixed max-lg:left-0 max-lg:z-100;
+  @apply max-lg:hidden max-lg:fixed max-lg:left-0 max-lg:z-100 h-full content-stretch;
+}
+section.menu app-menu, p-drawer app-menu {
+  @apply grow;
 }
 .menu-button {
   @apply hidden font-semibold;
