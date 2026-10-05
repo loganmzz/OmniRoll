@@ -1,7 +1,7 @@
 @if (asSection(); as section) {
   <h1>
     @if (section.title.routerLink) {
-      <a [routerLink]="section.title.routerLink" class="link">
+      <a [routerLink]="section.title.routerLink" (keyup)="fireRouterLinkClicked()" (click)="fireRouterLinkClicked()" class="link">
         @if (section.title.logo) {
           <img [src]="section.title.logo" alt="Logo" class="logo" />
         }
@@ -19,7 +19,7 @@
       @let entry = entry$();
       @if (entry !== undefined) {
         <li>
-          <app-menu-item [entry]="entry"></app-menu-item>
+          <app-menu-item [entry]="entry" (event)="forwardEvent($event)"></app-menu-item>
         </li>
       }
     }
@@ -27,7 +27,7 @@
 }
 
 @if (asLink(); as link) {
-  <a [routerLink]="link.routerLink" class="link">{{ link.title }}</a>
+  <a [routerLink]="link.routerLink"  (keyup)="fireRouterLinkClicked()" (click)="fireRouterLinkClicked()" class="link">{{ link.title }}</a>
     @if (link.help) {
       &nbsp;<app-help [link]="link.help.link"></app-help>
     }

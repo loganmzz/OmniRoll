@@ -4,7 +4,8 @@ import environment from '@project/../environments/environment';
 export type DocumentationLinks =
   'home' |
   'referential' |
-  'collection'
+  'collection' |
+  'releases'
 ;
 
 @Injectable({
@@ -23,6 +24,9 @@ export class Documentation {
         break;
       case 'collection':
         path = '/#collection';
+        break;
+      case 'releases':
+        path = '/news/tags/releases';
         break;
       default:
         throw new Error(`Documentation link ${JSON.stringify(link)} is not implemented yet.`);

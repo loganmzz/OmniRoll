@@ -1,5 +1,7 @@
 import {
   Component,
+  EventEmitter,
+  Output,
   input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -13,6 +15,10 @@ import {
   isMenuSection,
   isMenuSeparator,
 } from '@project/services/navigation/navigation';
+import {
+  MenuEvent,
+  MenuRouterLinkClicked,
+} from './api';
 
 @Component({
   selector: 'app-menu-item',
@@ -25,6 +31,7 @@ import {
 })
 export class MenuItem {
   entry = input.required<MenuEntry>();
+  @Output() event = new EventEmitter<MenuEvent>();
 
   asSection(): MenuSection['section']|null {
     const entry = this.entry();
@@ -46,5 +53,12 @@ export class MenuItem {
       return entry.separator;
     }
     return null;
+  }
+
+  forwardEvent(event: MenuEvent) {
+    this.event.emit(event);
+  }
+  fireRouterLinkClicked() {
+    this.forwardEvent(new MenuRouterLinkClicked({entry: this.entry()}));
   }
 }

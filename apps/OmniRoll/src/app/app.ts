@@ -5,12 +5,19 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {
+  Router,
+  RouterModule,
+} from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DrawerModule } from 'primeng/drawer';
 import { ToastModule } from 'primeng/toast';
 import { Breadcrumb } from './components/breadcrumb/breadcrumb';
-import { Menu } from './components/menu/menu';
+import {
+  Menu,
+  MenuEvent,
+  MenuRouterLinkClicked,
+} from './components/menu/index';
 import { Collection } from './services/collection/collection';
 import {
   MenuSection,
@@ -38,6 +45,7 @@ interface MainMenuEntry {
 })
 export class App implements OnInit {
   protected title = 'OmniRoll';
+  router = inject(Router);
   navigation = inject(NavigationService);
   collection = inject(Collection);
   mainMenu = signal<MainMenuEntry[]>([]);
@@ -103,6 +111,11 @@ export class App implements OnInit {
   }
   closeMenu() {
     this.menuVisible.set(false);
+  }
+  handleMenuEvent(event: MenuEvent) {
+    if (event instanceof MenuRouterLinkClicked) {
+      this.closeMenu();
+    }
   }
 
   sendTestMessage() {
