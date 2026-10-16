@@ -1,16 +1,18 @@
 <p-toast></p-toast>
 <p-drawer
-  [(visible)]="menuVisible">
-  <app-menu></app-menu>
+  [(visible)]="menuVisible" [fullScreen]="true" [dismissible]="true" class="menu-drawer">
+  <app-menu (event)="handleMenuEvent($event)"></app-menu>
 </p-drawer>
 <section class="menu">
-  <app-menu></app-menu>
+  <app-menu (event)="handleMenuEvent($event)"></app-menu>
 </section>
 <section class="main">
   <header>
     <p-button
       icon="pi pi-bars"
       class="menu-button"
+      aria-label="menu button"
+      aria-description="Open menu"
       (onClick)="toggleMenu()"
     />
     <app-breadcrumb></app-breadcrumb>
