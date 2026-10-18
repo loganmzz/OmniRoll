@@ -6,7 +6,7 @@ toc_max_heading_level: 4
 
 > One App. Every Game. Infinite Setups.
 
-OmniRoll is a Web-based autonomous generic application to generate random setup for (close to) any boardgame:
+**[OmniRoll](https://omniroll.netlify.app)** is a Web-based autonomous generic application to generate random setup for (close to) any boardgame:
 
 <dl>
   <dt>web-based</dt>
@@ -21,10 +21,11 @@ OmniRoll is a Web-based autonomous generic application to generate random setup 
 
 ## Features
 
-Application is split into several parts:
+Application is split into several sections:
 
-* [**Referential**](#referential): List of data sources which define available game and content.
-* [**Collection**](#collection): Game and content owned by the user.
+* **[Referential](#referential)**: List of data sources which define supported games and contents.
+* **[Collection](#collection)**: Games and contents owned by the user.
+* **[Randomizer](#randomizer-page)**: Setup generation.
 
 ## Referential
 
@@ -35,7 +36,7 @@ Referential consists in a ordered list of data sources each providing games. Eac
 
 Each source defines location of a **module** [YAML file](https://yaml.org/). Currently, only source URL is supported.
 
-:::warning
+:::warning{#game-priority}
 
 A game might be defined from many sources. However, only the one with highest priority (the first) will be taken into account.
 
@@ -91,7 +92,19 @@ Randomizer page is divided in three parts:
 
 ## Module
 
+This section helps you authoring a module to support new games. The first part ([Writing a module](#writing-a-module)) is about data model, the next one ([Designing a module](#designing-a-module)) are advices for module design, and finally ([Hosting a module](#hosting-a-module)) provides some recommendation for publishing modules.
+
 ### Writing a module
+
+This part aims to explain data model of module. A module consists in at least one [YAML file](https://yaml.org/).
+
+Basically, it follows this hierarchical structure:
+
+* [Module](#module)
+  * [Game](#game)
+    * [Set](#set)
+      * [Component](#component)
+    * [Randomizer](#randomizer)
 
 #### Module
 
@@ -166,6 +179,8 @@ components:         # (Optional) Dictionary of components by kind
   Kind2: []         # List of components of given kind
 ```
 
+#### Component
+
 ```yaml
 # Component
 key: ""             # (Required) Unique identifier for the game
@@ -196,6 +211,7 @@ variables:          # (Optional) Supported types: `integer`
 pools:              # (Required) List of component pool to pick from
 - key: ""           # (Required) Unique identifier for the Randomizer
   criteria: ""      # (Optional) Expression to select component (default to all owned)
+                    #            Context: component, variables
 
 groups:             # (Optional) List of groups to gather slots
 - key: ""           # (Required) Unique identifier for the Randomizer
@@ -205,13 +221,17 @@ slots:              # (Required)
 - key: ""           # (Required) Unique identifier for the Randomizer
   name: ""          # (Optional) Display name (default to `key`)
   count: 1          # (Optional) Number or expression
+                    #            Context: component, variables
   pool: ""          # (Required) Pool key to pick from
   group: ""         # (Required if there are groups) Group key
   pick: "remove"    # (Optional) One of: remove (default), keep
   criteria: ""      # (Optional) Expression to filter pool components
+                    #            Context: component, variables
 ```
 
 #### Expression
+
+##### Syntax
 
 Several fields support expression. It relies on JavaScript syntax, but with some limitations and custom behaviors.
 
@@ -249,6 +269,8 @@ However some syntax is not supported:
 * Literals: `null`, `undefined`, `NaN`, `Infinity`
 * Unary operations: `+`, `-`, `~`
 * Binary operations: `??`, `===`, `!==`, `<<`, `>>`, `>>>`, `&`, `|`, `^`
+
+##### Evaluation
 
 For detail on how operations are evaluated:
 
@@ -331,9 +353,230 @@ Here are some specific behaviors:
   </tbody>
 </table>
 
+#### Expression context
+
+Variables accessible in the expression depends where it is used. However, there are some general rules.
+
+* `component` (aliases: `cmp`, `c`):
+  * `key`, `name`, `description`
+  * `kinds`: a singleton set with kind
+  * Any define properties
+
+```yaml
+# component
+Character:
+- key: "johndoe"
+  name: "John Doe"
+  description: "A character named John Doe"
+  properties:
+    is_npc: true
+```
+
+```typescript
+// expressions
+c.key     // 'johndoe'
+c.kinds   // ['Character']
+c.is_npc  // true
+```
+
+* `variables` (aliases: `var`, `v`): Dictionnary of variables by their keys.
+
+```yaml
+# randomizer
+key: "setup"
+variables:
+- key: "counter"
+  type: "integer"
+```
+
+```typescript
+// expressions
+v.counter  // 0
+```
+
+### Designing a module
+
+Writing a good module isn't just about content completeness, but also about organization, nomenclature, ... Here are some tips to help you design your modules effectively.
+
+#### Split by game
+
+If you consider to provide content for multiple games, it is preferred to split them into separate modules.
+
+```yaml
+# module-1.yaml
+key: "module-1"
+games:
+- key: "game-1"
+  name: "Game #1"
+
+# module-2.yaml
+key: "module-2"
+games:
+- key: "game-2"
+  name: "Game #2"
+```
+
+Otherwise, consider using separate files for each game.
+
+```yaml
+# module.yaml
+key: "module"
+games:
+- include: "game-1/index.yaml"
+- include: "game-2/index.yaml"
+
+# game-1/index.yaml
+key: "game-1"
+name: "Game #1"
+
+# game-2/index.yaml
+key: "game-2"
+name: "Game #2"
+```
+
+#### Split by language
+
+If you provide game content covering many languages, consider using separate files for each language. At least, use dedicated sets.
+
+```yaml
+# module.yaml
+key: "module"
+games:
+- key: "game-1"
+  name: "Game #1"
+  sets:
+  - include: "en.yaml"
+  - include: "fr.yaml"
+
+# en.yaml
+key: "en"
+name: "English"
+
+# fr.yaml
+key: "fr"
+name: "French"
+```
+
+#### Grouping sets
+
+Avoid sets providing both content and sub-sets simultaneously. As when user select a set, all subsets are included automatically.
+
+For example, some editions (e.g. crowdfunding, deluxe, anniversary) might include some expansions. Then, prefer to create a super set that groups all related sets together.
+
+#### Designing keys
+
+Keys are unique identifiers used to reference items within different scopes:
+
+* **Game:** strictly unique inside a module and [only one is taking into account by the application](#game-priority)
+* **Set:** unique inside a game (doesn't conflict with component or randomizer ones).
+* **Component:** unique inside a game (doesn't conflict with set or randomizer ones).
+* **Randomizer:** unique inside a game (doesn't conflict with set or component ones).
+* **Variable:** unique inside a randomizer (doesn't conflict with pool, group or slot ones).
+* **Pool:** unique inside a randomizer (doesn't conflict with variable, group or slot ones).
+* **Group:** unique inside a randomizer (doesn't conflict with variable, pool or slot ones).
+* **Slot:** unique inside a randomizer (doesn't conflict with variable, pool or group ones).
+
+Right key design is a complex task that requires good knowledge of current content organization as well as future evolution. Whatever how it is composed, the suggested form is [slug](https://en.wikipedia.org/wiki/Slug_(web_publishing)).
+
+Here are some concepts to consider:
+
+* Prefix set **and** component keys with [language ISO code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) (e.g. `en-`, `fr-`)
+* Use season, wave, edition, etc. identifier as infix (e.g. `2026-`, `group-0`, `wave-1-`)
+* Similar components might exists for different usage (e.g. a "character" which might be used as a hero or a villain)
+* (by the way) the name
+
+
+#### Multiusage components
+
+Some components might be used in multiple way. Depending if it can simultaneously serve different purposes, consider duplicating the component with different keys for each usage (and specify the purpose in each key).
+
+```yaml
+# game-1.yaml
+key: "game-1"
+name: "Game #1"
+sets:
+- key: "set-1"
+  name: "Set #1"
+  components:
+    Hero:
+    - key: "hero-johndoe"
+      name: "John Doe"
+    Villain:
+    - key: "villain-johndoe"
+      name: "John Doe"
+randomizers:
+- key: "default"
+  name: "Default"
+  pools:
+  - key: "content"
+  slots:
+  - key: "hero"
+    pool: "content"
+    criteria: "c.kinds == 'Hero'"
+  - key: "villain"
+    pool: "content"
+    criteria: "c.kinds == 'Villain'"
+```
+
+Otherwise, randomizer support `remove` or `keep` picking which might help managing reusable components. Another solution is to use distinct pools to separate reusable components.
+
+```yaml
+# game-1.yaml
+key: "game-1"
+name: "Game #1"
+sets:
+- key: "set-1"
+  name: "Set #1"
+  components:
+    Character:
+    - key: "character-johndoe"
+      name: "John Doe"
+      properties:
+        tags:
+        - "Hero"
+        - "Villain"
+randomizers:
+- key: "exclusive"
+  name: "Exclusive"
+  pools:
+  - key: "all"
+  slots:
+  - key: "hero"
+    pool: "all"
+    criteria: "c.tags == 'Hero'"
+  - key: "villain"
+    pool: "all"
+    criteria: "c.tags == 'Villain'"
+- key: "reuse-by-picking"
+  name: "Reuse by picking"
+  pools:
+  - key: "all"
+  slots:
+  - key: "hero"
+    pool: "all"
+    criteria: "c.tags == 'Hero'"
+    pick: "keep"
+  - key: "villain"
+    pool: "all"
+    criteria: "c.tags == 'Villain'"
+    pick: "keep"
+- key: "reuse-by-pools"
+  name: "Reuse by pools"
+  pools:
+  - key: "hero"
+    criteria: "c.tags == 'Hero'"
+  - key: "villain"
+    criteria: "c.tags == 'Villain'"
+  slots:
+  - key: "hero"
+    pool: "hero"
+  - key: "villain"
+    pool: "villain"
+```
+
 ### Hosting a module
 
-As only HTTP URLs are supported, module files must be hosted on publicly accessible server. For example:
+As only HTTP URLs are supported, module files must be hosted on publicly accessible HTTP server. For example:
 
 * [GitHub Gist](https://gist.github.com/) (See example below)
 * [GitHub](https://github.com/) (including [pages](https://docs.github.com/en/pages))
@@ -352,4 +595,4 @@ Gist is a simple service to host and edit files.
 * You may add more files by clicking on `Add file` button ; as recommended, it is better to split module into several files per game (e.g. `game1.yaml`, `game2.yaml`, ...) and sets (e.g. `game1-set1.yaml`, `game1-set2.yaml`, ...)
 * Once done, click on arrow from the green button and select `Create public gist`, and click on the button to publish your Gist.
 * Click on the `Raw` button of the module file, and copy the URL from the browser address bar. It should look like `https://gist.githubusercontent.com/<username>/<hash>/raw/<hash>/<filename>.yaml`
-* Use this URL as source URL in OmniRoll to load your module.
+* Use this URL as source URL in **OmniRoll** to load your module.
