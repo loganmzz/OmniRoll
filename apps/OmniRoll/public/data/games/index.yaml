@@ -4,3 +4,4 @@ updatedAt: "2026-11-08T08:15:00.000Z"
 games:
 - include: "./aeons-end.yaml"
 - include: "./skytear-horde.yaml"
+- include: "./zombicide/index.yaml"

@@ -1,0 +1,179 @@
+# https://www.zombicide.com/classic-zombicide-products/
+# https://boardgamegeek.com/boardgame/113924/zombicide
+key: "01-classic"
+name: "Classic (1st Edition)"
+
+updated-at: "2026-10-21T00:00:00.000Z"
+
+sets:
+- key: "01-01-s1"
+  name: "S1"
+  sets:
+  - key: "01-01-zombicide"
+    name: "S1 Zombicide"
+    components:
+      Survivor:
+      - key: "01-01-amy"
+        name: "Amy (S1)"
+      - key: "01-01-doug"
+        name: "Doug (S1)"
+      - key: "01-01-josh"
+        name: "Josh (S1)"
+      - key: "01-01-ned"
+        name: "Ned (S1)"
+      - key: "01-01-phil"
+        name: "Phil (S1)"
+      - key: "01-01-wanda"
+        name: "Wanda (S1)"
+- key: "01-02-s2"
+  name: "S2"
+  sets:
+  - key: "01-02-prison-outbreak"
+    name: "S2 Prison Outbreak"
+    components:
+      Survivor:
+      - key: "01-02-belle"
+        name: "Belle (S2)"
+      - key: "01-02-grindlock"
+        name: "Grindlock (S2)"
+      - key: "01-02-joshua"
+        name: "Joshua (S2)"
+      - key: "01-02-kim"
+        name: "Kim (S2)"
+      - key: "01-02-shannon"
+        name: "Shannon (S2)"
+      - key: "01-02-watts"
+        name: "Watts (S2)"
+  - key: "01-02-toxic-city-mall"
+    name: "S2 Toxic City Mall"
+    components:
+      Survivor:
+      - key: "01-02-derek"
+        name: "Derek (S2)"
+      - key: "01-02-elsa"
+        name: "Elsa (S2)"
+      - key: "01-02-neema"
+        name: "Neema (S2)"
+      - key: "01-02-raoul"
+        name: "Raoul (S2)"
+- key: "01-03-s3"
+  name: "S3"
+  sets:
+  - key: "01-03-angry-neighbors"
+    name: "S3 Angry Neighbors"
+    components:
+      Survivor:
+      - key: "01-03-adam"
+        name: "Adam (S3)"
+      - key: "01-03-jeff"
+        name: "Jeff (S3)"
+      - key: "01-03-julien"
+        name: "Julien (S3)"
+      - key: "01-03-tiff"
+        name: "Tiff (S3)"
+  - key: "01-03-rue-morgue"
+    name: "S3 Rue Morgue"
+    components:
+      Survivor:
+      - key: "01-03-bear"
+        name: "Bear (S3)"
+      - key: "01-03-cathy"
+        name: "Cathy (S3)"
+      - key: "01-03-dan"
+        name: "Dan (S3)"
+      - key: "01-03-james"
+        name: "James (S3)"
+      - key: "01-03-jane"
+        name: "Jane (S3)"
+      - key: "01-03-joe"
+        name: "Joe (S3)"
+      - key: "01-03-laurie"
+        name: "Laurie (S3)"
+      - key: "01-03-louise"
+        name: "Louise (S3)"
+      - key: "01-03-maddie"
+        name: "Maddie (S3)"
+      - key: "01-03-parker"
+        name: "Parker (S3)"
+      - key: "01-03-terry"
+        name: "Terry (S3)"
+      - key: "01-03-travis"
+        name: "Travis (S3)"
+- key: "01-xx-guest-boxes"
+  name: "Guest Boxes"
+  sets:
+  - key: "01-xx-guest-kevin-walker"
+    name: "Special guest box: Kevin Walker"
+    components:
+      Survivor:
+      - key: "01-xx-mitch"
+        name: "Mitch"
+      - key: "01-xx-oncle-honk"
+        name: "Oncle Honk"
+  - key: "01-xx-guest-karl-kopinski"
+    name: "Special guest box: Karl Kopinski"
+    components:
+      Survivor:
+      - key: "01-xx-angry-mary"
+        name: "Angry Mary"
+      - key: "01-xx-redcap-ben"
+        name: "\"Redcap\" Ben"
+  - key: "01-xx-guest-adrian-smith"
+    name: "Special guest box: Adrian Smith"
+    components:
+      Survivor:
+      - key: "01-xx-bones"
+        name: "Bones"
+      - key: "01-xx-padre-johnson"
+        name: "Padre Johnson"
+  - key: "01-xx-guest-lucio-parrillo"
+    name: "Special guest box: Lucio Parrillo"
+    components:
+      Survivor:
+      - key: "01-xx-donna"
+        name: "Donna"
+      - key: "01-xx-brother-max"
+        name: "Brother Max"
+  - key: "01-xx-guest-paolo-parente"
+    name: "Special guest box: Paolo Parente"
+    components:
+      Survivor:
+      - key: "01-xx-dylan"
+        name: "Dylan"
+      - key: "01-xx-maki"
+        name: "Maki"
+  - key: "01-xx-guest-john-kovalic"
+    name: "Special guest box: John Kovalic"
+    components:
+      Survivor:
+      - key: "01-xx-carson"
+        name: "Carson"
+      - key: "01-xx-gilly"
+        name: "Gilly"
+      - key: "01-xx-igor"
+        name: "Igor"
+      - key: "01-xx-matt"
+        name: "Matt"
+  - key: "01-xx-guest-edouard-guiton"
+    name: "Special guest box: Edouard Guiton"
+    components:
+      Survivor:
+      - key: "01-xx-doud"
+        name: "Doud"
+      - key: "01-xx-tomiko"
+        name: "Tomiko"
+  - key: "01-xx-guest-miguel-coimbra"
+    name: "Special guest box: Miguel Coimbra"
+    components:
+      Survivor:
+      - key: "01-xx-kevin"
+        name: "Kevin"
+      - key: "01-xx-peach"
+        name: "Peach"
+- key: "01-xx-gaming-night-kits"
+  name: "Gaming Night Kits"
+  sets:
+  - key: "01-xx-gaming-night-kit-01"
+    name: "Gaming Night Kit #1: Cars, Food or Guns"
+- key: "01-xx-promo"
+  name: "Promo"
