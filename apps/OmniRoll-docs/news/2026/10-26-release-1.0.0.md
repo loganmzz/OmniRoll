@@ -1,6 +1,6 @@
 ---
 title: Release 1.0.0
-date: 2026-11-01
+date: 2026-10-26
 authors:
 - loganmzz
 tags:
