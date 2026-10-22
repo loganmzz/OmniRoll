@@ -23,6 +23,12 @@
       "type": "string",
       "format": "date-time"
     },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "sets": {
       "type": "array",
       "items": {

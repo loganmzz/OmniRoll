@@ -25,12 +25,15 @@ describe('model/compiled', () => {
         sets: [
           {
             key: 'singleton',
+            name: 'Singleton',
+            features: ['set:core'],
             components: {
               One: [
                 {
                   key: 'one',
                   name: 'Neo',
                   description: 'a single element',
+                  features: ['component:one'],
                   properties: {
                     foo: 'bar',
                     answer: 42,
@@ -40,6 +43,30 @@ describe('model/compiled', () => {
                     kinds: false,
                     sets: false,
                   },
+                },
+                {
+                  key: 'two',
+                  name: 'Owt',
+                  properties: {
+                    foo: 'foo',
+                    answer: 64,
+                    // Check non-hidding common properties
+                    key: true,
+                    name: true,
+                    kinds: true,
+                    sets: true,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            key: 'another',
+            components: {
+              Another: [
+                {
+                  key: 'another',
+                  name: 'Hornet'
                 },
               ],
             },
@@ -55,9 +82,30 @@ describe('model/compiled', () => {
         component.key = 'one';
         component.name = 'Neo';
         component.kinds.add('One');
+        component.features.add('set:core');
+        component.features.add('component:one');
         component.sets.add('singleton');
         component['foo'] = 'bar';
         component['answer'] = 42;
+        return component;
+      })());
+      expected.components.push((() => {
+        const component = new CompiledComponent();
+        component.key = 'two';
+        component.name = 'Owt';
+        component.kinds.add('One');
+        component.features.add('set:core');
+        component.sets.add('singleton');
+        component['foo'] = 'foo';
+        component['answer'] = 64;
+        return component;
+      })());
+      expected.components.push((() => {
+        const component = new CompiledComponent();
+        component.key = 'another';
+        component.name = 'Hornet';
+        component.kinds.add('Another');
+        component.sets.add('another');
         return component;
       })());
 
@@ -205,7 +253,7 @@ describe('model/compiled', () => {
             ],
           },
           expected: [
-            `/sets[0:core]/components[Main]/[0:_]/key: Component key "_" is invalid`,
+            `/sets[0:core]/components[Main]/[0:_]/key: Component key "_" is invalid. It doesn't match /^[a-z0-9][a-z0-9_-]*$/`,
           ],
         },
         {

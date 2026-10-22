@@ -71,7 +71,7 @@ export class CompiledGame implements CompiledElement {
           errors.addError(setRegistryResult.err);
         }
       }
-      const componentsResult = CompiledComponent.fillFromDataModel(compiled.components, new Set(), specSet, {sets, components}, setLocation);
+      const componentsResult = CompiledComponent.fillFromDataModel(compiled.components, new Set(), new Set(), specSet, {sets, components}, setLocation);
       if (componentsResult.err !== undefined) {
         errors.addErrors(componentsResult.err);
       }
@@ -139,12 +139,22 @@ export class CompiledSet implements CompiledElement {
 export class CompiledComponent implements CompiledElement {
   key = '';
   name = '';
+  features = new Set<string>();
   sets = new Set<string>();
   kinds = new Set<string>();
   [key: string]: boolean|number|string|Set<string>|((...args: unknown[]) => unknown);
 
-  static fillFromDataModel(output: CompiledComponent[], parentSets: Set<string>, spec: ReferentialSet, registries: {sets: CompiledRegistry<CompiledSet>, components: CompiledRegistry<CompiledComponent>}|undefined = undefined, location: DataLocation = new DataLocation()): Result<CompiledComponent[], DataErrors> {
+  static fillFromDataModel(output: CompiledComponent[], parentSets: Set<string>, parentFeatures: Set<string>, spec: ReferentialSet, registries: {sets: CompiledRegistry<CompiledSet>, components: CompiledRegistry<CompiledComponent>}|undefined = undefined, location: DataLocation = new DataLocation()): Result<CompiledComponent[], DataErrors> {
     const errors: DataErrors = new DataErrors();
+
+    const features = new Set(parentFeatures);
+    for (const [index, feature] of (spec.features ?? []).entries()) {
+      if (typeof feature !== 'string') {
+        errors.addError(new DataError(location.index('features', index), `Feature should be a string (${JSON.stringify(feature)})`));
+        continue;
+      }
+      features.add(feature);
+    }
 
     const sets = new Set(parentSets);
     sets.add(spec.key);
@@ -163,39 +173,43 @@ export class CompiledComponent implements CompiledElement {
           }
         }
       }
-      const result = this.fillFromDataModel(output, sets, childSet, registries, setLocation);
+      const result = this.fillFromDataModel(output, sets, features, childSet, registries, setLocation);
       if (result.err !== undefined) {
         errors.addErrors(result.err);
       }
     }
-    for (const kind in spec.components) {
-      const specComponents = spec.components[kind];
-      const kindLocation = location.index('components', kind);
-      for (const [componentIndex, specComponent] of specComponents.entries()) {
-        const componentLocation = kindLocation.index('', [componentIndex, specComponent.key]);
-        const result = this.newFromDataModel(sets, kind, specComponent, componentLocation);
-        if (result.err !== undefined) {
-          errors.addErrors(result.err);
-        }
-        if (result.ok !== undefined) {
-          if (registries?.components !== undefined) {
-            const componentRegistryResult = registries.components.add(result.ok, componentLocation);
-            if (componentRegistryResult.err !== undefined) {
-              errors.addError(componentRegistryResult.err);
-            }
+    if (spec.components !== undefined && (typeof spec.components !== 'object' || Array.isArray(spec.components))) {
+      errors.addError(new DataError(location.child('components'), `Components should be an object (${typeof spec.components})`));
+    } else {
+      for (const kind in spec.components) {
+        const specComponents = spec.components[kind];
+        const kindLocation = location.index('components', kind);
+        for (const [componentIndex, specComponent] of specComponents.entries()) {
+          const componentLocation = kindLocation.index('', [componentIndex, specComponent.key]);
+          const result = this.newFromDataModel(sets, features, kind, specComponent, componentLocation);
+          if (result.err !== undefined) {
+            errors.addErrors(result.err);
           }
-          output.push(result.ok);
+          if (result.ok !== undefined) {
+            if (registries?.components !== undefined) {
+              const componentRegistryResult = registries.components.add(result.ok, componentLocation);
+              if (componentRegistryResult.err !== undefined) {
+                errors.addError(componentRegistryResult.err);
+              }
+            }
+            output.push(result.ok);
+          }
         }
       }
     }
     return errors.length === 0 ? Result.ok(output) : Result.err(errors, output);
   }
 
-  static newFromDataModel(parentsSets: Set<string>, kind: string, spec: ReferentialComponent, location: DataLocation): Result<CompiledComponent, DataErrors> {
+  static newFromDataModel(parentsSets: Set<string>, parentFeatures: Set<string>, kind: string, spec: ReferentialComponent, location: DataLocation): Result<CompiledComponent, DataErrors> {
     const errors: DataErrors = new DataErrors();
 
     if (!KeyPattern.test(spec.key)) {
-      errors.addError(new DataError(location.child('key'), `Component key ${JSON.stringify(spec.key)} is invalid`));
+      errors.addError(new DataError(location.child('key'), `Component key ${JSON.stringify(spec.key)} is invalid. It doesn't match ${KeyPattern}`));
     }
     const compiled = new CompiledComponent();
 
@@ -208,6 +222,14 @@ export class CompiledComponent implements CompiledElement {
 
     compiled.key = spec.key;
     compiled.name = spec.name ?? spec.key;
+    compiled.features = new Set(parentFeatures);
+    for (const [index, feature] of (spec.features ?? []).entries()) {
+      if (typeof feature !== 'string') {
+        errors.addError(new DataError(location.index('features', index), `Feature should be a string (${JSON.stringify(feature)})`));
+        continue;
+      }
+      compiled.features.add(feature);
+    }
     compiled.sets = new Set(parentsSets);
     compiled.kinds.add(kind);
 
@@ -227,6 +249,7 @@ export class CompiledComponent implements CompiledElement {
     const result = new CompiledComponent();
     result.key = data.key;
     result.name = data.name;
+    result.features = new Set(data.features);
     result.sets = new Set(data.sets);
     result.kinds = new Set(data.kinds);
 
@@ -242,6 +265,7 @@ export class CompiledComponent implements CompiledElement {
 export interface CompiledComponentLike extends Record<string, boolean|number|string|string[]> {
   key: string;
   name: string;
+  features: string[];
   sets: string[];
   kinds: string[];
 }

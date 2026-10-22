@@ -106,13 +106,18 @@ Basically, it follows this hierarchical structure:
       * [Component](#component)
     * [Randomizer](#randomizer)
 
+All `key` values must be:
+* unique within corresponding scope
+* consist of lowercase letters, numbers, and hyphens only
+* start with a lowercase letter or number
+
 #### Module
 
 At the root, a source defines a module:
 
 ```yaml
 # Module
-key: ""           # (Required)
+key: ""           # (Required) No unique constraint
 name: ""          # (Required) Display name
 description: ""   # (Optional)
 updated-at: ""    # (Optional)
@@ -140,7 +145,7 @@ A game might be defined by many modules (but only first one is taken into accoun
 
 ```yaml
 # Game
-key: ""             # (Required) Unique game identifier
+key: ""             # (Required) Unique in collection, only first in referential is considered
 name: ""            # (Required) Display name
 description: ""     # (Optional)
 updated-at: ""      # (Optional)
@@ -173,6 +178,7 @@ key: ""             # (Required) Unique identifier for the game
 name: ""            # (Required) Display name
 description: ""     # (Optional)
 updated-at: ""      # (Optional)
+features: []        # (Optional) Feature strings that will be applied to all sub-sets and components within this set
 sets: []            # (Optional) Sub-sets
 components:         # (Optional) Dictionary of components by kind
   Kind1: []         # List of components of given kind
@@ -186,6 +192,7 @@ components:         # (Optional) Dictionary of components by kind
 key: ""             # (Required) Unique identifier for the game
 name: ""            # (Required) Display name
 description: ""     # (Optional)
+features: []        # (Optional) Feature strings that will be applied to this component
 properties: {}      # (Optional) Custom properties whose values are: boolean, number, string or array of string
                     #            They are directly accessible when referenced in expressions
 ```
@@ -360,23 +367,32 @@ Variables accessible in the expression depends where it is used. However, there 
 * `component` (aliases: `cmp`, `c`):
   * `key`, `name`, `description`
   * `kinds`: a singleton set with kind
+  * `features`: a set of all direct and inherited feature strings.
+  * `sets`: a set of all set keys including the content. The one who provides the component and parent sets.
   * Any define properties
 
+
 ```yaml
-# component
+# set
+key: "core"
+name: "Core Box"
+features: ["base"]
 Character:
 - key: "johndoe"
   name: "John Doe"
   description: "A character named John Doe"
+  features: ["anonymous"]
   properties:
     is_npc: true
 ```
 
 ```typescript
 // expressions
-c.key     // 'johndoe'
-c.kinds   // ['Character']
-c.is_npc  // true
+c.key       // 'johndoe'
+c.features  // ['base', 'anonymous']
+c.sets      // ['core']
+c.kinds     // ['Character']
+c.is_npc    // true
 ```
 
 * `variables` (aliases: `var`, `v`): Dictionnary of variables by their keys.

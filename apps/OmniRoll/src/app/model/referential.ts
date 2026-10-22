@@ -34,6 +34,7 @@ export type ReferentialSet<I = never> = {
   description?: string;
   // mergeStrategy?: ReferentialMergeStategy;
   updatedAt?: string;
+  features?: string[];
   sets?: Includable<ReferentialSet<I>, I>[];
   components?: Record<string, ReferentialComponent[]>;
 }
@@ -43,6 +44,7 @@ export type ReferentialComponent = {
   key: string;
   name?: string;
   description?: string;
+  features?: string[];
   properties?: Record<string, boolean|number|string|string[]>;
   // mergeStrategy?: ReferentialMergeStategy;
   updatedAt?: string;
