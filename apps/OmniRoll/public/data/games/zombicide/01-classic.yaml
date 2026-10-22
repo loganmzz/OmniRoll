@@ -5,6 +5,9 @@ name: "Classic (1st Edition)"
 
 updated-at: "2026-10-21T00:00:00.000Z"
 
+features:
+- "classic"
+
 sets:
 - key: "01-01-s1"
   name: "S1"
