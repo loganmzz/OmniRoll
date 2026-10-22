@@ -19,6 +19,12 @@
     "description": {
       "type": "string"
     },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "properties": {
       "type": "object",
       "additionalProperties": {

@@ -740,7 +740,7 @@ function countStat(sets: ReferentialSet[]|undefined): ReferentialGameMetadataSta
           stat.components +
           Object
             .values(set.components ?? {})
-            .reduce((acc, components) => acc + components.length, 0),
+            .reduce((acc, components) => acc + (Array.isArray(components) ? components.length : 0), 0),
       };
     },
     {sets: 0, components: 0},

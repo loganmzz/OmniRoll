@@ -46,12 +46,17 @@ export interface CollectionContent {
 }
 
 export class CollectionDatabase extends Dexie {
+
+
   constructor() {
     super('collection');
-    this.version(1)
+    this.version(2)
         .stores({
           'Game': '&key',
           'Content': '&key',
+        })
+        .upgrade(async tx => {
+          await tx.table<CollectionContent>('Content').clear();
         });
   }
 

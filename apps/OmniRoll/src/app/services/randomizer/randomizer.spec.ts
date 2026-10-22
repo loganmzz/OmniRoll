@@ -20,7 +20,7 @@ describe('service/randomizer', () => {
 
     describe('d1', () => {
       const components: CompiledComponent[] = [];
-      CompiledComponent.fillFromDataModel(components, new Set(), {
+      CompiledComponent.fillFromDataModel(components, new Set(), new Set(), {
         key: 'core',
         components: {
           face: [
@@ -87,7 +87,7 @@ describe('service/randomizer', () => {
 
     describe('d6', () => {
       const components: CompiledComponent[] = [];
-      CompiledComponent.fillFromDataModel(components, new Set(), {
+      CompiledComponent.fillFromDataModel(components, new Set(), new Set(), {
         key: 'core',
         components: {
           face: [
