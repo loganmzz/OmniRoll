@@ -1,0 +1,9 @@
+# https://boardgamegeek.com/boardgame/113924/zombicide
+key: "zombicide"
+name: "Zombicide"
+
+updated-at: "2026-10-21T00:00:00.000Z"
+
+sets:
+- include: "./01-01-classic.yaml"
+- include: "./01-02-modern.yaml"
