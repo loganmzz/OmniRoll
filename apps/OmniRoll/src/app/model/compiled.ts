@@ -44,6 +44,7 @@ export class CompiledRegistry<E extends CompiledElement> {
 export class CompiledGame implements CompiledElement {
   key = '';
   name = '';
+  features: Set<string> = new Set();
   components: CompiledComponent[] = [];
   randomizers: CompiledRandomizer[] = [];
 
@@ -71,7 +72,7 @@ export class CompiledGame implements CompiledElement {
           errors.addError(setRegistryResult.err);
         }
       }
-      const componentsResult = CompiledComponent.fillFromDataModel(compiled.components, new Set(), new Set(), specSet, {sets, components}, setLocation);
+      const componentsResult = CompiledComponent.fillFromDataModel(compiled, new Set(), new Set(), specSet, {sets, components}, setLocation);
       if (componentsResult.err !== undefined) {
         errors.addErrors(componentsResult.err);
       }
@@ -97,6 +98,7 @@ export class CompiledGame implements CompiledElement {
   toJSON(): CompiledGameLike {
     return {
       ...this,
+      features: Array.from(this.features),
       components: this.components.map(c => c.toJSON()),
       randomizers: this.randomizers.map(c => c.toJSON()),
     };
@@ -105,6 +107,7 @@ export class CompiledGame implements CompiledElement {
     const result = new CompiledGame();
     result.key = data.key;
     result.name = data.name;
+    result.features = new Set(data.features ?? []);
     result.components = data.components.map(c => CompiledComponent.fromJSON(c));
     result.randomizers = data.randomizers.map(r => CompiledRandomizer.fromJSON(r));
     return result;
@@ -113,6 +116,7 @@ export class CompiledGame implements CompiledElement {
 export interface CompiledGameLike {
   key: string;
   name: string;
+  features: string[];
   components: CompiledComponentLike[];
   randomizers: CompiledRandomizerLike[];
 }
@@ -144,7 +148,7 @@ export class CompiledComponent implements CompiledElement {
   kinds = new Set<string>();
   [key: string]: boolean|number|string|Set<string>|((...args: unknown[]) => unknown);
 
-  static fillFromDataModel(output: CompiledComponent[], parentSets: Set<string>, parentFeatures: Set<string>, spec: ReferentialSet, registries: {sets: CompiledRegistry<CompiledSet>, components: CompiledRegistry<CompiledComponent>}|undefined = undefined, location: DataLocation = new DataLocation()): Result<CompiledComponent[], DataErrors> {
+  static fillFromDataModel({components, features: globalFeatures}: {components: CompiledComponent[], features: Set<string>}, parentSets: Set<string>, parentFeatures: Set<string>, spec: ReferentialSet, registries: {sets: CompiledRegistry<CompiledSet>, components: CompiledRegistry<CompiledComponent>}|undefined = undefined, location: DataLocation = new DataLocation()): Result<CompiledComponent[], DataErrors> {
     const errors: DataErrors = new DataErrors();
 
     const features = new Set(parentFeatures);
@@ -153,6 +157,7 @@ export class CompiledComponent implements CompiledElement {
         errors.addError(new DataError(location.index('features', index), `Feature should be a string (${JSON.stringify(feature)})`));
         continue;
       }
+      globalFeatures.add(feature);
       features.add(feature);
     }
 
@@ -173,7 +178,7 @@ export class CompiledComponent implements CompiledElement {
           }
         }
       }
-      const result = this.fillFromDataModel(output, sets, features, childSet, registries, setLocation);
+      const result = this.fillFromDataModel({components, features: globalFeatures}, sets, features, childSet, registries, setLocation);
       if (result.err !== undefined) {
         errors.addErrors(result.err);
       }
@@ -191,18 +196,21 @@ export class CompiledComponent implements CompiledElement {
             errors.addErrors(result.err);
           }
           if (result.ok !== undefined) {
+            for (const feature of result.ok.features) {
+              globalFeatures.add(feature);
+            }
             if (registries?.components !== undefined) {
               const componentRegistryResult = registries.components.add(result.ok, componentLocation);
               if (componentRegistryResult.err !== undefined) {
                 errors.addError(componentRegistryResult.err);
               }
             }
-            output.push(result.ok);
+            components.push(result.ok);
           }
         }
       }
     }
-    return errors.length === 0 ? Result.ok(output) : Result.err(errors, output);
+    return errors.length === 0 ? Result.ok(components) : Result.err(errors, components);
   }
 
   static newFromDataModel(parentsSets: Set<string>, parentFeatures: Set<string>, kind: string, spec: ReferentialComponent, location: DataLocation): Result<CompiledComponent, DataErrors> {

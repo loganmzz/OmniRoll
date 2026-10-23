@@ -77,6 +77,8 @@ describe('model/compiled', () => {
       const expected = new CompiledGame();
       expected.key = 'component';
       expected.name = 'Component';
+      expected.features.add('set:core');
+      expected.features.add('component:one');
       expected.components.push((() => {
         const component = new CompiledComponent();
         component.key = 'one';
