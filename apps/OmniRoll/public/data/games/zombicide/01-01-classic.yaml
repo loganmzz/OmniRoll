@@ -3,7 +3,7 @@
 key: "01-classic"
 name: "Classic (1st Edition)"
 
-updated-at: "2026-10-21T00:00:00.000Z"
+updated-at: "2026-10-24T00:00:00.000Z"
 
 features:
 - "classic"
@@ -55,7 +55,7 @@ sets:
       - key: "01-troy"
         name: "Troy"
   - key: "01-01-ultimate-survivors-01"
-    name: "Ultimate Survivors #1"
+    name: "S1 Ultimate Survivors #1"
     features: ["ultimate"]
     components:
       Survivor:
@@ -72,7 +72,7 @@ sets:
       - key: "01-wanda-ultimate"
         name: "Wanda (Ultimate)"
   - key: "01-01-ultimate-survivors-02"
-    name: "Ultimate Survivors #2"
+    name: "S1 Ultimate Survivors #2"
     features: ["ultimate"]
     components:
       Survivor:
@@ -93,7 +93,7 @@ sets:
       - key: "01-troy-ultimate"
         name: "Troy (Ultimate)"
   - key: "01-01-guest-edouard-guiton"
-    name: "Special guest box: Edouard Guiton"
+    name: "S1 Special guest box: Edouard Guiton"
     components:
       Survivor:
       - key: "01-doud"
@@ -101,7 +101,7 @@ sets:
       - key: "01-tomiko"
         name: "Tomiko"
   - key: "01-01-guest-lucio-parrillo"
-    name: "Special guest box: Lucio Parrillo"
+    name: "S1 Special guest box: Lucio Parrillo"
     components:
       Survivor:
       - key: "01-donna"
@@ -109,7 +109,7 @@ sets:
       - key: "01-brother-max"
         name: "Brother Max"
   - key: "01-01-guest-miguel-coimbra"
-    name: "Special guest box: Miguel Coimbra"
+    name: "S1 Special guest box: Miguel Coimbra"
     components:
       Survivor:
       - key: "01-kevin"
@@ -117,7 +117,7 @@ sets:
       - key: "01-peach"
         name: "Peach"
   - key: "01-01-guest-john-kovalic"
-    name: "Special guest box: John Kovalic"
+    name: "S1 Special guest box: John Kovalic"
     components:
       Survivor:
       - key: "01-carson"
@@ -129,7 +129,7 @@ sets:
       - key: "01-matt"
         name: "Matt"
   - key: "01-01-guest-paolo-parente"
-    name: "Special guest box: Paolo Parente"
+    name: "S1 Special guest box: Paolo Parente"
     components:
       Survivor:
       - key: "01-dylan"
@@ -137,31 +137,31 @@ sets:
       - key: "01-maki"
         name: "Maki"
   - key: "01-01-gaming-night-kit-01"
-    name: "Gaming Night Kit #1: Cars, Food or Guns"
+    name: "S1 Gaming Night Kit #1: Cars, Food or Guns"
     components:
       Survivor:
       - key: "01-kyoko"
         name: "Kyoko"
   - key: "01-01-gaming-night-kit-02"
-    name: "Gaming Night Kit #2: Black Friday"
+    name: "S1 Gaming Night Kit #2: Black Friday"
     components:
       Survivor:
       - key: "01-thiago"
         name: "Thiago"
   - key: "01-01-gaming-night-kit-03"
-    name: "Gaming Night Kit #3: Zombie Trap"
+    name: "S1 Gaming Night Kit #3: Zombie Trap"
     components:
       Survivor:
       - key: "01-bill"
         name: "Bill"
   - key: "01-01-gaming-night-kit-04"
-    name: "Gaming Night Kit #4: Tric & Trac"
+    name: "S1 Gaming Night Kit #4: Tric & Trac"
     components:
       Survivor:
       - key: "01-mphal"
         name: "M. Phal"
   - key: "01-01-gaming-night-kit-05"
-    name: "Gaming Night Kit #5: Bluehand Protocol"
+    name: "S1 Gaming Night Kit #5: Bluehand Protocol"
     components:
       Survivor:
       - key: "01-azaghal"
@@ -201,7 +201,7 @@ sets:
       - key: "01-raoul"
         name: "Raoul"
   - key: "01-02-guest-karl-kopinski"
-    name: "Special guest box: Karl Kopinski"
+    name: "S2 Special guest box: Karl Kopinski"
     components:
       Survivor:
       - key: "01-angry-mary"
@@ -209,7 +209,7 @@ sets:
       - key: "01-redcap-ben"
         name: "\"Redcap\" Ben"
   - key: "01-02-guest-kevin-walker"
-    name: "Special guest box: Kevin Walker"
+    name: "S2 Special guest box: Kevin Walker"
     components:
       Survivor:
       - key: "01-mitch"
@@ -217,7 +217,7 @@ sets:
       - key: "01-oncle-honk"
         name: "Oncle Honk"
   - key: "01-02-guest-adrian-smith"
-    name: "Special guest box: Adrian Smith"
+    name: "S2 Special guest box: Adrian Smith"
     components:
       Survivor:
       - key: "01-bones"
