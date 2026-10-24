@@ -148,6 +148,7 @@ export class CollectionDatabase extends Dexie {
             entity.update_timestamp = Date.now();
             entity.name = metadata.name;
             entity.version = metadata.version;
+            entity.availableSets = metadata.sets;
           } else {
             entity = {
               key: metadata.key,
@@ -371,6 +372,7 @@ export class Collection {
       console.log(`Collection(${key}): Refresh metadata`);
       collection.version = metadata.version;
       collection.update_timestamp = Date.now();
+      collection.availableSets = metadata.sets;
       await this.database.updateGame(collection);
       await this.refresh();
     }
