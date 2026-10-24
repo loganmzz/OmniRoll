@@ -3,7 +3,7 @@
 key: "01-classic"
 name: "Classic (1st Edition)"
 
-updated-at: "2026-10-24T00:00:00.000Z"
+updatedAt: "2026-10-24T00:00:00.000Z"
 
 features:
 - "classic"

@@ -19,7 +19,7 @@
     "description": {
       "type": "string"
     },
-    "updated-at": {
+    "updatedAt": {
       "type": "string",
       "format": "date-time"
     },
