@@ -19,17 +19,17 @@ sets:
     components:
       Survivor:
       - key: "01-amy"
-        name: "Amy"
+        name: "Amy (Classic)"
       - key: "01-doug"
-        name: "Doug"
+        name: "Doug (Classic)"
       - key: "01-josh"
-        name: "Josh"
+        name: "Josh (Classic)"
       - key: "01-ned"
-        name: "Ned"
+        name: "Ned (Classic)"
       - key: "01-phil"
-        name: "Phil"
+        name: "Phil (Classic)"
       - key: "01-wanda"
-        name: "Wanda"
+        name: "Wanda (Classic)"
   - key: "01-01-promo"
     name: "S1 Promo (KSE)"
     components:
@@ -92,82 +92,6 @@ sets:
         name: "Nick (Ultimate)"
       - key: "01-troy-ultimate"
         name: "Troy (Ultimate)"
-  - key: "01-01-guest-edouard-guiton"
-    name: "S1 Special guest box: Edouard Guiton"
-    components:
-      Survivor:
-      - key: "01-doud"
-        name: "Doud"
-      - key: "01-tomiko"
-        name: "Tomiko"
-  - key: "01-01-guest-lucio-parrillo"
-    name: "S1 Special guest box: Lucio Parrillo"
-    components:
-      Survivor:
-      - key: "01-donna"
-        name: "Donna"
-      - key: "01-brother-max"
-        name: "Brother Max"
-  - key: "01-01-guest-miguel-coimbra"
-    name: "S1 Special guest box: Miguel Coimbra"
-    components:
-      Survivor:
-      - key: "01-kevin"
-        name: "Kevin"
-      - key: "01-peach"
-        name: "Peach"
-  - key: "01-01-guest-john-kovalic"
-    name: "S1 Special guest box: John Kovalic"
-    components:
-      Survivor:
-      - key: "01-carson"
-        name: "Carson"
-      - key: "01-gilly"
-        name: "Gilly"
-      - key: "01-igor"
-        name: "Igor"
-      - key: "01-matt"
-        name: "Matt"
-  - key: "01-01-guest-paolo-parente"
-    name: "S1 Special guest box: Paolo Parente"
-    components:
-      Survivor:
-      - key: "01-dylan"
-        name: "Dylan"
-      - key: "01-maki"
-        name: "Maki"
-  - key: "01-01-gaming-night-kit-01"
-    name: "S1 Gaming Night Kit #1: Cars, Food or Guns"
-    components:
-      Survivor:
-      - key: "01-kyoko"
-        name: "Kyoko"
-  - key: "01-01-gaming-night-kit-02"
-    name: "S1 Gaming Night Kit #2: Black Friday"
-    components:
-      Survivor:
-      - key: "01-thiago"
-        name: "Thiago"
-  - key: "01-01-gaming-night-kit-03"
-    name: "S1 Gaming Night Kit #3: Zombie Trap"
-    components:
-      Survivor:
-      - key: "01-bill"
-        name: "Bill"
-  - key: "01-01-gaming-night-kit-04"
-    name: "S1 Gaming Night Kit #4: Tric & Trac"
-    components:
-      Survivor:
-      - key: "01-mphal"
-        name: "M. Phal"
-  - key: "01-01-gaming-night-kit-05"
-    name: "S1 Gaming Night Kit #5: Bluehand Protocol"
-    components:
-      Survivor:
-      - key: "01-azaghal"
-        name: "Azaghal"
-      - key: "01-jovem-nerd"
-        name: "Jovem Nerd"
 
 - key: "01-02-s2"
   name: "S2"
@@ -200,30 +124,6 @@ sets:
         name: "Neema"
       - key: "01-raoul"
         name: "Raoul"
-  - key: "01-02-guest-karl-kopinski"
-    name: "S2 Special guest box: Karl Kopinski"
-    components:
-      Survivor:
-      - key: "01-angry-mary"
-        name: "Angry Mary"
-      - key: "01-redcap-ben"
-        name: "\"Redcap\" Ben"
-  - key: "01-02-guest-kevin-walker"
-    name: "S2 Special guest box: Kevin Walker"
-    components:
-      Survivor:
-      - key: "01-mitch"
-        name: "Mitch"
-      - key: "01-oncle-honk"
-        name: "Oncle Honk"
-  - key: "01-02-guest-adrian-smith"
-    name: "S2 Special guest box: Adrian Smith"
-    components:
-      Survivor:
-      - key: "01-bones"
-        name: "Bones"
-      - key: "01-padre-johnson"
-        name: "Padre Johnson"
   - key: "01-02-set-02"
     name: "S2 Set #2"
     components:
@@ -369,8 +269,116 @@ sets:
       - key: "01-yuri"
         name: "Yuri"
 
-- key: "01-xx-additional"
-  name: "Additional sets"
+- key: "01-xx-guest"
+  name: "Special guest boxes"
+  sets:
+  - key: "01-xx-guest-adrian-smith"
+    name: "Special guest box: Adrian Smith"
+    components:
+      Survivor:
+      - key: "01-bones"
+        name: "Bones"
+      - key: "01-padre-johnson"
+        name: "Padre Johnson"
+  - key: "01-xx-guest-edouard-guiton"
+    name: "Special guest box: Edouard Guiton"
+    components:
+      Survivor:
+      - key: "01-doud"
+        name: "Doud"
+      - key: "01-tomiko"
+        name: "Tomiko"
+  - key: "01-xx-guest-john-kovalic"
+    name: "Special guest box: John Kovalic"
+    components:
+      Survivor:
+      - key: "01-carson"
+        name: "Carson"
+      - key: "01-gilly"
+        name: "Gilly"
+      - key: "01-igor"
+        name: "Igor"
+      - key: "01-matt"
+        name: "Matt"
+  - key: "01-xx-guest-karl-kopinski"
+    name: "Special guest box: Karl Kopinski"
+    components:
+      Survivor:
+      - key: "01-angry-mary"
+        name: "Angry Mary"
+      - key: "01-redcap-ben"
+        name: "\"Redcap\" Ben"
+  - key: "01-xx-guest-kevin-walker"
+    name: "Special guest box: Kevin Walker"
+    components:
+      Survivor:
+      - key: "01-mitch"
+        name: "Mitch"
+      - key: "01-oncle-honk"
+        name: "Oncle Honk"
+  - key: "01-xx-guest-lucio-parrillo"
+    name: "Special guest box: Lucio Parrillo"
+    components:
+      Survivor:
+      - key: "01-donna"
+        name: "Donna"
+      - key: "01-brother-max"
+        name: "Brother Max"
+  - key: "01-xx-guest-miguel-coimbra"
+    name: "Special guest box: Miguel Coimbra"
+    components:
+      Survivor:
+      - key: "01-kevin"
+        name: "Kevin"
+      - key: "01-peach"
+        name: "Peach"
+  - key: "01-xx-guest-paolo-parente"
+    name: "Special guest box: Paolo Parente"
+    components:
+      Survivor:
+      - key: "01-dylan"
+        name: "Dylan"
+      - key: "01-maki"
+        name: "Maki"
+
+- key: "01-xx-gaming-night-kit"
+  name: "Gaming Night Kits"
+  sets:
+  - key: "01-xx-gaming-night-kit-01"
+    name: "Gaming Night Kit #1: Cars, Food or Guns"
+    components:
+      Survivor:
+      - key: "01-kyoko"
+        name: "Kyoko"
+  - key: "01-xx-gaming-night-kit-02"
+    name: "Gaming Night Kit #2: Black Friday"
+    components:
+      Survivor:
+      - key: "01-thiago"
+        name: "Thiago"
+  - key: "01-xx-gaming-night-kit-03"
+    name: "Gaming Night Kit #3: Zombie Trap"
+    components:
+      Survivor:
+      - key: "01-bill"
+        name: "Bill"
+  - key: "01-xx-gaming-night-kit-04"
+    name: "Gaming Night Kit #4: Tric & Trac"
+    components:
+      Survivor:
+      - key: "01-mphal"
+        name: "M. Phal"
+  - key: "01-xx-gaming-night-kit-05"
+    name: "Gaming Night Kit #5: Bluehand Protocol"
+    components:
+      Survivor:
+      - key: "01-azaghal"
+        name: "Azaghal"
+      - key: "01-jovem-nerd"
+        name: "Jovem Nerd"
+
+- key: "01-xx-tmnt"
+  name: "TMNT Pack"
   sets:
   - key: "01-xx-tmnt-01"
     name: "TMNT Pack #1"
@@ -396,6 +404,10 @@ sets:
         name: "Bebop"
       - key: "01-rocksteady"
         name: "Rocksteady"
+
+- key: "01-xx-ghostbusters"
+  name: "Ghostbusters Pack"
+  sets:
   - key: "01-xx-ghostbusters-01"
     name: "Ghostbusters Pack #1"
     components:
@@ -412,31 +424,33 @@ sets:
         name: "Ray"
       - key: "01-egon"
         name: "Egon"
-  - key: "01-xx-wrath-of-kings"
-    name: "Wrath of Kings"
-    components:
-      Survivor:
-      - key: "01-alyana-heska"
-        name: "Alyana Heska"
-      - key: "01-union-worker"
-        name: "Union Worker #42"
-  - key: "01-xx-cmon-comics-01"
-    name: "CMON Comics Vol. 1"
-    components:
-      Survivor:
-      - key: "01-diana"
-        name: "Diana"
-      - key: "01-harlock"
-        name: "Harlock"
-      - key: "01-hobo"
-        name: "Hobo"
-      - key: "01-jen"
-        name: "Jen"
-      - key: "01-julio"
-        name: "Julio"
-      - key: "01-keiko"
-        name: "Keiko"
-      - key: "01-marion"
-        name: "Marion"
-      - key: "01-norman"
-        name: "Norman"
+
+- key: "01-xx-wrath-of-kings"
+  name: "Wrath of Kings"
+  components:
+    Survivor:
+    - key: "01-alyana-heska"
+      name: "Alyana Heska"
+    - key: "01-union-worker"
+      name: "Union Worker #42"
+
+- key: "01-xx-cmon-comics-01"
+  name: "CMON Comics Vol. 1"
+  components:
+    Survivor:
+    - key: "01-diana"
+      name: "Diana"
+    - key: "01-harlock"
+      name: "Harlock"
+    - key: "01-hobo"
+      name: "Hobo"
+    - key: "01-jen"
+      name: "Jen"
+    - key: "01-julio"
+      name: "Julio"
+    - key: "01-keiko"
+      name: "Keiko"
+    - key: "01-marion"
+      name: "Marion"
+    - key: "01-norman"
+      name: "Norman"

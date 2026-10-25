@@ -9,7 +9,7 @@ features:
 - "modern"
 
 sets:
-- key: "02-02-zombicide-2e"
+- key: "02-01-zombicide-2e"
   name: "Zombicide (2nd Edition)"
   components:
     Survivor:
@@ -43,7 +43,7 @@ sets:
     - key: "02-tiger-sam"
       name: "Tiger Sam"
       features: ["kid"]
-- key: "02-02-washtington-zc"
+- key: "02-01-washtington-zc"
   name: "Washington ZC"
   components:
     Survivor:
@@ -59,7 +59,7 @@ sets:
       name: "Mindy"
     - key: "02-tess"
       name: "Tess"
-- key: "02-02-fort-hendrix"
+- key: "02-01-fort-hendrix"
   name: "Fort Hendrix"
   components:
     Survivor:
@@ -75,7 +75,7 @@ sets:
       name: "Riley"
     - key: "02-wayne"
       name: "Wayne"
-- key: "02-02-ks-reboot"
+- key: "02-01-ks-reboot"
   name: "KS Reboot Pledge"
   components:
     Survivor:
@@ -147,8 +147,6 @@ sets:
       name: "Mason"
     - key: "02-mona"
       name: "Mona"
-    - key: "02-phil"
-      name: "Phil (2E)"
     - key: "02-pinkie"
       name: "Pinkie"
     - key: "02-queen"
@@ -163,7 +161,7 @@ sets:
       name: "The Prime Minister"
     - key: "02-victor"
       name: "Victor"
-- key: "02-02-presidential-box"
+- key: "02-01-presidential-box"
   name: "Presidential Box"
   components:
     Survivor:
@@ -179,3 +177,47 @@ sets:
       name: "President 44"
     - key: "02-president-45"
       name: "President 45"
+- key: "02-01-rio-z-janeiro"
+  name: "Rio Z Janeiro"
+  components:
+    Survivor:
+    - key: "02-dona-cacilda"
+      name: "Dona Cacilda"
+    - key: "02-eliete"
+      name: "Eliete"
+    - key: "02-mc-jordim"
+      name: "Mc Jordim"
+    - key: "02-ney"
+      name: "Ney"
+    - key: "02-steven"
+      name: "Steven"
+    - key: "02-vivi"
+      name: "Vivi"
+- key: "02-01-pariz"
+  name: "PariZ"
+  components:
+    Survivor:
+    - key: "02-fred"
+      name: "Fred"
+    - key: "02-jacquin"
+      name: "Jacquin"
+    - key: "02-louise"
+      name: "Louise"
+    - key: "02-marianne"
+      name: "Marianne"
+    - key: "02-nadia"
+      name: "Nadia"
+    - key: "02-yanis"
+      name: "Yanis"
+- key: "02-01-squid-game"
+  name: "Squid Game"
+  components:
+    Survivor:
+    - key: "02-squid-game-worker"
+      name: "Worker (Squid Game)"
+    - key: "02-squid-game-soldier"
+      name: "Soldier (Squid Game)"
+    - key: "02-squid-game-manager"
+      name: "Manager (Squid Game)"
+    - key: "02-squid-game-front-man"
+      name: "Front Man (Squid Game)"
