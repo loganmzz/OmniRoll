@@ -14,6 +14,7 @@ sets:
 - key: "01-01-s1"
   name: "S1"
   sets:
+  # https://boardgamegeek.com/boardgame/113924/zombicide
   - key: "01-01-zombicide"
     name: "S1 Zombicide"
     components:
@@ -54,6 +55,7 @@ sets:
         name: "Nick"
       - key: "01-troy"
         name: "Troy"
+  # https://boardgamegeek.com/boardgameexpansion/162608/zombicide-ultimate-survivors-1
   - key: "01-01-ultimate-survivors-01"
     name: "S1 Ultimate Survivors #1"
     features: ["ultimate"]
@@ -71,6 +73,7 @@ sets:
         name: "Phil (Ultimate)"
       - key: "01-wanda-ultimate"
         name: "Wanda (Ultimate)"
+  # https://boardgamegeek.com/boardgameexpansion/187336/zombicide-ultimate-survivors-2
   - key: "01-01-ultimate-survivors-02"
     name: "S1 Ultimate Survivors #2"
     features: ["ultimate"]
@@ -96,6 +99,7 @@ sets:
 - key: "01-02-s2"
   name: "S2"
   sets:
+  # https://boardgamegeek.com/boardgame/137988/zombicide-season-2-prison-outbreak
   - key: "01-02-prison-outbreak"
     name: "S2 Prison Outbreak"
     components:
@@ -112,6 +116,7 @@ sets:
         name: "Shannon"
       - key: "01-watts"
         name: "Watts"
+  # https://boardgamegeek.com/boardgameexpansion/137987/zombicide-toxic-city-mall
   - key: "01-02-toxic-city-mall"
     name: "S2 Toxic City Mall"
     components:
@@ -124,6 +129,7 @@ sets:
         name: "Neema"
       - key: "01-raoul"
         name: "Raoul"
+  # https://boardgamegeek.com/boardgameexpansion/147247/zombicide-set-2-survivors-and-zombivors
   - key: "01-02-set-02"
     name: "S2 Set #2"
     components:
@@ -140,6 +146,7 @@ sets:
         name: "Rose"
       - key: "01-thaissa"
         name: "Thaissa"
+  # https://boardgamegeek.com/boardgameexpansion/156916/zombicide-set-3-survivors-and-zombivors
   - key: "01-02-set-03"
     name: "S2 Set #3"
     components:
@@ -170,6 +177,7 @@ sets:
         name: "Smith"
       - key: "01-will"
         name: "Will"
+  # https://boardgamegeek.com/boardgameexpansion/140755/zombicide-set-4-moustache-pack
   - key: "01-02-set-04"
     name: "S2 Set #4: Moustache Pack #1"
     components:
@@ -184,6 +192,7 @@ sets:
 - key: "01-03-s3"
   name: "S3"
   sets:
+  # https://boardgamegeek.com/boardgame/161866/zombicide-season-3-rue-morgue
   - key: "01-03-rue-morgue"
     name: "S3 Rue Morgue"
     components:
@@ -212,6 +221,7 @@ sets:
         name: "Terry"
       - key: "01-travis"
         name: "Travis"
+  # https://boardgamegeek.com/boardgameexpansion/161920/zombicide-angry-neighbors
   - key: "01-03-angry-neighbors"
     name: "S3 Angry Neighbors"
     components:
@@ -272,6 +282,7 @@ sets:
 - key: "01-xx-guest"
   name: "Special guest boxes"
   sets:
+  # https://boardgamegeek.com/boardgameexpansion/140605/zombicide-special-guest-box-adrian-smith
   - key: "01-xx-guest-adrian-smith"
     name: "Special guest box: Adrian Smith"
     components:
@@ -280,6 +291,7 @@ sets:
         name: "Bones"
       - key: "01-padre-johnson"
         name: "Padre Johnson"
+  # https://boardgamegeek.com/boardgameexpansion/162564/zombicide-special-guest-box-edouard-guiton
   - key: "01-xx-guest-edouard-guiton"
     name: "Special guest box: Edouard Guiton"
     components:
@@ -288,6 +300,7 @@ sets:
         name: "Doud"
       - key: "01-tomiko"
         name: "Tomiko"
+  # https://boardgamegeek.com/boardgameexpansion/163032/zombicide-special-guest-box-john-kovalic
   - key: "01-xx-guest-john-kovalic"
     name: "Special guest box: John Kovalic"
     components:
@@ -300,6 +313,7 @@ sets:
         name: "Igor"
       - key: "01-matt"
         name: "Matt"
+  # https://boardgamegeek.com/boardgameexpansion/140606/zombicide-special-guest-box-karl-kopinski
   - key: "01-xx-guest-karl-kopinski"
     name: "Special guest box: Karl Kopinski"
     components:
@@ -308,6 +322,7 @@ sets:
         name: "Angry Mary"
       - key: "01-redcap-ben"
         name: "\"Redcap\" Ben"
+  # https://boardgamegeek.com/boardgameexpansion/140604/zombicide-special-guest-box-kevin-walker
   - key: "01-xx-guest-kevin-walker"
     name: "Special guest box: Kevin Walker"
     components:
@@ -316,6 +331,7 @@ sets:
         name: "Mitch"
       - key: "01-oncle-honk"
         name: "Oncle Honk"
+  # https://boardgamegeek.com/boardgameexpansion/162729/zombicide-special-guest-box-lucio-parrillo
   - key: "01-xx-guest-lucio-parrillo"
     name: "Special guest box: Lucio Parrillo"
     components:
@@ -324,6 +340,7 @@ sets:
         name: "Donna"
       - key: "01-brother-max"
         name: "Brother Max"
+  # https://boardgamegeek.com/boardgameexpansion/161848/zombicide-special-guest-box-miguel-coimbra
   - key: "01-xx-guest-miguel-coimbra"
     name: "Special guest box: Miguel Coimbra"
     components:
@@ -332,6 +349,7 @@ sets:
         name: "Kevin"
       - key: "01-peach"
         name: "Peach"
+  # https://boardgamegeek.com/boardgameexpansion/147258/zombicide-special-guest-box-paolo-parente
   - key: "01-xx-guest-paolo-parente"
     name: "Special guest box: Paolo Parente"
     components:
@@ -344,30 +362,36 @@ sets:
 - key: "01-xx-gaming-night-kit"
   name: "Gaming Night Kits"
   sets:
+  # https://boardgamegeek.com/boardgameexpansion/151067/zombicide-gaming-night-1-cars-food-or-guns
   - key: "01-xx-gaming-night-kit-01"
     name: "Gaming Night Kit #1: Cars, Food or Guns"
     components:
       Survivor:
       - key: "01-kyoko"
         name: "Kyoko"
+  # https://boardgamegeek.com/boardgameexpansion/153977/zombicide-gaming-night-2-black-friday
   - key: "01-xx-gaming-night-kit-02"
     name: "Gaming Night Kit #2: Black Friday"
     components:
       Survivor:
       - key: "01-thiago"
         name: "Thiago"
+  # https://boardgamegeek.com/boardgameexpansion/153978/zombicide-gaming-night-3-zombie-trap
   - key: "01-xx-gaming-night-kit-03"
     name: "Gaming Night Kit #3: Zombie Trap"
     components:
       Survivor:
       - key: "01-bill"
         name: "Bill"
+  # https://boardgamegeek.com/boardgameexpansion/164625/zombicide-gaming-night-4-tric-and-trac
+  # https://boardgamegeek.com/boardgameexpansion/148340/zombicide-survivor-mr-phal
   - key: "01-xx-gaming-night-kit-04"
     name: "Gaming Night Kit #4: Tric & Trac"
     components:
       Survivor:
       - key: "01-mphal"
         name: "M. Phal"
+  # https://boardgamegeek.com/boardgame/193720/zombicide-gaming-night-5-bluehand-protocol
   - key: "01-xx-gaming-night-kit-05"
     name: "Gaming Night Kit #5: Bluehand Protocol"
     components:
@@ -380,6 +404,7 @@ sets:
 - key: "01-xx-tmnt"
   name: "TMNT Pack"
   sets:
+  # https://boardgamegeek.com/boardgameexpansion/284048/zombicide-teenage-mutant-ninja-turtles-pack-1
   - key: "01-xx-tmnt-01"
     name: "TMNT Pack #1"
     components:
@@ -392,6 +417,7 @@ sets:
         name: "Shredder"
       - key: "01-krang"
         name: "Krang"
+  # https://boardgamegeek.com/boardgameexpansion/284049/zombicide-teenage-mutant-ninja-turtles-pack-2
   - key: "01-xx-tmnt-02"
     name: "TMNT Pack #2"
     components:
@@ -408,6 +434,7 @@ sets:
 - key: "01-xx-ghostbusters"
   name: "Ghostbusters Pack"
   sets:
+  # https://boardgamegeek.com/boardgameexpansion/348484/zombicide-ghostbusters-pack-1
   - key: "01-xx-ghostbusters-01"
     name: "Ghostbusters Pack #1"
     components:
@@ -416,6 +443,7 @@ sets:
         name: "Peter"
       - key: "01-winston"
         name: "Winston"
+  # https://boardgamegeek.com/boardgameexpansion/348485/zombicide-ghostbusters-pack-2
   - key: "01-xx-ghostbusters-02"
     name: "Ghostbusters Pack #2"
     components:
@@ -425,6 +453,8 @@ sets:
       - key: "01-egon"
         name: "Egon"
 
+# https://boardgamegeek.com/boardgameexpansion/147631/zombicide-survivor-union-worker-42-aka-charles
+# https://boardgamegeek.com/boardgame/147630/zombicide-survivor-alyana-heska-aka-elena
 - key: "01-xx-wrath-of-kings"
   name: "Wrath of Kings"
   components:
@@ -434,6 +464,7 @@ sets:
     - key: "01-union-worker"
       name: "Union Worker #42"
 
+# https://boardgamegeek.com/boardgameexpansion/311258/zombicide-survivor-cmon-comics-vol-1-extras
 - key: "01-xx-cmon-comics-01"
   name: "CMON Comics Vol. 1"
   components:

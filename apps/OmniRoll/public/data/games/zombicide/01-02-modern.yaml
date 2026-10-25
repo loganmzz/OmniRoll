@@ -9,6 +9,7 @@ features:
 - "modern"
 
 sets:
+# https://boardgamegeek.com/boardgame/286751/zombicide-2nd-edition
 - key: "02-01-zombicide-2e"
   name: "Zombicide (2nd Edition)"
   components:
@@ -43,6 +44,7 @@ sets:
     - key: "02-tiger-sam"
       name: "Tiger Sam"
       features: ["kid"]
+# https://boardgamegeek.com/boardgameexpansion/292122/zombicide-2nd-edition-washington-zc
 - key: "02-01-washtington-zc"
   name: "Washington ZC"
   components:
@@ -59,6 +61,7 @@ sets:
       name: "Mindy"
     - key: "02-tess"
       name: "Tess"
+# https://boardgamegeek.com/boardgameexpansion/293546/zombicide-2nd-edition-fort-hendrix
 - key: "02-01-fort-hendrix"
   name: "Fort Hendrix"
   components:
@@ -75,6 +78,7 @@ sets:
       name: "Riley"
     - key: "02-wayne"
       name: "Wayne"
+# https://boardgamegeek.com/boardgameexpansion/336637/zombicide-2nd-edition-reboot-box
 - key: "02-01-ks-reboot"
   name: "KS Reboot Pledge"
   components:
@@ -161,6 +165,7 @@ sets:
       name: "The Prime Minister"
     - key: "02-victor"
       name: "Victor"
+# https://boardgamegeek.com/boardgameexpansion/336634/zombicide-2nd-edition-presidential-box
 - key: "02-01-presidential-box"
   name: "Presidential Box"
   components:
@@ -177,6 +182,7 @@ sets:
       name: "President 44"
     - key: "02-president-45"
       name: "President 45"
+# https://boardgamegeek.com/boardgameexpansion/379907/zombicide-2nd-edition-rio-z-janeiro
 - key: "02-01-rio-z-janeiro"
   name: "Rio Z Janeiro"
   components:
@@ -193,6 +199,7 @@ sets:
       name: "Steven"
     - key: "02-vivi"
       name: "Vivi"
+# https://boardgamegeek.com/boardgameexpansion/444268/zombicide-2nd-edition-pariz
 - key: "02-01-pariz"
   name: "PariZ"
   components:
@@ -209,6 +216,7 @@ sets:
       name: "Nadia"
     - key: "02-yanis"
       name: "Yanis"
+# https://boardgamegeek.com/boardgameexpansion/470096/zombicide-2nd-edition-squid-game
 - key: "02-01-squid-game"
   name: "Squid Game"
   components:
@@ -221,3 +229,218 @@ sets:
       name: "Manager (Squid Game)"
     - key: "02-squid-game-front-man"
       name: "Front Man (Squid Game)"
+
+- key: "02-01-monthy-python-flying-circus"
+  name: "Monty Python's Flying Circus"
+  sets:
+  # https://boardgamegeek.com/boardgameexpansion/392832/zombicide-2nd-edition-monty-pythons-flying-circus
+  - key: "02-01-monthy-python-flying-circus-01"
+    name: "Monty Python's Flying Circus: A Rather Silly Expansion"
+    components:
+      Survivor:
+      - key: "02-arthur-nudge"
+        name: "Arthur Nudge"
+      - key: "02-fish-slapper"
+        name: "Fish Slapper"
+      - key: "02-the-lumberjack"
+        name: "The Lumberjack"
+      - key: "02-arthur-ewing"
+        name: "Arthur Ewing"
+      - key: "02-the-colonel"
+        name: "The Colonel"
+      - key: "02-the-knight-with-a-raw-chicken"
+        name: "The Knight With A Raw Chicken"
+  # https://boardgamegeek.com/boardgameexpansion/392833/zombicide-2nd-edition-monty-pythons-flying-circus
+  - key: "02-01-monthy-python-flying-circus-02"
+    name: "Monty Python's Flying Circus: Gumby Pack"
+    components:
+      Survivor:
+      - key: "02-gumby"
+        name: "Gumby"
+
+# https://boardgamegeek.com/boardgameexpansion/376429/zombicide-second-edition-cmon-comics-vol-2-promos
+- key: "02-xx-cmon-comics-02"
+  name: "CMON Comics Vol. 2"
+  components:
+    Survivor:
+    - key: "02-brahim"
+      name: "Brahim"
+    - key: "02-bryan"
+      name: "Bryan"
+    - key: "02-harold"
+      name: "Harold"
+    - key: "02-helmlock"
+      name: "Helmlock"
+    - key: "02-julie"
+      name: "Julie"
+    - key: "02-keiko"
+      name: "Keiko (2E)"
+    - key: "02-mavis"
+      name: "Mavis"
+    - key: "02-walter"
+      name: "Walter"
+
+- key: "02-xx-iron-maiden"
+  name: "Iron Maiden"
+  sets:
+  # https://boardgamegeek.com/boardgameexpansion/372781/iron-maiden-pack-1
+  - key: "02-xx-iron-maiden-01"
+    name: "Iron Maiden Pack #1"
+    components:
+      Survivor:
+      - key: "02-eddie-undead"
+        name: "Undead Eddie"
+      - key: "02-eddie-reaper"
+        name: "Reaper Eddie"
+      - key: "02-eddie-pharaoh"
+        name: "Pharaoh Eddie"
+      - key: "02-eddie-trooper"
+        name: "Trooper Eddie"
+      - key: "02-eddie-cyborg"
+        name: "Cyborg Eddie"
+  # https://boardgamegeek.com/boardgameexpansion/372782/iron-maiden-pack-2
+  - key: "02-xx-iron-maiden-02"
+    name: "Iron Maiden Pack #2"
+    components:
+      Survivor:
+      - key: "02-eddie-mummy"
+        name: "Mummy Eddie"
+      - key: "02-eddie-asylum"
+        name: "Asylum Eddie"
+      - key: "02-eddie-bassist"
+        name: "Bassist Eddie"
+      - key: "02-eddie-killer"
+        name: "Killer Eddie"
+  # https://boardgamegeek.com/boardgameexpansion/372783/iron-maiden-pack-3
+  - key: "02-xx-iron-maiden-03"
+    name: "Iron Maiden Pack #3"
+    components:
+      Survivor:
+      - key: "02-eddie-fear"
+        name: "Fear Eddie"
+      - key: "02-eddie-wicker"
+        name: "Wicker Eddie"
+  # https://boardgamegeek.com/boardgameexpansion/372784/zombicide-2nd-edition-iron-maiden-original-eddie
+  - key: "02-xx-iron-maiden-original-eddie"
+    name: "Iron Maiden Original Eddie"
+    components:
+      Survivor:
+      - key: "02-eddie-original"
+        name: "Original Eddie"
+
+- key: "02-xx-dark-nights-metal"
+  name: "Dark Nights Metal"
+  sets:
+  # https://boardgamegeek.com/boardgameexpansion/369890/zombicide-2nd-edition-dark-nights-metal-pack-1
+  - key: "02-xx-dark-nights-metal-01"
+    name: "Dark Nights Metal Pack #1"
+    components:
+      Survivor:
+      - key: "02-batman"
+        name: "Batman"
+  # https://boardgamegeek.com/boardgameexpansion/369891/zombicide-2nd-edition-dark-nights-metal-pack-2
+  - key: "02-xx-dark-nights-metal-02"
+    name: "Dark Nights Metal Pack #2"
+    components:
+      Survivor:
+      - key: "02-batman-earth-12"
+        name: "Batman Earth-12"
+      - key: "02-batman-earth-44"
+        name: "Batman Earth-44"
+  # https://boardgamegeek.com/boardgameexpansion/369892/zombicide-2nd-edition-dark-nights-metal-pack-3
+  - key: "02-xx-dark-nights-metal-03"
+    name: "Dark Nights Metal Pack #3"
+    components:
+      Survivor:
+      - key: "02-batman-earth-11"
+        name: "Batman Earth-11"
+      - key: "02-batman-earth-52"
+        name: "Batman Earth-52"
+  # https://boardgamegeek.com/boardgameexpansion/369893/zombicide-2nd-edition-dark-nights-metal-pack-4
+  - key: "02-xx-dark-nights-metal-04"
+    name: "Dark Nights Metal Pack #4"
+    components:
+      Survivor:
+      - key: "02-batman-earth-1"
+        name: "Batman Earth-1"
+      - key: "02-batman-earth-32"
+        name: "Batman Earth-32"
+  # https://boardgamegeek.com/boardgameexpansion/369894/zombicide-2nd-edition-dark-nights-metal-pack-5
+  - key: "02-xx-dark-nights-metal-05"
+    name: "Dark Nights Metal Pack #5"
+
+- key: "02-xx-supernatural-join-the-hunt"
+  name: "Supernatural: Join the Hunt"
+  sets:
+  # https://boardgamegeek.com/boardgameexpansion/369539/zombicide-2nd-edition-supernatural-join-the-hunt-p
+  - key: "02-xx-supernatural-join-the-hunt-01"
+    name: "Supernatural: Join the Hunt Pack #1"
+    components:
+      Survivor:
+      - key: "02-dean-winchester"
+        name: "Dean Winchester"
+      - key: "02-sam-winchester"
+        name: "Sam Winchester"
+  # https://boardgamegeek.com/boardgameexpansion/369540/zombicide-2nd-edition-supernatural-join-the-hunt-p
+  - key: "02-xx-supernatural-join-the-hunt-02"
+    name: "Supernatural: Join the Hunt Pack #2"
+    components:
+      Survivor:
+      - key: "02-john-winchester"
+        name: "John Winchester"
+      - key: "02-bobby-singer"
+        name: "Bobby Singer"
+      - key: "02-jack-kline"
+        name: "Jack Kline"
+  # https://boardgamegeek.com/boardgameexpansion/369541/zombicide-2nd-edition-supernatural-join-the-hunt-p
+  - key: "02-xx-supernatural-join-the-hunt-03"
+    name: "Supernatural: Join the Hunt Pack #3"
+    components:
+      Survivor:
+      - key: "02-castiel"
+        name: "Castiel"
+      - key: "02-crowley"
+        name: "Crowley"
+
+- key: "02-xx-the-boys"
+  name: "The Boys"
+  sets:
+  # https://boardgamegeek.com/boardgameexpansion/366868/zombicide-2nd-edition-the-boys-pack-1-the-seven
+  - key: "02-xx-the-boys-01"
+    name: "The Boys Pack #1: The Seven"
+    components:
+      Survivor:
+      - key: "02-homelander"
+        name: "Homelander"
+      - key: "02-queen-maeve"
+        name: "Queen Maeve"
+      - key: "02-black-noir"
+        name: "Black Noir"
+      - key: "02-the-deep"
+        name: "The Deep"
+      - key: "02-a-train"
+        name: "A-Train"
+      - key: "02-soldier-boy"
+        name: "Soldier Boy"
+      - key: "02-starlight"
+        name: "Starlight"
+  # https://boardgamegeek.com/boardgameexpansion/366870/zombicide-2nd-edition-the-boys-pack-2-the-boys
+  - key: "02-xx-the-boys-02"
+    name: "The Boys Pack #2: The Boys"
+    components:
+      Survivor:
+      - key: "02-billy-butcher"
+        name: "Billy Butcher"
+      - key: "02-hughie-campbell"
+        name: "Hughie Campbell"
+      - key: "02-annie-starlight"
+        name: "Annie \"Starlight\""
+      - key: "02-frenchie"
+        name: "Frenchie"
+      - key: "02-kimiko"
+        name: "Kimiko"
+      - key: "02-mother-milk"
+        name: "Mother's Milk"
+  # https://boardgamegeek.com/boardgameexpansion/366869/zombicide-2nd-edition-the-boys-pack-3-supe-abomina
+  - key: "02-xx-the-boys-03"
+    name: "The Boys Pack #3: Supe Abominations"
