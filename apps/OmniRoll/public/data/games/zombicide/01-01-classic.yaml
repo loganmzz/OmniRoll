@@ -31,6 +31,73 @@ sets:
         name: "Phil (Classic)"
       - key: "01-wanda"
         name: "Wanda (Classic)"
+      Mission:
+      - key: "m-00-tutorial"
+        name: "00 Tutorial"
+        properties:
+          difficulty: 0
+          duration: 20
+          minSurvivors: 4
+      - key: "m-01-city-blocks"
+        name: "01 City Blocks"
+        properties:
+          difficulty: 3
+          duration: 150
+          minSurvivors: 4
+      - key: "m-02-y-zone"
+        name: "02 Y-Zone"
+        properties:
+          difficulty: 2
+          duration: 60
+          minSurvivors: 4
+      - key: "m-03-the-24hrs-race-of-zombicity"
+        name: "03 The 24hrs Race of Zombicity"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 4
+      - key: "m-04-drive-by-shooting"
+        name: "04 Drive-By Shooting"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 4
+      - key: "m-05-big-w"
+        name: "05 Big W"
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
+      - key: "m-06-the-escape"
+        name: "06 The Escape"
+        properties:
+          difficulty: 3
+          duration: 150
+          minSurvivors: 6
+      - key: "m-07-grindhouse"
+        name: "07 Grindhouse"
+        properties:
+          difficulty: 1
+          duration: 45
+          minSurvivors: 6
+      - key: "m-08-zombie-police"
+        name: "08 Zombie Police"
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
+      - key: "m-09-might-makes-right"
+        name: "09 Might Makes Right"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 1
+      - key: "m-10-small-town"
+        name: "10 Small Town"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 4
   - key: "01-01-promo"
     name: "S1 Promo (KSE)"
     components:
@@ -116,6 +183,73 @@ sets:
         name: "Shannon"
       - key: "01-watts"
         name: "Watts"
+      Mission:
+      - key: "m-00-tutorial-the-break-in"
+        name: "00 Tutorial: The Break-In"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-01-the-blueprints"
+        name: "01 The Blueprints"
+        properties:
+          difficulty: 3
+          duration: 150
+          minSurvivors: 6
+      - key: "m-02-finding-the-keys"
+        name: "02 Finding the Keys"
+        properties:
+          difficulty: 2
+          duration: 120
+          minSurvivors: 6
+      - key: "m-03-concrete-saw"
+        name: "03 Concrete Saw"
+        properties:
+          difficulty: 2
+          duration: 120
+          minSurvivors: 6
+      - key: "m-04-the-welder"
+        name: "04 The Welder"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-05-an-easy-mission"
+        name: "05 An Easy Mission"
+        properties:
+          difficulty: 2
+          duration: 150
+          minSurvivors: 6
+      - key: "m-06-rescue-mission"
+        name: "06 Rescue Mission"
+        properties:
+          difficulty: 2
+          duration: 150
+          minSurvivors: 6
+      - key: "m-07-the-haven"
+        name: "07 The Haven"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-08-foooood"
+        name: "08 Foooood!"
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
+      - key: "m-09-endless-cleaning"
+        name: "09 Endless Cleaning"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-10-prison-is-hell"
+        name: "10 Prison is Hell"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
   # https://boardgamegeek.com/boardgameexpansion/137987/zombicide-toxic-city-mall
   - key: "01-02-toxic-city-mall"
     name: "S2 Toxic City Mall"
@@ -129,6 +263,67 @@ sets:
         name: "Neema"
       - key: "01-raoul"
         name: "Raoul"
+      Mission:
+      - key: "m-01-the-big-rubble"
+        name: "01 The Big Rubble"
+        properties:
+          difficulty: 1
+          duration: 150
+          minSurvivors: 4
+      - key: "m-02-death-row"
+        name: "02 Death Row"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-03-zombie-square"
+        name: "03 Zombie Square"
+        properties:
+          difficulty: 1
+          duration: 60
+          minSurvivors: 4
+      - key: "m-04-heliport"
+        name: "04 Heliport"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-05-mall-raid"
+        name: "05 Mall Raid"
+        properties:
+          difficulty: 2
+          duration: 180
+          minSurvivors: 4
+      - key: "m-06-zombie-riot"
+        name: "06 Zombie Riot"
+        properties:
+          difficulty: 3
+          duration: 300
+          minSurvivors: 6
+      - key: "m-07-administration"
+        name: "07 Administration"
+        properties:
+          difficulty: 2
+          duration: 120
+          minSurvivors: 6
+      - key: "m-08-out-of-rags"
+        name: "08 Out of Rags"
+        properties:
+          difficulty: 2
+          duration: 120
+          minSurvivors: 6
+      - key: "m-09-ultrared-district"
+        name: "09 Ultrared District"
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
+      - key: "m-10-running-mall"
+        name: "10 Running Mall"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
   # https://boardgamegeek.com/boardgameexpansion/147247/zombicide-set-2-survivors-and-zombivors
   - key: "01-02-set-02"
     name: "S2 Set #2"
@@ -221,6 +416,79 @@ sets:
         name: "Terry"
       - key: "01-travis"
         name: "Travis"
+      Mission:
+      - key: "m-00-tutorial-01-learning-to-fly"
+        name: "Tutorial #1: Learning to Fly"
+        properties:
+          difficulty: 1
+          duration: 60
+          minSurvivors: 6
+      - key: "m-00-tutorial-02-smells-like-team-spirit"
+        name: "Tutorial #2: Smells Like Team Spirit"
+        properties:
+          difficulty: 1
+          duration: 60
+          minSurvivors: 6
+      - key: "m-01-gas-run"
+        name: "01 Gas Run"
+        properties:
+          difficulty: 1
+          duration: 60
+          minSurvivors: 6
+      - key: "m-02-no-way-out"
+        name: "02 No Way Out"
+        properties:
+          difficulty: 1
+          duration: 90
+          minSurvivors: 6
+      - key: "m-03-the-price-of-progress"
+        name: "03 The Price of Progress"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-04-breadcrumbs"
+        name: "04 Breadcrumbs"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-05-the-makeshift-laboratory"
+        name: "05 The Makeshift Laboratory"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-06-the-mortuary"
+        name: "06 The Mortuary"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-07-the-farm"
+        name: "07 The Farm"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-08-seven-veils-death"
+        name: "08 Seven Veils' Death"
+        properties:
+          difficulty: 3
+          duration: 150
+          minSurvivors: 6
+      - key: "m-09-nosocomephobia"
+        name: "09 Nosocomephobia"
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
+      - key: "m-10-a-world-in-flames"
+        name: "10 A World in Flames"
+        properties:
+          difficulty: 3
+          duration: 90
+          minSurvivors: 6
   # https://boardgamegeek.com/boardgameexpansion/161920/zombicide-angry-neighbors
   - key: "01-03-angry-neighbors"
     name: "S3 Angry Neighbors"
