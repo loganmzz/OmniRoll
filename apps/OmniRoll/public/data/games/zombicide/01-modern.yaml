@@ -1,4 +1,22 @@
 # https://boardgamegeek.com/boardgame/113924/zombicide
+#
+# Design notes:
+#
+# Features:
+# - `classic`: Classic compatible components
+# - `modern`: Modern compatible components
+#
+# As Classic components can be used in a Modern game, they are featured as both `classic` and `modern` components.
+#
+# There are several kinds:
+# * Survivor:
+#   * Kids are marked using `kid` feature.
+# * Mission:
+#   * Custom property `difficulty` (number): `0` (tutorial), `1` (easy), `2` (medium), `3` (hard), `4` (very hard)
+#   * Custom property `duration` (number, in minutes)
+# * Competitive
+# * Abomination
+#
 key: "zombicide"
 name: "Zombicide"
 
