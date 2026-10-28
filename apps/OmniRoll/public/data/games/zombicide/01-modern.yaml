@@ -13,7 +13,7 @@
 #   * Kids are marked using `kid` feature.
 # * Mission:
 #   * Custom property `difficulty` (number): `0` (tutorial), `1` (easy), `2` (medium), `3` (hard), `4` (very hard)
-#   * Custom property `duration` (number, in minutes)
+#   * Custom property `duration` (number, in minutes))
 # * Competitive
 # * Abomination
 #
