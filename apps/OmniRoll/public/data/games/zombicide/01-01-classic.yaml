@@ -1564,9 +1564,155 @@ sets:
         difficulty: 3
         duration: 60
         minSurvivors: 6
+    - key: "m-a37-zombie-mutation"
+      name: "A37 Zombie Mutation"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 3
+    - key: "m-a38-get-off-my-lawn"
+      name: "A38 Get Off My Lawn"
+      needs:
+        sets:
+        - "01-01-zombicide"
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 6
+    - key: "m-a39-dude-wheres-our-keys"
+      name: "A39 Dude, Where's Our Keys?"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a40-infested-tents"
+      name: "A40 Infested Tents"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a41-loot-and-rescue"
+      name: "A41 Loot and Rescue"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 6
+    - key: "m-a42-a-strange-call"
+      name: "A42 A Strange Call"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a43-a-survivor-of-his-world"
+      name: "A43 A Survivor of His World"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-a44-time-to-hit-the-road"
+      name: "A44 Time to Hit the Road"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 4
+        duration: 45
+        minSurvivors: 6
+    - key: "m-a45-the-wild-ride"
+      name: "A45 The Wild Ride"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a46-on-the-fly"
+      name: "A46 On the Fly"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a47-christmas-lights"
+      name: "A47 Christmas Lights"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a48-trick-or-threat"
+      name: "A48 Trick or Threat"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a49-the-taxi-driver"
+      name: "A49 The Taxi Driver"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a50-a-little-help-from-my-friends"
+      name: "A50 A Little Help from My Friends"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a51-not-just-a-scratch"
+      name: "A51 Not Just a Scratch"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-a52-worst-case-scenario"
+      name: "A52 Worst Case Scenario"
+      needs:
+        sets:
+        - "01-02-toxic-city-mall"
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
     Competitive:
     - key: "m-a36-this-is-our-ground"
       name: "A36 This is Our Ground"
       needs:
         sets:
-        - "01-01-zombicide"
+        - "01-03-rue-morgue"
