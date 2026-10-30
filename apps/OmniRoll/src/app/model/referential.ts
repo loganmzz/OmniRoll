@@ -7,6 +7,13 @@ export type Include = {
   include: string;
 }
 
+export type ReferentialConditional = {
+  needs?: {
+    sets?: string[];
+    features?: string[];
+  }
+}
+
 export type ReferentialModule<I = never> = {
   key: string;
   name?: string;
@@ -40,7 +47,7 @@ export type ReferentialSet<I = never> = {
 }
 export type SourceReferentialSet = ReferentialSet<Include>;
 
-export type ReferentialComponent = {
+export type ReferentialComponent = ReferentialConditional & {
   key: string;
   name?: string;
   description?: string;
@@ -52,7 +59,7 @@ export type ReferentialComponent = {
 
 export type ReferentialRandomizerPick = 'remove'|'keep';
 
-export type ReferentialRandomizer = {
+export type ReferentialRandomizer = ReferentialConditional & {
   key: string;
   name?: string;
   description?: string;

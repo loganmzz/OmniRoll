@@ -19,6 +19,23 @@
     "description": {
       "type": "string"
     },
+    "needs": {
+      "type": "object",
+      "properties": {
+        "sets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "features": {
       "type": "array",
       "items": {

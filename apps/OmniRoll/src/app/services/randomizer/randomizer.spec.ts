@@ -19,8 +19,7 @@ describe('service/randomizer', () => {
   describe('randomize', () => {
 
     describe('d1', () => {
-      const components: CompiledComponent[] = [];
-      CompiledComponent.fillFromDataModel({components, features: new Set()}, new Set(), new Set(), {
+      const components = CompiledComponent.newFromDataModelSet({sets: new Set(), features: new Set()}, {
         key: 'core',
         components: {
           face: [
@@ -29,7 +28,7 @@ describe('service/randomizer', () => {
             },
           ],
         }
-      });
+      }).expect().content;
       test('select 1', () => {
         const model: ReferentialRandomizer = {
           key: 'select-1',
@@ -50,7 +49,7 @@ describe('service/randomizer', () => {
           single: 'one',
         };
 
-        const compiled = CompiledRandomizer.newFromDataModel(model).expect();
+        const compiled = CompiledRandomizer.newFromDataModel(model).expect().content;
         expect(
           toKey(randomizer.randomize(components, compiled, {}))
         ).toEqual(expected);
@@ -78,7 +77,7 @@ describe('service/randomizer', () => {
           ],
         };
 
-        const compiled = CompiledRandomizer.newFromDataModel(model).expect();
+        const compiled = CompiledRandomizer.newFromDataModel(model).expect().content;
         expect(
           () => randomizer.randomize(components, compiled, {})
         ).toThrow('Slot "impossible" can\'t be fulfilled. No left component matching.');
@@ -86,8 +85,7 @@ describe('service/randomizer', () => {
     });
 
     describe('d6', () => {
-      const components: CompiledComponent[] = [];
-      CompiledComponent.fillFromDataModel({components, features: new Set()}, new Set(), new Set(), {
+      const components = CompiledComponent.newFromDataModelSet({ sets: new Set(), features: new Set() }, {
         key: 'core',
         components: {
           face: [
@@ -111,7 +109,7 @@ describe('service/randomizer', () => {
             },
           ],
         }
-      });
+      }).expect().content;
       test('select-1', () => {
         const model: ReferentialRandomizer = {
           key: 'select-1',
@@ -132,7 +130,7 @@ describe('service/randomizer', () => {
           single: expect.toBeOneOf(['one', 'two', 'three', 'four', 'five', 'six']),
         };
 
-        const compiled = CompiledRandomizer.newFromDataModel(model).expect();
+        const compiled = CompiledRandomizer.newFromDataModel(model).expect().content;
         expect(
           toKey(randomizer.randomize(components, compiled, {}))
         ).toMatchObject(expected);
@@ -165,7 +163,7 @@ describe('service/randomizer', () => {
         };
 
         for (let i = 0; i < 100; i++) {
-          const compiled = CompiledRandomizer.newFromDataModel(model).expect();
+          const compiled = CompiledRandomizer.newFromDataModel(model).expect().content;
           expect(
             toKey(randomizer.randomize(components, compiled, {}))
           ).toMatchObject(expected);
@@ -187,7 +185,7 @@ describe('service/randomizer', () => {
         };
 
         for (let i = 0; i < 100; i++) {
-          const compiled = CompiledRandomizer.newFromDataModel(model).expect();
+          const compiled = CompiledRandomizer.newFromDataModel(model).expect().content;
           const actual = toKey(randomizer.randomize(components, compiled, {}));
           const left = new Set(['one', 'two', 'three', 'four', 'five', 'six']);
           const expected: Record<string, unknown> = {};
@@ -375,7 +373,7 @@ describe('service/randomizer', () => {
           }
         ]
       };
-      const compiled = CompiledGame.newFromDataModel(model).expect();
+      const compiled = CompiledGame.newFromDataModel(model).expect().content;
 
       test('2-players', () => {
         const rand = compiled.randomizers.find(r => r.key === '2-players');

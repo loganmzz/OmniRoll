@@ -6,8 +6,8 @@ source "${bindir}/__init.shrc" &&
 true || exit $?
 
 function main.run() {
-  npx nx run-many --all --target=test &&
-  npx nx run-many --all --target=e2e &&
+  npx nx run-many --all --target=test --tui=false &&
+  npx nx run-many --all --target=e2e --tui=false &&
   true
 }
 

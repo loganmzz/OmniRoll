@@ -14,6 +14,7 @@ import { formatEntity } from '@project/model/common';
 import {
   CompiledGame,
   CompiledGameLike,
+  GameCompilation,
 } from '@project/model/compiled';
 import { OmniRollError } from '@project/services/error/error-api';
 import Dexie from 'dexie';
@@ -191,7 +192,7 @@ export class CollectionDatabase extends Dexie {
       });
   }
 
-  async resolveContent(game: CollectionGame, resolver: () => Promise<CompiledGame|undefined>): Promise<CompiledGame|undefined> {
+  async resolveContent(game: CollectionGame, resolver: () => Promise<GameCompilation|undefined>): Promise<CompiledGame|undefined> {
     let content = await this
       .transaction(
         'readonly',
@@ -219,17 +220,21 @@ export class CollectionDatabase extends Dexie {
       }
     }
     console.log(`Collection(${game.key}): Refresh content`);
-    const compiled = await resolver();
-    if (compiled === undefined) {
+    const compilation = await resolver();
+    if (compilation === undefined) {
       return undefined;
     }
     const ownedSets = new Set(game.selectedSets);
-    compiled.components = compiled.components.filter(c => !c.sets.isDisjointFrom(ownedSets));
+    compilation.content.applySelection(
+      ownedSets,
+      compilation.conditionals.components,
+      compilation.conditionals.randomizers,
+    );
     content = {
       key: game.key,
       version: game.version,
       update_timestamp: game.update_timestamp,
-      content: compiled.toJSON(),
+      content: compilation.content.toJSON(),
     };
     await this
       .transaction(
@@ -245,7 +250,7 @@ export class CollectionDatabase extends Dexie {
           err,
         );
       });
-    return compiled;
+    return compilation.content;
   }
 }
 
