@@ -1,0 +1,1718 @@
+# https://www.zombicide.com/classic-zombicide-products/
+# https://boardgamegeek.com/boardgame/113924/zombicide
+key: "01-classic"
+name: "Classic (1st Edition)"
+
+updatedAt: "2026-10-24T00:00:00.000Z"
+
+features:
+- "classic"
+- "modern"
+
+sets:
+
+- key: "01-01-s1"
+  name: "S1"
+  sets:
+  # https://boardgamegeek.com/boardgame/113924/zombicide
+  - key: "01-01-zombicide"
+    name: "S1 Zombicide"
+    components:
+      Survivor:
+      - key: "01-amy"
+        name: "Amy (Classic)"
+      - key: "01-doug"
+        name: "Doug (Classic)"
+      - key: "01-josh"
+        name: "Josh (Classic)"
+      - key: "01-ned"
+        name: "Ned (Classic)"
+      - key: "01-phil"
+        name: "Phil (Classic)"
+      - key: "01-wanda"
+        name: "Wanda (Classic)"
+      Mission:
+      - key: "m-00-tutorial"
+        name: "00 Tutorial"
+        properties:
+          difficulty: 0
+          duration: 20
+          minSurvivors: 4
+      - key: "m-01-city-blocks"
+        name: "01 City Blocks"
+        properties:
+          difficulty: 3
+          duration: 150
+          minSurvivors: 4
+      - key: "m-02-y-zone"
+        name: "02 Y-Zone"
+        properties:
+          difficulty: 2
+          duration: 60
+          minSurvivors: 4
+      - key: "m-03-the-24hrs-race-of-zombicity"
+        name: "03 The 24hrs Race of Zombicity"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 4
+      - key: "m-04-drive-by-shooting"
+        name: "04 Drive-By Shooting"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 4
+      - key: "m-05-big-w"
+        name: "05 Big W"
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
+      - key: "m-06-the-escape"
+        name: "06 The Escape"
+        properties:
+          difficulty: 3
+          duration: 150
+          minSurvivors: 6
+      - key: "m-07-grindhouse"
+        name: "07 Grindhouse"
+        properties:
+          difficulty: 1
+          duration: 45
+          minSurvivors: 6
+      - key: "m-08-zombie-police"
+        name: "08 Zombie Police"
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
+      - key: "m-09-might-makes-right"
+        name: "09 Might Makes Right"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 1
+      - key: "m-10-small-town"
+        name: "10 Small Town"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 4
+  - key: "01-01-promo"
+    name: "S1 Promo (KSE)"
+    components:
+      Survivor:
+      - key: "01-cbtube-samurai"
+        name: "Cardboard Tube Samurai"
+      - key: "01-chaz"
+        name: "Chaz"
+      - key: "01-claudia"
+        name: "Claudia"
+      - key: "01-dave"
+        name: "Dave"
+      - key: "01-elcholo"
+        name: "El Cholo"
+      - key: "01-eva"
+        name: "Eva"
+      - key: "01-ivy"
+        name: "Ivy"
+      - key: "01-marvin"
+        name: "Marvin"
+      - key: "01-nick"
+        name: "Nick"
+      - key: "01-troy"
+        name: "Troy"
+  # https://boardgamegeek.com/boardgameexpansion/162608/zombicide-ultimate-survivors-1
+  - key: "01-01-ultimate-survivors-01"
+    name: "S1 Ultimate Survivors #1"
+    features: ["ultimate"]
+    components:
+      Survivor:
+      - key: "01-amy-ultimate"
+        name: "Amy (Ultimate)"
+      - key: "01-doug-ultimate"
+        name: "Doug (Ultimate)"
+      - key: "01-josh-ultimate"
+        name: "Josh (Ultimate)"
+      - key: "01-ned-ultimate"
+        name: "Ned (Ultimate)"
+      - key: "01-phil-ultimate"
+        name: "Phil (Ultimate)"
+      - key: "01-wanda-ultimate"
+        name: "Wanda (Ultimate)"
+  # https://boardgamegeek.com/boardgameexpansion/187336/zombicide-ultimate-survivors-2
+  - key: "01-01-ultimate-survivors-02"
+    name: "S1 Ultimate Survivors #2"
+    features: ["ultimate"]
+    components:
+      Survivor:
+      - key: "01-chaz-ultimate"
+        name: "Chaz (Ultimate)"
+      - key: "01-claudia-ultimate"
+        name: "Claudia (Ultimate)"
+      - key: "01-dave-ultimate"
+        name: "Dave (Ultimate)"
+      - key: "01-elcholo-ultimate"
+        name: "El Cholo (Ultimate)"
+      - key: "01-ivy-ultimate"
+        name: "Ivy (Ultimate)"
+      - key: "01-marvin-ultimate"
+        name: "Marvin (Ultimate)"
+      - key: "01-nick-ultimate"
+        name: "Nick (Ultimate)"
+      - key: "01-troy-ultimate"
+        name: "Troy (Ultimate)"
+
+
+- key: "01-02-s2"
+  name: "S2"
+  sets:
+  # https://boardgamegeek.com/boardgame/137988/zombicide-season-2-prison-outbreak
+  - key: "01-02-prison-outbreak"
+    name: "S2 Prison Outbreak"
+    components:
+      Survivor:
+      - key: "01-belle"
+        name: "Belle"
+      - key: "01-grindlock"
+        name: "Grindlock"
+      - key: "01-joshua"
+        name: "Joshua"
+      - key: "01-kim"
+        name: "Kim"
+      - key: "01-shannon"
+        name: "Shannon"
+      - key: "01-watts"
+        name: "Watts"
+      Mission:
+      - key: "m-00-tutorial-the-break-in"
+        name: "00 Tutorial: The Break-In"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-01-the-blueprints"
+        name: "01 The Blueprints"
+        properties:
+          difficulty: 3
+          duration: 150
+          minSurvivors: 6
+      - key: "m-02-finding-the-keys"
+        name: "02 Finding the Keys"
+        properties:
+          difficulty: 2
+          duration: 120
+          minSurvivors: 6
+      - key: "m-03-concrete-saw"
+        name: "03 Concrete Saw"
+        properties:
+          difficulty: 2
+          duration: 120
+          minSurvivors: 6
+      - key: "m-04-the-welder"
+        name: "04 The Welder"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-05-an-easy-mission"
+        name: "05 An Easy Mission"
+        properties:
+          difficulty: 2
+          duration: 150
+          minSurvivors: 6
+      - key: "m-06-rescue-mission"
+        name: "06 Rescue Mission"
+        properties:
+          difficulty: 2
+          duration: 150
+          minSurvivors: 6
+      - key: "m-07-the-haven"
+        name: "07 The Haven"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-08-foooood"
+        name: "08 Foooood!"
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
+      - key: "m-09-endless-cleaning"
+        name: "09 Endless Cleaning"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-10-prison-is-hell"
+        name: "10 Prison is Hell"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+  # https://boardgamegeek.com/boardgameexpansion/137987/zombicide-toxic-city-mall
+  - key: "01-02-toxic-city-mall"
+    name: "S2 Toxic City Mall"
+    components:
+      Survivor:
+      - key: "01-derek"
+        name: "Derek"
+      - key: "01-elsa"
+        name: "Elsa"
+      - key: "01-neema"
+        name: "Neema"
+      - key: "01-raoul"
+        name: "Raoul"
+      Mission:
+      - key: "m-01-the-big-rubble"
+        name: "01 The Big Rubble"
+        properties:
+          difficulty: 1
+          duration: 150
+          minSurvivors: 4
+      - key: "m-02-death-row"
+        name: "02 Death Row"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-03-zombie-square"
+        name: "03 Zombie Square"
+        properties:
+          difficulty: 1
+          duration: 60
+          minSurvivors: 4
+      - key: "m-04-heliport"
+        name: "04 Heliport"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-05-mall-raid"
+        name: "05 Mall Raid"
+        properties:
+          difficulty: 2
+          duration: 180
+          minSurvivors: 4
+      - key: "m-06-zombie-riot"
+        name: "06 Zombie Riot"
+        properties:
+          difficulty: 3
+          duration: 300
+          minSurvivors: 6
+      - key: "m-07-administration"
+        name: "07 Administration"
+        properties:
+          difficulty: 2
+          duration: 120
+          minSurvivors: 6
+      - key: "m-08-out-of-rags"
+        name: "08 Out of Rags"
+        properties:
+          difficulty: 2
+          duration: 120
+          minSurvivors: 6
+      - key: "m-09-ultrared-district"
+        name: "09 Ultrared District"
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
+      - key: "m-10-running-mall"
+        name: "10 Running Mall"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+  # https://boardgamegeek.com/boardgameexpansion/147247/zombicide-set-2-survivors-and-zombivors
+  - key: "01-02-set-02"
+    name: "S2 Set #2"
+    components:
+      Survivor:
+      - key: "01-brad"
+        name: "Brad"
+      - key: "01-kirk"
+        name: "Kirk"
+      - key: "01-ralph"
+        name: "Ralph"
+      - key: "01-rick"
+        name: "Rick"
+      - key: "01-rose"
+        name: "Rose"
+      - key: "01-thaissa"
+        name: "Thaissa"
+  # https://boardgamegeek.com/boardgameexpansion/156916/zombicide-set-3-survivors-and-zombivors
+  - key: "01-02-set-03"
+    name: "S2 Set #3"
+    components:
+      Survivor:
+      - key: "01-achille"
+        name: "Achille"
+      - key: "01-adriana"
+        name: "Adriana"
+      - key: "01-chuck"
+        name: "Chuck"
+      - key: "01-dakota"
+        name: "Dakota"
+      - key: "01-fred"
+        name: "Fred"
+      - key: "01-gary"
+        name: "Gary"
+      - key: "01-helen"
+        name: "Helen"
+      - key: "01-lea"
+        name: "Lea"
+      - key: "01-mack"
+        name: "Mack"
+      - key: "01-mike"
+        name: "Mike"
+      - key: "01-ross"
+        name: "Ross"
+      - key: "01-smith"
+        name: "Smith"
+      - key: "01-will"
+        name: "Will"
+  # https://boardgamegeek.com/boardgameexpansion/140755/zombicide-set-4-moustache-pack
+  - key: "01-02-set-04"
+    name: "S2 Set #4: Moustache Pack #1"
+    components:
+      Survivor:
+      - key: "01-don"
+        name: "Don"
+      - key: "01-frank"
+        name: "Frank"
+      - key: "01-rob"
+        name: "Rob"
+
+- key: "01-03-s3"
+  name: "S3"
+  sets:
+  # https://boardgamegeek.com/boardgame/161866/zombicide-season-3-rue-morgue
+  - key: "01-03-rue-morgue"
+    name: "S3 Rue Morgue"
+    components:
+      Survivor:
+      - key: "01-bear"
+        name: "Bear"
+      - key: "01-cathy"
+        name: "Cathy"
+      - key: "01-dan"
+        name: "Dan"
+      - key: "01-james"
+        name: "James"
+      - key: "01-jane"
+        name: "Jane"
+      - key: "01-joe"
+        name: "Joe"
+      - key: "01-laurie"
+        name: "Laurie"
+      - key: "01-louise"
+        name: "Louise"
+      - key: "01-maddie"
+        name: "Maddie"
+      - key: "01-parker"
+        name: "Parker"
+      - key: "01-terry"
+        name: "Terry"
+      - key: "01-travis"
+        name: "Travis"
+      Mission:
+      - key: "m-00-tutorial-01-learning-to-fly"
+        name: "Tutorial #1: Learning to Fly"
+        properties:
+          difficulty: 1
+          duration: 60
+          minSurvivors: 6
+      - key: "m-00-tutorial-02-smells-like-team-spirit"
+        name: "Tutorial #2: Smells Like Team Spirit"
+        properties:
+          difficulty: 1
+          duration: 60
+          minSurvivors: 6
+      - key: "m-01-gas-run"
+        name: "01 Gas Run"
+        properties:
+          difficulty: 1
+          duration: 60
+          minSurvivors: 6
+      - key: "m-02-no-way-out"
+        name: "02 No Way Out"
+        properties:
+          difficulty: 1
+          duration: 90
+          minSurvivors: 6
+      - key: "m-03-the-price-of-progress"
+        name: "03 The Price of Progress"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-04-breadcrumbs"
+        name: "04 Breadcrumbs"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-05-the-makeshift-laboratory"
+        name: "05 The Makeshift Laboratory"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-06-the-mortuary"
+        name: "06 The Mortuary"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-07-the-farm"
+        name: "07 The Farm"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-08-seven-veils-death"
+        name: "08 Seven Veils' Death"
+        properties:
+          difficulty: 3
+          duration: 150
+          minSurvivors: 6
+      - key: "m-09-nosocomephobia"
+        name: "09 Nosocomephobia"
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
+      - key: "m-10-a-world-in-flames"
+        name: "10 A World in Flames"
+        properties:
+          difficulty: 3
+          duration: 90
+          minSurvivors: 6
+      Competitive:
+      - key: "c-11-hunger-of-the-wolves"
+        name: "11 Hunger of the Wolves"
+      - key: "c-12-silent-as-the-grave"
+        name: "12 Silent as the Grave"
+  # https://boardgamegeek.com/boardgameexpansion/161920/zombicide-angry-neighbors
+  - key: "01-03-angry-neighbors"
+    name: "S3 Angry Neighbors"
+    components:
+      Survivor:
+      - key: "01-adam"
+        name: "Adam"
+      - key: "01-jeff"
+        name: "Jeff"
+      - key: "01-julien"
+        name: "Julien"
+      - key: "01-tiff"
+        name: "Tiff"
+      Mission:
+      - key: "m-01-with-a-little-help"
+        name: "01 With a Little Help"
+        properties:
+          difficulty: 2
+          duration: 120
+          minSurvivors: 6
+          maxSurvivors: 8
+      - key: "m-02-the-siege"
+        name: "02 The Siege"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-03-a-dramatic-rescue"
+        name: "03 A Dramatic Rescue"
+        properties:
+          difficulty: 1
+          duration: 90
+          minSurvivors: 6
+      - key: "m-04-ghosts-on-birch-street"
+        name: "04 Ghosts on Birch Street"
+        properties:
+          difficulty: 2
+          duration: 120
+          minSurvivors: 6
+      - key: "m-05-construction-permit"
+        name: "05 Construction Permit"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-06-the-mechanics"
+        name: "06 The Mechanics"
+        properties:
+          difficulty: 2
+          duration: 120
+          minSurvivors: 6
+      - key: "m-07-the-lighthouse"
+        name: "07 The Lighthouse"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-08-raid-on-the-nest"
+        name: "08 Raid on the Nest"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-09-flash-flood"
+        name: "09 Flash Flood"
+        properties:
+          difficulty: 1
+          duration: 90
+          minSurvivors: 6
+      - key: "m-10-east-yates-asylum"
+        name: "10 East Yates Asylum"
+        properties:
+          difficulty: 3
+          duration: 150
+          minSurvivors: 6
+          maxSurvivors: 8
+      - key: "m-11-the-cleaners"
+        name: "11 The Cleaners"
+        properties:
+          difficulty: 1
+          duration: 90
+          minSurvivors: 10
+          maxSurvivors: 10
+      - key: "m-12-place-your-baits"
+        name: "12 Place Your Baits"
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-13-the-parker-experience"
+        name: "13 The Parker Experience"
+        properties:
+          difficulty: 3
+          duration: 120
+          minSurvivors: 6
+      - key: "m-14-camp-nightmare"
+        name: "14 Camp Nightmare"
+        properties:
+          difficulty: 3
+          duration: 150
+          minSurvivors: 6
+      - key: "m-15-neds-key"
+        name: "15 Ned's Key"
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
+  - key: "01-03-promo"
+    name: "S3 Promo (KSE)"
+    components:
+      Survivor:
+      - key: "01-audrey"
+        name: "Audrey"
+      - key: "01-bastian"
+        name: "Bastian"
+      - key: "01-benny"
+        name: "Benny"
+      - key: "01-cat"
+        name: "Cat"
+      - key: "01-curro"
+        name: "Curro"
+      - key: "01-dick"
+        name: "Dick"
+      - key: "01-doc"
+        name: "Doc"
+      - key: "01-jesse"
+        name: "Jesse"
+      - key: "01-kabir"
+        name: "Kabir"
+      - key: "01-kris"
+        name: "Kris"
+      - key: "01-leroy"
+        name: "Leroy"
+      - key: "01-lucius"
+        name: "Lucius"
+      - key: "01-miss-trish"
+        name: "Miss Trish"
+      - key: "01-nikki"
+        name: "Nikki"
+      - key: "01-oksana"
+        name: "Oksana"
+      - key: "01-patrick"
+        name: "Patrick"
+      - key: "01-paul"
+        name: "Paul"
+      - key: "01-seth"
+        name: "Seth"
+      - key: "01-spencer"
+        name: "Spencer"
+      - key: "01-yuri"
+        name: "Yuri"
+  - key: "01-03-zombie-dogz"
+    name: "Box of zombies #5: Zombie Dogz"
+  - key: "01-03-dog-companions"
+    name: "Box of dogs #6: Dog Companions"
+
+- key: "01-xx-guest"
+  name: "Special guest boxes"
+  sets:
+  # https://boardgamegeek.com/boardgameexpansion/140605/zombicide-special-guest-box-adrian-smith
+  - key: "01-xx-guest-adrian-smith"
+    name: "Special guest box: Adrian Smith"
+    components:
+      Survivor:
+      - key: "01-bones"
+        name: "Bones"
+      - key: "01-padre-johnson"
+        name: "Padre Johnson"
+  # https://boardgamegeek.com/boardgameexpansion/162564/zombicide-special-guest-box-edouard-guiton
+  - key: "01-xx-guest-edouard-guiton"
+    name: "Special guest box: Edouard Guiton"
+    components:
+      Survivor:
+      - key: "01-doud"
+        name: "Doud"
+      - key: "01-tomiko"
+        name: "Tomiko"
+  # https://boardgamegeek.com/boardgameexpansion/163032/zombicide-special-guest-box-john-kovalic
+  - key: "01-xx-guest-john-kovalic"
+    name: "Special guest box: John Kovalic"
+    components:
+      Survivor:
+      - key: "01-carson"
+        name: "Carson"
+      - key: "01-gilly"
+        name: "Gilly"
+      - key: "01-igor"
+        name: "Igor"
+      - key: "01-matt"
+        name: "Matt"
+  # https://boardgamegeek.com/boardgameexpansion/140606/zombicide-special-guest-box-karl-kopinski
+  - key: "01-xx-guest-karl-kopinski"
+    name: "Special guest box: Karl Kopinski"
+    components:
+      Survivor:
+      - key: "01-angry-mary"
+        name: "Angry Mary"
+      - key: "01-redcap-ben"
+        name: "\"Redcap\" Ben"
+  # https://boardgamegeek.com/boardgameexpansion/140604/zombicide-special-guest-box-kevin-walker
+  - key: "01-xx-guest-kevin-walker"
+    name: "Special guest box: Kevin Walker"
+    components:
+      Survivor:
+      - key: "01-mitch"
+        name: "Mitch"
+      - key: "01-oncle-honk"
+        name: "Oncle Honk"
+  # https://boardgamegeek.com/boardgameexpansion/162729/zombicide-special-guest-box-lucio-parrillo
+  - key: "01-xx-guest-lucio-parrillo"
+    name: "Special guest box: Lucio Parrillo"
+    components:
+      Survivor:
+      - key: "01-donna"
+        name: "Donna"
+      - key: "01-brother-max"
+        name: "Brother Max"
+  # https://boardgamegeek.com/boardgameexpansion/161848/zombicide-special-guest-box-miguel-coimbra
+  - key: "01-xx-guest-miguel-coimbra"
+    name: "Special guest box: Miguel Coimbra"
+    components:
+      Survivor:
+      - key: "01-kevin"
+        name: "Kevin"
+      - key: "01-peach"
+        name: "Peach"
+  # https://boardgamegeek.com/boardgameexpansion/147258/zombicide-special-guest-box-paolo-parente
+  - key: "01-xx-guest-paolo-parente"
+    name: "Special guest box: Paolo Parente"
+    components:
+      Survivor:
+      - key: "01-dylan"
+        name: "Dylan"
+      - key: "01-maki"
+        name: "Maki"
+
+- key: "01-xx-gaming-night-kit"
+  name: "Gaming Night Kits"
+  sets:
+  # https://boardgamegeek.com/boardgameexpansion/151067/zombicide-gaming-night-1-cars-food-or-guns
+  - key: "01-xx-gaming-night-kit-01"
+    name: "Gaming Night Kit #1: Cars, Food or Guns"
+    components:
+      Survivor:
+      - key: "01-kyoko"
+        name: "Kyoko"
+  # https://boardgamegeek.com/boardgameexpansion/153977/zombicide-gaming-night-2-black-friday
+  - key: "01-xx-gaming-night-kit-02"
+    name: "Gaming Night Kit #2: Black Friday"
+    components:
+      Survivor:
+      - key: "01-thiago"
+        name: "Thiago"
+  # https://boardgamegeek.com/boardgameexpansion/153978/zombicide-gaming-night-3-zombie-trap
+  - key: "01-xx-gaming-night-kit-03"
+    name: "Gaming Night Kit #3: Zombie Trap"
+    components:
+      Survivor:
+      - key: "01-bill"
+        name: "Bill"
+  # https://boardgamegeek.com/boardgameexpansion/164625/zombicide-gaming-night-4-tric-and-trac
+  # https://boardgamegeek.com/boardgameexpansion/148340/zombicide-survivor-mr-phal
+  - key: "01-xx-gaming-night-kit-04"
+    name: "Gaming Night Kit #4: Tric & Trac"
+    components:
+      Survivor:
+      - key: "01-mphal"
+        name: "M. Phal"
+  # https://boardgamegeek.com/boardgame/193720/zombicide-gaming-night-5-bluehand-protocol
+  - key: "01-xx-gaming-night-kit-05"
+    name: "Gaming Night Kit #5: Bluehand Protocol"
+    components:
+      Survivor:
+      - key: "01-azaghal"
+        name: "Azaghal"
+      - key: "01-jovem-nerd"
+        name: "Jovem Nerd"
+
+- key: "01-xx-tmnt"
+  name: "TMNT Pack"
+  sets:
+  # https://boardgamegeek.com/boardgameexpansion/284048/zombicide-teenage-mutant-ninja-turtles-pack-1
+  - key: "01-xx-tmnt-01"
+    name: "TMNT Pack #1"
+    components:
+      Survivor:
+      - key: "01-donatello"
+        name: "Donatello"
+      - key: "01-leonardo"
+        name: "Leonardo"
+      - key: "01-shredder"
+        name: "Shredder"
+      - key: "01-krang"
+        name: "Krang"
+  # https://boardgamegeek.com/boardgameexpansion/284049/zombicide-teenage-mutant-ninja-turtles-pack-2
+  - key: "01-xx-tmnt-02"
+    name: "TMNT Pack #2"
+    components:
+      Survivor:
+      - key: "01-michelangelo"
+        name: "Michelangelo"
+      - key: "01-raphael"
+        name: "Raphael"
+      - key: "01-bebop"
+        name: "Bebop"
+      - key: "01-rocksteady"
+        name: "Rocksteady"
+
+- key: "01-xx-ghostbusters"
+  name: "Ghostbusters Pack"
+  sets:
+  # https://boardgamegeek.com/boardgameexpansion/348484/zombicide-ghostbusters-pack-1
+  - key: "01-xx-ghostbusters-01"
+    name: "Ghostbusters Pack #1"
+    components:
+      Survivor:
+      - key: "01-peter"
+        name: "Peter"
+      - key: "01-winston"
+        name: "Winston"
+  # https://boardgamegeek.com/boardgameexpansion/348485/zombicide-ghostbusters-pack-2
+  - key: "01-xx-ghostbusters-02"
+    name: "Ghostbusters Pack #2"
+    components:
+      Survivor:
+      - key: "01-ray"
+        name: "Ray"
+      - key: "01-egon"
+        name: "Egon"
+
+# https://boardgamegeek.com/boardgameexpansion/147631/zombicide-survivor-union-worker-42-aka-charles
+# https://boardgamegeek.com/boardgame/147630/zombicide-survivor-alyana-heska-aka-elena
+- key: "01-xx-wrath-of-kings"
+  name: "Wrath of Kings"
+  components:
+    Survivor:
+    - key: "01-alyana-heska"
+      name: "Alyana Heska"
+    - key: "01-union-worker"
+      name: "Union Worker #42"
+
+# https://boardgamegeek.com/boardgameexpansion/311258/zombicide-survivor-cmon-comics-vol-1-extras
+- key: "01-xx-cmon-comics-01"
+  name: "CMON Comics Vol. 1"
+  components:
+    Survivor:
+    - key: "01-diana"
+      name: "Diana"
+    - key: "01-harlock"
+      name: "Harlock"
+    - key: "01-hobo"
+      name: "Hobo"
+    - key: "01-jen"
+      name: "Jen"
+    - key: "01-julio"
+      name: "Julio"
+    - key: "01-keiko"
+      name: "Keiko"
+    - key: "01-marion"
+      name: "Marion"
+    - key: "01-norman"
+      name: "Norman"
+
+# https://www.zombicide.com/classic-missions/
+- key: "01-xx-free-missions"
+  name: "Classic Free Missions"
+  components:
+    Mission:
+    - key: "m-a01-lost"
+      name: "A01 Lost"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 1
+        duration: 120
+        minSurvivors: 4
+    - key: "m-a02-roundabout"
+      name: "A02 Roundabout"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 1
+        duration: 90
+        minSurvivors: 4
+    - key: "m-a03-wandas-revenge"
+      name: "A03 Wanda's Revenge"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 4
+    - key: "m-a04-dougs-dream"
+      name: "A04 Doug's Dream"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
+    - key: "m-a05-phils-birthday"
+      name: "A05 Phil's Birthday"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 150
+        minSurvivors: 6
+    - key: "m-a06-trick-or-threat"
+      name: "A06 Trick or T(h)reat"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 6
+    - key: "m-a07-house-cleaning"
+      name: "A07 House Cleaning"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 1
+        duration: 45
+        minSurvivors: 4
+    - key: "m-c01-appartment-assault"
+      name: "C01 Appartment Assault"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+    - key: "m-c02-under-siege"
+      name: "C02 Under Siege"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c03-car-wash"
+      name: "C03 Car Wash"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "m-c04-save-the-cheerleader"
+      name: "C04 Save the Cheerleader"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c05-rescuing-samantha"
+      name: "C05 Rescuing Samantha"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c06-shortcut"
+      name: "C06 Shortcut"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c07-300"
+      name: "C07 300"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c08-belly-of-the-beast"
+      name: "C08 Belly of the Beast"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c09-gauntlet-extraction"
+      name: "C09 Gauntlet / Extraction"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 150
+        minSurvivors: 4
+    - key: "m-c10-moving-on"
+      name: "C10 Moving On"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c11-flooded-with-zombies"
+      name: "C11 Flooded with Zombies"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c12-axes-alleys"
+      name: "C12 Axes & Alleys"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 4
+    - key: "m-c13-sanctuary"
+      name: "C13 Sanctuary"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c14-do-you-want-fries-with-that"
+      name: "C14 Do You Want Fries With That?"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c15-road-closed"
+      name: "C15 Road Closed"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c16-the-zomvazion"
+      name: "C16 The Zomvazion"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c17-the-last-stand"
+      name: "C17 The Last Stand"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-c18-dry-run"
+      name: "C18 Dry Run"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 2
+    - key: "m-c19-a-little-set-back"
+      name: "C19 A Little Set Back"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 2
+    - key: "m-c20-the-secret-prison"
+      name: "C20 The Secret Prison"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "m-c21-lets-walk-the-block"
+      name: "C21 Let's Walk the Block"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 150
+        minSurvivors: 6
+    - key: "m-c22-tunnel-rats"
+      name: "C22 Tunnel Rats"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 2
+    - key: "m-c23-day-zero"
+      name: "C23 Day Zero"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 150
+        minSurvivors: 6
+    - key: "m-c24-want-a-mini-for-xmas"
+      name: "C24 Want a Mini for Xmas"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 2
+        duration: 180
+        minSurvivors: 6
+    - key: "m-c25-a-star-is-falling"
+      name: "C25 A Star is Falling"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 4
+    - key: "m-c26-military-base"
+      name: "C26 Military Base"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 4
+    - key: "m-c27-breaking-down"
+      name: "C27 Breaking Down"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 6
+    - key: "m-c28-king-rotbelly"
+      name: "C28 King Rotbelly"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c29-lets-see-more-c4"
+      name: "C29 Let's See More C4"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c30-zombies-at-the-door"
+      name: "C30 Zombies at the Door"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c31-zombie-factory"
+      name: "C31 Zombie Factory"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+    - key: "m-c32-run-for-it"
+      name: "C32 Run for It!"
+      needs:
+        sets: ["01-02-prison-outbreak"]
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c33-medical-mumbo-jumbo"
+      name: "C33 Medical Mumbo Jumbo"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 4
+    - key: "m-c34-storage-wars"
+      name: "C34 Storage Wars"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 4
+    - key: "m-c35-wake-up-call"
+      name: "C35 Wake-Up Call"
+      needs:
+        sets: ["01-01-zombicide"]
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c36-zombie-musical"
+      name: "C36 Zombie Musical"
+      needs:
+        sets: ["01-01-zombicide", "01-02-prison-outbreak", 01-02-toxic-city-mall"]
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c37-defend-the-mall-save-the-baby"
+      name: "C37 Defend the Mall, Save the Baby"
+      needs:
+        sets: ["01-02-toxic-city-mall"]
+      properties:
+        difficulty: 2
+        duration: 180
+        minSurvivors: 6
+    - key: "m-c38-team-tesla"
+      name: "C38 Team Tesla"
+      needs:
+        sets: ["01-02-prison-outbreak"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+    - key: "m-c39-who-let-the-dogs-out"
+      name: "C39 Who Let the Dogs Out?"
+      needs:
+        sets: ["01-02-prison-outbreak", "01-03-zombie-dogz"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c40-brotherly-love"
+      name: "C40 Brotherly Love"
+      needs:
+        sets: ["01-02-prison-outbreak"]
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 6
+    - key: "m-c41-beans-bullets-bandaids"
+      name: "C41 Beans, Bullets & Bandaids"
+      needs:
+        sets: ["01-01-zombicide","01-02-toxic-city-mall"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c42-spring-cleaning"
+      name: "C42 Spring Cleaning"
+      needs:
+        sets: ["01-02-prison-outbreak"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+    - key: "m-c43-the-great-escape"
+      name: "C43 The Great Escape"
+      needs:
+        sets: ["01-02-prison-outbreak"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c44-walk-in-the-dog-park"
+      name: "C44 Walk in the Dog Park"
+      needs:
+        sets: ["01-02-prison-outbreak", "01-03-zombie-dogz", "01-03-dog-companions"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c45-escape-from-la-sante"
+      name: "C45 Escape from La Santé"
+      needs:
+        sets: ["01-02-prison-outbreak"]
+      properties:
+        difficulty: 2
+        duration: 180
+        minSurvivors: 6
+    - key: "m-c46-subway-cleanout"
+      name: "C46 Subway Cleanout"
+      needs:
+        sets: ["01-02-prison-outbreak", "01-02-toxic-city-mall"]
+      properties:
+        difficulty: 2
+        duration: 180
+        minSurvivors: 6
+    - key: "m-c47-coup-de-grace"
+      name: "C47 Coup de Grâce"
+      needs:
+        sets: ["01-02-prison-outbreak", "01-02-toxic-city-mall"]
+      properties:
+        difficulty: 2
+        duration: 150
+        minSurvivors: 6
+    - key: "m-c48-hungry-thirsty-and-dangerous"
+      name: "C48 Hungry, Thirsty and Dangerous"
+      needs:
+        sets: ["01-02-prison-outbreak"]
+      properties:
+        difficulty: 2
+        duration: 180
+        minSurvivors: 6
+    - key: "m-c49-shopping-for-a-new-home"
+      name: "C49 Shopping for a New Home"
+      needs:
+        sets: ["01-01-zombicide", "01-02-toxic-city-mall"]
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 6
+    - key: "m-c50-hot-property"
+      name: "C50 Hot Property"
+      needs:
+        sets: ["01-02-prison-outbreak", "01-03-zombie-dogz", "01-03-dog-companions"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c51-raid-the-police-station"
+      name: "C51 Raid the Police Station"
+      needs:
+        sets:
+        - "01-01-zombicide"
+        - "01-02-prison-outbreak"
+        - "01-02-toxic-city-mall"
+        - "01-03-zombie-dogz"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
+    - key: "m-c52-skeleton-key"
+      name: "C52 Skeleton Key"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+        - "01-02-toxic-city-mall"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c53-crazy-eddie"
+      name: "C53 Crazy Eddie"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c54-raising-old-glory"
+      name: "C54 Raising Old Glory"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+        - "01-02-toxic-city-mall"
+        - "01-03-zombie-dogz"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c55-mall-district-holdout"
+      name: "C55 Mall District Holdout"
+      needs:
+        sets:
+        - "01-01-zombicide"
+        - "01-02-toxic-city-mall"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c56-smash-and-grab"
+      name: "C56 Smash and Grab"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-c57-hold-the-line"
+      name: "C57 Hold the Line"
+      needs:
+        sets:
+        - "01-01-zombicide"
+        - "01-02-prison-outbreak"
+        - "01-02-toxic-city-mall"
+      properties:
+        difficulty: 3
+        duration: 45
+        minSurvivors: 4
+    - key: "m-c58-alarming-plan"
+      name: "C58 Alarming Plan"
+      needs:
+        sets:
+        - "01-01-zombicide"
+        - "01-02-prison-outbreak"
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 4
+    - key: "m-c59-the-ka-boom-solution"
+      name: "C59 The Ka-Boom Solution"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+      properties:
+        difficulty: 4
+        duration: 180
+        minSurvivors: 4
+    - key: "m-a08-a-sea-of-tents"
+      name: "A08 A Sea of Tents"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "m-a09-a-stupid-bet"
+      name: "A09 A Stupid Bet"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-c60-ambush"
+      name: "C60 Ambush!"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 1
+        duration: 90
+        minSurvivors: 6
+    - key: "m-c61-take-the-hospital"
+      name: "C61 Take the Hospital"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 6
+    - key: "m-c62-turn-off-those-lights"
+      name: "C62 Turn Off Those Lights!"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 1
+        duration: 90
+        minSurvivors: 6
+    - key: "m-c63-the-tatoo"
+      name: "C63 The Tatoo"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "m-c64-three-kings"
+      name: "C64 Three Kings"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 6
+    - key: "m-c65-between-the-hammer-and-the-anvil"
+      name: "C65 Between the Hammer and the Anvil"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 4
+    - key: "m-a27-the-red-caps-lair"
+      name: "A27 The Red Cap's Lair"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+        - "01-03-angry-neighbors"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 4
+    - key: "m-a28-the-vault-of-hell"
+      name: "A28 The Vault of Hell"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 4
+    - key: "m-a29-a-game-called-survival"
+      name: "A29 A Game Called Survival"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 4
+    - key: "m-a30-zombie-burger"
+      name: "A30 Zombie Burger"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 180
+        minSurvivors: 6
+    - key: "m-a31-just-a-nightmare"
+      name: "A31 Just a Nightmare"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+      properties:
+        difficulty: 3
+        duration: 150
+        minSurvivors: 6
+    - key: "m-a32-go-to-bed"
+      name: "A32 Go to Bed"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 3
+        duration: 150
+        minSurvivors: 6
+    - key: "m-a33-drive-by-bombing"
+      name: "A33 Drive by Bombing"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 4
+        duration: 45
+        minSurvivors: 6
+    - key: "m-a34-zombicide-101"
+      name: "A34 Zombicide 101"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 4
+    - key: "m-a35-when-santa-came-to-town"
+      name: "A35 When Santa Came to Town"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a37-zombie-mutation"
+      name: "A37 Zombie Mutation"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 3
+    - key: "m-a38-get-off-my-lawn"
+      name: "A38 Get Off My Lawn"
+      needs:
+        sets:
+        - "01-01-zombicide"
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 6
+    - key: "m-a39-dude-wheres-our-keys"
+      name: "A39 Dude, Where's Our Keys?"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a40-infested-tents"
+      name: "A40 Infested Tents"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a41-loot-and-rescue"
+      name: "A41 Loot and Rescue"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 6
+    - key: "m-a42-a-strange-call"
+      name: "A42 A Strange Call"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a43-a-survivor-of-his-world"
+      name: "A43 A Survivor of His World"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-a44-time-to-hit-the-road"
+      name: "A44 Time to Hit the Road"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 4
+        duration: 45
+        minSurvivors: 6
+    - key: "m-a45-the-wild-ride"
+      name: "A45 The Wild Ride"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a46-on-the-fly"
+      name: "A46 On the Fly"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a47-christmas-lights"
+      name: "A47 Christmas Lights"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a48-trick-or-threat"
+      name: "A48 Trick or Threat"
+      needs:
+        sets:
+        - "01-01-zombicide"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a49-the-taxi-driver"
+      name: "A49 The Taxi Driver"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a50-a-little-help-from-my-friends"
+      name: "A50 A Little Help from My Friends"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-a51-not-just-a-scratch"
+      name: "A51 Not Just a Scratch"
+      needs:
+        sets:
+        - "01-02-prison-outbreak"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-a52-worst-case-scenario"
+      name: "A52 Worst Case Scenario"
+      needs:
+        sets:
+        - "01-02-toxic-city-mall"
+        - "01-03-rue-morgue"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
+    Competitive:
+    - key: "m-a36-this-is-our-ground"
+      name: "A36 This is Our Ground"
+      needs:
+        sets:
+        - "01-03-rue-morgue"
