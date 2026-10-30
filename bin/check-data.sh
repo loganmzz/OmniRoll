@@ -22,7 +22,7 @@ function main.run() {
     schema.validate_json 'game.json' "${app_data}/${game_key}.yaml" || return $?
   done
 
-  for set_file in $(cd "${app_data}" && find -mindepth 2 -type f | sort); do
+  for set_file in $(cd "${app_data}" && find -mindepth 2 -type f \( -name '*.yaml' -o -name '*.yml' -o -name '*.json' \) | sort); do
     echo
     echo "- Checking OmniRoll set file '${set_file#*/}'"
     schema.validate_json 'set.json' "${app_data}/${set_file}" || return $?

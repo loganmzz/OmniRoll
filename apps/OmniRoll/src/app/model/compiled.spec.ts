@@ -1,19 +1,175 @@
 import {
   CompiledComponent,
   CompiledGame,
+  ComponentCompilation,
+  ComponentSetCompilation,
+  GameCompilation,
 } from './compiled';
-import { ReferentialGame } from './referential';
+import {
+  ReferentialComponent,
+  ReferentialGame,
+  ReferentialSet,
+} from './referential';
 
 describe('model/compiled', () => {
+  describe('component', () => {
+    test('default', () => {
+      const input: ReferentialComponent = {
+        key: 'default',
+        name: 'Default',
+      };
+
+      const expected: ComponentCompilation = {
+        content: new CompiledComponent(),
+        needs: undefined,
+      };
+      expected.content.key = 'default';
+      expected.content.name = 'Default';
+      expected.content.kinds.add('One');
+      expect(CompiledComponent.newFromDataModel({sets: new Set(), features: new Set()}, 'One', input).expect()).toStrictEqual(expected);
+    });
+  });
+
+  describe('component.set', () => {
+    test('single', () => {
+      const input: ReferentialSet = {
+        key: 'single',
+        components: {
+          One: [
+            {
+              key: 'a1',
+            },
+            {
+              key: 'a2',
+            },
+          ],
+        },
+      };
+
+      const expected: ComponentSetCompilation = {
+        content: [
+          (() => {
+            const component = new CompiledComponent();
+            component.key = 'a1';
+            component.name = 'a1';
+            component.kinds.add('One');
+            component.sets.add('single');
+            return component;
+          })(),
+          (() => {
+            const component = new CompiledComponent();
+            component.key = 'a2';
+            component.name = 'a2';
+            component.kinds.add('One');
+            component.sets.add('single');
+            return component;
+          })(),
+        ],
+        conditionals: {
+          components: [],
+        },
+      };
+
+      expect(CompiledComponent.newFromDataModelSet({sets: new Set(), features: new Set()}, input).expect()).toStrictEqual(expected);
+    });
+
+    test('nested', () => {
+      const input: ReferentialSet = {
+        key: 'root',
+        sets: [
+          {
+            key: 'a',
+            components: {
+              One: [
+                {
+                  key: 'a1',
+                },
+                {
+                  key: 'a2',
+                },
+              ],
+            }
+          },
+
+          {
+            key: 'b',
+            components: {
+              One: [
+                {
+                  key: 'b1',
+                },
+                {
+                  key: 'b2',
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      const expected: ComponentSetCompilation = {
+        content: [
+          (() => {
+            const component = new CompiledComponent();
+            component.key = 'a1';
+            component.name = 'a1';
+            component.kinds.add('One');
+            component.sets.add('root');
+            component.sets.add('a');
+            return component;
+          })(),
+          (() => {
+            const component = new CompiledComponent();
+            component.key = 'a2';
+            component.name = 'a2';
+            component.kinds.add('One');
+            component.sets.add('root');
+            component.sets.add('a');
+            return component;
+          })(),
+          (() => {
+            const component = new CompiledComponent();
+            component.key = 'b1';
+            component.name = 'b1';
+            component.kinds.add('One');
+            component.sets.add('root');
+            component.sets.add('b');
+            return component;
+          })(),
+          (() => {
+            const component = new CompiledComponent();
+            component.key = 'b2';
+            component.name = 'b2';
+            component.kinds.add('One');
+            component.sets.add('root');
+            component.sets.add('b');
+            return component;
+          })(),
+        ],
+        conditionals: {
+          components: [],
+        },
+      };
+
+      expect(CompiledComponent.newFromDataModelSet({sets: new Set(), features: new Set()}, input).expect()).toStrictEqual(expected);
+    })
+  });
+
   describe('game', () => {
     test('empty', () => {
       const input: ReferentialGame = {
         key: 'empty',
       };
 
-      const expected = new CompiledGame();
-      expected.key = 'empty';
-      expected.name = 'empty';
+      const expected: GameCompilation = {
+        content: new CompiledGame(),
+        conditionals: {
+          components: [],
+          randomizers: [],
+        },
+      };
+      expected.content.key = 'empty';
+      expected.content.name = 'empty';
 
       expect(CompiledGame.newFromDataModel(input).expect()).toStrictEqual(expected);
     });
@@ -74,12 +230,18 @@ describe('model/compiled', () => {
         ],
       };
 
-      const expected = new CompiledGame();
-      expected.key = 'component';
-      expected.name = 'Component';
-      expected.features.add('set:core');
-      expected.features.add('component:one');
-      expected.components.push((() => {
+      const expected: GameCompilation = {
+        content: new CompiledGame(),
+        conditionals: {
+          components: [],
+          randomizers: [],
+        },
+      };
+      expected.content.key = 'component';
+      expected.content.name = 'Component';
+      expected.content.features.add('set:core');
+      expected.content.features.add('component:one');
+      expected.content.components.push((() => {
         const component = new CompiledComponent();
         component.key = 'one';
         component.name = 'Neo';
@@ -91,7 +253,7 @@ describe('model/compiled', () => {
         component['answer'] = 42;
         return component;
       })());
-      expected.components.push((() => {
+      expected.content.components.push((() => {
         const component = new CompiledComponent();
         component.key = 'two';
         component.name = 'Owt';
@@ -102,7 +264,7 @@ describe('model/compiled', () => {
         component['answer'] = 64;
         return component;
       })());
-      expected.components.push((() => {
+      expected.content.components.push((() => {
         const component = new CompiledComponent();
         component.key = 'another';
         component.name = 'Hornet';
@@ -112,6 +274,413 @@ describe('model/compiled', () => {
       })());
 
       expect(CompiledGame.newFromDataModel(input).expect()).toStrictEqual(expected);
+    });
+
+    describe('selection', () => {
+      test('basic', () => {
+        const input: ReferentialGame = {
+          key: 'selection',
+
+          sets: [
+            {
+              key: 's1',
+              sets: [
+                {
+                  key: 's1-1',
+                  components: {
+                    One: [
+                      {
+                        key: 's1-1-a',
+                      },
+                    ],
+                  },
+                },
+                {
+                  key: 's1-2',
+                  components: {
+                    One: [
+                      {
+                        key: 's1-2-a',
+                      },
+                      {
+                        key: 's1-2-b',
+                        needs: {
+                          sets: ['s1-1'],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  key: 's1-3',
+                  components: {
+                    One: [
+                      {
+                        key: 's1-3-a',
+                        needs: {
+                          sets: ['s1-2'],
+                        }
+                      },
+                    ],
+                  }
+                }
+              ],
+            },
+            {
+              key: 's2',
+              sets: [
+                {
+                  key: 's2-1',
+                  components: {
+                    One: [
+                      {
+                        key: 's2-1-a',
+                      },
+                    ],
+                  },
+                },
+                {
+                  key: 's2-2',
+                  components: {
+                    One: [
+                      {
+                        key: 's2-2-a',
+                      },
+                      {
+                        key: 's2-2-b',
+                        needs: {
+                          sets: ['s1-1'],
+                        },
+                      },
+                      {
+                        key: 's2-2-c',
+                        needs: {
+                          sets: ['s2-1'],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+            {
+              key: 'promo',
+              components: {
+                One: [
+                  {
+                    key: 'promo-a',
+                    needs: {
+                      sets: ['s1-3'],
+                    }
+                  },
+                ],
+              }
+            }
+          ],
+        };
+
+        const { content: game, conditionals } = CompiledGame.newFromDataModel(input).expect();
+        expect(game).toStrictEqual((() => {
+          const compiled = new CompiledGame();
+          compiled.key = 'selection';
+          compiled.name = 'selection';
+
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's1-1-a';
+            component.name = 's1-1-a';
+            component.kinds.add('One');
+            component.sets.add('s1');
+            component.sets.add('s1-1');
+            return component;
+          })());
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's1-2-a';
+            component.name = 's1-2-a';
+            component.kinds.add('One');
+            component.sets.add('s1');
+            component.sets.add('s1-2');
+            return component;
+          })());
+
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's2-1-a';
+            component.name = 's2-1-a';
+            component.kinds.add('One');
+            component.sets.add('s2');
+            component.sets.add('s2-1');
+            return component;
+          })());
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's2-2-a';
+            component.name = 's2-2-a';
+            component.kinds.add('One');
+            component.sets.add('s2');
+            component.sets.add('s2-2');
+            return component;
+          })());
+
+          return compiled;
+        })());
+
+        game.applySelection(
+          new Set([
+            's1',
+            'promo',
+          ]),
+          conditionals.components,
+          conditionals.randomizers,
+        );
+        expect(game).toStrictEqual((() => {
+          const compiled = new CompiledGame();
+          compiled.key = 'selection';
+          compiled.name = 'selection';
+
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's1-1-a';
+            component.name = 's1-1-a';
+            component.kinds.add('One');
+            component.sets.add('s1');
+            component.sets.add('s1-1');
+            return component;
+          })());
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's1-2-a';
+            component.name = 's1-2-a';
+            component.kinds.add('One');
+            component.sets.add('s1');
+            component.sets.add('s1-2');
+            return component;
+          })());
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's1-2-b';
+            component.name = 's1-2-b';
+            component.kinds.add('One');
+            component.sets.add('s1');
+            component.sets.add('s1-2');
+            return component;
+          })());
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's1-3-a';
+            component.name = 's1-3-a';
+            component.kinds.add('One');
+            component.sets.add('s1');
+            component.sets.add('s1-3');
+            return component;
+          })());
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 'promo-a';
+            component.name = 'promo-a';
+            component.kinds.add('One');
+            component.sets.add('promo');
+            return component;
+          })());
+
+          return compiled;
+        })());
+      });
+
+      test('no-promo', () => {
+        const input: ReferentialGame = {
+          key: 'selection',
+
+          sets: [
+            {
+              key: 's1',
+              sets: [
+                {
+                  key: 's1-1',
+                  components: {
+                    One: [
+                      {
+                        key: 's1-1-a',
+                      },
+                    ],
+                  },
+                },
+                {
+                  key: 's1-2',
+                  components: {
+                    One: [
+                      {
+                        key: 's1-2-a',
+                      },
+                      {
+                        key: 's1-2-b',
+                        needs: {
+                          sets: ['s1-1'],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  key: 's1-3',
+                  components: {
+                    One: [
+                      {
+                        key: 's1-3-a',
+                        needs: {
+                          sets: ['s2-1'],
+                        }
+                      },
+                    ],
+                  }
+                }
+              ],
+            },
+            {
+              key: 's2',
+              sets: [
+                {
+                  key: 's2-1',
+                  components: {
+                    One: [
+                      {
+                        key: 's2-1-a',
+                      },
+                    ],
+                  },
+                },
+                {
+                  key: 's2-2',
+                  components: {
+                    One: [
+                      {
+                        key: 's2-2-a',
+                      },
+                      {
+                        key: 's2-2-b',
+                        needs: {
+                          sets: ['s1-1'],
+                        },
+                      },
+                      {
+                        key: 's2-2-c',
+                        needs: {
+                          sets: ['s2-1'],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+            {
+              key: 'promo',
+              components: {
+                One: [
+                  {
+                    key: 'promo-a',
+                    needs: {
+                      sets: ['s1-3'],
+                    }
+                  },
+                ],
+              }
+            }
+          ],
+        };
+
+        const { content: game, conditionals } = CompiledGame.newFromDataModel(input).expect();
+        expect(game).toStrictEqual((() => {
+          const compiled = new CompiledGame();
+          compiled.key = 'selection';
+          compiled.name = 'selection';
+
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's1-1-a';
+            component.name = 's1-1-a';
+            component.kinds.add('One');
+            component.sets.add('s1');
+            component.sets.add('s1-1');
+            return component;
+          })());
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's1-2-a';
+            component.name = 's1-2-a';
+            component.kinds.add('One');
+            component.sets.add('s1');
+            component.sets.add('s1-2');
+            return component;
+          })());
+
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's2-1-a';
+            component.name = 's2-1-a';
+            component.kinds.add('One');
+            component.sets.add('s2');
+            component.sets.add('s2-1');
+            return component;
+          })());
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's2-2-a';
+            component.name = 's2-2-a';
+            component.kinds.add('One');
+            component.sets.add('s2');
+            component.sets.add('s2-2');
+            return component;
+          })());
+
+          return compiled;
+        })());
+
+        game.applySelection(
+          new Set([
+            's1',
+            'promo',
+          ]),
+          conditionals.components,
+          conditionals.randomizers,
+        );
+        expect(game).toStrictEqual((() => {
+          const compiled = new CompiledGame();
+          compiled.key = 'selection';
+          compiled.name = 'selection';
+
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's1-1-a';
+            component.name = 's1-1-a';
+            component.kinds.add('One');
+            component.sets.add('s1');
+            component.sets.add('s1-1');
+            return component;
+          })());
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's1-2-a';
+            component.name = 's1-2-a';
+            component.kinds.add('One');
+            component.sets.add('s1');
+            component.sets.add('s1-2');
+            return component;
+          })());
+          compiled.components.push((() => {
+            const component = new CompiledComponent();
+            component.key = 's1-2-b';
+            component.name = 's1-2-b';
+            component.kinds.add('One');
+            component.sets.add('s1');
+            component.sets.add('s1-2');
+            return component;
+          })());
+
+          return compiled;
+        })());
+      });
     });
 
     test.each(

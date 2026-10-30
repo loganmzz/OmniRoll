@@ -11,6 +11,7 @@ import {
 import {
   KeyPattern,
   ReferentialComponent,
+  ReferentialConditional,
   ReferentialGame,
   ReferentialRandomizer,
   ReferentialRandomizerGroup,
@@ -21,6 +22,35 @@ import {
   ReferentialRandomizerVariableInteger,
   ReferentialSet,
 } from './referential';
+
+export interface CompiledCondition {
+  sets: Set<string>;
+  features: Set<string>;
+}
+export interface CompiledConditional<T> {
+  content: T;
+  needs?: CompiledCondition;
+}
+export type CompiledConditionals<T> = {
+  [K in keyof T]: CompiledConditional<T[K]>[];
+};
+export interface Compilation<T, C> {
+  content: T;
+  conditionals: CompiledConditionals<C>;
+}
+export type CompilationResult<T> = Result<T, DataErrors>;
+
+export type GameCompilation = Compilation<CompiledGame, {components: CompiledComponent, randomizers: CompiledRandomizer}>;
+export type GameCompilationResult = CompilationResult<GameCompilation>;
+
+export type ComponentCompilation = CompiledConditional<CompiledComponent>;
+export type ComponentCompilationResult = CompilationResult<ComponentCompilation>;
+
+export type ComponentSetCompilation = Compilation<CompiledComponent[], {components: CompiledComponent}>;
+export type ComponentSetCompilationResult = CompilationResult<ComponentSetCompilation>;
+
+export type RandomizerCompilation = CompiledConditional<CompiledRandomizer>;
+export type RandomizerCompilationResult = CompilationResult<RandomizerCompilation>;
 
 interface CompiledElement {
   key: string;
@@ -48,13 +78,21 @@ export class CompiledGame implements CompiledElement {
   components: CompiledComponent[] = [];
   randomizers: CompiledRandomizer[] = [];
 
-  static newFromDataModel(spec: ReferentialGame, location: DataLocation = new DataLocation()): Result<CompiledGame, DataErrors> {
+  static newFromDataModel(spec: ReferentialGame, location: DataLocation = new DataLocation()): GameCompilationResult {
     const errors: DataErrors = new DataErrors();
     const components = new CompiledRegistry<CompiledComponent>('Component');
     const sets = new CompiledRegistry<CompiledSet>('Set');
     const randomizers = new CompiledRegistry<CompiledRandomizer>('Randomizer');
 
+
     const compiled = new CompiledGame();
+    const compilation: GameCompilation = {
+      content: compiled,
+      conditionals: {
+        components: [],
+        randomizers: [],
+      },
+    };
     if (!KeyPattern.test(spec.key)) {
       errors.addError(new DataError(location.child('key'), `Game key ${JSON.stringify(spec.key)} is invalid`));
     }
@@ -72,9 +110,18 @@ export class CompiledGame implements CompiledElement {
           errors.addError(setRegistryResult.err);
         }
       }
-      const componentsResult = CompiledComponent.fillFromDataModel(compiled, new Set(), new Set(), specSet, {sets, components}, setLocation);
+      const componentsResult = CompiledComponent.newFromDataModelSet({sets: new Set(), features: new Set()}, specSet, {sets, components}, setLocation);
       if (componentsResult.err !== undefined) {
         errors.addErrors(componentsResult.err);
+      }
+      if (componentsResult.ok !== undefined) {
+        compiled.components.push(...componentsResult.ok.content);
+        compilation.conditionals.components.push(...componentsResult.ok.conditionals.components);
+      }
+    }
+    for (const component of compiled.components) {
+      for (const feature of component.features) {
+        compiled.features.add(feature);
       }
     }
     for (const [randomizerIndex, specRandomizer] of (spec.randomizers ?? []).entries()) {
@@ -84,15 +131,74 @@ export class CompiledGame implements CompiledElement {
         errors.addErrors(result.err);
       }
       if (result.ok !== undefined) {
-        const addResult = randomizers.add(result.ok, randomizerLocation);
+        const compiled = result.ok;
+        const addResult = randomizers.add(compiled.content, randomizerLocation);
         if (addResult.err !== undefined) {
           errors.addError(addResult.err);
         }
-        compiled.randomizers.push(result.ok);
+        if (result.ok.needs === undefined) {
+          compilation.content.randomizers.push(compiled.content);
+        } else {
+          compilation.conditionals.randomizers.push(compiled);
+        }
       }
     }
 
-    return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
+    return errors.length === 0 ? Result.ok(compilation) : Result.err(errors, compilation);
+  }
+
+  applySelection(sets: Set<string>, components: CompiledConditional<CompiledComponent>[], randomizers: CompiledConditional<CompiledRandomizer>[]): void {
+    this.components = this.components.filter(c => !c.sets.isDisjointFrom(sets));
+
+    const computeSets = (): Set<string> => this.components.reduce((sets, comp) => {
+      for (const set of comp.sets) {
+        sets.add(set);
+      }
+      return sets;
+    }, new Set<string>());
+    const computeFeatures = (): Set<string> => this.components.reduce((features, comp) => {
+      for (const feature of comp.features) {
+        features.add(feature);
+      }
+      return features;
+    }, new Set<string>());
+
+    let previousSetSize = -1;
+    let previousFeatureSize = -1;
+    const currentSets = computeSets();
+    this.features = computeFeatures();
+    while (previousSetSize != currentSets.size || previousFeatureSize != this.features.size) {
+      previousSetSize = currentSets.size;
+      previousFeatureSize = this.features.size;
+
+      components = components.filter(({content, needs}) => {
+        const add =
+          needs === undefined ||
+          !content.sets.isDisjointFrom(sets) && needs.sets.isSubsetOf(currentSets) && needs.features.isSubsetOf(this.features);
+        if (add) {
+          this.components.push(content);
+          for (const set of content.sets) {
+            currentSets.add(set);
+          }
+          for (const feature of content.features) {
+            this.features.add(feature);
+          }
+        }
+        return !add;
+      });
+      if (components.length === 0) {
+        break;
+      }
+    }
+
+    for (const {content, needs} of randomizers) {
+      const add =
+        needs === undefined ||
+        needs.sets.isSubsetOf(currentSets) && needs.features.isSubsetOf(this.features);
+      if (add) {
+        this.randomizers.push(content);
+      }
+    }
   }
 
   toJSON(): CompiledGameLike {
@@ -148,25 +254,30 @@ export class CompiledComponent implements CompiledElement {
   kinds = new Set<string>();
   [key: string]: boolean|number|string|Set<string>|((...args: unknown[]) => unknown);
 
-  static fillFromDataModel({components, features: globalFeatures}: {components: CompiledComponent[], features: Set<string>}, parentSets: Set<string>, parentFeatures: Set<string>, spec: ReferentialSet, registries: {sets: CompiledRegistry<CompiledSet>, components: CompiledRegistry<CompiledComponent>}|undefined = undefined, location: DataLocation = new DataLocation()): Result<CompiledComponent[], DataErrors> {
+  static newFromDataModelSet(parents: {sets: Set<string>, features: Set<string>}, spec: ReferentialSet, registries: {sets: CompiledRegistry<CompiledSet>, components: CompiledRegistry<CompiledComponent>}|undefined = undefined, location: DataLocation = new DataLocation()): ComponentSetCompilationResult {
+    const compilation: ComponentSetCompilation = {
+      content: [],
+      conditionals: {
+        components: [],
+      },
+    };
     const errors: DataErrors = new DataErrors();
 
-    const features = new Set(parentFeatures);
+    const features = new Set(parents.features);
     for (const [index, feature] of (spec.features ?? []).entries()) {
       if (typeof feature !== 'string') {
         errors.addError(new DataError(location.index('features', index), `Feature should be a string (${JSON.stringify(feature)})`));
         continue;
       }
-      globalFeatures.add(feature);
       features.add(feature);
     }
 
-    const sets = new Set(parentSets);
+    const sets = new Set(parents.sets);
     sets.add(spec.key);
 
     for (const [setIndex, childSet] of (spec.sets ?? []).entries()) {
       const setLocation = location.index('sets', [setIndex, childSet.key]);
-      const setResult = CompiledSet.newFromDataModel(childSet);
+      const setResult = CompiledSet.newFromDataModel(childSet, setLocation);
       if (setResult.err !== undefined) {
         errors.addErrors(setResult.err);
       }
@@ -178,9 +289,13 @@ export class CompiledComponent implements CompiledElement {
           }
         }
       }
-      const result = this.fillFromDataModel({components, features: globalFeatures}, sets, features, childSet, registries, setLocation);
+      const result = this.newFromDataModelSet({sets, features}, childSet, registries, setLocation);
       if (result.err !== undefined) {
         errors.addErrors(result.err);
+      }
+      if (result.ok !== undefined) {
+        compilation.content.push(...result.ok.content);
+        compilation.conditionals.components.push(...result.ok.conditionals.components);
       }
     }
     if (spec.components !== undefined && (typeof spec.components !== 'object' || Array.isArray(spec.components))) {
@@ -191,29 +306,31 @@ export class CompiledComponent implements CompiledElement {
         const kindLocation = location.index('components', kind);
         for (const [componentIndex, specComponent] of specComponents.entries()) {
           const componentLocation = kindLocation.index('', [componentIndex, specComponent.key]);
-          const result = this.newFromDataModel(sets, features, kind, specComponent, componentLocation);
+          const result = this.newFromDataModel({sets, features}, kind, specComponent, componentLocation);
           if (result.err !== undefined) {
             errors.addErrors(result.err);
           }
           if (result.ok !== undefined) {
-            for (const feature of result.ok.features) {
-              globalFeatures.add(feature);
-            }
+            const compiled = result.ok;
             if (registries?.components !== undefined) {
-              const componentRegistryResult = registries.components.add(result.ok, componentLocation);
+              const componentRegistryResult = registries.components.add(compiled.content, componentLocation);
               if (componentRegistryResult.err !== undefined) {
                 errors.addError(componentRegistryResult.err);
               }
             }
-            components.push(result.ok);
+            if (compiled.needs === undefined) {
+              compilation.content.push(compiled.content);
+            } else {
+              compilation.conditionals.components.push(compiled);
+            }
           }
         }
       }
     }
-    return errors.length === 0 ? Result.ok(components) : Result.err(errors, components);
+    return errors.length === 0 ? Result.ok(compilation) : Result.err(errors, compilation);
   }
 
-  static newFromDataModel(parentsSets: Set<string>, parentFeatures: Set<string>, kind: string, spec: ReferentialComponent, location: DataLocation): Result<CompiledComponent, DataErrors> {
+  static newFromDataModel(parents: {sets: Set<string>, features: Set<string>}, kind: string, spec: ReferentialComponent, location: DataLocation = new DataLocation()): ComponentCompilationResult {
     const errors: DataErrors = new DataErrors();
 
     if (!KeyPattern.test(spec.key)) {
@@ -230,7 +347,7 @@ export class CompiledComponent implements CompiledElement {
 
     compiled.key = spec.key;
     compiled.name = spec.name ?? spec.key;
-    compiled.features = new Set(parentFeatures);
+    compiled.features = new Set(parents.features);
     for (const [index, feature] of (spec.features ?? []).entries()) {
       if (typeof feature !== 'string') {
         errors.addError(new DataError(location.index('features', index), `Feature should be a string (${JSON.stringify(feature)})`));
@@ -238,10 +355,10 @@ export class CompiledComponent implements CompiledElement {
       }
       compiled.features.add(feature);
     }
-    compiled.sets = new Set(parentsSets);
+    compiled.sets = new Set(parents.sets);
     compiled.kinds.add(kind);
 
-    return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
+    return compileWithNeeds(spec, compiled, location, errors);
   }
 
   toJSON(): CompiledComponentLike {
@@ -286,7 +403,7 @@ export class CompiledRandomizer implements CompiledElement {
   groups: CompiledRandomizerGroup[] = [];
   slots: CompiledRandomizerSlot[] = [];
 
-  static newFromDataModel(spec: ReferentialRandomizer, location: DataLocation = new DataLocation()): Result<CompiledRandomizer, DataErrors> {
+  static newFromDataModel(spec: ReferentialRandomizer, location: DataLocation = new DataLocation()): RandomizerCompilationResult {
     const errors: DataErrors = new DataErrors();
 
     const variables = new CompiledRegistry<CompiledRandomizerVariable>('Randomizer variable');
@@ -359,7 +476,7 @@ export class CompiledRandomizer implements CompiledElement {
         compiled.slots.push(result.ok);
       }
     }
-    return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
+    return compileWithNeeds(spec, compiled, location, errors);
   }
 
   computeSlots(variables: Record<string, CompiledRandomizerVariableType>): CompiledRandomizerSlot[] {
@@ -727,3 +844,44 @@ export interface CompiledRandomizerSlotLike {
   pick: ReferentialRandomizerPick;
   criteria?: ExpressionLike;
 }
+
+function compileWithNeeds<S extends ReferentialConditional, C>(spec: S, compiled: C, location: DataLocation, errors: DataErrors): CompilationResult<CompiledConditional<C>> {
+  let needs: CompiledCondition | undefined = undefined;
+  if (spec.needs !== undefined) {
+    if (spec.needs.sets !== undefined) {
+      if (!Array.isArray(spec.needs.sets)) {
+        errors.addError(new DataError(location.child('needs').child('sets'), `Needs sets should be an array (${JSON.stringify(spec.needs.sets)})`));
+      } else {
+        if (needs === undefined) {
+          needs = { sets: new Set(), features: new Set() };
+        }
+        for (const [index, set] of spec.needs.sets.entries()) {
+          if (typeof set !== 'string') {
+            errors.addError(new DataError(location.child('needs').index('sets', index), `Each set should be a string (${JSON.stringify(set)})`));
+            continue;
+          }
+          needs.sets.add(set);
+        }
+      }
+    }
+    if (spec.needs.features !== undefined) {
+      if (!Array.isArray(spec.needs.features)) {
+        errors.addError(new DataError(location.child('needs').child('features'), `Needs features should be an array (${JSON.stringify(spec.needs.features)})`));
+      } else {
+        if (needs === undefined) {
+          needs = { sets: new Set(), features: new Set() };
+        }
+        for (const [index, feature] of spec.needs.features.entries()) {
+          if (typeof feature !== 'string') {
+            errors.addError(new DataError(location.child('needs').index('features', index), `Each feature should be a string (${JSON.stringify(feature)})`));
+            continue;
+          }
+          needs.features.add(feature);
+        }
+      }
+    }
+  }
+  const result: CompiledConditional<C> = { content: compiled, needs };
+  return errors.length === 0 ? Result.ok(result) : Result.err(errors, result);
+}
+
