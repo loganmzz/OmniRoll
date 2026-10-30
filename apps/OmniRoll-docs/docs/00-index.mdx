@@ -192,6 +192,9 @@ components:         # (Optional) Dictionary of components by kind
 key: ""             # (Required) Unique identifier for the game
 name: ""            # (Required) Display name
 description: ""     # (Optional)
+needs:              # (Optional) Requirements for this component to be included in collection (all criteria must match)
+  sets: []          # (Optional) List of keys of ALL required sets
+  features: []      # (Optional) List of ALL required features
 features: []        # (Optional) Feature strings that will be applied to this component
 properties: {}      # (Optional) Custom properties whose values are: boolean, number, string or array of string
                     #            They are directly accessible when referenced in expressions
@@ -206,6 +209,10 @@ Define how to generate random setup.
 key: ""             # (Required) Unique identifier for the game
 name: ""            # (Required) Display name
 description: ""     # (Optional)
+
+needs:              # (Optional) Requirements for this randomizer to be included in collection (all criteria must match)
+  sets: []          # (Optional) List of keys of ALL required sets
+  features: []      # (Optional) List of ALL required features
 
 variables:          # (Optional) Supported types: `integer`
 - key: ""           # (Required) Unique identifier for the randomizer
@@ -588,6 +595,30 @@ randomizers:
     pool: "hero"
   - key: "villain"
     pool: "villain"
+```
+
+##### Enable only relevant components and randomizers
+
+If some expansions provide content that's only available based on other owned sets, `needs` can be used to specify the required sets and features. The same apply for `randomizers` if some setup configuration only applies when certain sets or features are owned:
+
+```yaml
+# Game
+key: "game-1"
+sets:
+- key: "core"
+- key: "story"
+  features: ["campaign"]
+- key: "expansion"
+  components:
+    Mission:
+    - key: "mission-99"
+      needs:
+        features: ["campaign"]
+randomizers:
+- key: "base"
+- key: "campaign"
+  needs:
+    features: ["campaign"]
 ```
 
 ### Hosting a module
