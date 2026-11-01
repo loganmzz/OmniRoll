@@ -1467,7 +1467,7 @@ sets:
     - key: "m-web1-c36-zombie-musical"
       name: "Web1 C36 Zombie Musical"
       needs:
-        sets: ["01-01-zombicide", "01-02-prison-outbreak", 01-02-toxic-city-mall"]
+        sets: ["01-01-zombicide", "01-02-prison-outbreak", "01-02-toxic-city-mall"]
       properties:
         difficulty: 3
         duration: 90
