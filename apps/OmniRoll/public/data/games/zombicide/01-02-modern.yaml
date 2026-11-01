@@ -11,274 +11,712 @@ features:
 sets:
 # https://boardgamegeek.com/boardgame/286751/zombicide-2nd-edition
 - key: "02-01-zombicide-2e"
-  name: "Zombicide (2nd Edition)"
+  name: "Zombicide (2E)"
   components:
     Survivor:
-    - key: "02-amy"
+    - key: "s-2e-amy"
       name: "Amy (2E)"
-    - key: "02-doug"
+    - key: "s-2e-doug"
       name: "Doug (2E)"
-    - key: "02-josh"
+    - key: "s-2e-josh"
       name: "Josh (2E)"
-    - key: "02-ned"
+    - key: "s-2e-ned"
       name: "Ned (2E)"
-    - key: "02-phil"
+    - key: "s-2e-phil"
       name: "Phil (2E)"
-    - key: "02-wanda"
+    - key: "s-2e-wanda"
       name: "Wanda (2E)"
-    - key: "02-bunny-g"
-      name: "Bunny G"
+    - key: "s-2e-bunny-g"
+      name: "Bunny G (2E)"
       features: ["kid"]
-    - key: "02-lili"
-      name: "Lili"
+    - key: "s-2e-lili"
+      name: "Lili (2E)"
       features: ["kid"]
-    - key: "02-lou"
-      name: "Lou"
+    - key: "s-2e-lou"
+      name: "Lou (2E)"
       features: ["kid"]
-    - key: "02-odin"
-      name: "Odin"
+    - key: "s-2e-odin"
+      name: "Odin (2E)"
       features: ["kid"]
-    - key: "02-ostara"
-      name: "Ostara"
+    - key: "s-2e-ostara"
+      name: "Ostara (2E)"
       features: ["kid"]
-    - key: "02-tiger-sam"
-      name: "Tiger Sam"
+    - key: "s-2e-tiger-sam"
+      name: "Tiger Sam (2E)"
       features: ["kid"]
+    Mission:
+    - key: "m-2e-00-zombicide-life"
+      name: "2E M00 Zombicide Life"
+      properties:
+        difficulty: 0
+        duration: 30
+        minSurvivors: 4
+    - key: "m-2e-01-city-blocks"
+      name: "2E M01 City Blocks"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 4
+    - key: "m-2e-02-y-zone"
+      name: "2E M02 Y-Zone"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 4
+    - key: "m-2e-03-the-24hrs-race-of-zombicity"
+      name: "2E M03 The 24hrs Race of Zombicity"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 4
+    - key: "m-2e-04-drive-by-shooting"
+      name: "2E M04 Drive-By Shooting"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 4
+    - key: "m-2e-05-big-w"
+      name: "2E M05 Big W"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-2e-06-the-escape"
+      name: "2E M06 The Escape"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-2e-07-grindhouse"
+      name: "2E M07 Grindhouse"
+      properties:
+        difficulty: 3
+        duration: 45
+        minSurvivors: 4
+    - key: "m-2e-08-zombie-police"
+      name: "2E M08 Zombie Police"
+      properties:
+        difficulty: 3
+        duration: 30
+        minSurvivors: 4
+    - key: "m-2e-09-might-makes-right"
+      name: "2E M09 Might Makes Right"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 4
+    - key: "m-2e-10-small-town"
+      name: "2E M10 Small Town"
+      properties:
+        difficulty: 1
+        duration: 30
+        minSurvivors: 4
+    - key: "m-2e-11-the-ditch"
+      name: "2E M11 The Ditch"
+      properties:
+        difficulty: 2
+        duration: 30
+        minSurvivors: 4
+    - key: "m-2e-12-car-crash"
+      name: "2E M12 Car Crash"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 4
+    - key: "m-2e-13-burning-streets"
+      name: "2E M13 Burning Streets"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 4
+    - key: "m-2e-14-breakfast-at-jesses"
+      name: "2E M14 Breakfast at Jesse's"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 4
+    - key: "m-2e-15-united-we-stand"
+      name: "2E M15 United We Stand"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 4
+    - key: "m-2e-16-pale-shelter"
+      name: "2E M16 Pale Shelter"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 4
+    - key: "m-2e-17-the-blight"
+      name: "2E M17 The Blight"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 4
+    - key: "m-2e-18-the-end-of-the-road"
+      name: "2E M18 The End of the Road"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 4
+    - key: "m-2e-19-best-friends-forever"
+      name: "2E M19 Best Friends Forever"
+      properties:
+        difficulty: 3
+        duration: 45
+        minSurvivors: 4
+    - key: "m-2e-20-the-zombiefest"
+      name: "2E M20 The Zombiefest"
+      properties:
+        difficulty: 3
+        duration: 45
+        minSurvivors: 4
+    - key: "m-2e-21-heavy-duty"
+      name: "2E M21 Heavy-Duty"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 4
+    - key: "m-2e-22-crank-it-up-to-11"
+      name: "2E M22 Crank It Up to 11"
+      properties:
+        difficulty: 3
+        duration: 45
+        minSurvivors: 4
+    - key: "m-2e-23-mercy-street"
+      name: "2E M23 Mercy Street"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 4
+    - key: "m-2e-24-ram-speed"
+      name: "2E M24 Ram Speed"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 4
+    - key: "m-2e-25-neds-moloturbo"
+      name: "2E M25 Ned's Moloturbo"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
 # https://boardgamegeek.com/boardgameexpansion/292122/zombicide-2nd-edition-washington-zc
 - key: "02-01-washtington-zc"
-  name: "Washington ZC"
+  name: "Washington ZC (WZC)"
   components:
     Survivor:
-    - key: "02-angelo"
-      name: "Angelo"
-    - key: "02-anton"
-      name: "Anton"
-    - key: "02-ashley"
-      name: "Ashley"
-    - key: "02-justin"
-      name: "Justin"
-    - key: "02-mindy"
-      name: "Mindy"
-    - key: "02-tess"
-      name: "Tess"
+    - key: "s-wzc-angelo"
+      name: "Angelo (WZC)"
+    - key: "s-wzc-anton"
+      name: "Anton (WZC)"
+    - key: "s-wzc-ashley"
+      name: "Ashley (WZC)"
+    - key: "s-wzc-justin"
+      name: "Justin (WZC)"
+    - key: "s-wzc-mindy"
+      name: "Mindy (WZC)"
+    - key: "s-wzc-tess"
+      name: "Tess (WZC)"
+    Mission:
+    - key: "m-wzc-01-facing-the-impossible"
+      name: "WZC M01 Facing the Impossible"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 4
+    - key: "m-wzc-02-leave-no-one-behind"
+      name: "WZC M02 Leave No One Behind"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 4
+    - key: "m-wzc-03-defcon-5-fade-out"
+      name: "WZC M03 Defcon 5: Fade Out"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 4
+    - key: "m-wzc-04-the-war-zone"
+      name: "WZC M04 The War Zone"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 4
+    - key: "m-wzc-05-defcon-4-double-take"
+      name: "WZC M05 Defcon 4: Double Take"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 4
+    - key: "m-wzc-06-defcon-3-round-house"
+      name: "WZC M06 Defcon 3: Round House"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 4
+    - key: "m-wzc-07-get-the-key-card"
+      name: "WZC M07 Get the Key Card"
+      properties:
+        difficulty: 3
+        duration: 45
+        minSurvivors: 4
+    - key: "m-wzc-08-restore-the-elevator"
+      name: "WZC M08 Restore the Elevator"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 4
+    - key: "m-wzc-09-defcon-2-fast-pace"
+      name: "WZC M09 Defcon 2: Fast Pace"
+      properties:
+        difficulty: 4
+        duration: 45
+        minSurvivors: 4
+    - key: "m-wzc-10-defcon-1-cocked-pistol"
+      name: "WZC M10 Defcon 1: Cocked Pistol"
+      properties:
+        difficulty: 4
+        duration: 60
+        minSurvivors: 4
 # https://boardgamegeek.com/boardgameexpansion/293546/zombicide-2nd-edition-fort-hendrix
 - key: "02-01-fort-hendrix"
-  name: "Fort Hendrix"
+  name: "Fort Hendrix (FH)"
   components:
     Survivor:
-    - key: "02-javier"
-      name: "Javier"
-    - key: "02-karl"
-      name: "Karl"
-    - key: "02-marian"
-      name: "Marian"
-    - key: "02-michelle"
-      name: "Michelle"
-    - key: "02-riley"
-      name: "Riley"
-    - key: "02-wayne"
-      name: "Wayne"
+    - key: "s-fh-javier"
+      name: "Javier (FH)"
+    - key: "s-fh-karl"
+      name: "Karl (FH)"
+    - key: "s-fh-marian"
+      name: "Marian (FH)"
+    - key: "s-fh-michelle"
+      name: "Michelle (FH)"
+    - key: "s-fh-riley"
+      name: "Riley (FH)"
+    - key: "s-fh-wayne"
+      name: "Wayne (FH)"
+    Mission:
+    - key: "m-fh-01-gathering-the-braves"
+      name: "FH M01 Gathering the Braves"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-fh-02-digital-clues"
+      name: "FH M02 Digital Clues"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-fh-03-send-my-love-to-linda"
+      name: "FH M03 Send My Love to Linda"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "m-fh-04-secret-lab"
+      name: "FH M04 Secret Lab"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-fh-05-pathogen-eden"
+      name: "FH M05 Pathogen Eden"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 6
+    - key: "m-fh-06-aero-romero"
+      name: "FH M06 Aero Romero"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "m-fh-07-the-headquarters"
+      name: "FH M07 The Headquarters"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "m-fh-08-in-the-army-now"
+      name: "FH M08 In the Army Now"
+      properties:
+        difficulty: 4
+        duration: 120
+        minSurvivors: 6
+    - key: "m-fh-09-pandoras-box"
+      name: "FH M09 Pandora's Box"
+      properties:
+        difficulty: 3
+        duration: 45
+        minSurvivors: 6
+    - key: "m-fh-10-purple-haze"
+      name: "FH M10 Purple Haze"
+      properties:
+        difficulty: 4
+        duration: 90
+        minSurvivors: 6
 # https://boardgamegeek.com/boardgameexpansion/336637/zombicide-2nd-edition-reboot-box
 - key: "02-01-ks-reboot"
-  name: "KS Reboot Pledge"
+  name: "KS Reboot Pledge (Reboot)"
   components:
     Survivor:
-    - key: "02-andrea"
-      name: "Andrea"
-    - key: "02-badgy"
-      name: "Badgy"
-    - key: "02-bam-byron"
-      name: "Bam Byron"
-    - key: "02-big-devil"
-      name: "Big Devil"
-    - key: "02-billie"
-      name: "Billie"
-    - key: "02-bruin"
-      name: "Bruin"
+    - key: "s-reboot-andrea"
+      name: "Andrea (Reboot)"
+    - key: "s-reboot-badgy"
+      name: "Badgy (Reboot)"
+    - key: "s-reboot-bam-byron"
+      name: "Bam Byron (Reboot)"
+    - key: "s-reboot-big-devil"
+      name: "Big Devil (Reboot)"
+    - key: "s-reboot-billie"
+      name: "Billie (Reboot)"
+    - key: "s-reboot-bruin"
+      name: "Bruin (Reboot)"
       features: ["kid"]
-    - key: "02-carol"
-      name: "Carol"
-    - key: "02-carter"
-      name: "Carter"
-    - key: "02-clarice"
-      name: "Clarice"
-    - key: "02-clerk"
-      name: "Clerk"
-    - key: "02-dale"
-      name: "Dale"
-    - key: "02-danny-trejo"
-      name: "Danny Trejo"
-    - key: "02-doria"
-      name: "Doria"
-    - key: "02-felix"
-      name: "Felix"
-    - key: "02-gabriel"
-      name: "Gabriel"
-    - key: "02-grace"
-      name: "Grace"
-    - key: "02-hayden"
-      name: "Hayden"
-    - key: "02-her-royal-majesty"
-      name: "Her Royal Majesty"
-    - key: "02-hudson"
-      name: "Hudson"
-    - key: "02-hunter"
-      name: "Hunter"
-    - key: "02-isaac"
-      name: "Isaac"
-    - key: "02-jay"
-      name: "Jay"
-    - key: "02-john-doe"
-      name: "John Doe"
-    - key: "02-johny-law"
-      name: "Johny Law"
-    - key: "02-laura"
-      name: "Laura"
-    - key: "02-leah"
-      name: "Leah"
+    - key: "s-reboot-carol"
+      name: "Carol (Reboot)"
+    - key: "s-reboot-carter"
+      name: "Carter (Reboot)"
+    - key: "s-reboot-clarice"
+      name: "Clarice (Reboot)"
+    - key: "s-reboot-clerk"
+      name: "Clerk (Reboot)"
+    - key: "s-reboot-dale"
+      name: "Dale (Reboot)"
+    - key: "s-reboot-danny-trejo"
+      name: "Danny Trejo (Reboot)"
+    - key: "s-reboot-doria"
+      name: "Doria (Reboot)"
+    - key: "s-reboot-felix"
+      name: "Felix (Reboot)"
+    - key: "s-reboot-gabriel"
+      name: "Gabriel (Reboot)"
+    - key: "s-reboot-grace"
+      name: "Grace (Reboot)"
+    - key: "s-reboot-hayden"
+      name: "Hayden (Reboot)"
+    - key: "s-reboot-her-royal-majesty"
+      name: "Her Royal Majesty (Reboot)"
+    - key: "s-reboot-hudson"
+      name: "Hudson (Reboot)"
+    - key: "s-reboot-hunter"
+      name: "Hunter (Reboot)"
+    - key: "s-reboot-isaac"
+      name: "Isaac (Reboot)"
+    - key: "s-reboot-jay"
+      name: "Jay (Reboot)"
+    - key: "s-reboot-john-doe"
+      name: "John Doe (Reboot)"
+    - key: "s-reboot-johny-law"
+      name: "Johny Law (Reboot)"
+    - key: "s-reboot-laura"
+      name: "Laura (Reboot)"
+    - key: "s-reboot-leah"
+      name: "Leah (Reboot)"
       features: ["kid"]
-    - key: "02-lil-will"
-      name: "Lil' Will"
-    - key: "02-liv"
-      name: "Liv"
-    - key: "02-lizzie"
-      name: "Lizzie"
-    - key: "02-logan"
-      name: "Logan"
-    - key: "02-luke"
-      name: "Luke"
-    - key: "02-mason"
-      name: "Mason"
-    - key: "02-mona"
-      name: "Mona"
-    - key: "02-pinkie"
-      name: "Pinkie"
-    - key: "02-queen"
-      name: "Queen"
-    - key: "02-smitty"
-      name: "Smitty"
-    - key: "02-solana"
-      name: "Solana"
-    - key: "02-stylus"
-      name: "Stylus"
-    - key: "02-the-prime-minister"
-      name: "The Prime Minister"
-    - key: "02-victor"
-      name: "Victor"
+    - key: "s-reboot-lil-will"
+      name: "Lil' Will (Reboot)"
+    - key: "s-reboot-liv"
+      name: "Liv (Reboot)"
+    - key: "s-reboot-lizzie"
+      name: "Lizzie (Reboot)"
+    - key: "s-reboot-logan"
+      name: "Logan (Reboot)"
+    - key: "s-reboot-luke"
+      name: "Luke (Reboot)"
+    - key: "s-reboot-mason"
+      name: "Mason (Reboot)"
+    - key: "s-reboot-mona"
+      name: "Mona (Reboot)"
+    - key: "s-reboot-pinkie"
+      name: "Pinkie (Reboot)"
+    - key: "s-reboot-queen"
+      name: "Queen (Reboot)"
+    - key: "s-reboot-smitty"
+      name: "Smitty (Reboot)"
+    - key: "s-reboot-solana"
+      name: "Solana (Reboot)"
+    - key: "s-reboot-stylus"
+      name: "Stylus (Reboot)"
+    - key: "s-reboot-the-prime-minister"
+      name: "The Prime Minister (Reboot)"
+    - key: "s-reboot-victor"
+      name: "Victor (Reboot)"
 # https://boardgamegeek.com/boardgameexpansion/336634/zombicide-2nd-edition-presidential-box
 - key: "02-01-presidential-box"
   name: "Presidential Box"
   components:
     Survivor:
-    - key: "02-president-16"
+    - key: "s-president-16"
       name: "President 16"
-    - key: "02-president-40"
+    - key: "s-president-40"
       name: "President 40"
-    - key: "02-president-42"
+    - key: "s-president-42"
       name: "President 42"
-    - key: "02-president-43"
+    - key: "s-president-43"
       name: "President 43"
-    - key: "02-president-44"
+    - key: "s-president-44"
       name: "President 44"
-    - key: "02-president-45"
+    - key: "s-president-45"
       name: "President 45"
 # https://boardgamegeek.com/boardgameexpansion/379907/zombicide-2nd-edition-rio-z-janeiro
 - key: "02-01-rio-z-janeiro"
-  name: "Rio Z Janeiro"
+  name: "Rio Z Janeiro (RZJ)"
   components:
     Survivor:
-    - key: "02-dona-cacilda"
-      name: "Dona Cacilda"
-    - key: "02-eliete"
-      name: "Eliete"
-    - key: "02-mc-jordim"
-      name: "Mc Jordim"
-    - key: "02-ney"
-      name: "Ney"
-    - key: "02-steven"
-      name: "Steven"
-    - key: "02-vivi"
-      name: "Vivi"
+    - key: "s-rzj-dona-cacilda"
+      name: "Dona Cacilda (RZJ)"
+    - key: "s-rzj-eliete"
+      name: "Eliete (RZJ)"
+    - key: "s-rzj-mc-jordim"
+      name: "Mc Jordim (RZJ)"
+    - key: "s-rzj-ney"
+      name: "Ney (RZJ)"
+    - key: "s-rzj-steven"
+      name: "Steven (RZJ)"
+    - key: "s-rzj-vivi"
+      name: "Vivi (RZJ)"
+    Mission:
+    - key: "m-rzj-01-blood-and-samba"
+      name: "RZJ M01 Blood and Samba"
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 6
+    - key: "m-rzj-02-rocinha-the-safest-place-on-earth"
+      name: "RZJ M02 Rocinha, The Safest Place On Earth"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-rzj-03-professor-luana-i-presume"
+      name: "RZJ M03 Professor Luana, I Presume?"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-rzj-04-time-to-rock"
+      name: "RZJ M04 Time to Rock!"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "m-rzj-05-night-at-the-stadium"
+      name: "RZJ M05 Night at the Stadium"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "m-rzj-06-next-time-have-a-backup-plan"
+      name: "RZJ M06 Next Time, Have a Backup Plan!"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "m-rzj-07-mayday-mayday"
+      name: "RZJ M07 Mayday! Mayday!"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-rzj-08-road-movie"
+      name: "RZJ M08 Road Movie"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 6
+    - key: "m-rzj-09-copa-copacabana"
+      name: "RZJ M09 Copa, Copacabana"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-rzj-10-leave-no-one-behind"
+      name: "RZJ M10 Leave No One Behind"
+      properties:
+        difficulty: 4
+        duration: 120
+        minSurvivors: 6
 # https://boardgamegeek.com/boardgameexpansion/444268/zombicide-2nd-edition-pariz
 - key: "02-01-pariz"
   name: "PariZ"
   components:
     Survivor:
-    - key: "02-fred"
-      name: "Fred"
-    - key: "02-jacquin"
-      name: "Jacquin"
-    - key: "02-louise"
-      name: "Louise"
-    - key: "02-marianne"
-      name: "Marianne"
-    - key: "02-nadia"
-      name: "Nadia"
-    - key: "02-yanis"
-      name: "Yanis"
+    - key: "s-pariz-fred"
+      name: "Fred (PariZ)"
+    - key: "s-pariz-jacquin"
+      name: "Jacquin (PariZ)"
+    - key: "s-pariz-louise"
+      name: "Louise (PariZ)"
+    - key: "s-pariz-marianne"
+      name: "Marianne (PariZ)"
+    - key: "s-pariz-nadia"
+      name: "Nadia (PariZ)"
+    - key: "s-pariz-yanis"
+      name: "Yanis (PariZ)"
+    Mission:
+    - key: "m-pariz-01-liberte-egalite-fraternite"
+      name: "PariZ M01 Liberté, Égalité, Fraternité"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "m-pariz-02-lorant-the-greatest"
+      name: "PariZ M02 Lorant, The Greatest"
+      properties:
+        difficulty: 2
+        duration: 75
+        minSurvivors: 6
+    - key: "m-pariz-03-the-raiders-of-the-lost-well-book"
+      name: "PariZ M03 The Raiders of the Lost... Well... Book!"
+      properties:
+        difficulty: 4
+        duration: 90
+        minSurvivors: 6
+    - key: "m-pariz-04-chase-your-dreams"
+      name: "PariZ M04 Chase Your Dreams"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-pariz-05-luxembourg-gardenz"
+      name: "PariZ M05 Luxembourg Gardenz"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-pariz-06-is-this-the-real-life"
+      name: "PariZ M06 Is This The Real Life?"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-pariz-07-lorant-the-hero"
+      name: "PariZ M07 Lorant, The Hero"
+      properties:
+        difficulty: 4
+        duration: 90
+        minSurvivors: 6
+    - key: "m-pariz-08-la-resistance"
+      name: "PariZ M08 La Résistance"
+      properties:
+        difficulty: 4
+        duration: 120
+        minSurvivors: 6
+    - key: "m-pariz-09-touristz"
+      name: "PariZ M09 Touristz"
+      properties:
+        difficulty: 4
+        duration: 120
+        minSurvivors: 6
+    - key: "m-pariz-10-eiffel-tower-defense"
+      name: "PariZ M10 Eiffel Tower Defense"
+      properties:
+        difficulty: 4
+        duration: 90
+        minSurvivors: 6
+
 # https://boardgamegeek.com/boardgameexpansion/470096/zombicide-2nd-edition-squid-game
 - key: "02-01-squid-game"
   name: "Squid Game"
   components:
     Survivor:
-    - key: "02-squid-game-worker"
+    - key: "s-squid-game-worker"
       name: "Worker (Squid Game)"
-    - key: "02-squid-game-soldier"
+    - key: "s-squid-game-soldier"
       name: "Soldier (Squid Game)"
-    - key: "02-squid-game-manager"
+    - key: "s-squid-game-manager"
       name: "Manager (Squid Game)"
-    - key: "02-squid-game-front-man"
+    - key: "s-squid-game-front-man"
       name: "Front Man (Squid Game)"
+    Mission:
+    - key: "m-squidgame-01-this-doesnt-look-like-a-game-anymore"
+      name: "Squid Game M01 This Doesn't Look Like A Game Anymore"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 2
+        maxSurvivors: 6
+    - key: "m-squidgame-02-the-hidden-files"
+      name: "Squid Game M02 The Hidden Files"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 2
+        maxSurvivors: 6
+    - key: "m-squidgame-03-a-big-prize"
+      name: "Squid Game M03 A Big Prize"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 2
+        maxSurvivors: 6
+    - key: "m-squidgame-04-kill-the-doll"
+      name: "Squid Game M04 Kill The Doll!"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 2
+        maxSurvivors: 6
+    - key: "m-squidgame-05-the-island-escape"
+      name: "Squid Game M05 The Island Escape"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 2
+        maxSurvivors: 6
 
 - key: "02-01-monthy-python-flying-circus"
-  name: "Monty Python's Flying Circus"
+  name: "Monty Python's Flying Circus (MPFC)"
   sets:
   # https://boardgamegeek.com/boardgameexpansion/392832/zombicide-2nd-edition-monty-pythons-flying-circus
   - key: "02-01-monthy-python-flying-circus-01"
     name: "Monty Python's Flying Circus: A Rather Silly Expansion"
     components:
       Survivor:
-      - key: "02-arthur-nudge"
-        name: "Arthur Nudge"
-      - key: "02-fish-slapper"
-        name: "Fish Slapper"
-      - key: "02-the-lumberjack"
-        name: "The Lumberjack"
-      - key: "02-arthur-ewing"
-        name: "Arthur Ewing"
-      - key: "02-the-colonel"
-        name: "The Colonel"
-      - key: "02-the-knight-with-a-raw-chicken"
-        name: "The Knight With A Raw Chicken"
+      - key: "s-mpfc-arthur-nudge"
+        name: "Arthur Nudge (MPFC)"
+      - key: "s-mpfc-fish-slapper"
+        name: "Fish Slapper (MPFC)"
+      - key: "s-mpfc-the-lumberjack"
+        name: "The Lumberjack (MPFC)"
+      - key: "s-mpfc-arthur-ewing"
+        name: "Arthur Ewing (MPFC)"
+      - key: "s-mpfc-the-colonel"
+        name: "The Colonel (MPFC)"
+      - key: "s-mpfc-the-knight-with-a-raw-chicken"
+        name: "The Knight With A Raw Chicken (MPFC)"
   # https://boardgamegeek.com/boardgameexpansion/392833/zombicide-2nd-edition-monty-pythons-flying-circus
   - key: "02-01-monthy-python-flying-circus-02"
     name: "Monty Python's Flying Circus: Gumby Pack"
     components:
       Survivor:
-      - key: "02-gumby"
-        name: "Gumby"
+      - key: "s-mpfc-gumby"
+        name: "Gumby (MPFC)"
 
 # https://boardgamegeek.com/boardgameexpansion/376429/zombicide-second-edition-cmon-comics-vol-2-promos
 - key: "02-xx-cmon-comics-02"
   name: "CMON Comics Vol. 2"
   components:
     Survivor:
-    - key: "02-brahim"
-      name: "Brahim"
-    - key: "02-bryan"
-      name: "Bryan"
-    - key: "02-harold"
-      name: "Harold"
-    - key: "02-helmlock"
-      name: "Helmlock"
-    - key: "02-julie"
-      name: "Julie"
-    - key: "02-keiko"
-      name: "Keiko (2E)"
-    - key: "02-mavis"
-      name: "Mavis"
-    - key: "02-walter"
-      name: "Walter"
+    - key: "s-comics-brahim"
+      name: "Brahim (Comics 2)"
+    - key: "s-comics-bryan"
+      name: "Bryan (Comics 2)"
+    - key: "s-comics-harold"
+      name: "Harold (Comics 2)"
+    - key: "s-comics-helmlock"
+      name: "Helmlock (Comics 2)"
+    - key: "s-comics-julie"
+      name: "Julie (Comics 2)"
+    - key: "s-comics-keiko"
+      name: "Keiko (Comics 2)"
+    - key: "s-comics-mavis"
+      name: "Mavis (Comics 2)"
+    - key: "s-comics-walter"
+      name: "Walter (Comics 2)"
 
 - key: "02-xx-iron-maiden"
   name: "Iron Maiden"
@@ -288,159 +726,164 @@ sets:
     name: "Iron Maiden Pack #1"
     components:
       Survivor:
-      - key: "02-eddie-undead"
-        name: "Undead Eddie"
-      - key: "02-eddie-reaper"
-        name: "Reaper Eddie"
-      - key: "02-eddie-pharaoh"
-        name: "Pharaoh Eddie"
-      - key: "02-eddie-trooper"
-        name: "Trooper Eddie"
-      - key: "02-eddie-cyborg"
-        name: "Cyborg Eddie"
+      - key: "s-ironmaiden-eddie-undead"
+        name: "Undead Eddie (Iron Maiden)"
+      - key: "s-ironmaiden-eddie-reaper"
+        name: "Reaper Eddie (Iron Maiden)"
+      - key: "s-ironmaiden-eddie-pharaoh"
+        name: "Pharaoh Eddie (Iron Maiden)"
+      - key: "s-ironmaiden-eddie-trooper"
+        name: "Trooper Eddie (Iron Maiden)"
+      - key: "s-ironmaiden-eddie-cyborg"
+        name: "Cyborg Eddie (Iron Maiden)"
   # https://boardgamegeek.com/boardgameexpansion/372782/iron-maiden-pack-2
   - key: "02-xx-iron-maiden-02"
     name: "Iron Maiden Pack #2"
     components:
       Survivor:
-      - key: "02-eddie-mummy"
-        name: "Mummy Eddie"
-      - key: "02-eddie-asylum"
-        name: "Asylum Eddie"
-      - key: "02-eddie-bassist"
-        name: "Bassist Eddie"
-      - key: "02-eddie-killer"
-        name: "Killer Eddie"
+      - key: "s-ironmaiden-eddie-mummy"
+        name: "Mummy Eddie (Iron Maiden)"
+      - key: "s-ironmaiden-eddie-asylum"
+        name: "Asylum Eddie (Iron Maiden)"
+      - key: "s-ironmaiden-eddie-bassist"
+        name: "Bassist Eddie (Iron Maiden)"
+      - key: "s-ironmaiden-eddie-killer"
+        name: "Killer Eddie (Iron Maiden)"
   # https://boardgamegeek.com/boardgameexpansion/372783/iron-maiden-pack-3
   - key: "02-xx-iron-maiden-03"
     name: "Iron Maiden Pack #3"
     components:
       Survivor:
-      - key: "02-eddie-fear"
-        name: "Fear Eddie"
-      - key: "02-eddie-wicker"
-        name: "Wicker Eddie"
+      - key: "s-ironmaiden-eddie-fear"
+        name: "Fear Eddie (Iron Maiden)"
+      - key: "s-ironmaiden-eddie-wicker"
+        name: "Wicker Eddie (Iron Maiden)"
   # https://boardgamegeek.com/boardgameexpansion/372784/zombicide-2nd-edition-iron-maiden-original-eddie
   - key: "02-xx-iron-maiden-original-eddie"
     name: "Iron Maiden Original Eddie"
     components:
       Survivor:
-      - key: "02-eddie-original"
-        name: "Original Eddie"
+      - key: "s-ironmaiden-eddie-original"
+        name: "Original Eddie (Iron Maiden)"
 
 - key: "02-xx-dark-nights-metal"
-  name: "Dark Nights Metal"
+  name: "Dark Nights Metal (DNM)"
   sets:
   # https://boardgamegeek.com/boardgameexpansion/369890/zombicide-2nd-edition-dark-nights-metal-pack-1
   - key: "02-xx-dark-nights-metal-01"
     name: "Dark Nights Metal Pack #1"
     components:
       Survivor:
-      - key: "02-batman"
-        name: "Batman"
+      - key: "s-dnm-batman"
+        name: "Batman (DNM)"
   # https://boardgamegeek.com/boardgameexpansion/369891/zombicide-2nd-edition-dark-nights-metal-pack-2
   - key: "02-xx-dark-nights-metal-02"
     name: "Dark Nights Metal Pack #2"
     components:
       Survivor:
-      - key: "02-batman-earth-12"
-        name: "Batman Earth-12"
-      - key: "02-batman-earth-44"
-        name: "Batman Earth-44"
+      - key: "s-dnm-batman-earth-12"
+        name: "Batman Earth-12 (DNM)"
+      - key: "s-dnm-batman-earth-44"
+        name: "Batman Earth-44 (DNM)"
   # https://boardgamegeek.com/boardgameexpansion/369892/zombicide-2nd-edition-dark-nights-metal-pack-3
   - key: "02-xx-dark-nights-metal-03"
     name: "Dark Nights Metal Pack #3"
     components:
       Survivor:
-      - key: "02-batman-earth-11"
-        name: "Batman Earth-11"
-      - key: "02-batman-earth-52"
-        name: "Batman Earth-52"
+      - key: "s-dnm-batman-earth-11"
+        name: "Batman Earth-11 (DNM)"
+      - key: "s-dnm-batman-earth-52"
+        name: "Batman Earth-52 (DNM)"
   # https://boardgamegeek.com/boardgameexpansion/369893/zombicide-2nd-edition-dark-nights-metal-pack-4
   - key: "02-xx-dark-nights-metal-04"
     name: "Dark Nights Metal Pack #4"
     components:
       Survivor:
-      - key: "02-batman-earth-1"
-        name: "Batman Earth-1"
-      - key: "02-batman-earth-32"
-        name: "Batman Earth-32"
+      - key: "s-dnm-batman-earth-1"
+        name: "Batman Earth-1 (DNM)"
+      - key: "s-dnm-batman-earth-32"
+        name: "Batman Earth-32 (DNM)"
   # https://boardgamegeek.com/boardgameexpansion/369894/zombicide-2nd-edition-dark-nights-metal-pack-5
   - key: "02-xx-dark-nights-metal-05"
     name: "Dark Nights Metal Pack #5"
 
 - key: "02-xx-supernatural-join-the-hunt"
-  name: "Supernatural: Join the Hunt"
+  name: "Supernatural: Join the Hunt (SN)"
   sets:
   # https://boardgamegeek.com/boardgameexpansion/369539/zombicide-2nd-edition-supernatural-join-the-hunt-p
   - key: "02-xx-supernatural-join-the-hunt-01"
     name: "Supernatural: Join the Hunt Pack #1"
     components:
       Survivor:
-      - key: "02-dean-winchester"
-        name: "Dean Winchester"
-      - key: "02-sam-winchester"
-        name: "Sam Winchester"
+      - key: "s-sn-dean-winchester"
+        name: "Dean Winchester (SN)"
+      - key: "s-sn-sam-winchester"
+        name: "Sam Winchester (SN)"
   # https://boardgamegeek.com/boardgameexpansion/369540/zombicide-2nd-edition-supernatural-join-the-hunt-p
   - key: "02-xx-supernatural-join-the-hunt-02"
     name: "Supernatural: Join the Hunt Pack #2"
     components:
       Survivor:
-      - key: "02-john-winchester"
-        name: "John Winchester"
-      - key: "02-bobby-singer"
-        name: "Bobby Singer"
-      - key: "02-jack-kline"
-        name: "Jack Kline"
+      - key: "s-sn-john-winchester"
+        name: "John Winchester (SN)"
+      - key: "s-sn-bobby-singer"
+        name: "Bobby Singer (SN)"
+      - key: "s-sn-jack-kline"
+        name: "Jack Kline (SN)"
   # https://boardgamegeek.com/boardgameexpansion/369541/zombicide-2nd-edition-supernatural-join-the-hunt-p
   - key: "02-xx-supernatural-join-the-hunt-03"
     name: "Supernatural: Join the Hunt Pack #3"
     components:
       Survivor:
-      - key: "02-castiel"
-        name: "Castiel"
-      - key: "02-crowley"
-        name: "Crowley"
+      - key: "s-sn-castiel"
+        name: "Castiel (SN)"
+      - key: "s-sn-crowley"
+        name: "Crowley (SN)"
 
 - key: "02-xx-the-boys"
-  name: "The Boys"
+  name: "The Boys (TB)"
   sets:
   # https://boardgamegeek.com/boardgameexpansion/366868/zombicide-2nd-edition-the-boys-pack-1-the-seven
   - key: "02-xx-the-boys-01"
     name: "The Boys Pack #1: The Seven"
     components:
       Survivor:
-      - key: "02-homelander"
-        name: "Homelander"
-      - key: "02-queen-maeve"
-        name: "Queen Maeve"
-      - key: "02-black-noir"
-        name: "Black Noir"
-      - key: "02-the-deep"
-        name: "The Deep"
-      - key: "02-a-train"
-        name: "A-Train"
-      - key: "02-soldier-boy"
-        name: "Soldier Boy"
-      - key: "02-starlight"
-        name: "Starlight"
+      - key: "s-tb-homelander"
+        name: "Homelander (TB)"
+      - key: "s-tb-queen-maeve"
+        name: "Queen Maeve (TB)"
+      - key: "s-tb-black-noir"
+        name: "Black Noir (TB)"
+      - key: "s-tb-the-deep"
+        name: "The Deep (TB)"
+      - key: "s-tb-a-train"
+        name: "A-Train (TB)"
+      - key: "s-tb-soldier-boy"
+        name: "Soldier Boy (TB)"
+      - key: "s-tb-starlight"
+        name: "Starlight (TB)"
   # https://boardgamegeek.com/boardgameexpansion/366870/zombicide-2nd-edition-the-boys-pack-2-the-boys
   - key: "02-xx-the-boys-02"
     name: "The Boys Pack #2: The Boys"
     components:
       Survivor:
-      - key: "02-billy-butcher"
-        name: "Billy Butcher"
-      - key: "02-hughie-campbell"
-        name: "Hughie Campbell"
-      - key: "02-annie-starlight"
-        name: "Annie \"Starlight\""
-      - key: "02-frenchie"
-        name: "Frenchie"
-      - key: "02-kimiko"
-        name: "Kimiko"
-      - key: "02-mother-milk"
-        name: "Mother's Milk"
+      - key: "s-tb-billy-butcher"
+        name: "Billy Butcher (TB)"
+      - key: "s-tb-hughie-campbell"
+        name: "Hughie Campbell (TB)"
+      - key: "s-tb-annie-starlight"
+        name: "Annie \"Starlight\" (TB)"
+      - key: "s-tb-frenchie"
+        name: "Frenchie (TB)"
+      - key: "s-tb-kimiko"
+        name: "Kimiko (TB)"
+      - key: "s-tb-mother-milk"
+        name: "Mother's Milk (TB)"
   # https://boardgamegeek.com/boardgameexpansion/366869/zombicide-2nd-edition-the-boys-pack-3-supe-abomina
   - key: "02-xx-the-boys-03"
     name: "The Boys Pack #3: Supe Abominations"
+
+- key: "02-xx-free-missions"
+  name: "Modern Free Missions (Web2)"
+  components:
+    Mission: []
