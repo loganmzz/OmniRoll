@@ -202,7 +202,7 @@ sets:
         duration: 90
         minSurvivors: 4
 # https://boardgamegeek.com/boardgameexpansion/292122/zombicide-2nd-edition-washington-zc
-- key: "02-01-washtington-zc"
+- key: "02-01-washington-zc"
   name: "Washington ZC (WZC)"
   components:
     Survivor:
@@ -221,60 +221,70 @@ sets:
     Mission:
     - key: "m-wzc-01-facing-the-impossible"
       name: "WZC M01 Facing the Impossible"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 45
         minSurvivors: 4
     - key: "m-wzc-02-leave-no-one-behind"
       name: "WZC M02 Leave No One Behind"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 60
         minSurvivors: 4
     - key: "m-wzc-03-defcon-5-fade-out"
       name: "WZC M03 Defcon 5: Fade Out"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 45
         minSurvivors: 4
     - key: "m-wzc-04-the-war-zone"
       name: "WZC M04 The War Zone"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 60
         minSurvivors: 4
     - key: "m-wzc-05-defcon-4-double-take"
       name: "WZC M05 Defcon 4: Double Take"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 90
         minSurvivors: 4
     - key: "m-wzc-06-defcon-3-round-house"
       name: "WZC M06 Defcon 3: Round House"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 90
         minSurvivors: 4
     - key: "m-wzc-07-get-the-key-card"
       name: "WZC M07 Get the Key Card"
+      features: ["campaign"]
       properties:
         difficulty: 3
         duration: 45
         minSurvivors: 4
     - key: "m-wzc-08-restore-the-elevator"
       name: "WZC M08 Restore the Elevator"
+      features: ["campaign"]
       properties:
         difficulty: 3
         duration: 60
         minSurvivors: 4
     - key: "m-wzc-09-defcon-2-fast-pace"
       name: "WZC M09 Defcon 2: Fast Pace"
+      features: ["campaign"]
       properties:
         difficulty: 4
         duration: 45
         minSurvivors: 4
     - key: "m-wzc-10-defcon-1-cocked-pistol"
       name: "WZC M10 Defcon 1: Cocked Pistol"
+      features: ["campaign"]
       properties:
         difficulty: 4
         duration: 60
@@ -299,60 +309,70 @@ sets:
     Mission:
     - key: "m-fh-01-gathering-the-braves"
       name: "FH M01 Gathering the Braves"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 60
         minSurvivors: 6
     - key: "m-fh-02-digital-clues"
       name: "FH M02 Digital Clues"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 60
         minSurvivors: 6
     - key: "m-fh-03-send-my-love-to-linda"
       name: "FH M03 Send My Love to Linda"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 90
         minSurvivors: 6
     - key: "m-fh-04-secret-lab"
       name: "FH M04 Secret Lab"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 60
         minSurvivors: 6
     - key: "m-fh-05-pathogen-eden"
       name: "FH M05 Pathogen Eden"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 45
         minSurvivors: 6
     - key: "m-fh-06-aero-romero"
       name: "FH M06 Aero Romero"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 120
         minSurvivors: 6
     - key: "m-fh-07-the-headquarters"
       name: "FH M07 The Headquarters"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 120
         minSurvivors: 6
     - key: "m-fh-08-in-the-army-now"
       name: "FH M08 In the Army Now"
+      features: ["campaign"]
       properties:
         difficulty: 4
         duration: 120
         minSurvivors: 6
     - key: "m-fh-09-pandoras-box"
       name: "FH M09 Pandora's Box"
+      features: ["campaign"]
       properties:
         difficulty: 3
         duration: 45
         minSurvivors: 6
     - key: "m-fh-10-purple-haze"
       name: "FH M10 Purple Haze"
+      features: ["campaign"]
       properties:
         difficulty: 4
         duration: 90
@@ -481,60 +501,70 @@ sets:
     Mission:
     - key: "m-rzj-01-blood-and-samba"
       name: "RZJ M01 Blood and Samba"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 45
         minSurvivors: 6
     - key: "m-rzj-02-rocinha-the-safest-place-on-earth"
       name: "RZJ M02 Rocinha, The Safest Place On Earth"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 60
         minSurvivors: 6
     - key: "m-rzj-03-professor-luana-i-presume"
       name: "RZJ M03 Professor Luana, I Presume?"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 60
         minSurvivors: 6
     - key: "m-rzj-04-time-to-rock"
       name: "RZJ M04 Time to Rock!"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 120
         minSurvivors: 6
     - key: "m-rzj-05-night-at-the-stadium"
       name: "RZJ M05 Night at the Stadium"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 90
         minSurvivors: 6
     - key: "m-rzj-06-next-time-have-a-backup-plan"
       name: "RZJ M06 Next Time, Have a Backup Plan!"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 90
         minSurvivors: 6
     - key: "m-rzj-07-mayday-mayday"
       name: "RZJ M07 Mayday! Mayday!"
+      features: ["campaign"]
       properties:
         difficulty: 3
         duration: 90
         minSurvivors: 6
     - key: "m-rzj-08-road-movie"
       name: "RZJ M08 Road Movie"
+      features: ["campaign"]
       properties:
         difficulty: 3
         duration: 60
         minSurvivors: 6
     - key: "m-rzj-09-copa-copacabana"
       name: "RZJ M09 Copa, Copacabana"
+      features: ["campaign"]
       properties:
         difficulty: 3
         duration: 90
         minSurvivors: 6
     - key: "m-rzj-10-leave-no-one-behind"
       name: "RZJ M10 Leave No One Behind"
+      features: ["campaign"]
       properties:
         difficulty: 4
         duration: 120
@@ -559,60 +589,70 @@ sets:
     Mission:
     - key: "m-pariz-01-liberte-egalite-fraternite"
       name: "PariZ M01 Liberté, Égalité, Fraternité"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 90
         minSurvivors: 6
     - key: "m-pariz-02-lorant-the-greatest"
       name: "PariZ M02 Lorant, The Greatest"
+      features: ["campaign"]
       properties:
         difficulty: 2
         duration: 75
         minSurvivors: 6
     - key: "m-pariz-03-the-raiders-of-the-lost-well-book"
       name: "PariZ M03 The Raiders of the Lost... Well... Book!"
+      features: ["campaign"]
       properties:
         difficulty: 4
         duration: 90
         minSurvivors: 6
     - key: "m-pariz-04-chase-your-dreams"
       name: "PariZ M04 Chase Your Dreams"
+      features: ["campaign"]
       properties:
         difficulty: 3
         duration: 90
         minSurvivors: 6
     - key: "m-pariz-05-luxembourg-gardenz"
       name: "PariZ M05 Luxembourg Gardenz"
+      features: ["campaign"]
       properties:
         difficulty: 3
         duration: 90
         minSurvivors: 6
     - key: "m-pariz-06-is-this-the-real-life"
       name: "PariZ M06 Is This The Real Life?"
+      features: ["campaign"]
       properties:
         difficulty: 3
         duration: 90
         minSurvivors: 6
     - key: "m-pariz-07-lorant-the-hero"
       name: "PariZ M07 Lorant, The Hero"
+      features: ["campaign"]
       properties:
         difficulty: 4
         duration: 90
         minSurvivors: 6
     - key: "m-pariz-08-la-resistance"
       name: "PariZ M08 La Résistance"
+      features: ["campaign"]
       properties:
         difficulty: 4
         duration: 120
         minSurvivors: 6
     - key: "m-pariz-09-touristz"
       name: "PariZ M09 Touristz"
+      features: ["campaign"]
       properties:
         difficulty: 4
         duration: 120
         minSurvivors: 6
     - key: "m-pariz-10-eiffel-tower-defense"
       name: "PariZ M10 Eiffel Tower Defense"
+      features: ["campaign"]
       properties:
         difficulty: 4
         duration: 90
@@ -667,6 +707,10 @@ sets:
         duration: 90
         minSurvivors: 2
         maxSurvivors: 6
+
+# https://boardgamegeek.com/boardgame/299071/zombicide-2nd-edition-urban-legends-abominations
+- key: "02-01-urban-legends-abominations"
+  name: "Urban Legends Abominations"
 
 - key: "02-01-monthy-python-flying-circus"
   name: "Monty Python's Flying Circus (MPFC)"
@@ -886,4 +930,427 @@ sets:
 - key: "02-xx-free-missions"
   name: "Modern Free Missions (Web2)"
   components:
-    Mission: []
+    Mission:
+    - key: "m-web2-wm01-amy-an-origin-story"
+      name: "Web2 WM1 Amy, An Origin Story"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 1
+        maxSurvivors: 1
+    - key: "m-web2-wm02-burn-the-alley"
+      name: "Web2 WM2 Burn the Alley!"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 4
+    - key: "m-web2-wm03-doug-an-origin-story"
+      name: "Web2 WM3 Doug, An Origin Story"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 45
+        minSurvivors: 1
+        maxSurvivors: 1
+    - key: "m-web2-wm04-all-systems-online"
+      name: "Web2 WM4 All Systems Online"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 4
+    - key: "m-web2-wm05-ned-an-origin-story"
+      name: "Web2 WM5 Ned, An Origin Story"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 1
+        maxSurvivors: 1
+    - key: "m-web2-wm06-the-bunnylimpics"
+      name: "Web2 WM6 The Bunnylimpics"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 4
+    - key: "m-web2-wm07-chasing-nightmares"
+      name: "Web2 WM7 Chasing Nightmares"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
+    - key: "m-web2-wm08-common-ennemies"
+      name: "Web2 WM8 Common Ennemies"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 4
+    - key: "m-web2-wm09-the-great-fire"
+      name: "Web2 WM9 The Great Fire"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 4
+        duration: 90
+        minSurvivors: 4
+    - key: "m-web2-10-josh-an-origin-story"
+      name: "Web2 WM10 Josh, An Origin Story"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 30
+        minSurvivors: 1
+        maxSurvivors: 1
+    - key: "m-web2-wm11-a-stupid-trick"
+      name: "Web2 WM11 A Stupid Trick"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 4
+    - key: "m-web2-wm12-ostaras-flash-mob"
+      name: "Web2 WM12 Ostara's Flash Mob"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 30
+        minSurvivors: 4
+    - key: "m-web2-wm13-you-got-the-keys"
+      name: "Web2 WM13 You Got the Keys?"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 30
+        minSurvivors: 4
+    - key: "m-web2-wm14-the-ultimate-christmas-dinner"
+      name: "Web2 WM14 The Ultimate Christmas Dinner"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 30
+        minSurvivors: 4
+    - key: "m-web2-wm15-saint-sylvester-marathon"
+      name: "Web2 WM15 Saint Sylvester Marathon"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 45
+        minSurvivors: 4
+    - key: "m-web2-wm16-red-light-green-light"
+      name: "Web2 WM16 Red Light, Green Light!"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 45
+        minSurvivors: 4
+    - key: "m-web2-wm17-elle-an-origin-story"
+      name: "Web2 WM17 Elle, An Origin Story"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 4
+        duration: 30
+        minSurvivors: 1
+        maxSurvivors: 1
+    - key: "m-web2-wm18-wanda-an-origin-story"
+      name: "Web2 WM18 Wanda, An Origin Story"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 4
+        duration: 30
+        minSurvivors: 2
+        maxSurvivors: 2
+    - key: "m-web2-wm19-a-new-dawn-part-01"
+      name: "Web2 WM19 A New Dawn Part I"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 30
+        minSurvivors: 1
+        maxSurvivors: 1
+    - key: "m-web2-wm20-a-new-dawn-part-02"
+      name: "Web2 WM20 A New Dawn Part II"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 30
+        minSurvivors: 2
+        maxSurvivors: 2
+    - key: "m-web2-wm21-a-new-dawn-part-03"
+      name: "Web2 WM21 A New Dawn Part III"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 30
+        minSurvivors: 2
+        maxSurvivors: 2
+    - key: "m-web2-wm23-the-agatha-pocalypse"
+      name: "Web2 WM23 The Agatha-pocalypse"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 4
+    - key: "m-web2-wm24-the-last-passage"
+      name: "Web2 WM24 The Last Passage"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 4
+    - key: "m-web2-wm25-creepy-corners"
+      name: "Web2 WM25 Creepy Corners"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 45
+        minSurvivors: 6
+    - key: "m-web2-wm26-a-quiet-place"
+      name: "Web2 WM26 A Quiet Place"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 6
+    - key: "m-web2-wm27-the-dead-elite-squad"
+      name: "Web2 WM27 The Dead Elite Squad"
+      needs:
+        sets:
+        - "02-01-zombicide-2e"
+        - "02-01-fort-hendrix"
+      properties:
+        difficulty: 4
+        duration: 120
+        minSurvivors: 6
+    - key: "m-web2-wm28-a-risky-deal"
+      name: "Web2 WM28 A Risky Deal"
+      needs:
+        sets:
+        - "02-01-zombicide-2e"
+        - "02-01-washington-zc"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-web2-wm29-the-santa-hellpers"
+      name: "Web2 WM29 The Santa Hellpers"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 4
+    - key: "m-web2-wm30-a-new-dawn-part-04"
+      name: "Web2 WM30 A New Dawn Part IV"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 6
+    - key: "m-web2-wm31-a-new-dawn-part-05"
+      name: "Web2 WM31 A New Dawn Part V"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-web2-wm32-a-new-dawn-part-06"
+      name: "Web2 WM32 A New Dawn Part VI"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 75
+        minSurvivors: 6
+    - key: "m-web2-wm33-crazy-taxi"
+      name: "Web2 WM33 Crazy Taxi"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-web2-wm34-playground-time"
+      name: "Web2 WM34 Playground Time"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "m-web2-wm35-the-annoying-parrot"
+      name: "Web2 WM35 The Annoying Parrot"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 6
+    - key: "m-web2-wm36-zombies-ate-my-turkey"
+      name: "Web2 WM36 Zombies Ate My Turkey!"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 45
+        minSurvivors: 2
+        maxSurvivors: 2
+    - key: "m-web2-wm37-the-forgotten-warehouse"
+      name: "Web2 WM37 The Forgotten Warehouse"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "m-web2-wm38-caught-by-the-jewelry"
+      name: "Web2 WM38 Caught by the Jewelry"
+      needs:
+        sets:
+        - "02-01-zombicide-2e"
+        - "02-01-rio-z-janeiro"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-web2-wm39-when-the-saints-go-marching-in"
+      name: "Web2 WM39 When the Saints Go Marching In"
+      needs:
+        sets:
+        - "02-01-zombicide-2e"
+        - "02-01-rio-z-janeiro"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-web2-wm40-running-over-the-dead"
+      name: "Web2 WM40 Running Over the Dead!"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 75
+        minSurvivors: 6
+    - key: "m-web2-wm41-trapped-in-the-haunted-manor"
+      name: "Web2 WM41 Trapped in the Haunted Manor"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 6
+    - key: "m-web2-wm42-mutant-zombies-must-fall"
+      name: "Web2 WM42 Mutant Zombies Must Fall"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 4
+    - key: "m-web2-wm43-the-feat-must-go-on"
+      name: "Web2 WM43 The Feat Must Go On"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-web2-wm44-the-classified-files"
+      name: "Web2 WM44 The Classified Files"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-web2-wm46-apocalypse-kickoff"
+      name: "Web2 WM46 Apocalypse Kickoff"
+      needs:
+        sets:
+        - "02-01-zombicide-2e"
+        - "02-01-rio-z-janeiro"
+      properties:
+        difficulty: 4
+        duration: 90
+        minSurvivors: 6
+    - key: "m-web2-wm47-no-kings-only-the-dead"
+      name: "Web2 WM47 No Kings Only the Dead"
+      needs:
+        sets:
+        - "02-01-zombicide-2e"
+        - "02-01-pariz"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-web2-wm48-the-deadagonal-alley"
+      name: "Web2 WM48 The Deadagonal Alley"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "m-web2-wm50-the-squid-trials"
+      name: "Web2 WM50 The Squid Trials"
+      needs:
+        sets:
+        - "02-01-zombicide-2e"
+        - "02-01-squid-game"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-web2-wm51-beer-run"
+      name: "Web2 WM51 Beer Run"
+      needs:
+        sets: ["02-01-zombicide-2e"]
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "m-web2-wm52-area-52-under-new-management"
+      name: "Web2 WM52 Area 52 Under New Management"
+      needs:
+        sets:
+        - "02-01-zombicide-2e"
+        - "02-01-urban-legends-abominations"
+      properties:
+        difficulty: 4
+        duration: 90
+        minSurvivors: 6
+    Competitive:
+    - key: "c-web2-wm45-the-great-end-of-the-world-egg-hunt"
+      name: "Web2 WM45 The Great End-of-the-World Egg Hunt"
+      needs:
+        sets: ["02-01-zombicide-2e"]
