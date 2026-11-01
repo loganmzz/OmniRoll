@@ -29,6 +29,7 @@ export interface CompiledCondition {
 }
 export interface CompiledConditional<T> {
   content: T;
+  location: DataLocation;
   needs?: CompiledCondition;
 }
 export type CompiledConditionals<T> = {
@@ -69,6 +70,14 @@ export class CompiledRegistry<E extends CompiledElement> {
     this.items.set(item.key, {location, item});
     return Result.ok(item);
   }
+
+  has(item: CompiledElement): boolean {
+    return this.hasKey(item.key);
+  }
+
+  hasKey(key: string): boolean {
+    return this.items.has(key);
+  }
 }
 
 export class CompiledGame implements CompiledElement {
@@ -83,7 +92,6 @@ export class CompiledGame implements CompiledElement {
     const components = new CompiledRegistry<CompiledComponent>('Component');
     const sets = new CompiledRegistry<CompiledSet>('Set');
     const randomizers = new CompiledRegistry<CompiledRandomizer>('Randomizer');
-
 
     const compiled = new CompiledGame();
     const compilation: GameCompilation = {
@@ -119,11 +127,31 @@ export class CompiledGame implements CompiledElement {
         compilation.conditionals.components.push(...componentsResult.ok.conditionals.components);
       }
     }
+
     for (const component of compiled.components) {
       for (const feature of component.features) {
         compiled.features.add(feature);
       }
     }
+    const allFeatures = new Set<string>(compiled.features);
+    for (const conditional of compilation.conditionals.components) {
+      for (const feature of conditional.content.features) {
+        allFeatures.add(feature);
+      }
+      for (const set of (conditional.needs?.sets ?? [])) {
+        if (!sets.hasKey(set)) {
+          errors.addError(new DataError(conditional.location.child('needs').child('sets'), `Needed set ${JSON.stringify(set)} is unknown`));
+        }
+      }
+    }
+    for (const conditional of compilation.conditionals.components) {
+      for (const feature of (conditional.needs?.features ?? [])) {
+        if (!allFeatures.has(feature)) {
+          errors.addError(new DataError(conditional.location.child('needs').child('features'), `Needed feature ${JSON.stringify(feature)} is unknown`));
+        }
+      }
+    }
+
     for (const [randomizerIndex, specRandomizer] of (spec.randomizers ?? []).entries()) {
       const randomizerLocation = location.index('randomizers', [randomizerIndex, specRandomizer.key]);
       const result = CompiledRandomizer.newFromDataModel(specRandomizer, randomizerLocation);
@@ -136,9 +164,19 @@ export class CompiledGame implements CompiledElement {
         if (addResult.err !== undefined) {
           errors.addError(addResult.err);
         }
-        if (result.ok.needs === undefined) {
+        if (compiled.needs === undefined) {
           compilation.content.randomizers.push(compiled.content);
         } else {
+          for (const set of (compiled.needs?.sets ?? [])) {
+            if (!sets.hasKey(set)) {
+              errors.addError(new DataError(compiled.location.child('needs').child('sets'), `Needed set ${JSON.stringify(set)} is unknown`));
+            }
+          }
+          for (const feature of (compiled.needs?.features ?? [])) {
+            if (!allFeatures.has(feature)) {
+              errors.addError(new DataError(compiled.location.child('needs').child('features'), `Needed feature ${JSON.stringify(feature)} is unknown`));
+            }
+          }
           compilation.conditionals.randomizers.push(compiled);
         }
       }
@@ -881,7 +919,7 @@ function compileWithNeeds<S extends ReferentialConditional, C>(spec: S, compiled
       }
     }
   }
-  const result: CompiledConditional<C> = { content: compiled, needs };
+  const result: CompiledConditional<C> = { content: compiled, location, needs };
   return errors.length === 0 ? Result.ok(result) : Result.err(errors, result);
 }
 
