@@ -744,6 +744,40 @@ sets:
       Survivor:
       - key: "s-gnk-kyoko"
         name: "Kyoko (GNK)"
+      Mission:
+      - key: "m-gnk01-01-cars"
+        name: "GNK#1 M1 Cars!"
+        needs:
+          sets:
+          - "01-01-zombicide"
+        features: ["campaign"]
+        properties:
+          difficulty: 3
+          duration: 90
+          minSurvivors: 4
+          maxSurvirors: 6
+      - key: "m-gnk01-02-food"
+        name: "GNK#1 M2 Food!"
+        needs:
+          sets:
+          - "01-01-zombicide"
+        features: ["campaign"]
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 4
+          maxSurvirors: 6
+      - key: "m-gnk01-03-guns"
+        name: "GNK#1 M3 Guns!"
+        needs:
+          sets:
+          - "01-01-zombicide"
+        features: ["campaign"]
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 4
+          maxSurvirors: 6
   # https://boardgamegeek.com/boardgameexpansion/153977/zombicide-gaming-night-2-black-friday
   - key: "01-xx-gaming-night-kit-02"
     name: "Gaming Night Kit #2: Black Friday"
@@ -751,6 +785,40 @@ sets:
       Survivor:
       - key: "s-gnk-thiago"
         name: "Thiago (GNK)"
+      Mission:
+      - key: "m-gnk02-01-zombie-vault"
+        name: "GNK#2 M1 Zombie Vault"
+        needs:
+          sets:
+          - "01-02-prison-outbreak"
+          - "01-02-toxic-city-mall"
+        features: ["campaign"]
+        properties:
+          difficulty: 1
+          duration: 90
+          minSurvivors: 6
+      - key: "m-gnk02-02-fortress-mall"
+        name: "GNK#2 M2 Fortress Mall"
+        needs:
+          sets:
+          - "01-02-prison-outbreak"
+          - "01-02-toxic-city-mall"
+        features: ["campaign"]
+        properties:
+          difficulty: 2
+          duration: 120
+          minSurvivors: 6
+      - key: "m-gnk02-03-a-spiral-of-violence"
+        name: "GNK#2 M3 A Spiral Of Violence"
+        needs:
+          sets:
+          - "01-02-prison-outbreak"
+          - "01-02-toxic-city-mall"
+        features: ["campaign"]
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
   # https://boardgamegeek.com/boardgameexpansion/153978/zombicide-gaming-night-3-zombie-trap
   - key: "01-xx-gaming-night-kit-03"
     name: "Gaming Night Kit #3: Zombie Trap"
@@ -758,6 +826,37 @@ sets:
       Survivor:
       - key: "s-gnk-bill"
         name: "Bill (GNK)"
+      Mission:
+      - key: "m-gnk03-01-zombie-trappers"
+        name: "GNK#3 M1 Zombie Trappers"
+        needs:
+          sets:
+          - "01-02-prison-outbreak"
+        features: ["campaign"]
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-gnk03-02-setting-the-trap"
+        name: "GNK#3 M2 Setting The Trap"
+        needs:
+          sets:
+          - "01-02-prison-outbreak"
+        features: ["campaign"]
+        properties:
+          difficulty: 3
+          duration: 150
+          minSurvivors: 6
+      - key: "m-gnk03-03-ending-the-job"
+        name: "GNK#3 M3 Ending The Job"
+        needs:
+          sets:
+          - "01-02-prison-outbreak"
+        features: ["campaign"]
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
   # https://boardgamegeek.com/boardgameexpansion/164625/zombicide-gaming-night-4-tric-and-trac
   # https://boardgamegeek.com/boardgameexpansion/148340/zombicide-survivor-mr-phal
   - key: "01-xx-gaming-night-kit-04"
@@ -766,6 +865,40 @@ sets:
       Survivor:
       - key: "s-gnk-mphal"
         name: "M. Phal (GNK)"
+      Mission:
+      - key: "m-gnk04-01-phal-out"
+        name: "GNK#4 M1 Phal Out"
+        needs:
+          sets:
+          - "01-01-zombicide"
+          - "01-02-toxic-city-mall"
+        features: ["campaign"]
+        properties:
+          difficulty: 2
+          duration: 90
+          minSurvivors: 6
+      - key: "m-gnk04-02-on-the-edge"
+        name: "GNK#4 M2 On The Edge"
+        needs:
+          sets:
+          - "01-01-zombicide"
+          - "01-02-toxic-city-mall"
+        features: ["campaign"]
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
+      - key: "m-gnk04-03-the-last-trictrac-tv"
+        name: "GNK#4 M3 The Last TricTrac TV"
+        needs:
+          sets:
+          - "01-01-zombicide"
+          - "01-02-toxic-city-mall"
+        features: ["campaign"]
+        properties:
+          difficulty: 3
+          duration: 180
+          minSurvivors: 6
   # https://boardgamegeek.com/boardgame/193720/zombicide-gaming-night-5-bluehand-protocol
   - key: "01-xx-gaming-night-kit-05"
     name: "Gaming Night Kit #5: Bluehand Protocol"
@@ -775,6 +908,47 @@ sets:
         name: "Azaghal (GNK)"
       - key: "s-gnk-jovem-nerd"
         name: "Jovem Nerd (GNK)"
+      Mission:
+      - key: "m-gnk05-01-follow-bluehand"
+        name: "GNK#5 M1 Follow Bluehand"
+        needs:
+          sets:
+          - "01-03-rue-morgue"
+        features: ["campaign"]
+        properties:
+          difficulty: 2
+          duration: 60
+          minSurvivors: 2
+      - key: "m-gnk05-02-protect-bluehand"
+        name: "GNK#5 M2 Protect Bluehand!"
+        needs:
+          sets:
+          - "01-03-rue-morgue"
+        features: ["campaign"]
+        properties:
+          difficulty: 3
+          duration: 90
+          minSurvivors: 2
+      - key: "m-gnk05-03-the-war-room"
+        name: "GNK#5 M3 The War Room"
+        needs:
+          sets:
+          - "01-03-rue-morgue"
+        features: ["campaign"]
+        properties:
+          difficulty: 3
+          duration: 90
+          minSurvivors: 2
+      - key: "m-gnk05-04-protocol-zombicide"
+        name: "GNK#5 M4 Protocol: Zombicide"
+        needs:
+          sets:
+          - "01-03-rue-morgue"
+        features: ["campaign"]
+        properties:
+          difficulty: 3
+          duration: 90
+          minSurvivors: 2
 
 - key: "01-xx-tmnt"
   name: "TMNT Pack"
@@ -860,6 +1034,29 @@ sets:
       name: "Marion (Comics 1)"
     - key: "s-comics-01-norman"
       name: "Norman (Comics 1)"
+  Mission:
+  - key: "m-comics-01-01-the-escape"
+    name: "Comics 1 M1 The Escape"
+    features: ["campaign"]
+    properties:
+      difficulty: 3
+      duration: 45
+      minSurvivors: 2
+  - key: "m-comics-01-02-operation-tobias"
+    name: "Comics 1 M2 Operation Tobias"
+    features: ["campaign"]
+    properties:
+      difficulty: 3
+      duration: 75
+      minSurvivors: 2
+  - key: "m-comics-01-03-final-defense"
+    name: "Comics 1 M3 Final Defense"
+    features: ["campaign"]
+    properties:
+      difficulty: 4
+      duration: 120
+      minSurvivors: 2
+
 
 # https://www.zombicide.com/classic-missions/
 - key: "01-xx-free-missions"
