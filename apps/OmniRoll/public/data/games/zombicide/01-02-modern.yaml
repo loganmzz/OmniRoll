@@ -732,6 +732,13 @@ sets:
         name: "The Colonel (MPFC)"
       - key: "s-mpfc-the-knight-with-a-raw-chicken"
         name: "The Knight With A Raw Chicken (MPFC)"
+      Mission:
+      - key: "m-mpfc-01-and-now-for-a-completely-unexpected-mission"
+        name: "MPFC M1 And Now for a Completely Unexpected Mission"
+        properties:
+          difficulty: 3
+          duration: 90
+          minSurvivors: 6
   # https://boardgamegeek.com/boardgameexpansion/392833/zombicide-2nd-edition-monty-pythons-flying-circus
   - key: "02-01-monthy-python-flying-circus-02"
     name: "Monty Python's Flying Circus: Gumby Pack"
