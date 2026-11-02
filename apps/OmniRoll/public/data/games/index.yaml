@@ -4,3 +4,7 @@ updatedAt: "2026-03-14T22:30:00.000Z"
 games:
 - include: "./aeons-end.yaml"
 - include: "./skytear-horde.yaml"
+- include: "./zombicide/01-modern.yaml"
+- include: "./zombicide/02-fantasy.yaml"
+- include: "./zombicide/03-western.yaml"
+- include: "./zombicide/04-scifi.yaml"
