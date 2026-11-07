@@ -48,6 +48,13 @@
     @apply max-w-[1.2em] max-h-[1.2em] inline-block;
   }
 
+  .pi.selected {
+    @apply text-lime-600;
+  }
+  .pi.unselected {
+    @apply text-red-600;
+  }
+
 
   /** Pseudo checkbox **/
   .checkbox {

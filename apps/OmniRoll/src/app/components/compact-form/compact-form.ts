@@ -24,15 +24,16 @@ import {
   required,
 } from '@angular/forms/signals';
 import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
 import { ChipModule } from 'primeng/chip';
 import { InplaceModule } from 'primeng/inplace';
 import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
 
-export type CompactFormValue = number|string;
+export type CompactFormValue = boolean|number|string;
 export type CompactFormValues = Record<string, CompactFormValue>;
 export type CompactFormFields = CompactFormField[];
-export type CompactFormField = CompactFormFieldRange|CompactFormFieldText|CompactFormFieldUrl;
+export type CompactFormField = CompactFormFieldRange|CompactFormFieldText|CompactFormFieldUrl|CompactFormFieldBoolean;
 export interface CompactFormFieldRange {
   key: string;
   type: 'range';
@@ -51,6 +52,11 @@ export interface CompactFormFieldUrl {
   type: 'url';
   label: string;
 }
+export interface CompactFormFieldBoolean {
+  key: string;
+  type: 'boolean';
+  label: string;
+}
 
 @Component({
   selector: 'app-compact-form',
@@ -59,6 +65,7 @@ export interface CompactFormFieldUrl {
     FormsModule,
     ReactiveFormsModule,
     ButtonModule,
+    CheckboxModule,
     ChipModule,
     InplaceModule,
     InputTextModule,
@@ -136,11 +143,14 @@ export class CompactForm implements OnChanges, OnDestroy {
     }
   }
 
-  stringField(form: FieldTree<CompactFormValues>, key: string) {
-    return form[key] as FieldTree<string, string>;
+  booleanField(form: FieldTree<CompactFormValues>, key: string) {
+    return form[key] as FieldTree<boolean, string>;
   }
   integerField(form: FieldTree<CompactFormValues>, key: string) {
-    return form[key] as FieldTree<number, number>;
+    return form[key] as FieldTree<number, string>;
+  }
+  stringField(form: FieldTree<CompactFormValues>, key: string) {
+    return form[key] as FieldTree<string, string>;
   }
 
   save() {

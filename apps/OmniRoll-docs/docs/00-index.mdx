@@ -214,13 +214,17 @@ needs:              # (Optional) Requirements for this randomizer to be included
   sets: []          # (Optional) List of keys of ALL required sets
   features: []      # (Optional) List of ALL required features
 
-variables:          # (Optional) Supported types: `integer`
+variables:          # (Optional) Supported types: `integer`, `boolean`
 - key: ""           # (Required) Unique identifier for the randomizer
   name: ""          # (Optional) Display name (default to `key`)
   type: "integer"   # (Required)
   min: 0            # (Optional) Minimum value
   max: 999          # (Optional) Maximum value
   default: 10       # (Required) Default value
+- key: ""           # (Required) Unique identifier for the randomizer
+  name: ""          # (Optional) Display name (default to `key`)
+  type: "boolean"   # (Required)
+  default: false    # (Required) Default value
 
 pools:              # (Required) List of component pool to pick from
 - key: ""           # (Required) Unique identifier for the Randomizer
