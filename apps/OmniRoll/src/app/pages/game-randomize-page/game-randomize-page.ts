@@ -11,12 +11,14 @@ import {
 import {
   CompactForm,
   CompactFormField,
+  CompactFormFieldBoolean,
   CompactFormFieldRange,
   CompactFormFields,
   CompactFormValues,
 } from '@project/components/compact-form/compact-form';
 import {
   CompiledRandomizerVariable,
+  CompiledRandomizerVariableBoolean,
   CompiledRandomizerVariableInteger
 } from '@project/model/compiled';
 import { Collection } from '@project/services/collection/collection';
@@ -130,8 +132,8 @@ function fromVariablesToForm(variables: CompiledRandomizerVariable[] | undefined
   if (variables === undefined) {
     return undefined;
   }
-  const fields = variables.filter(v => v.defaultValue !== undefined).map(fromVariableToField);
-  const values = signal<CompactFormValues>(Object.fromEntries(variables.map(v => [v.key, v.defaultValue]).filter(([_, v]) => v !== undefined)));
+  const fields = variables.filter(v => v.defaultValue() !== undefined).map(fromVariableToField);
+  const values = signal<CompactFormValues>(Object.fromEntries(variables.map(v => [v.key, v.defaultValue()]).filter(([_, v]) => v !== undefined)));
   return {fields, values};
 }
 function fromVariableToField(variable: CompiledRandomizerVariable): CompactFormField {
@@ -144,7 +146,12 @@ function fromVariableToField(variable: CompiledRandomizerVariable): CompactFormF
         min: variable.min,
         max: variable.max,
       } as CompactFormFieldRange;
+    case variable instanceof CompiledRandomizerVariableBoolean:
+      return {
+        key: variable.key,
+        type: 'boolean',
+        label: variable.name,
+      } as CompactFormFieldBoolean;
   }
   throw new Error('Unsupported variable type');
 }
-

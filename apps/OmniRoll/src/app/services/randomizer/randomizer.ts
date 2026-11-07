@@ -41,7 +41,7 @@ export class Randomizer {
         }
       }
       shuffle();
-      const picked = shuffled.find(component => (removedFromPool === undefined || !removedFromPool.has(component.key)) && slot.test(component) && pool.test(component));
+      const picked = shuffled.find(component => (removedFromPool === undefined || !removedFromPool.has(component.key)) && slot.test({component, variables}) && pool.test({component, variables}));
       if (!picked) {
         throw new Error(`Slot ${JSON.stringify(slot.key)} can't be fulfilled. No left component matching.`);
       }

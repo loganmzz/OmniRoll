@@ -70,6 +70,29 @@
                 "type": "integer"
               }
             }
+          },
+          {
+            "type": "object",
+            "required": [
+              "key",
+              "type",
+              "default"
+            ],
+            "properties": {
+              "key": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9-]*$"
+              },
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "const": "boolean"
+              },
+              "default": {
+                "type": "boolean"
+              }
+            }
           }
         ]
       }
