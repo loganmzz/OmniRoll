@@ -58,16 +58,10 @@
                 "type": "string"
               },
               "type": {
-                "const": "integer"
-              },
-              "min": {
-                "type": "integer"
-              },
-              "max": {
-                "type": "integer"
+                "const": "boolean"
               },
               "default": {
-                "type": "integer"
+                "type": "boolean"
               }
             }
           },
@@ -87,10 +81,71 @@
                 "type": "string"
               },
               "type": {
-                "const": "boolean"
+                "const": "integer"
+              },
+              "min": {
+                "type": "integer"
+              },
+              "max": {
+                "type": "integer"
               },
               "default": {
-                "type": "boolean"
+                "type": "integer"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "key",
+              "type",
+              "min",
+              "max",
+              "default"
+            ],
+            "properties": {
+              "key": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9-]*$"
+              },
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "const": "range"
+              },
+              "min": {
+                "type": "integer"
+              },
+              "max": {
+                "type": "integer"
+              },
+              "default": {
+                "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "min",
+                      "max"
+                    ],
+                    "properties": {
+                      "min": {
+                        "type": "integer"
+                      },
+                      "max": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                ]
               }
             }
           }

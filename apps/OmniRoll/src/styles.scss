@@ -48,11 +48,21 @@
     @apply max-w-[1.2em] max-h-[1.2em] inline-block;
   }
 
+
+  /** Icon **/
   .pi.selected {
     @apply text-lime-600;
   }
   .pi.unselected {
     @apply text-red-600;
+  }
+
+  /** Chip **/
+  .chip-container {
+    @apply flex gap-2;
+  }
+  .chip-item {
+    @apply bg-gray-200 text-gray-800 px-2 py-1 rounded;
   }
 
 

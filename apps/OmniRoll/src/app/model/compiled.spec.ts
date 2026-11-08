@@ -1,14 +1,23 @@
-import { DataLocation } from './common';
+import { DataLocation, Range } from './common';
 import {
   CompiledComponent,
   CompiledGame,
+  CompiledRandomizer,
+  CompiledRandomizerPool,
+  CompiledRandomizerSlot,
+  CompiledRandomizerVariable,
+  CompiledRandomizerVariableBoolean,
+  CompiledRandomizerVariableInteger,
+  CompiledRandomizerVariableRange,
   ComponentCompilation,
   ComponentSetCompilation,
   GameCompilation,
+  RandomizerCompilation,
 } from './compiled';
 import {
   ReferentialComponent,
   ReferentialGame,
+  ReferentialRandomizer,
   ReferentialSet,
 } from './referential';
 
@@ -1374,6 +1383,143 @@ describe('model/compiled', () => {
           expect(`${result.err}`).toStrictEqual(expected.map(e => `- ${e}`).join('\n'));
         }
       );
+    });
+  });
+
+  describe('randomizer', () => {
+    test('minimal', () => {
+      const input: ReferentialRandomizer = {
+        key: 'default',
+        pools: [
+          {
+            key: 'a-pool',
+          },
+        ],
+        slots: [
+          {
+            key: 'a-slot',
+            pool: 'a-pool',
+          },
+        ],
+      };
+
+      const content = new CompiledRandomizer();
+      content.key = 'default';
+      content.name = 'default';
+
+      const pool = new CompiledRandomizerPool();
+      pool.key = 'a-pool';
+      content.pools.push(pool);
+
+      const slot = new CompiledRandomizerSlot();
+      slot.key = 'a-slot';
+      slot.name = 'a-slot';
+      slot.pool = 'a-pool';
+      content.slots.push(slot);
+
+
+      const expected: RandomizerCompilation = {
+        content: content,
+        location: new DataLocation(),
+        needs: undefined,
+      };
+
+      const actual = CompiledRandomizer.newFromDataModel(input).expect();
+      expect(actual).toStrictEqual(expected);
+    });
+    test('variables', () => {
+      const input: ReferentialRandomizer = {
+        key: 'default',
+        variables: [
+          {
+            key: 'boolean',
+            type: 'boolean',
+            default: false,
+          },
+          {
+            key: 'integer-unbound',
+            type: 'integer',
+            default: 0,
+          },
+          {
+            key: 'integer-bound',
+            type: 'integer',
+            default: 5,
+            min: 0,
+            max: 10,
+          },
+          {
+            key: 'range-pair',
+            type: 'range',
+            min: 0,
+            max: 100,
+            default: [10, 90],
+          },
+          {
+            key: 'range-object',
+            type: 'range',
+            min: 100,
+            max: 1000,
+            default: { min: 500, max: 600 },
+          },
+        ],
+        pools: [
+          {
+            key: 'a-pool',
+          },
+        ],
+        slots: [
+          {
+            key: 'a-slot',
+            pool: 'a-pool',
+          },
+        ],
+      };
+
+      const content = new CompiledRandomizer();
+      content.key = 'default';
+      content.name = 'default';
+
+      const boolVariable = new CompiledRandomizerVariableBoolean('boolean', 'boolean', false);
+      content.variables.push(boolVariable);
+
+      let intVariable = new CompiledRandomizerVariableInteger('integer-unbound', 'integer-unbound', 0);
+      content.variables.push(intVariable);
+
+      intVariable = new CompiledRandomizerVariableInteger('integer-bound', 'integer-bound', 5);
+      intVariable.min = 0;
+      intVariable.max = 10;
+      content.variables.push(intVariable);
+
+      let rangeVariable = new CompiledRandomizerVariableRange('range-pair', 'range-pair', new Range(10, 90));
+      rangeVariable.min = 0;
+      rangeVariable.max = 100;
+      content.variables.push(rangeVariable);
+
+      rangeVariable = new CompiledRandomizerVariableRange('range-object', 'range-object', new Range(500, 600));
+      rangeVariable.min = 100;
+      rangeVariable.max = 1000;
+      content.variables.push(rangeVariable);
+
+      const pool = new CompiledRandomizerPool();
+      pool.key = 'a-pool';
+      content.pools.push(pool);
+
+      const slot = new CompiledRandomizerSlot();
+      slot.key = 'a-slot';
+      slot.name = 'a-slot';
+      slot.pool = 'a-pool';
+      content.slots.push(slot);
+
+
+      const expected: RandomizerCompilation = {
+        content: content,
+        location: new DataLocation(),
+        needs: undefined,
+      };
+
+      const actual = CompiledRandomizer.newFromDataModel(input).expect();
+      expect(actual).toStrictEqual(expected);
     });
   });
 });
