@@ -38,6 +38,10 @@ export class ExpressionError {
     return new ExpressionError(`${err}`);
   }
 
+  mapMessage(fn: (message: string) => string): ExpressionError {
+    return new ExpressionError(fn(this.message));
+  }
+
   toString(): string {
     return this.message;
   }
@@ -116,21 +120,7 @@ export class Expression {
   }
   resolveAsBoolean(context: Context): boolean {
     const value = this.resolve(context);
-    switch (typeof value) {
-      case 'undefined':
-        return false;
-      case 'boolean':
-        return value;
-      case 'number':
-        return value !== 0;
-      case 'string':
-        return value.length > 0;
-      default:
-        if (value instanceof Set) {
-          return value.size > 0;
-        }
-        return false;
-    }
+    return asBoolean(value);
   }
 
   toString(): string {
@@ -159,6 +149,8 @@ abstract class AbstractResolver {
         return UnaryExpressionResolver.from(ast as jsep.UnaryExpression);
       case 'BinaryExpression':
         return BinaryExpressionResolver.from(ast as jsep.BinaryExpression);
+      case 'ConditionalExpression':
+        return TernaryExpressionResolver.from(ast as jsep.ConditionalExpression);
       case 'MemberExpression':
         return IdentifierResolver.fromMember(ast as jsep.MemberExpression);
       default:
@@ -182,6 +174,10 @@ class LiteralResolver extends AbstractResolver {
 
   override resolve(): ValueType {
     return this.value;
+  }
+
+  override toString(): string {
+    return JSON.stringify(this.value);
   }
 }
 
@@ -246,6 +242,10 @@ class IdentifierResolver extends AbstractResolver {
     }
     return undefined;
   }
+
+  override toString(): string {
+    return this.path.map(segment => segment.toString()).join('.');
+  }
 }
 
 class ArrayExpressionResolver extends AbstractResolver {
@@ -286,6 +286,10 @@ class ArrayExpressionResolver extends AbstractResolver {
     }
     return result;
   }
+
+  override toString(): string {
+    return `[${this.elements.map(element => element.toString()).join(', ')}]`;
+  }
 }
 
 class CompoundResolver extends AbstractResolver {
@@ -312,10 +316,17 @@ class CompoundResolver extends AbstractResolver {
   override resolve(context: ResolutionContext): unknown[] {
     return this.nodes.map(node => node.resolve(context));
   }
+
+  override toString(): string {
+    return this.nodes.map(node => node.toString()).join(', ');
+  }
 }
 
 abstract class UnaryExpressionResolver extends AbstractResolver {
-  constructor(protected term: AbstractResolver) {
+  constructor(
+    protected operator: string,
+    protected term: AbstractResolver,
+  ) {
     super();
   }
   static override from(ast: jsep.UnaryExpression): Result<UnaryExpressionResolver, ExpressionParseError> {
@@ -331,11 +342,15 @@ abstract class UnaryExpressionResolver extends AbstractResolver {
     }
   }
   abstract override resolve(context: ResolutionContext): ValueType;
+
+  override toString(): string {
+    return `${this.operator} ${this.term}`;
+  }
 }
 
 class NotResolver extends UnaryExpressionResolver {
   constructor(term: AbstractResolver) {
-    super(term);
+    super('!', term);
   }
 
   override resolve(context: ResolutionContext): boolean | undefined {
@@ -359,6 +374,7 @@ abstract class BinaryExpressionResolver extends AbstractResolver {
 
   constructor(
     protected left: AbstractResolver,
+    protected operator: string,
     protected right: AbstractResolver,
   ) {
     super();
@@ -406,11 +422,15 @@ abstract class BinaryExpressionResolver extends AbstractResolver {
     }
   }
   abstract override resolve(context: ResolutionContext): ValueType;
+
+  override toString(): string {
+    return `${this.left} ${this.operator} ${this.right}`;
+  }
 }
 
 class EqualResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '==', right);
   }
 
   override resolve(context: ResolutionContext): boolean | undefined {
@@ -445,7 +465,7 @@ class NotEqualResolver extends BinaryExpressionResolver {
   protected equal: EqualResolver;
 
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '!=', right);
     this.equal = new EqualResolver(left, right);
   }
 
@@ -456,7 +476,7 @@ class NotEqualResolver extends BinaryExpressionResolver {
 
 class GreaterThanResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '>', right);
   }
 
   override resolve(context: ResolutionContext): boolean | undefined {
@@ -486,7 +506,7 @@ class GreaterThanResolver extends BinaryExpressionResolver {
 
 class GreaterThanOrEqualResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '>=', right);
   }
 
   override resolve(context: ResolutionContext): boolean | undefined {
@@ -516,7 +536,7 @@ class GreaterThanOrEqualResolver extends BinaryExpressionResolver {
 
 class LessThanResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '<', right);
   }
 
   override resolve(context: ResolutionContext): boolean | undefined {
@@ -546,7 +566,7 @@ class LessThanResolver extends BinaryExpressionResolver {
 
 class LessThanOrEqualResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '<=', right);
   }
 
   override resolve(context: ResolutionContext): boolean | undefined {
@@ -576,7 +596,7 @@ class LessThanOrEqualResolver extends BinaryExpressionResolver {
 
 class InResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, 'in', right);
   }
 
   override resolve(context: ResolutionContext): boolean | undefined {
@@ -597,7 +617,7 @@ class InResolver extends BinaryExpressionResolver {
 
 class OrResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '||', right);
   }
 
   override resolve(context: ResolutionContext): boolean | undefined {
@@ -612,7 +632,7 @@ class OrResolver extends BinaryExpressionResolver {
 
 class AndResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '&&', right);
   }
 
   override resolve(context: ResolutionContext): boolean | undefined {
@@ -627,7 +647,7 @@ class AndResolver extends BinaryExpressionResolver {
 
 class AddResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '+', right);
   }
 
   override resolve(context: ResolutionContext): ValueType {
@@ -670,7 +690,7 @@ class AddResolver extends BinaryExpressionResolver {
 
 class SubResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '-', right);
   }
 
   override resolve(context: ResolutionContext): ValueType {
@@ -700,7 +720,7 @@ class SubResolver extends BinaryExpressionResolver {
 
 class ModResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '%', right);
   }
 
   override resolve(context: ResolutionContext): ValueType {
@@ -719,7 +739,7 @@ class ModResolver extends BinaryExpressionResolver {
 
 class MulResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '*', right);
   }
 
   override resolve(context: ResolutionContext): ValueType {
@@ -748,7 +768,7 @@ class MulResolver extends BinaryExpressionResolver {
 
 class DivResolver extends BinaryExpressionResolver {
   constructor(left: AbstractResolver, right: AbstractResolver) {
-    super(left, right);
+    super(left, '/', right);
   }
 
   override resolve(context: ResolutionContext): ValueType {
@@ -762,5 +782,54 @@ class DivResolver extends BinaryExpressionResolver {
       return left / right;
     }
     return undefined;
+  }
+}
+
+class TernaryExpressionResolver extends AbstractResolver {
+  protected else: AbstractResolver;
+
+  constructor(
+    protected condition: AbstractResolver,
+    protected then: AbstractResolver,
+    protected else_: AbstractResolver,
+  ) {
+    super();
+    this.else = this.else_;
+  }
+  static override from(ast: jsep.ConditionalExpression): Result<TernaryExpressionResolver, ExpressionError> {
+    const errors: ExpressionParseError[] = [];
+
+    const condition = AbstractResolver.from(ast.test);
+    if (condition.err) {
+      errors.push(condition.err.mapMessage((msg) => `Invalid ternary condition: ${msg}`));
+    }
+
+    const then = AbstractResolver.from(ast.consequent);
+    if (then.err) {
+      errors.push(then.err.mapMessage((msg) => `Invalid ternary then branch: ${msg}`));
+    }
+
+    const else_ = AbstractResolver.from(ast.alternate);
+    if (else_.err) {
+      errors.push(else_.err.mapMessage((msg) => `Invalid ternary else branch: ${msg}`));
+    }
+
+    if (errors.length > 0) {
+      return Result.err(ExpressionParseError.fromErrors(`Invalid ternary expression`, errors));
+    }
+    return Result.ok(new TernaryExpressionResolver(condition.expect(), then.expect(), else_.expect()));
+  }
+
+  override resolve(context: ResolutionContext): unknown {
+    const condition = asBoolean(this.condition.resolve(context));
+    if (condition) {
+      return this.then.resolve(context);
+    } else {
+      return this.else.resolve(context);
+    }
+  }
+
+  override toString(): string {
+    return `${this.condition} ? ${this.then} : ${this.else}`;
   }
 }

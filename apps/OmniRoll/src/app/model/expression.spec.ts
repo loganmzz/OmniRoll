@@ -3358,5 +3358,50 @@ describe('model/expression', () => {
         },
       );
 
+      // Priority
+      test.each(
+        [
+          {
+            input: `true ? true : false`,
+            expected: true,
+          },
+          {
+            input: `true ? false : true`,
+            expected: false,
+          },
+          {
+            input: `false ? true : false`,
+            expected: false,
+          },
+          {
+            input: `false ? false : true`,
+            expected: true,
+          },
+          {
+            input: `0 == 0 ? true : false`,
+            expected: true,
+          },
+          {
+            input: `0 == 0 ? false : true`,
+            expected: false,
+          },
+          {
+            input: `0 != 0 ? true : false`,
+            expected: false,
+          },
+          {
+            input: `0 != 0 ? false : true`,
+            expected: true,
+          },
+        ]
+      )(
+        'ternary',
+        ({input, expected}: {input: string, expected: ReturnType<Expression['resolve']>}) => {
+          const {ok, err} = Expression.compile(input);
+          expect(err).toBeUndefined();
+          expect(ok?.resolve({})).toStrictEqual(expected);
+        }
+      );
+
     });
 });
