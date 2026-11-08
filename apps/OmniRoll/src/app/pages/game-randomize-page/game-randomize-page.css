@@ -7,3 +7,11 @@
 .randomizer-slots > .card {
   @apply min-w-40;
 }
+
+p-card {
+  --p-card-body-padding: 0.8rem;
+}
+
+p-card .card-content {
+  @apply text-center;
+}

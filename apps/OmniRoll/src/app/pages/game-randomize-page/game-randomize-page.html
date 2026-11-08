@@ -18,9 +18,11 @@
         <div class="grid">
           @for(slot of items; track slot.key) {
             <p-card>
-              <div>
-                {{slot.text}}
-              </div>
+              <ng-template #content>
+                <div class="card-content">
+                  {{slot.text}}
+                </div>
+              </ng-template>
             </p-card>
           }
         </div>
