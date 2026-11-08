@@ -2,6 +2,7 @@ import {
   DataError,
   DataErrors,
   DataLocation,
+  Range,
   Result,
 } from './common';
 import {
@@ -22,6 +23,7 @@ import {
   ReferentialRandomizerVariable,
   ReferentialRandomizerVariableBoolean,
   ReferentialRandomizerVariableInteger,
+  ReferentialRandomizerVariableRange,
   ReferentialSet,
 } from './referential';
 
@@ -552,7 +554,7 @@ export interface CompiledRandomizerLike {
   slots: CompiledRandomizerSlotLike[];
 }
 
-export type CompiledRandomizerVariableType = boolean | number | string | undefined;
+export type CompiledRandomizerVariableType = boolean | number | string | Range<number> | undefined;
 
 export class CompiledRandomizerVariable implements CompiledElement {
 
@@ -576,10 +578,12 @@ export class CompiledRandomizerVariable implements CompiledElement {
 
   static newFromDataModel(spec: ReferentialRandomizerVariable, location: DataLocation = new DataLocation()): Result<CompiledRandomizerVariable, DataErrors> {
     switch (spec.type) {
-      case 'integer':
-        return CompiledRandomizerVariableInteger.newFromDataModel(spec, location);
       case 'boolean':
         return CompiledRandomizerVariableBoolean.newFromDataModel(spec, location);
+      case 'integer':
+        return CompiledRandomizerVariableInteger.newFromDataModel(spec, location);
+      case 'range':
+        return CompiledRandomizerVariableRange.newFromDataModel(spec, location);
       default:
         return Result.err(
           new DataErrors([
@@ -595,13 +599,52 @@ export class CompiledRandomizerVariable implements CompiledElement {
 
   static fromJSON(data: CompiledRandomizerVariableLike): CompiledRandomizerVariable {
     switch (true) {
-      case CompiledRandomizerVariableInteger.isJSON(data):
-        return CompiledRandomizerVariableInteger.fromJSON(data);
       case CompiledRandomizerVariableBoolean.isJSON(data):
         return CompiledRandomizerVariableBoolean.fromJSON(data);
+      case CompiledRandomizerVariableInteger.isJSON(data):
+        return CompiledRandomizerVariableInteger.fromJSON(data);
+      case CompiledRandomizerVariableRange.isJSON(data):
+        return CompiledRandomizerVariableRange.fromJSON(data);
       default:
         throw new Error(`Unsupported JSON randomizer variable:\n${JSON.stringify(data, undefined, 2)}`);
     }
+  }
+}
+export class CompiledRandomizerVariableBoolean extends CompiledRandomizerVariable {
+  default: boolean;
+
+  constructor(key: string, name: string, defaultValue: boolean) {
+    super(key, name);
+    this.default = defaultValue;
+  }
+
+  static override newFromDataModel(spec: ReferentialRandomizerVariableBoolean, location: DataLocation = new DataLocation()): Result<CompiledRandomizerVariableBoolean, DataErrors> {
+    const errors = new DataErrors();
+    if (!KeyPattern.test(spec.key)) {
+      errors.addError(new DataError(location.child('key'), `Randomizer variable key ${JSON.stringify(spec.key)} is invalid`));
+    }
+    const compiled = new CompiledRandomizerVariableBoolean(spec.key, spec.name ?? spec.key, spec.default);
+    return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
+  }
+
+  override defaultValue(): boolean {
+    return this.default;
+  }
+
+  override toJSON(): CompiledRandomizerVariableBooleanLike {
+    return {
+      key: this.key,
+      name: this.name,
+      type: 'boolean',
+      default: this.default,
+    };
+  }
+  static isJSON(data: CompiledRandomizerVariableLike): data is CompiledRandomizerVariableBooleanLike {
+    return 'type' in data && data.type === 'boolean';
+  }
+  static override fromJSON(data: CompiledRandomizerVariableBooleanLike): CompiledRandomizerVariableBoolean {
+    const result = new CompiledRandomizerVariableBoolean(data.key, data.name, data.default);
+    return result;
   }
 }
 export class CompiledRandomizerVariableInteger extends CompiledRandomizerVariable {
@@ -668,49 +711,109 @@ export class CompiledRandomizerVariableInteger extends CompiledRandomizerVariabl
     return result;
   }
 }
-export class CompiledRandomizerVariableBoolean extends CompiledRandomizerVariable {
-  default: boolean;
+export class CompiledRandomizerVariableRange extends CompiledRandomizerVariable {
+  min = 0;
+  max = 100;
+  default: Range<number>;
 
-  constructor(key: string, name: string, defaultValue: boolean) {
+  constructor(key: string, name: string, defaultValue: Range<number>) {
     super(key, name);
     this.default = defaultValue;
   }
 
-  static override newFromDataModel(spec: ReferentialRandomizerVariableBoolean, location: DataLocation = new DataLocation()): Result<CompiledRandomizerVariableBoolean, DataErrors> {
+  static override newFromDataModel(spec: ReferentialRandomizerVariableRange, location: DataLocation = new DataLocation()): Result<CompiledRandomizerVariableRange, DataErrors> {
     const errors = new DataErrors();
     if (!KeyPattern.test(spec.key)) {
       errors.addError(new DataError(location.child('key'), `Randomizer variable key ${JSON.stringify(spec.key)} is invalid`));
     }
-    const compiled = new CompiledRandomizerVariableBoolean(spec.key, spec.name ?? spec.key, spec.default);
+
+    const min = spec.min;
+    if (typeof min !== 'number') {
+      errors.addError(new DataError(location.child('min'), `Randomizer variable min must be a number`));
+    }
+    const max = spec.max;
+    if (typeof max !== 'number') {
+      errors.addError(new DataError(location.child('max'), `Randomizer variable max must be a number`));
+    }
+
+    let defaultMin = min ?? Number.MIN_VALUE;
+    let defaultMax = max ?? Number.MAX_VALUE;
+    if (Array.isArray(spec.default)) {
+      if (spec.default.length === 2 && spec.default.every(e => typeof e === 'number')) {
+        [defaultMin, defaultMax] = spec.default;
+      } else {
+        errors.addError(new DataError(location.child('default'), `Randomizer variable default array must have exactly 2 numbers`));
+      }
+    } else if (typeof spec.default === 'object' && spec.default !== null) {
+      if (typeof spec.default.min === 'number') {
+        defaultMin = spec.default.min;
+      } else if (spec.default.min !== undefined && spec.default.min !== null) {
+        errors.addError(new DataError(location.child('default').child('min'), `Randomizer variable default min must be a number`));
+      }
+      if (typeof spec.default.max === 'number') {
+        defaultMax = spec.default.max;
+      } else if (spec.default.max !== undefined && spec.default.max !== null) {
+        errors.addError(new DataError(location.child('default').child('max'), `Randomizer variable default max must be a number`));
+      }
+    } else if (spec.default !== undefined && spec.default !== null) {
+      errors.addError(new DataError(location.child('default'), `Randomizer variable default must be an array of 2 numbers or an object with min and max numbers`));
+    }
+    const compiled = new CompiledRandomizerVariableRange(spec.key, spec.name ?? spec.key, new Range(defaultMin, defaultMax));
+    if (min !== undefined) {
+      compiled.min = min;
+    }
+    if (max !== undefined) {
+      compiled.max = max;
+    }
+    if (compiled.min >= compiled.max) {
+      errors.addError(new DataError(location, `Randomizer variable min ${compiled.min} must be less than max ${compiled.max}`));
+    }
+
+    if (compiled.default.min > compiled.default.max) {
+      errors.addError(new DataError(location, `Randomizer variable default min ${compiled.default.min} must be less than or equal to max ${compiled.default.max}`));
+    }
+    if (compiled.default.min < compiled.min || compiled.default.max > compiled.max) {
+      errors.addError(new DataError(location, `Randomizer variable default ${compiled.default} must be between min ${compiled.min} and max ${compiled.max}`));
+    }
     return errors.length === 0 ? Result.ok(compiled) : Result.err(errors, compiled);
   }
 
-  override defaultValue(): boolean {
+  override defaultValue(): Range<number> {
     return this.default;
   }
 
-  override toJSON(): CompiledRandomizerVariableBooleanLike {
+  override toJSON(): CompiledRandomizerVariableRangeLike {
     return {
       key: this.key,
       name: this.name,
-      type: 'boolean',
-      default: this.default,
+      type: 'range',
+      min: this.min,
+      max: this.max,
+      default: this.default.toJSON(),
     };
   }
-  static isJSON(data: CompiledRandomizerVariableLike): data is CompiledRandomizerVariableBooleanLike {
-    return 'type' in data && data.type === 'boolean';
+  static isJSON(data: CompiledRandomizerVariableLike): data is CompiledRandomizerVariableRangeLike {
+    return 'type' in data && data.type === 'range';
   }
-  static override fromJSON(data: CompiledRandomizerVariableBooleanLike): CompiledRandomizerVariableBoolean {
-    const result = new CompiledRandomizerVariableBoolean(data.key, data.name, data.default);
+  static override fromJSON(data: CompiledRandomizerVariableRangeLike): CompiledRandomizerVariableRange {
+    const result = new CompiledRandomizerVariableRange(data.key, data.name, Range.fromJSON(data.default));
+    result.min = data.min ?? result.min;
+    result.max = data.max ?? result.max;
     return result;
   }
 }
-export type CompiledRandomizerVariableLike = CompiledRandomizerVariableAbstractLike | CompiledRandomizerVariableIntegerLike | CompiledRandomizerVariableBooleanLike;
+export type CompiledRandomizerVariableLike = CompiledRandomizerVariableAbstractLike | CompiledRandomizerVariableBooleanLike | CompiledRandomizerVariableIntegerLike | CompiledRandomizerVariableRangeLike;
 export interface CompiledRandomizerVariableAbstractLike {
   key: string;
   name: string;
   type: null;
   default: undefined;
+}
+export interface CompiledRandomizerVariableBooleanLike {
+  key: string;
+  name: string;
+  type: 'boolean';
+  default: boolean;
 }
 export interface CompiledRandomizerVariableIntegerLike {
   key: string;
@@ -720,11 +823,13 @@ export interface CompiledRandomizerVariableIntegerLike {
   max?: number;
   default: number;
 }
-export interface CompiledRandomizerVariableBooleanLike {
+export interface CompiledRandomizerVariableRangeLike {
   key: string;
   name: string;
-  type: 'boolean';
-  default: boolean;
+  type: 'range';
+  min: number;
+  max: number;
+  default: { min: number, max: number };
 }
 export class CompiledRandomizerPool implements CompiledElement {
   key = '';

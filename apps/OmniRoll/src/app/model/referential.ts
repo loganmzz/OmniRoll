@@ -71,7 +71,13 @@ export type ReferentialRandomizer = ReferentialConditional & {
   updatedAt?: string;
 }
 
-export type ReferentialRandomizerVariable = ReferentialRandomizerVariableInteger | ReferentialRandomizerVariableBoolean;
+export type ReferentialRandomizerVariable = ReferentialRandomizerVariableBoolean | ReferentialRandomizerVariableInteger | ReferentialRandomizerVariableRange;
+export type ReferentialRandomizerVariableBoolean = {
+  key: string;
+  name?: string;
+  type: 'boolean';
+  default: boolean;
+};
 export type ReferentialRandomizerVariableInteger = {
   key: string;
   name?: string;
@@ -80,11 +86,13 @@ export type ReferentialRandomizerVariableInteger = {
   max?: number;
   default: number;
 }
-export type ReferentialRandomizerVariableBoolean = {
+export type ReferentialRandomizerVariableRange = {
   key: string;
   name?: string;
-  type: 'boolean';
-  default: boolean;
+  type: 'range';
+  min: number;
+  max: number;
+  default?: [number, number] | { min?: number|null; max?: number|null } | null;
 };
 
 export type ReferentialRandomizerPool = {
