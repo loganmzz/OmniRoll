@@ -25,3 +25,48 @@ updatedAt: "2026-10-24T00:00:00.000Z"
 sets:
 - include: "./01-01-classic.yaml"
 - include: "./01-02-modern.yaml"
+
+randomizers:
+
+- key: "classic"
+  name: "Classic"
+  variables:
+  - key: "survivors"
+    name: "# of survivors"
+    type: "integer"
+    min: 1
+    max: 12
+    default: 6
+  - key: "difficulty"
+    name: "Difficulty"
+    type: "range"
+    min: 0
+    max: 4
+    default: [0, 4]
+  - key: "duration"
+    name: "Duration"
+    type: "range"
+    min: 0
+    max: 600
+    default: [0, 600]
+  pools:
+  - key: "survivors"
+    criteria: |
+      c.kinds == "Survivor"
+  - key: "missions"
+    criteria: >-
+      c.kinds == "Mission" &&
+      c.difficulty >= v.difficulty[0] && c.difficulty <= v.difficulty[1] &&
+      c.duration >= v.duration[0] && c.duration <= v.duration[1]
+  groups:
+  - key: "survivors"
+    name: "Survivors"
+  - key: "mission"
+    name: "Mission"
+  slots:
+  - key: "survivors"
+    group: "survivors"
+    count: |
+      v.survivors
+  - key: "mission"
+    group: "mission"
