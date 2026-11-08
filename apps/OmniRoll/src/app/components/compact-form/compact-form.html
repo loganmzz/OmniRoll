@@ -9,18 +9,19 @@
       <div
         class="chip-container">
           @for (f of fields(); track f.key) {
+            @let value = form[f.key]().value();
             <p-chip>
               {{ f.label }}:
               @switch (f.type) {
                 @case ("boolean") {
-                  @if (form[f.key]().value()) {
+                  @if (value) {
                     <span class="pi pi-check selected"></span>
                   } @else {
                     <span class="pi pi-times unselected"></span>
                   }
                 }
                 @default {
-                  {{ form[f.key]().value() }}
+                  {{ value }}
                 }
               }
             </p-chip>
