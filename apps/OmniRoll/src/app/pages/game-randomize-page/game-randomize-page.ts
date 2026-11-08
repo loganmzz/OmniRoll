@@ -12,14 +12,17 @@ import {
   CompactForm,
   CompactFormField,
   CompactFormFieldBoolean,
+  CompactFormFieldInteger,
   CompactFormFieldRange,
   CompactFormFields,
   CompactFormValues,
 } from '@project/components/compact-form/compact-form';
+import { Range } from '@project/model/common';
 import {
   CompiledRandomizerVariable,
   CompiledRandomizerVariableBoolean,
-  CompiledRandomizerVariableInteger
+  CompiledRandomizerVariableInteger,
+  CompiledRandomizerVariableRange
 } from '@project/model/compiled';
 import { Collection } from '@project/services/collection/collection';
 import { NavigationContext } from '@project/services/navigation/navigation';
@@ -63,9 +66,20 @@ export class GameRandomizePage {
     return randomizer;
   });
   form: Signal<{fields: CompactFormFields, values: WritableSignal<CompactFormValues>}|undefined> = computed(() => fromVariablesToForm(this.randomizer()?.variables));
+  variables$ = computed(() => {
+    const variables = Object.fromEntries(
+      Object
+        .entries(this.form()?.values() ?? {})
+        .map(([key, value]) => [
+          key,
+          Array.isArray(value) && value.length === 2 ? new Range(value[0] as number, value[1] as number) : value,
+        ])
+    );
+    return variables;
+  });
   state = computed(() => {
     const randomizer = this.randomizer();
-    const variables = this.form()?.values();
+    const variables = this.variables$();
 
     const groups: UISlotGroup[] = randomizer?.groups.map(g => ({
       key: g.key,
@@ -116,7 +130,7 @@ export class GameRandomizePage {
     const roll = this.randomize.randomize(
       content.components,
       randomizer,
-      this.form()?.values() ?? {},
+      this.variables$(),
     );
     for (const slot of this.state().slots) {
       slot.text = roll[slot.key].name ?? '';
@@ -133,12 +147,34 @@ function fromVariablesToForm(variables: CompiledRandomizerVariable[] | undefined
     return undefined;
   }
   const fields = variables.filter(v => v.defaultValue() !== undefined).map(fromVariableToField);
-  const values = signal<CompactFormValues>(Object.fromEntries(variables.map(v => [v.key, v.defaultValue()]).filter(([_, v]) => v !== undefined)));
+  const values = signal<CompactFormValues>(
+    Object.fromEntries(
+      variables
+        .map(v => {
+          const value = v.defaultValue();
+          return [v.key, value instanceof Range ? [value.min, value.max] : value];
+        })
+        .filter(([_, v]) => v !== undefined))
+    );
   return {fields, values};
 }
 function fromVariableToField(variable: CompiledRandomizerVariable): CompactFormField {
   switch (true) {
+    case variable instanceof CompiledRandomizerVariableBoolean:
+      return {
+        key: variable.key,
+        type: 'boolean',
+        label: variable.name,
+      } as CompactFormFieldBoolean;
     case variable instanceof CompiledRandomizerVariableInteger:
+      return {
+        key: variable.key,
+        type: 'integer',
+        label: variable.name,
+        min: variable.min,
+        max: variable.max,
+      } as CompactFormFieldInteger;
+    case variable instanceof CompiledRandomizerVariableRange:
       return {
         key: variable.key,
         type: 'range',
@@ -146,12 +182,6 @@ function fromVariableToField(variable: CompiledRandomizerVariable): CompactFormF
         min: variable.min,
         max: variable.max,
       } as CompactFormFieldRange;
-    case variable instanceof CompiledRandomizerVariableBoolean:
-      return {
-        key: variable.key,
-        type: 'boolean',
-        label: variable.name,
-      } as CompactFormFieldBoolean;
   }
   throw new Error('Unsupported variable type');
 }

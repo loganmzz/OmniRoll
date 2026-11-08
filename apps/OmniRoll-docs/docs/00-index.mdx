@@ -217,14 +217,23 @@ needs:              # (Optional) Requirements for this randomizer to be included
 variables:          # (Optional) Supported types: `integer`, `boolean`
 - key: ""           # (Required) Unique identifier for the randomizer
   name: ""          # (Optional) Display name (default to `key`)
+  type: "boolean"   # (Required)
+  default: false    # (Required) Default value
+- key: ""           # (Required) Unique identifier for the randomizer
+  name: ""          # (Optional) Display name (default to `key`)
   type: "integer"   # (Required)
   min: 0            # (Optional) Minimum value
   max: 999          # (Optional) Maximum value
   default: 10       # (Required) Default value
 - key: ""           # (Required) Unique identifier for the randomizer
   name: ""          # (Optional) Display name (default to `key`)
-  type: "boolean"   # (Required)
-  default: false    # (Required) Default value
+  type: "range"     # (Required)
+  min: 0            # (Required) Minimum value
+  max: 999          # (Required) Maximum value
+  default: [0, 999] # (Optional) Default boundary values defined as a pair
+  default:          # (Optional) or defined as object
+    min: 0          # (Optional) Minimum value (Default to `min` field if not specified)
+    max: 999        # (Optional) Maximum value (Default to `max` field if not specified)
 
 pools:              # (Required) List of component pool to pick from
 - key: ""           # (Required) Unique identifier for the Randomizer
@@ -260,6 +269,7 @@ An expression consists in:
   * Number: `0`, `1`, ...
   * String: `'with single quote'`, `"with double quote"`, ...
   * Set/collection of strings:  `[]`, `['a', 'b']`, ...
+  * Number range: `[min, max]`
 * A reference to the `Context`:
   * `component`, `component.name`
 * Unary operations:
@@ -368,6 +378,13 @@ Here are some specific behaviors:
       `collection in collection`</td>
       <td>Check if included</td>
     </tr>
+    <tr>
+      <th colspan="2">Range</th>
+    </tr>
+    <tr>
+      <td>`number in range`</td>
+      <td>Check if included (inclusive)</td>
+    </tr>
   </tbody>
 </table>
 
@@ -381,6 +398,12 @@ Variables accessible in the expression depends where it is used. However, there 
   * `features`: a set of all direct and inherited feature strings.
   * `sets`: a set of all set keys including the content. The one who provides the component and parent sets.
   * Any define properties
+* `variables` (aliases: `var`, `v`): Dictionary of variables by their keys. Format values depends on the variable type:
+  * `boolean`: `true` or `false`
+  * `integer`: a whole number
+  * `range`: a struct with:
+    * `min`: minimum value
+    * `max`: maximum value
 
 
 ```yaml

@@ -1,14 +1,25 @@
-import { DataLocation } from './common';
+import {
+  DataLocation,
+  Range,
+} from './common';
 import {
   CompiledComponent,
   CompiledGame,
+  CompiledRandomizer,
+  CompiledRandomizerPool,
+  CompiledRandomizerSlot,
+  CompiledRandomizerVariableBoolean,
+  CompiledRandomizerVariableInteger,
+  CompiledRandomizerVariableRange,
   ComponentCompilation,
   ComponentSetCompilation,
   GameCompilation,
+  RandomizerCompilation,
 } from './compiled';
 import {
   ReferentialComponent,
   ReferentialGame,
+  ReferentialRandomizer,
   ReferentialSet,
 } from './referential';
 
@@ -1300,6 +1311,440 @@ describe('model/compiled', () => {
             ],
           },
           {
+            title: 'Randomizer key',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: '_',
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:_]/key: Randomizer key "_" is invalid`,
+            ],
+          },
+          {
+            title: 'Variable duplicate key',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'boolean',
+                      default: false,
+                    },
+                    {
+                      key: 'a',
+                      type: 'integer',
+                      default: 0,
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[1:a]: Randomizer variable "a" (a) already exists as "a" at /randomizers[0:randomizer]/variables[0:a]`,
+            ],
+          },
+          {
+            title: 'Randomizer unsupported variable type',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'unsupported-type',
+                      default: null,
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]/type: Unsupported randomizer variable type "unsupported-type"`,
+            ],
+          },
+          {
+            title: 'Randomizer integer variable min >= max',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'integer',
+                      min: 10,
+                      max: 0,
+                      default: 0,
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]: Randomizer variable min 10 must be less than max 0`,
+              `/randomizers[0:randomizer]/variables[0:a]: Randomizer variable default 0 must be between min 10 and max 0`,
+            ],
+          },
+          {
+            title: 'Randomizer integer variable missing default',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'integer',
+                      min: 0,
+                      max: 10,
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]: Randomizer variable default must be defined`,
+            ],
+          },
+          {
+            title: 'Randomizer integer variable default must be a number',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'integer',
+                      min: 0,
+                      max: 10,
+                      default: '0',
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]: Randomizer variable default "0" must be a number`,
+            ],
+          },
+          {
+            title: 'Randomizer integer variable default must be in range',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'integer',
+                      min: 0,
+                      max: 10,
+                      default: 11,
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]: Randomizer variable default 11 must be between min 0 and max 10`,
+            ],
+          },
+          {
+            title: 'Randomizer range variable invalid key',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: '_',
+                      type: 'range',
+                      min: 0,
+                      max: 10,
+                      default: [0, 10],
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:_]/key: Randomizer variable key "_" is invalid`,
+            ],
+          },
+          {
+            title: 'Randomizer range variable min is not a number',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'range',
+                      min: '0',
+                      max: 10,
+                      default: [0, 10],
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]/min: Randomizer variable min must be a number`,
+            ],
+          },
+          {
+            title: 'Randomizer range variable max is not a number',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'range',
+                      min: 0,
+                      max: '10',
+                      default: [0, 10],
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]/max: Randomizer variable max must be a number`,
+            ],
+          },
+          {
+            title: 'Randomizer range variable default must be a pair',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'range',
+                      min: 0,
+                      max: 10,
+                      default: [0, 5, 10],
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]/default: Randomizer variable default array must have exactly two numbers`,
+            ],
+          },
+          {
+            title: 'Randomizer range variable default must be a pair of numbers',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'range',
+                      min: 0,
+                      max: 10,
+                      default: ['0', 10],
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]/default: Randomizer variable default array must have exactly two numbers`,
+            ],
+          },
+          {
+            title: 'Randomizer range variable default min must be a number',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'range',
+                      min: 0,
+                      max: 10,
+                      default: {
+                        min: '0',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]/default/min: Randomizer variable default min must be a number`,
+            ],
+          },
+          {
+            title: 'Randomizer range variable default max must be a number',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'range',
+                      min: 0,
+                      max: 10,
+                      default: {
+                        max: '10',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]/default/max: Randomizer variable default max must be a number`,
+            ],
+          },
+          {
+            title: 'Randomizer range variable default must be a pair or an object',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'range',
+                      min: 0,
+                      max: 10,
+                      default: '0-10',
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]/default: Randomizer variable default must be an array of two numbers or an object with min and max numbers`,
+            ],
+          },
+          {
+            title: 'Randomizer range variable min >= max',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'range',
+                      min: 10,
+                      max: 0,
+                      default: [0, 10],
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]: Randomizer variable min 10 must be less than max 0`,
+              `/randomizers[0:randomizer]/variables[0:a]/default: Randomizer variable default [0 - 10] must be between [10 - 0]`,
+            ],
+          },
+          {
+            title: 'Randomizer range variable default min >= max',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'range',
+                      min: 0,
+                      max: 10,
+                      default: [6, 5],
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]/default: Randomizer variable default min 6 must be less than or equal to max 5`,
+            ],
+          },
+          {
+            title: 'Randomizer range variable default min must be in range',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'range',
+                      min: 5,
+                      max: 10,
+                      default: [4, 10],
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]/default: Randomizer variable default [4 - 10] must be between [5 - 10]`,
+            ],
+          },
+          {
+            title: 'Randomizer range variable default max must be in range',
+            input: {
+              key: 'game',
+              randomizers: [
+                {
+                  key: 'randomizer',
+                  variables: [
+                    {
+                      key: 'a',
+                      type: 'range',
+                      min: 5,
+                      max: 10,
+                      default: [5, 11],
+                    },
+                  ],
+                },
+              ],
+            },
+            expected: [
+              `/randomizers[0:randomizer]/variables[0:a]/default: Randomizer variable default [5 - 11] must be between [5 - 10]`,
+            ],
+          },
+          {
             title: 'Conditional randomizer needs unknown feature',
             input: {
               key: 'game',
@@ -1374,6 +1819,224 @@ describe('model/compiled', () => {
           expect(`${result.err}`).toStrictEqual(expected.map(e => `- ${e}`).join('\n'));
         }
       );
+    });
+  });
+
+  describe('randomizer', () => {
+    test('minimal', () => {
+      const input: ReferentialRandomizer = {
+        key: 'default',
+        pools: [
+          {
+            key: 'a-pool',
+          },
+        ],
+        slots: [
+          {
+            key: 'a-slot',
+            pool: 'a-pool',
+          },
+        ],
+      };
+
+      const content = new CompiledRandomizer();
+      content.key = 'default';
+      content.name = 'default';
+
+      const pool = new CompiledRandomizerPool();
+      pool.key = 'a-pool';
+      content.pools.push(pool);
+
+      const slot = new CompiledRandomizerSlot();
+      slot.key = 'a-slot';
+      slot.name = 'a-slot';
+      slot.pool = 'a-pool';
+      content.slots.push(slot);
+
+
+      const expected: RandomizerCompilation = {
+        content: content,
+        location: new DataLocation(),
+        needs: undefined,
+      };
+
+      const actual = CompiledRandomizer.newFromDataModel(input).expect();
+      expect(actual).toStrictEqual(expected);
+    });
+    test('variables', () => {
+      const input: ReferentialRandomizer = {
+        key: 'default',
+        variables: [
+          {
+            key: 'boolean',
+            type: 'boolean',
+            default: false,
+          },
+          {
+            key: 'integer-unbound',
+            type: 'integer',
+            default: 0,
+          },
+          {
+            key: 'integer-bound',
+            type: 'integer',
+            default: 5,
+            min: 0,
+            max: 10,
+          },
+          {
+            key: 'range-pair',
+            type: 'range',
+            min: 0,
+            max: 100,
+            default: [10, 90],
+          },
+          {
+            key: 'range-object',
+            type: 'range',
+            min: 100,
+            max: 1000,
+            default: { min: 500, max: 600 },
+          },
+          {
+            key: 'range-no-default',
+            type: 'range',
+            min: 40,
+            max: 42,
+          },
+          {
+            key: 'range-default-null',
+            type: 'range',
+            min: 50,
+            max: 60,
+            default: null,
+          },
+          {
+            key: 'range-default-no-min',
+            type: 'range',
+            min: 70,
+            max: 80,
+            default: {
+              max: 75,
+            },
+          },
+          {
+            key: 'range-default-min-null',
+            type: 'range',
+            min: 80,
+            max: 90,
+            default: {
+              min: null,
+              max: 85,
+            },
+          },
+          {
+            key: 'range-default-no-max',
+            type: 'range',
+            min: 90,
+            max: 100,
+            default: {
+              min: 95,
+            },
+          },
+          {
+            key: 'range-default-max-null',
+            type: 'range',
+            min: 100,
+            max: 110,
+            default: {
+              min: 105,
+              max: null,
+            },
+          },
+        ],
+        pools: [
+          {
+            key: 'a-pool',
+          },
+        ],
+        slots: [
+          {
+            key: 'a-slot',
+            pool: 'a-pool',
+          },
+        ],
+      };
+
+      const content = new CompiledRandomizer();
+      content.key = 'default';
+      content.name = 'default';
+
+      const boolVariable = new CompiledRandomizerVariableBoolean('boolean', 'boolean', false);
+      content.variables.push(boolVariable);
+
+      let intVariable = new CompiledRandomizerVariableInteger('integer-unbound', 'integer-unbound', 0);
+      content.variables.push(intVariable);
+
+      intVariable = new CompiledRandomizerVariableInteger('integer-bound', 'integer-bound', 5);
+      intVariable.min = 0;
+      intVariable.max = 10;
+      content.variables.push(intVariable);
+
+      let rangeVariable = new CompiledRandomizerVariableRange('range-pair', 'range-pair', new Range(10, 90));
+      rangeVariable.min = 0;
+      rangeVariable.max = 100;
+      content.variables.push(rangeVariable);
+
+      rangeVariable = new CompiledRandomizerVariableRange('range-object', 'range-object', new Range(500, 600));
+      rangeVariable.min = 100;
+      rangeVariable.max = 1000;
+      content.variables.push(rangeVariable);
+
+      rangeVariable = new CompiledRandomizerVariableRange('range-no-default', 'range-no-default', new Range(40, 42));
+      rangeVariable.min = 40;
+      rangeVariable.max = 42;
+      content.variables.push(rangeVariable);
+
+      rangeVariable = new CompiledRandomizerVariableRange('range-default-null', 'range-default-null', new Range(50, 60));
+      rangeVariable.min = 50;
+      rangeVariable.max = 60;
+      content.variables.push(rangeVariable);
+
+      rangeVariable = new CompiledRandomizerVariableRange('range-default-no-min', 'range-default-no-min', new Range(70, 75));
+      rangeVariable.min = 70;
+      rangeVariable.max = 80;
+      content.variables.push(rangeVariable);
+
+      rangeVariable = new CompiledRandomizerVariableRange('range-default-min-null', 'range-default-min-null', new Range(80, 85));
+      rangeVariable.min = 80;
+      rangeVariable.max = 90;
+      content.variables.push(rangeVariable);
+
+      rangeVariable = new CompiledRandomizerVariableRange('range-default-no-max', 'range-default-no-max', new Range(95, 100));
+      rangeVariable.min = 90;
+      rangeVariable.max = 100;
+      content.variables.push(rangeVariable);
+
+      rangeVariable = new CompiledRandomizerVariableRange('range-default-max-null', 'range-default-max-null', new Range(105, 110));
+      rangeVariable.min = 100;
+      rangeVariable.max = 110;
+      content.variables.push(rangeVariable);
+
+      const pool = new CompiledRandomizerPool();
+      pool.key = 'a-pool';
+      content.pools.push(pool);
+
+      const slot = new CompiledRandomizerSlot();
+      slot.key = 'a-slot';
+      slot.name = 'a-slot';
+      slot.pool = 'a-pool';
+      content.slots.push(slot);
+
+
+      const expected: RandomizerCompilation = {
+        content: content,
+        location: new DataLocation(),
+        needs: undefined,
+      };
+
+      const actual = CompiledRandomizer.newFromDataModel(input).expect();
+      expect(actual).toStrictEqual(expected);
     });
   });
 });

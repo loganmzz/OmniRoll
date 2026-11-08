@@ -4,8 +4,7 @@
   "title": "Boardgame Universal Randomizer - Referential | Module",
   "type": "object",
   "required": [
-    "key",
-    "name"
+    "key"
   ],
   "properties": {
     "key": {

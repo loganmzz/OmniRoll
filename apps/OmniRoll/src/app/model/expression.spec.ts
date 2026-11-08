@@ -1,3 +1,4 @@
+import { Range } from './common';
 import { Expression } from './expression';
 
 describe('model/expression', () => {
@@ -51,6 +52,10 @@ describe('model/expression', () => {
           { input: '[]', expected: new Set() },
           { input: `['c']`, expected: new Set(['c']) },
           { input: `['d', 'e']`, expected: new Set(['d', 'e']) },
+          { input: `['d', 'e']`, expected: new Set(['d', 'e']) },
+          { input: `[1, 3]`, expected: new Range(1, 3) },
+          { input: `[1]`, expected: undefined },
+          { input: `[1, "3"]`, expected: undefined },
         ]
       )(
         'literal($input)',
@@ -2145,6 +2150,10 @@ describe('model/expression', () => {
             expected: false,
           },
           {
+            input: `0 in [1, 2]`,
+            expected: false,
+          },
+          {
             input: `1 in 0`,
             expected: false,
           },
@@ -2166,6 +2175,22 @@ describe('model/expression', () => {
           },
           {
             input: `1 in ['1']`,
+            expected: false,
+          },
+          {
+            input: `1 in [1]`,
+            expected: undefined,
+          },
+          {
+            input: `1 in [1, 2]`,
+            expected: true,
+          },
+          {
+            input: `2 in [1, 2]`,
+            expected: true,
+          },
+          {
+            input: `3 in [1, 2]`,
             expected: false,
           },
           {
