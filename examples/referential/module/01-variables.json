@@ -1,0 +1,111 @@
+{
+  "key": "01-variables",
+  "games": [
+    {
+      "key": "game-01",
+      "randomizers": [
+        {
+          "key": "randomizer-01",
+          "variables": [
+            {
+              "key": "boolean",
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "key": "integer-unbound",
+              "type": "integer",
+              "default": 0
+            },
+            {
+              "key": "integer-unbound",
+              "type": "integer",
+              "default": 5,
+              "min": 0,
+              "max": 10
+            },
+            {
+              "key": "range-pair",
+              "type": "range",
+              "min": 0,
+              "max": 100,
+              "default": [10, 90]
+            },
+            {
+              "key": "range-object",
+              "type": "range",
+              "min": 100,
+              "max": 1000,
+              "default": {
+                "min": 500,
+                "max": 600
+              }
+            },
+            {
+              "key": "range-no-default",
+              "type": "range",
+              "min": 40,
+              "max": 42
+            },
+            {
+              "key": "range-default-null",
+              "type": "range",
+              "min": 50,
+              "max": 60,
+              "default": null
+            },
+            {
+              "key": "range-default-no-min",
+              "type": "range",
+              "min": 70,
+              "max": 80,
+              "default": {
+                "max": 75
+              }
+            },
+            {
+              "key": "range-default-min-null",
+              "type": "range",
+              "min": 80,
+              "max": 90,
+              "default": {
+                "min": null,
+                "max": 85
+              }
+            },
+            {
+              "key": "range-default-no-max",
+              "type": "range",
+              "min": 90,
+              "max": 100,
+              "default": {
+                "min": 95
+              }
+            },
+            {
+              "key": "range-default-max-null",
+              "type": "range",
+              "min": 100,
+              "max": 110,
+              "default": {
+                "min": 105,
+                "max": null
+              }
+            }
+          ],
+          "pools": [
+            {
+              "key": "default"
+            }
+          ],
+          "slots": [
+            {
+              "key": "default",
+              "pool": "default"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

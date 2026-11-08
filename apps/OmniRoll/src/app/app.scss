@@ -25,10 +25,3 @@ section.menu app-menu, p-drawer app-menu {
   @apply hidden font-semibold;
   @apply max-lg:block;
 }
-
-.chip-container {
-  @apply flex;
-}
-.chip-item {
-  @apply bg-gray-200 text-gray-800 px-2 py-1 rounded;
-}

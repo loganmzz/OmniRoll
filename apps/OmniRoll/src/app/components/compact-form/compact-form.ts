@@ -30,10 +30,23 @@ import { InplaceModule } from 'primeng/inplace';
 import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
 
-export type CompactFormValue = boolean|number|string;
+export type CompactFormValue = boolean|number|string|[number, number];
 export type CompactFormValues = Record<string, CompactFormValue>;
+
 export type CompactFormFields = CompactFormField[];
-export type CompactFormField = CompactFormFieldRange|CompactFormFieldText|CompactFormFieldUrl|CompactFormFieldBoolean;
+export type CompactFormField = CompactFormFieldBoolean|CompactFormFieldInteger|CompactFormFieldRange|CompactFormFieldText|CompactFormFieldUrl;
+export interface CompactFormFieldBoolean {
+  key: string;
+  type: 'boolean';
+  label: string;
+}
+export interface CompactFormFieldInteger {
+  key: string;
+  type: 'integer';
+  label: string;
+  min: number;
+  max: number;
+}
 export interface CompactFormFieldRange {
   key: string;
   type: 'range';
@@ -50,11 +63,6 @@ export interface CompactFormFieldText {
 export interface CompactFormFieldUrl {
   key: string;
   type: 'url';
-  label: string;
-}
-export interface CompactFormFieldBoolean {
-  key: string;
-  type: 'boolean';
   label: string;
 }
 
@@ -83,8 +91,6 @@ export class CompactForm implements OnChanges, OnDestroy {
 
   // Signal form
   form$!: FieldTree<CompactFormValues>;
-
-
   formInjector: DestroyableInjector | undefined;
 
   saved = output<CompactFormValues>();
@@ -143,13 +149,25 @@ export class CompactForm implements OnChanges, OnDestroy {
     }
   }
 
-  booleanField(form: FieldTree<CompactFormValues>, key: string) {
+  formatRange(value: CompactFormValue, max?: number): string {
+    const range = Array.isArray(value) && value.length === 2 ? value : [0, 0];
+    return range.map(v => this.formatNumber(v, max)).join('-');
+  }
+  formatNumber(value: CompactFormValue, max?: number): string {
+    const formatted = typeof value === 'number' ? value.toString().padStart(`${max ?? ''}`.length, '\u{2007}') : '';
+    return formatted;
+  }
+
+  booleanField(form: FieldTree<CompactFormValues>, key: string): FieldTree<boolean, string> {
     return form[key] as FieldTree<boolean, string>;
   }
-  integerField(form: FieldTree<CompactFormValues>, key: string) {
+  integerField(form: FieldTree<CompactFormValues>, key: string): FieldTree<number, string> {
     return form[key] as FieldTree<number, string>;
   }
-  stringField(form: FieldTree<CompactFormValues>, key: string) {
+  rangeField(form: FieldTree<CompactFormValues>, key: string): FieldTree<[number, number], string> {
+    return form[key] as FieldTree<[number, number], string>;
+  }
+  stringField(form: FieldTree<CompactFormValues>, key: string): FieldTree<string, string> {
     return form[key] as FieldTree<string, string>;
   }
 
