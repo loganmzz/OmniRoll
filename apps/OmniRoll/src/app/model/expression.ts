@@ -1,5 +1,8 @@
 import jsep from 'jsep';
-import { Result } from './common';
+import {
+  Range,
+  Result,
+} from './common';
 
 jsep.removeLiteral('null');
 jsep.removeAllBinaryOps();
@@ -63,7 +66,7 @@ export class ExpressionParseError extends ExpressionError {
   }
 }
 
-export type ValueType = boolean|number|string|Set<string>|undefined;
+export type ValueType = boolean|number|Range<number>|string|Set<string>|undefined;
 
 export type Context = {
   component?: unknown;
@@ -274,17 +277,15 @@ class ArrayExpressionResolver extends AbstractResolver {
     return Result.ok(new ArrayExpressionResolver(elements));
   }
 
-  override resolve(context: ResolutionContext): Set<string>|undefined {
-    const result = new Set<string>();
-    for (const element of this.elements) {
-      const value = element.resolve(context);
-      if (typeof value === 'string') {
-        result.add(value);
-      } else {
-        return undefined;
-      }
+  override resolve(context: ResolutionContext): Set<string>|Range<number>|undefined {
+    const values = this.elements.map(element => element.resolve(context));
+    if (values.length === 2 && values.every(v => typeof v === 'number')) {
+      return new Range(values[0], values[1]);
     }
-    return result;
+    if (values.every(v => typeof v === 'string')) {
+      return new Set(values);
+    }
+    return undefined;
   }
 
   override toString(): string {
@@ -610,6 +611,9 @@ class InResolver extends BinaryExpressionResolver {
     }
     if (left instanceof Set && right instanceof Set) {
       return left.isSubsetOf(right);
+    }
+    if (typeof left === 'number' && right instanceof Range) {
+      return left >= right.min && left <= right.max;
     }
     return false;
   }

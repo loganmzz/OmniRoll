@@ -20,6 +20,9 @@
                     <span class="pi pi-times unselected"></span>
                   }
                 }
+                @case ("range") {
+                  {{ formatRange(value) }}
+                }
                 @default {
                   {{ value }}
                 }
@@ -35,18 +38,23 @@
           <div class="form-field-title">{{ f.label }}: </div>
             @let formField = form[f.key]();
             @switch (f.type) {
+              @case ("boolean") {
+                <span class="form-field-value"></span>
+                <p-checkbox [formField]="booleanField(form, f.key)" [binary]="true"></p-checkbox>
+              }
+              @case ("integer") {
+                <span class="form-field-value">{{ formatNumber(formField.value(), f.max) }}</span>
+                <p-slider class="form-field-input" [formField]="integerField(form, f.key)" [min]="f.min" [max]="f.max"></p-slider>
+              }
               @case ("range") {
-                <span class="form-field-range-value">{{ formField.value() }}</span>
-                <p-slider class="form-field-range-input" [formField]="integerField(form, f.key)" [min]="f.min" [max]="f.max"></p-slider>
+                <span class="form-field-value">{{ formatRange(formField.value(), f.max) }}</span>
+                <p-slider class="form-field-input" [range]="true" [formField]="rangeField(form, f.key)" [min]="f.min" [max]="f.max"></p-slider>
               }
               @case ("text") {
                 <input pInputText class="form-field-text-input" type="text" [formField]="stringField(form, f.key)" />
               }
               @case ("url") {
                 <input pInputText class="form-field-text-input" type="url" [formField]="stringField(form, f.key)" />
-              }
-              @case ("boolean") {
-                <p-checkbox [formField]="booleanField(form, f.key)" [binary]="true"></p-checkbox>
               }
               @default {
               }

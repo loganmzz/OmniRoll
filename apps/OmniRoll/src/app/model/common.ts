@@ -126,3 +126,24 @@ export function formatEntity(entity: string|Entity): string {
   }
   return JSON.stringify(entity);
 }
+
+export class Range<T> {
+  constructor(
+    public readonly min: T,
+    public readonly max: T,
+  ) {}
+
+  toJSON(): { min: T, max: T } {
+    return {
+      min: this.min,
+      max: this.max,
+    };
+  }
+  static fromJSON<T>(data: { min: T, max: T }): Range<T> {
+    return new Range(data.min, data.max);
+  }
+
+  toString(): string {
+    return `[${this.min} - ${this.max}]`;
+  }
+}

@@ -9,7 +9,7 @@
 }
 
 .form-expanded {
-  @apply outline rounded-sm p-3 grid grid-cols-[8em_2em_1fr] sm:grid-cols-[8em_2em_1fr] gap-2;
+  @apply outline rounded-sm p-3 grid grid-cols-[max-content_max-content_1fr] sm:grid-cols-[max-content_max-content_1fr] gap-1 tabular-nums;
 }
 .form-errors {
   @apply col-span-3 text-red-500 text-sm;
@@ -24,8 +24,8 @@
 p-slider {
   @apply self-center mx-2;
 }
-.form-field-range-value {
-  @apply text-end;
+.form-field-value {
+  @apply text-end whitespace-pre tabular-nums;
 }
 .form-field-text-input {
   @apply col-span-2;
