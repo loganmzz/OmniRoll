@@ -12,6 +12,7 @@ describe('model/expression', () => {
         'root-set-string': new Set(['j', 'k']),
         'root-numbers': [1],
         'root-set-number': new Set([11]),
+        'root-range': new Range(0, 100),
 
         'properties-boolean': false,
         'properties-number': 3,
@@ -108,6 +109,10 @@ describe('model/expression', () => {
           {
             input: `component["root-set-number"]`,
             expected: new Set([11]),
+          },
+          {
+            input: `component["root-range"]`,
+            expected: new Range(0, 100),
           },
           {
             input: `component["properties-boolean"]`,
@@ -2401,13 +2406,25 @@ describe('model/expression', () => {
             input: `['a',''] in ['','a']`,
             expected: true,
           },
+          {
+            input: `0 in component["root-range"]`,
+            expected: true,
+          },
+          {
+            input: `100 in component["root-range"]`,
+            expected: true,
+          },
+          {
+            input: `101 in component["root-range"]`,
+            expected: false,
+          },
         ]
       )(
         'binary.in($input)',
         ({input, expected}: {input: string, expected: ReturnType<Expression['resolve']>}) => {
           const {ok, err} = Expression.compile(input);
           expect(err).toBeUndefined();
-          expect(ok?.resolve({})).toStrictEqual(expected);
+          expect(ok?.resolve({component})).toStrictEqual(expected);
         },
       );
 
