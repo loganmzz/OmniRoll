@@ -1,20 +1,42 @@
+import { Range } from '@project/model/common';
 import {
   CompiledComponent,
   CompiledGame,
   CompiledRandomizer,
+  CompiledRandomizerVariableType,
 } from '@project/model/compiled';
 import {
+  ReferentialComponent,
   ReferentialGame,
   ReferentialRandomizer,
 } from '@project/model/referential';
 import { Randomizer } from './randomizer';
 
+const randomizer = new Randomizer();
+
 function toKey(input: Record<string, CompiledComponent>): Record<string, string> {
   return Object.fromEntries(Object.entries(input).map(([key, value]) => [key, value.key]));
 }
 
+function assertRandom({components, randomizer: rand, variables, expected}: {
+  components: Record<string, ReferentialComponent[]>,
+  randomizer: ReferentialRandomizer,
+  variables: Record<string, CompiledRandomizerVariableType>,
+  expected: Record<string, string>,
+}) {
+  const cmps = CompiledComponent.newFromDataModelSet(
+    { sets: new Set(), features: new Set() },
+    { key: 'core', components },
+  ).expect().content;
+
+  const rnd = CompiledRandomizer.newFromDataModel(rand).expect().content;
+
+  const actual = toKey(randomizer.randomize(cmps, rnd, variables));
+  expect(actual).toEqual(expected);
+
+}
+
 describe('service/randomizer', () => {
-  const randomizer = new Randomizer();
 
   describe('randomize', () => {
 
@@ -195,6 +217,44 @@ describe('service/randomizer', () => {
           })
           expect(actual).toMatchObject(expected);
         }
+      });
+    });
+
+    describe('demo', () => {
+      test('range', () => {
+        assertRandom({
+          components: {
+            Scenario: [
+              {
+                key: 'scenario-01',
+                properties: {
+                  difficulty: 10,
+                },
+              },
+            ],
+          },
+          randomizer: {
+            key: 'range',
+            pools: [
+              {
+                key: 'scenarii',
+                criteria: `c.difficulty > v.difficulty.min`,
+              },
+            ],
+            slots: [
+              {
+                key: 'scenario',
+                pool: 'scenarii',
+              },
+            ],
+          },
+          variables: {
+            difficulty: new Range(0, 100),
+          },
+          expected: {
+            scenario: 'scenario-01',
+          },
+        });
       });
     });
 
@@ -417,6 +477,6 @@ describe('service/randomizer', () => {
         }
         expect(actual).toEqual(expected);
       });
-    })
+    });
   });
 });

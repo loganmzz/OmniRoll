@@ -76,7 +76,7 @@ export type Context = {
 export class Expression {
   constructor(
     private expression: string,
-    private resolver: AbstractResolver) {}
+    readonly resolver: AbstractResolver) {}
 
   static literal(value: ValueType): Expression {
     return new Expression(JSON.stringify(value), new LiteralResolver(value));
@@ -234,13 +234,22 @@ class IdentifierResolver extends AbstractResolver {
       }
       value = property.value;
     }
-    if (value === undefined || typeof value === 'boolean' || typeof value === 'number' || typeof value === 'string') {
+    if (
+        value === undefined ||
+        typeof value === 'boolean' ||
+        typeof value === 'number' ||
+        typeof value === 'string' ||
+        value instanceof Range
+    ) {
       return value;
     }
     if (value instanceof Set) {
       return value;
     }
     if (Array.isArray(value)) {
+      if (value.length === 2 && value.every(v => typeof v === 'number')) {
+        return new Range(value[0], value[1]);
+      }
       return new Set(value.filter(v => typeof v === 'string'));
     }
     return undefined;
@@ -603,6 +612,7 @@ class InResolver extends BinaryExpressionResolver {
   override resolve(context: ResolutionContext): boolean | undefined {
     const left = this.left.resolve(context);
     const right = this.right.resolve(context);
+
     if (left === undefined || right === undefined) {
       return undefined;
     }
