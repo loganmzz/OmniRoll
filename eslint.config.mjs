@@ -14,9 +14,9 @@ export default [
   },
   {
     ignores: [
-      '**/dist',
-      '**/.docusaurus/',
-      'apps/OmniRoll-docs/build/',
+      'dist/**',
+      '.docusaurus/**',
+      'build/**',
     ],
   },
   {
