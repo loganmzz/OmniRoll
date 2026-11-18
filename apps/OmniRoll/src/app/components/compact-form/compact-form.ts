@@ -5,10 +5,14 @@ import {
   OnChanges,
   OnDestroy,
   SimpleChange,
+  TemplateRef,
+  effect,
   inject,
   input,
   model,
   output,
+  signal,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -26,7 +30,7 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ChipModule } from 'primeng/chip';
-import { InplaceModule } from 'primeng/inplace';
+import { Inplace, InplaceModule } from 'primeng/inplace';
 import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
 
@@ -89,6 +93,8 @@ export class CompactForm implements OnChanges, OnDestroy {
   values = model<CompactFormValues>({});
   expanded = input<boolean>(false);
 
+  inplace = viewChild<Inplace>('inplace');
+
   // Signal form
   form$!: FieldTree<CompactFormValues>;
   formInjector: DestroyableInjector | undefined;
@@ -96,6 +102,12 @@ export class CompactForm implements OnChanges, OnDestroy {
   saved = output<CompactFormValues>();
   cancelled = output<void>();
   closed = output<void>();
+
+  constructor() {
+    effect(() => {
+      this.inplace()?.active.set(this.expanded());
+    });
+  }
 
   ngOnChanges({fields}: {fields?: SimpleChange<CompactFormFields|undefined>}): void {
     if (fields) {
