@@ -1,6 +1,6 @@
 import type * as Preset from '@docusaurus/preset-classic';
-import type {Config} from '@docusaurus/types';
-import {themes as prismThemes} from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import packageJson from '../../package.json';
 
@@ -88,7 +88,7 @@ const config: Config = {
         src: 'img/logo.png',
       },
       items: [
-        {to: '/news', label: 'News', position: 'left'},
+        { to: '/news', label: 'News', position: 'left' },
         {
           href: 'https://omniroll.netlify.app',
           label: 'OmniRoll',

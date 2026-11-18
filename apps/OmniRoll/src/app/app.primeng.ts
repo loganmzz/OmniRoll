@@ -10,6 +10,7 @@ export const primeNGProviders = providePrimeNG({
     PRESET === undefined ? {
       unstyled: true,
     } : {
+      license: 'eyJpZCI6ImJmMTVkNDAyLTM2YjctNDY5YS04NWM0LWVmZmNlZmZjMzc4MiIsInByb2R1Y3QiOiJwcmltZXVpIiwidGllciI6ImNvbW11bml0eSIsInR5cGUiOiJkZXYiLCJpYXQiOjE3OTUwMzE1MzEsImV4cCI6MTgyNjU2NzUzMX0.tB0ZtLchhccmZhy5HSyTYN7T6qIe_Xx_E1ZMFfFxpusM-Pi3jnEDiAFQzWaady1eamiV7QNwhvv-aigponS4Ag',
       theme: {
         options: {
           cssLayer: {

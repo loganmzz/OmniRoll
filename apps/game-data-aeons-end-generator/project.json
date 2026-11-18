@@ -68,9 +68,7 @@
       "continuous": false,
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
       "options": {
         "watch": false
       },
@@ -81,14 +79,6 @@
         "production": {
           "buildTarget": "game-data-aeons-end-generator:build:production"
         }
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/game-data-aeons-end-generator/jest.config.cts",
-        "passWithNoTests": true
       }
     }
   }
