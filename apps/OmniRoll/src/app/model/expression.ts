@@ -197,7 +197,6 @@ class IdentifierResolver extends AbstractResolver {
     let node: jsep.Expression | undefined = undefined;
 
     while ((node = nodes.pop()) !== undefined) {
-      let resolverResult: Result<AbstractResolver, ExpressionParseError> | undefined = undefined;
       switch (node.type) {
         case 'Identifier':
           path.push((node as jsep.Identifier).name);
@@ -207,11 +206,13 @@ class IdentifierResolver extends AbstractResolver {
           nodes.push((node as jsep.MemberExpression).object);
           break;
         default:
-          resolverResult = AbstractResolver.from(node);
-          if (resolverResult.err !== undefined) {
-            return Result.err(resolverResult.err);
+          {
+            const resolverResult = AbstractResolver.from(node);
+            if (resolverResult.err !== undefined) {
+              return Result.err(resolverResult.err);
+            }
+            path.push(resolverResult.expect());
           }
-          path.push(resolverResult.expect());
           break;
       }
     }

@@ -8,15 +8,12 @@
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/OmniRoll",
         "browser": "apps/OmniRoll/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/OmniRoll/tsconfig.app.json",
         "inlineStyleLanguage": "css",
         "assets": [
@@ -25,9 +22,7 @@
             "input": "apps/OmniRoll/public"
           }
         ],
-        "styles": [
-          "apps/OmniRoll/src/styles.scss"
-        ],
+        "styles": ["apps/OmniRoll/src/styles.scss"],
         "outputMode": "static"
       },
       "configurations": {
@@ -64,12 +59,12 @@
             }
           ]
         }
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "serve": {
       "continuous": true,
       "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
       "configurations": {
         "production": {
           "buildTarget": "OmniRoll:build:production"
@@ -77,26 +72,12 @@
         "development": {
           "buildTarget": "OmniRoll:build:development"
         }
-      },
-      "defaultConfiguration": "development"
+      }
     },
     "extract-i18n": {
       "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "OmniRoll:build"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
-      "options": {
-        "jestConfig": "apps/OmniRoll/jest.config.ts",
-        "tsConfig": "apps/OmniRoll/tsconfig.spec.json"
       }
     },
     "serve-static": {
@@ -117,9 +98,7 @@
       },
       "configurations": {
         "production": {
-          "args": [
-            "--prod"
-          ]
+          "args": ["--prod"]
         }
       }
     }

@@ -85,9 +85,6 @@
         "cwd": "apps/OmniRoll-docs"
       }
     },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
     "browserslist": {
       "production": [">0.5%", "not dead", "not op_mini all"],
       "development": ["last 3 chrome version", "last 3 firefox version", "last 5 safari version"]

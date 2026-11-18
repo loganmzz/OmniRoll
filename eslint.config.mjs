@@ -1,6 +1,6 @@
 import nx from '@nx/eslint-plugin';
 import stylistic from '@stylistic/eslint-plugin';
-import importPlugin from 'eslint-plugin-import';
+import importX from 'eslint-plugin-import-x';
 
 export default [
   ...nx.configs['flat/base'],
@@ -9,14 +9,14 @@ export default [
   {
     plugins: {
       '@stylistic': stylistic,
-      import: importPlugin,
+      'import-x': importX,
     },
   },
   {
     ignores: [
-      '**/dist',
-      '**/.docusaurus/',
-      'apps/OmniRoll-docs/build/',
+      'dist/**',
+      '.docusaurus/**',
+      'build/**',
     ],
   },
   {
@@ -51,16 +51,16 @@ export default [
     ],
     // Override or add rules here
     rules: {
-      "@stylistic/array-bracket-spacing": ["error", "never"],
-      "@stylistic/array-element-newline": ["error", {consistent: true, multiline: true}],
-      "@stylistic/comma-dangle": ["error", "only-multiline"],
-      "@stylistic/comma-spacing": "error",
-      "@stylistic/comma-style": "error",
-      "@stylistic/eol-last": "error",
-      "@stylistic/no-tabs": "error",
-      "@stylistic/no-trailing-spaces": "error",
-      "@stylistic/object-curly-newline": [
-        "error",
+      '@stylistic/array-bracket-spacing': ['error', 'never'],
+      '@stylistic/array-element-newline': ['error', {consistent: true, multiline: true}],
+      '@stylistic/comma-dangle': ['error', 'only-multiline'],
+      '@stylistic/comma-spacing': 'error',
+      '@stylistic/comma-style': 'error',
+      '@stylistic/eol-last': 'error',
+      '@stylistic/no-tabs': 'error',
+      '@stylistic/no-trailing-spaces': 'error',
+      '@stylistic/object-curly-newline': [
+        'error',
         {
           ImportDeclaration: {
             minProperties: 2,
@@ -81,16 +81,17 @@ export default [
           argsIgnorePattern: '^_',
         }
       ],
-      "import/order": [
-        "error",
+      'no-useless-assignment': 'off',
+      'import-x/order': [
+        'error',
         {
           alphabetize: {
-            order: "asc",
-            orderImportKind: "asc",
+            order: 'asc',
+            orderImportKind: 'asc',
           },
           named: {
             enabled: true,
-            types: "types-first",
+            types: 'types-first',
           },
         },
       ],
