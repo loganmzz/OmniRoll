@@ -120,7 +120,7 @@ At the root, a source defines a module:
 key: ""           # (Required) No unique constraint
 name: ""          # (Required) Display name
 description: ""   # (Optional)
-updated-at: ""    # (Optional)
+updatedAt: ""    # (Optional)
 games: []         # (Optional) List of games. See below.
 ```
 
@@ -148,7 +148,7 @@ A game might be defined by many modules (but only first one is taken into accoun
 key: ""             # (Required) Unique in collection, only first in referential is considered
 name: ""            # (Required) Display name
 description: ""     # (Optional)
-updated-at: ""      # (Optional)
+updatedAt: ""      # (Optional)
 sets: []            # (Optional) Hierarchical organisation of content
 randomizers: []     # (Optional) List of randomiers
 ```
@@ -177,7 +177,7 @@ Sets represents hierarchy of content (e.g. boxes, seasons, extensions).
 key: ""             # (Required) Unique identifier for the game
 name: ""            # (Required) Display name
 description: ""     # (Optional)
-updated-at: ""      # (Optional)
+updatedAt: ""      # (Optional)
 features: []        # (Optional) Feature strings that will be applied to all sub-sets and components within this set
 sets: []            # (Optional) Sub-sets
 components:         # (Optional) Dictionary of components by kind

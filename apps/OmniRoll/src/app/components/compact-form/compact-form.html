@@ -2,9 +2,7 @@
 
   @let form = form$;
 
-  <p-inplace
-    [active]="expanded() === true"
-  >
+  <p-inplace #inplace>
     <ng-template #display>
       <div
         class="chip-container">
