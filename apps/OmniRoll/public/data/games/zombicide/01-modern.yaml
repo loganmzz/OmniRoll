@@ -17,12 +17,9 @@
 #   * Custom property `minSurvivors` (number, optional)
 #   * Custom property `maxSurvivors` (number, optional)
 # * Competitive
-# * Abomination
 #
 key: "zombicide"
 name: "Zombicide"
-
-updatedAt: "2026-11-21T00:00:00.000Z"
 
 sets:
 - include: "./01-01-classic.yaml"
@@ -55,6 +52,10 @@ randomizers:
     name: "Check survivor count?"
     type: "boolean"
     default: false
+  - key: "include_campaign_missions"
+    name: "Include campaign missions?"
+    type: "boolean"
+    default: false
   pools:
   - key: "survivors"
     criteria: |
@@ -67,7 +68,8 @@ randomizers:
       c.difficulty in v.difficulty &&
       c.duration in v.duration &&
       (v.check_survivors && c.minSurvivors ? v.survivors >= c.minSurvivors : true) &&
-      (v.check_survivors && c.maxSurvivors ? v.survivors <= c.maxSurvivors : true)
+      (v.check_survivors && c.maxSurvivors ? v.survivors <= c.maxSurvivors : true) &&
+      (v.include_campaign_missions ? true : !("campaign" in c.features))
   groups:
   - key: "survivors"
     name: "Survivors"
@@ -108,6 +110,10 @@ randomizers:
     name: "Check survivor count?"
     type: "boolean"
     default: false
+  - key: "include_campaign_missions"
+    name: "Include campaign missions?"
+    type: "boolean"
+    default: false
   pools:
   - key: "survivors"
     criteria: |
@@ -120,7 +126,8 @@ randomizers:
       c.difficulty in v.difficulty &&
       c.duration in v.duration &&
       (v.check_survivors && c.minSurvivors ? v.survivors >= c.minSurvivors : true) &&
-      (v.check_survivors && c.maxSurvivors ? v.survivors <= c.maxSurvivors : true)
+      (v.check_survivors && c.maxSurvivors ? v.survivors <= c.maxSurvivors : true) &&
+      (v.include_campaign_missions ? true : !("campaign" in c.features))
   groups:
   - key: "survivors"
     name: "Survivors"
@@ -135,3 +142,34 @@ randomizers:
   - key: "mission"
     group: "mission"
     pool: "missions"
+
+- key: "competitive"
+  name: "Competitive"
+  variables:
+  - key: "survivors"
+    name: "# of survivors"
+    type: "integer"
+    min: 1
+    max: 12
+    default: 2
+  pools:
+  - key: "survivors"
+    criteria: |
+      c.kinds == "Survivor"
+  - key: "competitives"
+    criteria: >-
+      c.kinds == "Competitive"
+  groups:
+  - key: "survivors"
+    name: "Survivors"
+  - key: "competitive"
+    name: "Competitive"
+  slots:
+  - key: "survivors"
+    group: "survivors"
+    count: |
+      v.survivors
+    pool: "survivors"
+  - key: "competitive"
+    group: "competitive"
+    pool: "competitives"

@@ -1,0 +1,320 @@
+# https://www.zombicide.com/fantasy-zombicide-products/
+# https://boardgamegeek.com/boardgame/176189/zombicide-black-plague
+key: "01-s1"
+name: "S1 Black Plague"
+
+sets:
+# https://boardgamegeek.com/boardgame/176189/zombicide-black-plague
+- key: "01-black-plague"
+  name: "Black Plague (BP)"
+  components:
+    Survivor:
+    - key: "s-01-ann"
+      name: "Ann (BP)"
+    - key: "s-01-baldric"
+      name: "Baldric (BP)"
+    - key: "s-01-clovis"
+      name: "Clovis (BP)"
+    - key: "s-01-nelly"
+      name: "Nelly (BP)"
+    - key: "s-01-samson"
+      name: "Samson (BP)"
+    - key: "s-01-silas"
+      name: "Silas (BP)"
+    Quest:
+    - key: "q-01-bp-00-danse-macabre"
+      name: "BP 00 Danse Macabre"
+      properties:
+        difficulty: 1
+        duration: 45
+        minSurvivors: 4
+    - key: "q-01-bp-01-big-game-hunting"
+      name: "BP 01 Big Game Hunting"
+      properties:
+        difficulty: 1
+        duration: 60
+        minSurvivors: 6
+    - key: "q-01-bp-02-the-black-book"
+      name: "BP 02 The Black Book"
+      properties:
+        difficulty: 1
+        duration: 60
+        minSurvivors: 6
+    - key: "q-01-bp-03-the-shepherds"
+      name: "BP 03 The Shepherds"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-01-bp-04-famine"
+      name: "BP 04 Famine"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "q-01-bp-05-the-commandry"
+      name: "BP 05 The Commandry"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "q-01-bp-06-in-caligine-abditus"
+      name: "BP 06 In Caligine Abditus"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "q-01-bp-07-dead-trail"
+      name: "BP 07 Dead Trail"
+      properties:
+        difficulty: 2
+        duration: 150
+        minSurvivors: 6
+    - key: "q-01-bp-08-the-evil-temple"
+      name: "BP 08 The Evil Temple"
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+    - key: "q-01-bp-09-the-hellhole"
+      name: "BP 09 The Hellhole"
+      properties:
+        difficulty: 3
+        duration: 150
+        minSurvivors: 6
+    - key: "q-01-bp-10-trial-by-fire"
+      name: "BP 10 Trial by Fire"
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 6
+# https://boardgamegeek.com/boardgame/178485/zombicide-black-plague-wulfsburg
+- key: "01-wulfsburg"
+  name: "Wulfsburg (WB)"
+  components:
+    Survivor:
+    - key: "s-01-ariane"
+      name: "Ariane (WB)"
+    - key: "s-01-karl"
+      name: "Karl (WB)"
+    - key: "s-01-morrigan"
+      name: "Morrigan (WB)"
+    - key: "s-01-theo"
+      name: "Theo (WB)"
+    Quest:
+    - key: "q-01-wb-01-welcome-to-wulfsburg"
+      name: "WB 01 Welcome to Wulfsburg"
+      properties:
+        difficulty: 1
+        duration: 60
+        minSurvivors: 6
+    - key: "q-01-wb-02-know-your-enemy"
+      name: "WB 02 Know Your Enemy"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-01-wb-03-the-evil-twins"
+      name: "WB 03 The Evil Twins"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "q-01-wb-04-the-ambush"
+      name: "WB 04 The Ambush"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-01-wb-05-immortal"
+      name: "WB 05 Immortal"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "q-01-wb-06-zombie-court"
+      name: "WB 06 Zombie Court"
+      properties:
+        difficulty: 3
+        duration: 60
+        minSurvivors: 6
+    - key: "q-01-wb-07-blood-red"
+      name: "WB 07 Blood Red"
+      properties:
+        difficulty: 2
+        duration: 180
+        minSurvivors: 6
+    - key: "q-01-wb-08-the-ghost-door"
+      name: "WB 08 The Ghost Door"
+      properties:
+        difficulty: 3
+        duration: 150
+        minSurvivors: 6
+    - key: "q-01-wb-09-the-zombie-army"
+      name: "WB 09 The Zombie Army"
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+    - key: "q-01-wb-10-a-coin-for-the-ferryman"
+      name: "WB 10 A Coin for the Ferryman"
+      properties:
+        difficulty: 3
+        duration: 180
+        minSurvivors: 6
+# https://boardgamegeek.com/boardgame/180426/zombicide-black-plague-grom-and-thalia
+- key: "01-grom-and-thalia"
+  name: "Grom and Thalia"
+  components:
+    Survivor:
+    - key: "s-01-grom"
+      name: "Grom (Promo)"
+    - key: "s-01-thalia"
+      name: "Thalia (Promo)"
+- key: "01-guest"
+  name: "Special guest boxes (S1)"
+  sets:
+  - key: "01-guest-adrian-smith"
+    name: "Special guest box: Adrian Smith"
+    components:
+      Survivor:
+      - key: "s-01-culnar"
+        name: "Cul'nar (Guest)"
+      - key: "s-01-gurbak"
+        name: "Gurbak (Guest)"
+      - key: "s-01-jorvak"
+        name: "Jorvak (Guest)"
+      - key: "s-01-shakeel"
+        name: "Sha'keel (Guest)"
+  - key: "01-guest-carl-critchlow"
+    name: "Special guest box: Carl Critchlow"
+    components:
+      Survivor:
+      - key: "s-01-the-black-currant"
+        name: "The Black Currant (Guest)"
+      - key: "s-01-persephone"
+        name: "Persephone (Guest)"
+      - key: "s-01-thrud-the-barbarian"
+        name: "Thrud the Barbarian (Guest)"
+      - key: "s-01-to-me-ku-pa"
+        name: "To-Me Ku-Pa (Guest)"
+  - key: "01-guest-edouard-guiton"
+    name: "Special guest box: Edouard Guiton"
+    components:
+      Survivor:
+      - key: "s-01-brickborn"
+        name: "Brickborn (Guest)"
+      - key: "s-01-hewelin"
+        name: "Lord Hewelin (Guest)"
+      - key: "s-01-kaila"
+        name: "Kaila the barbarian (Guest)"
+      - key: "s-01-shalheira"
+        name: "Shalheira (Guest)"
+  - key: "01-guest-gipi"
+    name: "Special guest box: Gipi"
+    components:
+      Survivor:
+      - key: "s-01-celia"
+        name: "Celia La Santa (Guest)"
+      - key: "s-01-donna-carlotta"
+        name: "Donna Carlotta (Guest)"
+      - key: "s-01-pipino"
+        name: "Pipino (Guest)"
+      - key: "s-01-principino"
+        name: "The Little Prince (Guest)"
+  - key: "01-guest-john-howe"
+    name: "Special guest box: John Howe"
+    components:
+      Survivor:
+      - key: "s-01-cyrine"
+        name: "Cyrine (Guest)"
+      - key: "s-01-dravog"
+        name: "Dravog (Guest)"
+      - key: "s-01-gorvin"
+        name: "Gorvin (Guest)"
+      - key: "s-01-hildir"
+        name: "Hildir the Wise (Guest)"
+  - key: "01-guest-jovem-nerd"
+    name: "Special guest box: Jovem Nerd"
+    components:
+      Survivor:
+      - key: "s-01-johrgrund"
+        name: "Johrgrund (Guest)"
+      - key: "s-01-korin"
+        name: "Korin (Guest)"
+      - key: "s-01-ruff-ghanor"
+        name: "Ruff Ghanor (Guest)"
+      - key: "s-01-the-prior"
+        name: "The Prior (Guest)"
+  - key: "01-guest-karl-kopinski"
+    name: "Special guest box: Karl Kopinski"
+    components:
+      Survivor:
+      - key: "s-01-dame-ahelissa"
+        name: "Dame Ahelissa (Guest)"
+      - key: "s-01-garuk"
+        name: "Garuk (Guest)"
+      - key: "s-01-marcus"
+        name: "Marcus the mighty (Guest)"
+      - key: "s-01-ulfo"
+        name: "Ulfo (Guest)"
+  - key: "01-guest-marc-simonetti"
+    name: "Special guest box: Marc Simonetti"
+    components:
+      Survivor:
+      - key: "s-01-antha"
+        name: "Antha The Witch (Guest)"
+      - key: "s-01-cadence"
+        name: "Cadence (Guest)"
+      - key: "s-01-grimm"
+        name: "Lady Grimm (Guest)"
+      - key: "s-01-rodney"
+        name: "Redcape Rodney (Guest)"
+  - key: "01-guest-naiade"
+    name: "Special guest box: Naïade"
+    components:
+      Survivor:
+      - key: "s-01-milo"
+        name: "Apprentice Milo (Guest)"
+      - key: "s-01-merieil"
+        name: "Merieil (Guest)"
+      - key: "s-01-ostokar"
+        name: "Ostokar The Pale (Guest)"
+      - key: "s-01-thundergut"
+        name: "Thundergut (Guest)"
+  - key: "01-guest-paolo-parente"
+    name: "Special guest box: Paolo Parente"
+    components:
+      Survivor:
+      - key: "s-01-arnwal"
+        name: "Arnwal (Guest)"
+      - key: "s-01-konrad"
+        name: "Konrad (Guest)"
+      - key: "s-01-skoll"
+        name: "Sköll the Protector (Guest)"
+      - key: "s-01-undraal"
+        name: "Undraal (Guest)"
+  - key: "01-guest-neal-adams"
+    name: "Special guest box: Neal Adams"
+    components:
+      Survivor:
+      - key: "s-01-alainon"
+        name: "Alainon (Guest)"
+      - key: "s-01-golor"
+        name: "Golor the Smith (Guest)"
+      - key: "s-01-gronstag"
+        name: "Gronstag the Barbarian (Guest)"
+      - key: "s-01-yrina"
+        name: "Yrina the Savage (Guest)"
+  - key: "01-guest-stefan-kopinski"
+    name: "Special guest box: Stefan Kopinski"
+    components:
+      Survivor:
+      - key: "s-01-azure"
+        name: "Azure (Guest)"
+      - key: "s-01-blackheart"
+        name: "The Blackheart (Guest)"
+      - key: "s-01-gaak"
+        name: "Gaak (Guest)"
+      - key: "s-01-ysabel"
+        name: "Miss Ysabel (Guest)"
