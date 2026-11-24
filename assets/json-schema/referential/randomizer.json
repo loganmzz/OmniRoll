@@ -234,7 +234,7 @@
       "enum": ["merge", "override"],
       "default": "override"
     },
-    "updated-at": {
+    "updatedAt": {
       "type": "string",
       "format": "date-time"
     }

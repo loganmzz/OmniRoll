@@ -1,0 +1,277 @@
+# https://www.zombicide.com/fantasy-zombicide-products/
+# https://boardgamegeek.com/boardgame/224710/zombicide-green-horde
+key: "02-s2"
+name: "S2 Green Horde"
+
+sets:
+- key: "02-green-horde"
+  name: "Green Horde (GH)"
+  components:
+    Survivor:
+    - key: "s-02-asim"
+      name: "Asim (GH)"
+    - key: "s-02-berin"
+      name: "Berin (GH)"
+    - key: "s-02-johannes"
+      name: "Johannes (GH)"
+    - key: "s-02-megan"
+      name: "Megan (GH)"
+    - key: "s-02-rolf"
+      name: "Rolf (GH)"
+    - key: "s-02-seli"
+      name: "Seli (GH)"
+    Quest:
+    - key: "q-02-gh-00-the-evil-shrine"
+      name: "GH 00 The Evil Shrine"
+      properties:
+        difficulty: 1
+        duration: 45
+        minSurvivors: 4
+    - key: "q-02-gh-01-dragon-bile-quest"
+      name: "GH 01 Dragon Bile Quest"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-02-gh-02-orc-necromancers"
+      name: "GH 02 Orc Necromancers?"
+      properties:
+        difficulty: 2
+        duration: 30
+        minSurvivors: 6
+    - key: "q-02-gh-03-know-your-enemy"
+      name: "GH 03 Know Your Enemy"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-02-gh-04-the-river-of-the-dead"
+      name: "GH 04 The River of the Dead"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-02-gh-05-the-cleasing-flood"
+      name: "GH 05 The Cleasing Flood"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-02-gh-06-siege-breakers"
+      name: "GH 06 Siege Breakers"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-02-gh-07-fire-in-the-horde"
+      name: "GH 07 Fire in the Horde!"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-02-gh-08-culling-the-herd"
+      name: "GH 08 Culling the Herd"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "q-02-gh-09-fallen-fortress"
+      name: "GH 09 Fallen Fortress"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-02-gh-10-a-new-home"
+      name: "GH 10 A New Home"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+- key: "02-horde-box"
+  name: "Horde Box (HB)"
+  components:
+    Survivor:
+    - key: "s-02-anton-guffen"
+      name: "Anton Guffen (HB)"
+    - key: "s-02-asmodeus"
+      name: "Asmodeus (HB)"
+    - key: "s-02-ayla"
+      name: "Princess Ayla (HB)"
+    - key: "s-02-billy"
+      name: "Billy (HB)"
+    - key: "s-02-brannog-steelgreaves"
+      name: "Brannog Steelgreaves (HB)"
+    - key: "s-02-brummuin"
+      name: "'Badger' Brummuin (HB)"
+    - key: "s-02-brix-moonshine"
+      name: "Lord Brix Moonshine (HB)"
+    - key: "s-02-cassius"
+      name: "Cassius (HB)"
+    - key: "s-02-de-roget"
+      name: "The Marquis De Roget (HB)"
+    - key: "s-02-deathmaster"
+      name: "The Deathmaster (HB)"
+    - key: "s-02-earl-jaimie"
+      name: "Earl Jaimie (HB)"
+    - key: "s-02-finarton"
+      name: "Finarton The Giant (HB)"
+    - key: "s-02-fylguria"
+      name: "Fylguria (HB)"
+    - key: "s-02-gannicus"
+      name: "Gannicus (HB)"
+    - key: "s-02-greyson-gruber"
+      name: "Greyson Grüber (HB)"
+    - key: "s-02-hyg"
+      name: "Hyg (HB)"
+    - key: "s-02-hyld"
+      name: "Hyld (HB)"
+    - key: "s-02-jeanne"
+      name: "Jeanne (HB)"
+    - key: "s-02-kelsey"
+      name: "Kelsey (HB)"
+    - key: "s-02-lividia"
+      name: "Warchief Lividia (HB)"
+    - key: "s-02-lorentz"
+      name: "Lorentz (HB)"
+    - key: "s-02-ordelia"
+      name: "Countess Ordelia (HB)"
+    - key: "s-02-rocco"
+      name: "Rocco (HB)"
+    - key: "s-02-ryan-john"
+      name: "Ryan John (HB)"
+    - key: "s-02-schwarz"
+      name: "Sir Schwarz (HB)"
+    - key: "s-02-sigrun"
+      name: "Sigrun The Slayer (HB)"
+    - key: "s-02-spearhead"
+      name: "Spearhead (HB)"
+    - key: "s-02-thomas"
+      name: "Thomas (HB)"
+    - key: "s-02-ygraine"
+      name: "Ygraine (HB)"
+    - key: "s-02-zanzibar"
+      name: "The Great Zanzibar (HB)"
+    - key: "s-02-zee"
+      name: "Zee (HB)"
+- key: "02-friends-and-foes"
+  name: "Friends and Foes (FaF)"
+  components:
+    Survivor:
+    - key: "s-02-doran"
+      name: "Doran (FaF)"
+    - key: "s-02-kabral"
+      name: "Kabral (FaF)"
+    - key: "s-02-katelyn"
+      name: "Katelyn (FaF)"
+    - key: "s-02-solveig"
+      name: "Solveig (FaF)"
+    Quest:
+    - key: "q-01-faf-01-the-creeping-plague"
+      name: "FaF 01 The Creeping Plague"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-01-faf-02-svargas-pride"
+      name: "FaF 02 Svarga's Pride"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "q-01-faf-03-tales-of-the-drowned-city"
+      name: "FaF 03 Tales of the Drowned City"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "q-01-faf-04-infected-tides"
+      name: "FaF 04 Infected Tides"
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+    - key: "q-01-faf-05-pale-shelter"
+      name: "FaF 05 Pale Shelter"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "q-01-faf-06-on-feline-wings"
+      name: "FaF 06 On Feline Wings"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "q-01-faf-07-the-blighted-garden"
+      name: "FaF 07 The Blighted Garden"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "q-01-faf-08-the-green-lady"
+      name: "FaF 08 The Green Lady"
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-01-faf-09-hellriver-mansion"
+      name: "FaF 09 Hellriver Mansion"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "q-01-faf-10-unfair-trades"
+      name: "FaF 10 Unfair Trades"
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+- key: "02-no-rest-for-the-wicked"
+  name: "No Rest for the Wicked (NRW)"
+- key: "02-guest"
+  name: "Special guest boxes (S2)"
+  sets:
+  - key: "02-guest-adrian-smith-2"
+    name: "Special guest box: Adrian Smith 2"
+    components:
+      Survivor:
+      - key: "s-02-doom"
+        name: "Doom (Guest)"
+      - key: "s-02-gloom"
+        name: "Gloom (Guest)"
+      - key: "s-02-the-lord-of-skulls"
+        name: "The Lord of Skulls (Guest)"
+  - key: "02-guest-paul-bonner"
+    name: "Special guest box: Paul Bonner"
+    components:
+      Survivor:
+      - key: "s-02-bazak"
+        name: "Lord Bazak (Guest)"
+      - key: "s-02-genevieve"
+        name: "Genevieve (Guest)"
+      - key: "s-02-klom"
+        name: "Klom (Guest)"
+      - key: "s-02-mizar"
+        name: "Inquisitor Mizar (Guest)"
+  - key: "02-guest-paul-bonner-2"
+    name: "Special guest box: Paul Bonner 2"
+    components:
+      Survivor:
+      - key: "s-02-carol-black-oak"
+        name: "Carol Black-Oak (Guest)"
+      - key: "s-02-kirag"
+        name: "Kirag (Guest)"
+      - key: "s-02-thorg"
+        name: "Thorg (Guest)"
+      - key: "s-02-tola"
+        name: "Tola (Guest)"
+  - key: "02-guest-sean-murray"
+    name: "Special guest box: Sean A. Murray"
+    components:
+      Survivor:
+      - key: "s-02-birmbauer"
+        name: "Cardinal Birmbauer (Guest)"
+      - key: "s-02-kendra"
+        name: "Kendra (Guest)"
+      - key: "s-02-tak-trooblood"
+        name: "Tak \"Spellbones\" Trooblood (Guest)"

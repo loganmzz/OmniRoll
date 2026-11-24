@@ -1,0 +1,175 @@
+# https://boardgamegeek.com/boardgame/113924/zombicide
+#
+# Design notes:
+#
+# Features:
+# - `classic`: Classic compatible components
+# - `modern`: Modern compatible components
+#
+# As Classic components can be used in a Modern game, they are featured as both `classic` and `modern` components.
+#
+# There are several kinds:
+# * Survivor:
+#   * Kids are marked using `kid` feature.
+# * Mission:
+#   * Custom property `difficulty` (number): `0` (tutorial), `1` (easy), `2` (medium), `3` (hard), `4` (very hard)
+#   * Custom property `duration` (number, in minutes)
+#   * Custom property `minSurvivors` (number, optional)
+#   * Custom property `maxSurvivors` (number, optional)
+# * Competitive
+#
+key: "zombicide"
+name: "Zombicide"
+
+sets:
+- include: "./01-01-classic.yaml"
+- include: "./01-02-modern.yaml"
+
+randomizers:
+
+- key: "classic"
+  name: "Classic"
+  needs:
+    features: ["classic"]
+  variables:
+  - key: "survivors"
+    name: "# of survivors"
+    type: "integer"
+    min: 1
+    max: 12
+    default: 6
+  - key: "difficulty"
+    name: "Difficulty"
+    type: "range"
+    min: 0
+    max: 4
+  - key: "duration"
+    name: "Duration"
+    type: "range"
+    min: 0
+    max: 600
+  - key: "check_survivors"
+    name: "Check survivor count?"
+    type: "boolean"
+    default: false
+  - key: "include_campaign_missions"
+    name: "Include campaign missions?"
+    type: "boolean"
+    default: false
+  pools:
+  - key: "survivors"
+    criteria: |
+      "classic" in c.features &&
+      c.kinds == "Survivor"
+  - key: "missions"
+    criteria: >-
+      "classic" in c.features &&
+      c.kinds == "Mission" &&
+      c.difficulty in v.difficulty &&
+      c.duration in v.duration &&
+      (v.check_survivors && c.minSurvivors ? v.survivors >= c.minSurvivors : true) &&
+      (v.check_survivors && c.maxSurvivors ? v.survivors <= c.maxSurvivors : true) &&
+      (v.include_campaign_missions ? true : !("campaign" in c.features))
+  groups:
+  - key: "survivors"
+    name: "Survivors"
+  - key: "mission"
+    name: "Mission"
+  slots:
+  - key: "survivors"
+    group: "survivors"
+    count: |
+      v.survivors
+    pool: "survivors"
+  - key: "mission"
+    group: "mission"
+    pool: "missions"
+
+- key: "modern"
+  name: "Modern"
+  needs:
+    features: ["modern"]
+  variables:
+  - key: "survivors"
+    name: "# of survivors"
+    type: "integer"
+    min: 1
+    max: 12
+    default: 6
+  - key: "difficulty"
+    name: "Difficulty"
+    type: "range"
+    min: 0
+    max: 4
+  - key: "duration"
+    name: "Duration"
+    type: "range"
+    min: 0
+    max: 600
+  - key: "check_survivors"
+    name: "Check survivor count?"
+    type: "boolean"
+    default: false
+  - key: "include_campaign_missions"
+    name: "Include campaign missions?"
+    type: "boolean"
+    default: false
+  pools:
+  - key: "survivors"
+    criteria: |
+      "modern" in c.features &&
+      c.kinds == "Survivor"
+  - key: "missions"
+    criteria: >-
+      "modern" in c.features &&
+      c.kinds == "Mission" &&
+      c.difficulty in v.difficulty &&
+      c.duration in v.duration &&
+      (v.check_survivors && c.minSurvivors ? v.survivors >= c.minSurvivors : true) &&
+      (v.check_survivors && c.maxSurvivors ? v.survivors <= c.maxSurvivors : true) &&
+      (v.include_campaign_missions ? true : !("campaign" in c.features))
+  groups:
+  - key: "survivors"
+    name: "Survivors"
+  - key: "mission"
+    name: "Mission"
+  slots:
+  - key: "survivors"
+    group: "survivors"
+    count: |
+      v.survivors
+    pool: "survivors"
+  - key: "mission"
+    group: "mission"
+    pool: "missions"
+
+- key: "competitive"
+  name: "Competitive"
+  variables:
+  - key: "survivors"
+    name: "# of survivors"
+    type: "integer"
+    min: 1
+    max: 12
+    default: 2
+  pools:
+  - key: "survivors"
+    criteria: |
+      c.kinds == "Survivor"
+  - key: "competitives"
+    criteria: >-
+      c.kinds == "Competitive"
+  groups:
+  - key: "survivors"
+    name: "Survivors"
+  - key: "competitive"
+    name: "Competitive"
+  slots:
+  - key: "survivors"
+    group: "survivors"
+    count: |
+      v.survivors
+    pool: "survivors"
+  - key: "competitive"
+    group: "competitive"
+    pool: "competitives"

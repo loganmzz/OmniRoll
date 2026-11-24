@@ -1,6 +1,10 @@
 key: "omniroll-default"
 name: "OmniRoll"
-updatedAt: "2026-11-08T08:15:00.000Z"
+updatedAt: "2026-11-24T21:00:00.000Z"
 games:
 - include: "./aeons-end.yaml"
 - include: "./skytear-horde.yaml"
+- include: "./zombicide/01-modern.yaml"
+- include: "./zombicide/02-fantasy.yaml"
+- include: "./zombicide/03-western.yaml"
+- include: "./zombicide/04-scifi.yaml"

@@ -1,0 +1,408 @@
+# https://www.zombicide.com/fantasy-zombicide-products/
+# https://boardgamegeek.com/boardgame/383496/zombicide-white-death
+key: "02-s3"
+name: "S3 White Death"
+
+sets:
+- key: "03-white-death"
+  name: "White Death (WD)"
+  components:
+    Survivor:
+    - key: "s-03-dragomir"
+      name: "Dragomir (WD)"
+    - key: "s-03-jenia"
+      name: "Jenia (WD)"
+    - key: "s-03-lorna"
+      name: "Lorna (WD)"
+    - key: "s-03-ogon"
+      name: "Ogon (WD)"
+    - key: "s-03-sarnai"
+      name: "Sarnai (WD)"
+    - key: "s-03-yasuke"
+      name: "Yasuke (WD)"
+    Quest:
+    - key: "q-03-wd-00-preparing-for-battle"
+      name: "WD 00 Preparing for Battle"
+      properties:
+        difficulty: 1
+        duration: 30
+        minSurvivors: 6
+    - key: "q-03-wd-01-sound-the-alarm"
+      name: "WD 01 Sound the Alarm!"
+      properties:
+        difficulty: 1
+        duration: 60
+        minSurvivors: 6
+    - key: "q-03-wd-02-the-last-tomes"
+      name: "WD 02 The Last Tomes"
+      properties:
+        difficulty: 1
+        duration: 90
+        minSurvivors: 6
+    - key: "q-03-wd-03-the-dawns-legacy"
+      name: "WD 03 The Dawn's Legacy"
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "q-03-wd-04-scorched-earth"
+      name: "WD 04 Scorched Earth"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "q-03-wd-05-the-empress-of-thorns"
+      name: "WD 05 The Empress of Thorns"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "q-03-wd-06-a-rampart-too-far"
+      name: "WD 06 A Rampart Too Far"
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "q-03-wd-07-regalia"
+      name: "WD 07 Regalia"
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+    - key: "q-03-wd-08-the-wall-of-heroes"
+      name: "WD 08 The Wall of Heroes"
+      properties:
+        difficulty: 3
+        duration: 45
+        minSurvivors: 6
+    - key: "q-03-wd-09-defenders-of-the-realm"
+      name: "WD 09 Defenders of the Realm"
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+    - key: "q-03-wd-10-one-last-stand"
+      name: "WD 10 One Last Stand"
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+- key: "03-frozen-fortress"
+  name: "Frozen Fortress (FF)"
+  components:
+    Survivor:
+    - key: "s-03-sarana-far-sight"
+      name: "Sarana Far-Sight (FF)"
+    - key: "s-03-badang"
+      name: "Badang (FF)"
+    - key: "s-03-rama"
+      name: "Rama (FF)"
+    - key: "s-03-kotahi"
+      name: "Kotahi (FF)"
+    - key: "s-03-midoriko"
+      name: "Midoriko (FF)"
+    - key: "s-03-hong-var"
+      name: "Hong Var (FF)"
+    - key: "s-03-sun-tzu"
+      name: "Sun Tzu (FF)"
+    - key: "s-03-alghara-steel-sworn"
+      name: "Alghara Steel-Sworn (FF)"
+    - key: "s-03-sanada-yukimura"
+      name: "Sanada Yukimura (FF)"
+    - key: "s-03-ma-chao"
+      name: "Ma Chao (FF)"
+    - key: "s-03-huang-gai"
+      name: "Huang Gai (FF)"
+    - key: "s-03-meili"
+      name: "Meili (FF)"
+    - key: "s-03-lapu-lapu"
+      name: "Lapu Lapu (FF)"
+    - key: "s-03-da-qiao"
+      name: "Da Qiao (FF)"
+    - key: "s-03-xiahou-yuan"
+      name: "Xiahou Yuan (FF)"
+    - key: "s-03-maeda-matsu"
+      name: "Maeda Matsu (FF)"
+    - key: "s-03-artema"
+      name: "Artema (FF)"
+    - key: "s-03-mao"
+      name: "Marquis of Mao (FF)"
+    - key: "s-03-rajaraja-chola"
+      name: "Rajaraja Chola (FF)"
+    - key: "s-03-uesugi-aya"
+      name: "Uesugi Aya (FF)"
+    - key: "s-03-xu-chu"
+      name: "Xu Chu (FF)"
+    - key: "s-03-cirina-black-mantle"
+      name: "Cirina Black-Mantle (FF)"
+    - key: "s-03-dian-ivei"
+      name: "Dian Ivei (FF)"
+    - key: "s-03-byakko-maru"
+      name: "Byakko-Maru (FF)"
+    - key: "s-03-sha-wuiing"
+      name: "Sha Wuiing (FF)"
+    - key: "s-03-kido-maru"
+      name: "Kido-Maru (FF)"
+    - key: "s-03-kodai-in"
+      name: "Kodai-In (FF)"
+    - key: "s-03-zuo-ci"
+      name: "Zuo Ci (FF)"
+    - key: "s-03-cao-ren"
+      name: "Cao Ren (FF)"
+    - key: "s-03-caishen-ye"
+      name: "Caishen Ye (FF)"
+    - key: "s-03-suzuka-gozen"
+      name: "Suzuka Gozen (FF)"
+    - key: "s-03-inugami"
+      name: "Inugami (FF)"
+    - key: "s-03-tomoe-gozen"
+      name: "Tomoe Gozen (FF)"
+    - key: "s-03-myamoto-musashi"
+      name: "Miyamoto Musashi (FF)"
+    - key: "s-03-mu-guiying"
+      name: "Mu Guiying (FF)"
+    - key: "s-03-renart"
+      name: "Renart (FF)"
+    - key: "s-03-ichiro"
+      name: "Ichiro (FF)"
+    - key: "s-03-tang-sanzang"
+      name: "Tang Sanzang (FF)"
+    - key: "s-03-yi-sun-si"
+      name: "Yi Sun-Si (FF)"
+    - key: "s-03-jade-empress"
+      name: "Jade Empress (FF)"
+    - key: "s-03-kurokage-maru"
+      name: "Kurokage-Maru (FF)"
+    - key: "s-03-date-masamune"
+      name: "Date Masamune (FF)"
+    - key: "s-03-young-phoenix"
+      name: "The Young Phoenix (FF)"
+    - key: "s-03-she-saihua"
+      name: "She Saihua (FF)"
+    - key: "s-03-nezha"
+      name: "Nezha (FF)"
+    - key: "s-03-lakshmana"
+      name: "Lakshmana (FF)"
+    - key: "s-03-ohori-tsuruhime"
+      name: "Ohori Tsuruhime (FF)"
+    - key: "s-03-gan-ning"
+      name: "Gan Ning (FF)"
+    - key: "s-03-komatsuhime"
+      name: "Komatsuhime (FF)"
+    - key: "s-03-genghis-khan"
+      name: "Genghis Khan (FF)"
+    - key: "s-03-huang-zhong"
+      name: "Huang Zhong (FF)"
+    - key: "s-03-haya"
+      name: "Haya (FF)"
+    - key: "s-03-sun-quan"
+      name: "Sun Quan (FF)"
+    - key: "s-03-okuni"
+      name: "Okuni (FF)"
+    - key: "s-03-saika-magoichi"
+      name: "Saika Magoichi (FF)"
+    - key: "s-03-wei-yan"
+      name: "Wei Yan (FF)"
+    - key: "s-03-diao-chan"
+      name: "Diao Chan (FF)"
+    - key: "s-03-honda-tadakatsu"
+      name: "Honda Tadakatsu (FF)"
+    - key: "s-03-jiraiya"
+      name: "Jiraiya (FF)"
+    - key: "s-03-hua-mulan"
+      name: "Hua Mulan (FF)"
+    - key: "s-03-sun-wukong"
+      name: "Sun Wukong (FF)"
+    - key: "s-03-zhao-yun"
+      name: "Zhao Yun (FF)"
+    - key: "s-03-jie-ke"
+      name: "Jie Ke (FF)"
+    - key: "s-03-lu-bu"
+      name: "Lu Bu (FF)"
+    - key: "s-03-rebecca"
+      name: "Rebecca (FF)"
+- key: "03-eternal-empire"
+  name: "Eternal Empire (EE)"
+  components:
+    Survivor:
+    - key: "s-03-fengbao"
+      name: "Fengbao (EE)"
+    - key: "s-03-jianrui"
+      name: "Jianrui (EE)"
+    - key: "s-03-shao"
+      name: "Shao (EE)"
+    - key: "s-03-yinying"
+      name: "Yinying (EE)"
+    - key: "s-03-zhi-shen"
+      name: "Zhi Shen (EE)"
+    - key: "s-03-zhi-yang"
+      name: "Zhi Yang (EE)"
+    Quest:
+    - key: "q-03-ee-01-weapons-of-wonder"
+      name: "EE 01 Weapons of Wonder"
+      features: ["campaign"]
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-03-ee-02-the-origin-of-mind"
+      name: "EE 02 The Origin of Mind"
+      features: ["campaign"]
+      properties:
+        difficulty: 2
+        duration: 60
+        minSurvivors: 6
+    - key: "q-03-ee-03-the-celestial-one"
+      name: "EE 03 The Celestial One"
+      features: ["campaign"]
+      properties:
+        difficulty: 2
+        duration: 120
+        minSurvivors: 6
+    - key: "q-03-ee-04-rallying-cry"
+      name: "EE 04 Rallying Cry"
+      features: ["campaign"]
+      properties:
+        difficulty: 2
+        duration: 90
+        minSurvivors: 6
+    - key: "q-03-ee-05-the-chi-line"
+      name: "EE 05 The Chi Line"
+      features: ["campaign"]
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "q-03-ee-06-the-warden-culling"
+      name: "EE 06 The Warden Culling"
+      features: ["campaign"]
+      properties:
+        difficulty: 3
+        duration: 90
+        minSurvivors: 6
+    - key: "q-03-ee-07-the-many-faces-of-death"
+      name: "EE 07 The Many Faces of Death"
+      features: ["campaign"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+    - key: "q-03-ee-08-the-fire-stars"
+      name: "EE 08 The Fire Stars"
+      features: ["campaign"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+    - key: "q-03-ee-09-the-inner-wall"
+      name: "EE 09 The Inner Wall"
+      features: ["campaign"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+    - key: "q-03-ee-10-the-binding"
+      name: "EE 10 The Binding"
+      features: ["campaign"]
+      properties:
+        difficulty: 3
+        duration: 120
+        minSurvivors: 6
+- key: "03-tmnt"
+  name: "Teenage Mutant Ninja Turtles (TMNT)"
+  components:
+    Survivor:
+    - key: "s-03-donatello"
+      name: "Donatello (TMNT)"
+    - key: "s-03-leonardo"
+      name: "Leonardo (TMNT)"
+    - key: "s-03-michelangelo"
+      name: "Michelangelo (TMNT)"
+    - key: "s-03-raphael"
+      name: "Raphael (TMNT)"
+    - key: "s-03-splinter"
+      name: "Splinter (TMNT)"
+    - key: "s-03-april-oneil"
+      name: "April O'Neil (TMNT)"
+    - key: "s-03-casey-jones"
+      name: "Casey Jones (TMNT)"
+- key: "03-warlords-of-the-rising-sun"
+  name: "Warlords of the Rising Sun (WRS)"
+  components:
+    Survivor:
+    - key: "s-03-akechi-mitsuhide"
+      name: "Akechi Mitsuhide (WRS)"
+    - key: "s-03-ishida-mitsunari"
+      name: "Ishida Mitsunari (WRS)"
+    - key: "s-03-oda-nobunaga"
+      name: "Oda Nobunaga (WRS)"
+    - key: "s-03-takeda-shingen"
+      name: "Takeda Shingen (WRS)"
+    - key: "s-03-hattori-hanzo"
+      name: "Hattori Hanzō (WRS)"
+    - key: "s-03-toyotomi-hideyoshi"
+      name: "Toyotomi Hideyoshi (WRS)"
+    - key: "s-03-tokugawa-ieyasu"
+      name: "Tokugawa Ieyasu (WRS)"
+    - key: "s-03-uesugi-kenshin"
+      name: "Uesugi Kenshin (WRS)"
+- key: "03-warlords-of-the-middle-kingdom"
+  name: "Warlords of the Middle Kingdom (WMK)"
+  components:
+    Survivor:
+    - key: "s-03-cao-cao"
+      name: "Cao Cao (WMK)"
+    - key: "s-03-guan-yu"
+      name: "Guan Yu (WMK)"
+    - key: "s-03-liu-bei"
+      name: "Liu Bei (WMK)"
+    - key: "s-03-sima-yi"
+      name: "Sima Yi (WMK)"
+    - key: "s-03-sun-jian"
+      name: "Sun Jian (WMK)"
+    - key: "s-03-zhang-fei"
+      name: "Zhang Fei (WMK)"
+    - key: "s-03-zhou-yu"
+      name: "Zhou Yu (WMK)"
+    - key: "s-03-zhuge-liang"
+      name: "Zhuge Liang (WMK)"
+- key: "03-virtues-of-bushido"
+  name: "Virtues of Bushido (VoB)"
+  components:
+    Survivor:
+    - key: "s-03-tadashi"
+      name: "Tadashi (VoB)"
+    - key: "s-03-isamu"
+      name: "Isamu (VoB)"
+    - key: "s-03-yoshitada"
+      name: "Yoshitada (VoB)"
+    - key: "s-03-jin"
+      name: "Jin (VoB)"
+    - key: "s-03-makoto"
+      name: "Makoto (VoB)"
+    - key: "s-03-rei"
+      name: "Rei (VoB)"
+    - key: "s-03-homare"
+      name: "Homare (VoB)"
+- key: "03-celestial-knights"
+  name: "Celestial Knights (CK)"
+  components:
+    Survivor:
+    - key: "s-03-stellar"
+      name: "Princess Stellar (CK)"
+    - key: "s-03-mirak"
+      name: "Mirak (CK)"
+    - key: "s-03-sadir"
+      name: "Sadir (CK)"
+    - key: "s-03-alrakis"
+      name: "Alrakis (CK)"
+    - key: "s-03-markan"
+      name: "Markan (CK)"
+    - key: "s-03-eridan"
+      name: "Eridan (CK)"
+- key: "03-usagi-yojimbo"
+  name: "Usagi Yojimbo"
+  components:
+    Survivor:
+    - key: "s-03-miyamoto-usagi"
+      name: "Miyamoto Usagi"
